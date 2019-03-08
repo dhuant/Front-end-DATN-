@@ -22,6 +22,12 @@ class Login extends Component {
                                         action="http://themevessel-item.s3-website-us-east-1.amazonaws.com/nest/index.html"
                                         method="GET"
                                     >
+                                        <div style={{marginBottom:'10px'}}>
+                                            <a href="#" className="btn-google m-b-20">
+                                                <img src="images/icons/icon-google.png" alt="GOOGLE" />
+                                                Google
+                                        </a>
+                                        </div>
                                         <div className="form-group">
                                             <input
                                                 type="email"

@@ -5,6 +5,10 @@ class MainHeader extends Component {
         e.preventDefault();
         this.props.history.push('/submitproperty');
     }
+    onRedirectHome = (e) => {
+        e.preventDefault();
+        this.props.history.push('/');
+    }
     render() {
         return (
             <div>
@@ -24,7 +28,7 @@ class MainHeader extends Component {
                                     <span className="icon-bar" />
                                     <span className="icon-bar" />
                                 </button>
-                                <a href="index.html" className="logo">
+                                <a onClick={this.onRedirectHome} className="logo">
                                     <img src="img/logos/logo.png" alt="logo" />
                                 </a>
                             </div>
