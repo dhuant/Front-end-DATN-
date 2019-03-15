@@ -23,10 +23,10 @@ class Login extends Component {
                                         method="GET"
                                     >
                                         <div style={{marginBottom:'10px'}}>
-                                            <a href="#" className="btn-google m-b-20">
+                                            <a className="btn-google m-b-20" href>
                                                 <img src="images/icons/icon-google.png" alt="GOOGLE" />
                                                 Google
-                                        </a>
+                                            </a>
                                         </div>
                                         <div className="form-group">
                                             <input

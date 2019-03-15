@@ -1,3 +1,4 @@
+
 $(function () {
     'use strict';
 
@@ -273,7 +274,7 @@ $(function () {
     $('.color-plate').on('click', function () {
         var name = $(this).attr('data-color');
         $('link[id="style_sheet"]').attr('href', 'css/skins/' + name + '.css');
-        if (name == 'default') {
+        if (name === 'default') {
             $('.logo img').attr('src', 'img/logos/logo.png');
         }
         else {

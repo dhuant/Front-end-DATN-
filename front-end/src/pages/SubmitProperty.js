@@ -11,7 +11,7 @@ class SubmitProperty extends Component {
                 {
                     /* Sub banner start */
                 }
-                ;<div className="sub-banner overview-bgi">
+                <div className="sub-banner overview-bgi">
                     <div className="overlay">
                         <div className="container">
                             <div className="breadcrumb-area">
@@ -30,7 +30,7 @@ class SubmitProperty extends Component {
                     /* Sub Banner end */
                 }
 
-                ;<div className="content-area-7 submit-property">
+                <div className="content-area-7 submit-property">
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12">
@@ -401,9 +401,9 @@ class SubmitProperty extends Component {
                                                 </div>
                                             </div>
                                             <div className="col-md-12">
-                                                <a href="#" className="btn button-md button-theme">
+                                                <a href className="btn button-md button-theme">
                                                     Preview
-                </a>
+                                                </a>
                                             </div>
                                         </div>
                                     </form>
@@ -415,7 +415,7 @@ class SubmitProperty extends Component {
                 {
                     /* Submit Property end */
                 }
-
+                <Footer/>
             </div>
         );
     }

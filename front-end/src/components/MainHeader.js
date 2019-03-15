@@ -28,7 +28,7 @@ class MainHeader extends Component {
                                     <span className="icon-bar" />
                                     <span className="icon-bar" />
                                 </button>
-                                <a onClick={this.onRedirectHome} className="logo">
+                                <a href="true"onClick={this.onRedirectHome} className="logo">
                                     <img src="img/logos/logo.png" alt="logo" />
                                 </a>
                             </div>
@@ -42,10 +42,12 @@ class MainHeader extends Component {
                                 <ul className="nav navbar-nav">
                                     <li className="dropdown active">
                                         <a
+                                            href="true"
                                             tabIndex={0}
                                             data-toggle="dropdown"
                                             data-submenu
                                             aria-expanded="false"
+                                            
                                         >
                                             Home<span className="caret" />
                                         </a>
@@ -73,12 +75,13 @@ class MainHeader extends Component {
                                             data-toggle="dropdown"
                                             data-submenu
                                             aria-expanded="false"
+                                            href="true"
                                         >
                                             Properties<span className="caret" />
                                         </a>
                                         <ul className="dropdown-menu">
                                             <li className="dropdown-submenu">
-                                                <a tabIndex={0}>List Layout</a>
+                                                <a href="true"tabIndex={0}>List Layout</a>
                                                 <ul className="dropdown-menu">
                                                     <li>
                                                         <a href="properties-list-rightside.html">
@@ -98,7 +101,7 @@ class MainHeader extends Component {
                                                 </ul>
                                             </li>
                                             <li className="dropdown-submenu">
-                                                <a tabIndex={0}>Grid Layout</a>
+                                                <a href="true"tabIndex={0}>Grid Layout</a>
                                                 <ul className="dropdown-menu">
                                                     <li>
                                                         <a href="properties-grid-rightside.html">
@@ -118,7 +121,7 @@ class MainHeader extends Component {
                                                 </ul>
                                             </li>
                                             <li className="dropdown-submenu">
-                                                <a tabIndex={0}>Map View</a>
+                                                <a href="true"tabIndex={0}>Map View</a>
                                                 <ul className="dropdown-menu">
                                                     <li>
                                                         <a href="properties-map-leftside-list.html">
@@ -148,7 +151,7 @@ class MainHeader extends Component {
                                                 </ul>
                                             </li>
                                             <li className="dropdown-submenu">
-                                                <a tabIndex={0}>Property Detail</a>
+                                                <a href="true"tabIndex={0}>Property Detail</a>
                                                 <ul className="dropdown-menu">
                                                     <li>
                                                         <a href="properties-details.html">
@@ -163,7 +166,7 @@ class MainHeader extends Component {
                                                     <li>
                                                         <a href="properties-details-3.html">
                                                             Property Detail 3
-                              </a>
+                                                        </a>
                                                     </li>
                                                 </ul>
                                             </li>
@@ -175,6 +178,7 @@ class MainHeader extends Component {
                                             data-toggle="dropdown"
                                             data-submenu
                                             aria-expanded="false"
+                                            href="true"
                                         >
                                             Agents<span className="caret" />
                                         </a>
@@ -202,7 +206,7 @@ class MainHeader extends Component {
                                     </li>
                                     <li className="dropdown mega-dropdown">
                                         <a
-                                            href="#"
+                                            href="true"
                                             className="dropdown-toggle"
                                             data-toggle="dropdown"
                                         >
@@ -308,7 +312,7 @@ class MainHeader extends Component {
                               </a>
                                                     </li>
                                                     <li>
-                                                        <a onClick={this.onSubmitProperty}>Submit Property</a>
+                                                        <a href="true"onClick={this.onSubmitProperty}>Submit Property</a>
                                                     </li>
                                                     <li>
                                                         <a href="login.html">Login</a>
@@ -325,6 +329,7 @@ class MainHeader extends Component {
                                     </li>
                                     <li className="dropdown">
                                         <a
+                                            href="true"
                                             tabIndex={0}
                                             data-toggle="dropdown"
                                             data-submenu
@@ -334,7 +339,7 @@ class MainHeader extends Component {
                                         </a>
                                         <ul className="dropdown-menu">
                                             <li className="dropdown-submenu">
-                                                <a tabIndex={0}>Classic</a>
+                                                <a href="true"tabIndex={0}>Classic</a>
                                                 <ul className="dropdown-menu">
                                                     <li>
                                                         <a
@@ -363,7 +368,7 @@ class MainHeader extends Component {
                                                 </ul>
                                             </li>
                                             <li className="dropdown-submenu">
-                                                <a tabIndex={0}>Columns</a>
+                                                <a href="true"tabIndex={0}>Columns</a>
                                                 <ul className="dropdown-menu">
                                                     <li>
                                                         <a
@@ -384,7 +389,7 @@ class MainHeader extends Component {
                                                 </ul>
                                             </li>
                                             <li className="dropdown-submenu">
-                                                <a tabIndex={0}>Blog Details</a>
+                                                <a href="true"tabIndex={0}>Blog Details</a>
                                                 <ul className="dropdown-menu">
                                                     <li>
                                                         <a
@@ -417,7 +422,7 @@ class MainHeader extends Component {
                                 </ul>
                                 <ul className="nav navbar-nav navbar-right rightside-navbar">
                                     <li>
-                                        <a onClick={this.onSubmitProperty} className="button">
+                                        <a href="true"onClick={this.onSubmitProperty} className="button">
                                             Submit Property
                       </a>
                                     </li>

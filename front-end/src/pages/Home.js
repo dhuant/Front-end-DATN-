@@ -1,20 +1,26 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/anchor-has-content */
 import React, { Component } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import MainHeader from '../components/MainHeader';
 import { withRouter } from 'react-router-dom';
 class Home extends Component {
-    
+    onGoToMap = (e) => {
+        e.preventDefault();
+        this.props.history.push("/maps");
+    }
+
     render() {
         return (
             <div>
-                <Header/>
-                <MainHeader/>
-                
+                <Header />
+                <MainHeader />
+
                 {
                     /* Banner start */
                 }
-                ;<div className="banner">
+                <div className="banner">
                     <div
                         id="carousel-example-generic"
                         className="carousel slide"
@@ -31,25 +37,24 @@ class Home extends Component {
                                     <div className="banner-content">
                                         <h1 data-animation="animated fadeInDown delay-05s">
                                             <span>Find your </span> Dream House
-            </h1>
+                                        </h1>
                                         <p data-animation="animated fadeInUp delay-1s">
                                             Lorem ipsum dolor sit amet, conconsectetuer adipiscing
                                             elit Lorem ipsum dolor sit amet, conconsectetuer
-            </p>
+                                        </p>
                                         <a
-                                            href="#"
+                                            onClick={this.onGoToMap}
                                             className="btn button-md button-theme"
                                             data-animation="animated fadeInUp delay-15s"
                                         >
-                                            Get Started Now
-            </a>
+                                            Go to Maps
+                                        </a>
                                         <a
-                                            href="#"
                                             className="btn button-md border-button-theme"
                                             data-animation="animated fadeInUp delay-15s"
                                         >
                                             Learn More
-            </a>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -62,25 +67,23 @@ class Home extends Component {
                                     <div className="banner-content">
                                         <h1 data-animation="animated fadeInDown delay-1s">
                                             <span>Sweet Home For</span> Small Family
-            </h1>
+                                        </h1>
                                         <p data-animation="animated fadeInUp delay-05s">
                                             Lorem ipsum dolor sit amet, conconsectetuer adipiscing
                                             elit Lorem ipsum dolor sit amet, conconsectetuer
-            </p>
+                                        </p>
                                         <a
-                                            href="#"
                                             className="btn button-md button-theme"
                                             data-animation="animated fadeInUp delay-15s"
                                         >
                                             Get Started Now
-            </a>
+                                        </a>
                                         <a
-                                            href="#"
                                             className="btn button-md border-button-theme"
                                             data-animation="animated fadeInUp delay-15s"
                                         >
                                             Learn More
-            </a>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -93,25 +96,25 @@ class Home extends Component {
                                     <div className="banner-content">
                                         <h1 data-animation="animated fadeInLeft delay-05s">
                                             <span>Best Place To</span> Find Home
-            </h1>
+                                        </h1>
                                         <p data-animation="animated fadeInLeft delay-1s">
                                             Lorem ipsum dolor sit amet, conconsectetuer adipiscing
                                             elit Lorem ipsum dolor sit amet, conconsectetuer
-            </p>
+                                        </p>
                                         <a
-                                            href="#"
+
                                             className="btn button-md button-theme"
                                             data-animation="animated fadeInLeft delay-15s"
                                         >
                                             Get Started Now
-            </a>
+                                        </a>
                                         <a
-                                            href="#"
+
                                             className="btn button-md border-button-theme"
                                             data-animation="animated fadeInLeft delay-20s"
                                         >
                                             Learn More
-            </a>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +148,7 @@ class Home extends Component {
                     /* Banner end */
                 }
 
-                ;<div>
+                <div>
                     {/* Search area start */}
                     <div className="search-area">
                         <div className="container">
@@ -422,7 +425,7 @@ class Home extends Component {
                                                 {/* Property footer */}
                                                 <div className="property-footer">
                                                     <span className="left">
-                                                        <a href="#">
+                                                        <a  >
                                                             <i className="fa fa-user" />Jhon Doe
                     </a>
                                                     </span>
@@ -528,7 +531,7 @@ class Home extends Component {
                                                 {/* Property footer */}
                                                 <div className="property-footer">
                                                     <span className="left">
-                                                        <a href="#">
+                                                        <a  >
                                                             <i className="fa fa-user" />Jhon Doe
                     </a>
                                                     </span>
@@ -634,7 +637,7 @@ class Home extends Component {
                                                 {/* Property footer */}
                                                 <div className="property-footer">
                                                     <span className="left">
-                                                        <a href="#">
+                                                        <a>
                                                             <i className="fa fa-user" />Jhon Doe
                     </a>
                                                     </span>
@@ -738,7 +741,7 @@ class Home extends Component {
                                                 {/* Property footer */}
                                                 <div className="property-footer">
                                                     <span className="left">
-                                                        <a href="#">
+                                                        <a  >
                                                             <i className="fa fa-user" />Jhon Doe
                     </a>
                                                     </span>
@@ -842,7 +845,7 @@ class Home extends Component {
                                                 {/* Property footer */}
                                                 <div className="property-footer">
                                                     <span className="left">
-                                                        <a href="#">
+                                                        <a >
                                                             <i className="fa fa-user" />Jhon Doe
                     </a>
                                                     </span>
@@ -946,7 +949,7 @@ class Home extends Component {
                                                 {/* Property footer */}
                                                 <div className="property-footer">
                                                     <span className="left">
-                                                        <a href="#">
+                                                        <a >
                                                             <i className="fa fa-user" />Jhon Doe
                     </a>
                                                     </span>
@@ -1114,7 +1117,9 @@ class Home extends Component {
                                                         >
                                                             <i className="fa fa-link" />
                                                         </a>
+
                                                         <a
+                                                            href="true"
                                                             className="overlay-link property-video"
                                                             title="Lexus GS F"
                                                         >
@@ -1367,10 +1372,10 @@ class Home extends Component {
                 {
                     /* Partners block end */
                 }
-                <Footer/>
+                <Footer />
             </div>
         );
     }
 }
 
-export default Home;
+export default (withRouter(Home));

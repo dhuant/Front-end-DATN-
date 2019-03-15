@@ -25,7 +25,7 @@ class Header extends Component {
                             <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <ul className="top-social-media pull-right">
                                     <li>
-                                        <a onClick={this.onLogin} className="sign-in">
+                                        <a href="true" onClick={this.onLogin} className="sign-in">
                                             <i className="fa fa-sign-in" /> Login
                                         </a>
                                     </li>
