@@ -10,7 +10,10 @@ class Home extends Component {
         e.preventDefault();
         this.props.history.push("/maps");
     }
-
+    onProperties = (e) => {
+        e.preventDefault();
+        this.props.history.push("/properties");
+    }
     render() {
         return (
             <div>
@@ -384,7 +387,7 @@ class Home extends Component {
                                             <div className="property-content">
                                                 {/* title */}
                                                 <h1 className="title">
-                                                    <a href="properties-details.html">
+                                                    <a onClick={this.onProperties} href="properties-details.html">
                                                         Beautiful Single Home
                   </a>
                                                 </h1>

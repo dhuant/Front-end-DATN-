@@ -6,6 +6,10 @@ class Header extends Component {
         e.preventDefault();
         this.props.history.push('/login');
     }
+    onHandleProfile = (e) => {
+        e.preventDefault();
+        this.props.history.push('/profile');
+    }
     render() {
         return (
             <div>
@@ -30,8 +34,8 @@ class Header extends Component {
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="signup.html" className="sign-in">
-                                            <i className="fa fa-user" /> Register
+                                        <a href="true" onClick={this.onHandleProfile} className="sign-in">
+                                            <i className="fa fa-user" /> Account
                                         </a>
                                     </li>
                                 </ul>
