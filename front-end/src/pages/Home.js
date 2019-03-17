@@ -6,6 +6,11 @@ import Header from '../components/Header';
 import MainHeader from '../components/MainHeader';
 import { withRouter } from 'react-router-dom';
 class Home extends Component {
+    componentDidMount(){
+        // if (localStorage.getItem('token') !=== 'true' || ) {
+            
+        // }
+    }
     onGoToMap = (e) => {
         e.preventDefault();
         this.props.history.push("/maps");
