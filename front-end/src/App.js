@@ -8,6 +8,7 @@ import SubmitProperty from './pages/SubmitProperty'
 import Map from './pages/Map'
 import Profile from './pages/Profile'
 import Properties from './pages/Properties'
+import EstateList from './pages/EstateList'
 class App extends Component {
   render() {
     return (
@@ -21,6 +22,7 @@ class App extends Component {
             <Route exact path='/maps' component={Map} />
             <Route exact path='/profile' component={Profile} />
             <Route exact path='/properties' component={Properties} />
+            <Route exact path='/estatelist' component={EstateList} />
           </Switch>
         </div>
       </BrowserRouter>

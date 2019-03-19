@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Sidebar from './Sidebar'
 
 class PropertiesDetail extends Component {
     render() {
@@ -81,6 +82,7 @@ class PropertiesDetail extends Component {
                             </div>
                         </div>
                         {/* Properties detail slider end */}
+
                         {/* Advanced search start */}
                         <div className="advabced-search hidden-lg hidden-md">
                             <div className="main-title-2">
@@ -192,6 +194,7 @@ class PropertiesDetail extends Component {
                             </form>
                         </div>
                         {/* Advanced search end */}
+
                         {/* Property description start */}
                         <div className="panel-box properties-panel-box Property-description">
                             <ul className="nav nav-tabs">
@@ -223,30 +226,30 @@ class PropertiesDetail extends Component {
                                                         <ul className="condition">
                                                             <li>
                                                                 <i className="fa fa-check-square" />3 Beds
-                            </li>
+                                                            </li>
                                                             <li>
                                                                 <i className="fa fa-check-square" />Bathroom
-                            </li>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                     <div className="col-md-4 col-sm-4 col-xs-12">
                                                         <ul className="condition">
                                                             <li>
                                                                 <i className="fa fa-check-square" />4800 sq ft
-                            </li>
+                                                            </li>
                                                             <li>
                                                                 <i className="fa fa-check-square" />TV
-                            </li>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                     <div className="col-md-4 col-sm-4 col-xs-12">
                                                         <ul className="condition">
                                                             <li>
                                                                 <i className="fa fa-check-square" />1 Garage
-                            </li>
+                                                            </li>
                                                             <li>
                                                                 <i className="fa fa-check-square" />Balcony
-                            </li>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -264,51 +267,51 @@ class PropertiesDetail extends Component {
                                                         <ul className="amenities">
                                                             <li>
                                                                 <i className="fa fa-check-square" />Air conditioning
-                            </li>
+                                                            </li>
                                                             <li>
                                                                 <i className="fa fa-check-square" />Balcony
-                            </li>
+                                                            </li>
                                                             <li>
                                                                 <i className="fa fa-check-square" />Pool
-                            </li>
+                                                            </li>
                                                             <li>
                                                                 <i className="fa fa-check-square" />TV
-                            </li>
+                                                            </li>
                                                             <li>
                                                                 <i className="fa fa-check-square" />Gym
-                            </li>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                     <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                         <ul className="amenities">
                                                             <li>
                                                                 <i className="fa fa-check-square" />Wifi
-                            </li>
+                                                            </li>
                                                             <li>
                                                                 <i className="fa fa-check-square" />Parking
-                            </li>
+                                                            </li>
                                                             <li>
                                                                 <i className="fa fa-check-square" />Double Bed
-                            </li>
+                                                            </li>
                                                             <li>
                                                                 <i className="fa fa-check-square" />Iron
-                            </li>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                     <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                                         <ul className="amenities">
                                                             <li>
                                                                 <i className="fa fa-check-square" />Telephone
-                            </li>
+                                                            </li>
                                                             <li>
                                                                 <i className="fa fa-check-square" />Jacuzzi
-                            </li>
+                                                            </li>
                                                             <li>
                                                                 <i className="fa fa-check-square" />Alarm
-                            </li>
+                                                            </li>
                                                             <li>
                                                                 <i className="fa fa-check-square" />Garage
-                            </li>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -343,7 +346,7 @@ class PropertiesDetail extends Component {
                                                 <div className="main-title-2">
                                                     <h1><span>Video</span></h1>
                                                 </div>
-                                                <iframe title ="."src="https://www.youtube.com/embed/5e0LxrLSzok" allowFullScreen />
+                                                <iframe title="." src="https://www.youtube.com/embed/5e0LxrLSzok" allowFullScreen />
                                             </div>
                                             {/* Inside properties end */}
                                         </div>
@@ -565,6 +568,7 @@ class PropertiesDetail extends Component {
                     </div>
                     {/* Properties details section end */}
                 </div>
+                <Sidebar />
             </div>
         );
     }

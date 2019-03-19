@@ -14,7 +14,7 @@ class Properties extends Component {
                     <div className="container">
                         <div className="row">
                             <PropertiesDetail />
-                            <Sidebar/>
+                            {/* <Sidebar/> */}
                         </div>
                     </div>
                 </div>

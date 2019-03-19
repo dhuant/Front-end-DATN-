@@ -250,10 +250,10 @@ class Home extends Component {
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                                                <div className="form-group">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                                <div class="form-group">
                                                     <select
-                                                        className="selectpicker search-fields"
+                                                        class="selectpicker search-fields"
                                                         name="bathrooms"
                                                         data-live-search="true"
                                                         data-live-search-placeholder="Search value"
