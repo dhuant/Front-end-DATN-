@@ -7,7 +7,7 @@ const EstatesMap = withScriptjs(withGoogleMap((props) =>{
 
   const markers = props.estates.map( estate => <EstateMarker
                     key={estate._id}
-                    doctor={estate}
+                    estate={estate}
                     location={{lat: estate.lat, lng: estate.long}}
                   />);
             
