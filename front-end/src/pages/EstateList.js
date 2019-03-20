@@ -6,6 +6,7 @@ import MainHeader from '../components/MainHeader';
 
 export default class EstateList extends Component {
   render() {
+    
     return (
       <div>
         <Header />

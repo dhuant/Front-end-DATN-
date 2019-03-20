@@ -9,6 +9,9 @@ import Map from './pages/Map'
 import Profile from './pages/Profile'
 import Properties from './pages/Properties'
 import EstateList from './pages/EstateList'
+import MyEstateList from './pages/MyEstateList'
+import ChangePassword from './pages/ChangePassword'
+
 class App extends Component {
   render() {
     return (
@@ -23,6 +26,8 @@ class App extends Component {
             <Route exact path='/profile' component={Profile} />
             <Route exact path='/properties' component={Properties} />
             <Route exact path='/estatelist' component={EstateList} />
+            <Route exact path='/myproperties' component={MyEstateList} />
+            <Route exact path="/changepassword" component={ChangePassword}/>
           </Switch>
         </div>
       </BrowserRouter>
