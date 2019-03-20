@@ -4,7 +4,9 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "bootstrap-select": "^1.13.8",
     "react": "^16.8.4",
+    "react-bootstrap-select": "^0.14.0",
     "react-dom": "^16.8.4",
     "react-google-login": "^5.0.2",
     "react-google-maps": "^9.4.5",

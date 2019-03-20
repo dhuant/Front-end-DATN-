@@ -84,7 +84,7 @@ class MainHeader extends Component {
                                                 <a href="true"tabIndex={0}>List Layout</a>
                                                 <ul className="dropdown-menu">
                                                     <li>
-                                                        <a href="properties-list-rightside.html">
+                                                        <a onClick={this.estateList} href="true">
                                                             Right Sidebar
                               </a>
                                                     </li>

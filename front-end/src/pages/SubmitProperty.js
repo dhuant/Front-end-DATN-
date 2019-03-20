@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import MainHeader from '../components/MainHeader';
+import {Link} from 'react-router-dom'
+
 class SubmitProperty extends Component {
     render() {
         return (
             <div>
-                <Header/>
-                <MainHeader/>
+                <Header />
+                <MainHeader />
                 {
                     /* Sub banner start */
                 }
@@ -18,7 +20,7 @@ class SubmitProperty extends Component {
                                 <h1>Submit Property</h1>
                                 <ul className="breadcrumbs">
                                     <li>
-                                        <a href="index.html">Home</a>
+                                        <Link to="/">Home</Link>
                                     </li>
                                     <li className="active">Submit Property</li>
                                 </ul>
@@ -65,12 +67,10 @@ class SubmitProperty extends Component {
                                                 <div className="col-md-6 col-sm-6">
                                                     <div className="form-group">
                                                         <label>Status</label>
-                                                        <select
-                                                            className="selectpicker search-fields"
-                                                            name="for-sale"
-                                                        >
-                                                            <option>For Sale</option>
-                                                            <option>For Rent</option>
+                                                        <select className="selectpicker search-f    ields">
+                                                            <option>Mustard</option>
+                                                            <option>Ketchup</option>
+                                                            <option>Relish</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -150,7 +150,7 @@ class SubmitProperty extends Component {
                                         <div className="main-title-2">
                                             <h1>
                                                 <span>Property</span> Gallery
-              </h1>
+                                            </h1>
                                         </div>
                                         <div
                                             id="myDropZone"
@@ -415,7 +415,8 @@ class SubmitProperty extends Component {
                 {
                     /* Submit Property end */
                 }
-                <Footer/>
+                <Footer />
+                
             </div>
         );
     }

@@ -1,6 +1,25 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
+import {MY_PROPERTIES, CHANGE_PASSWORD, SUBMIT_ESTATE, PROFILE} from '../../constants/Profile'
 
 class Info extends Component {
+    onMyProperties = (e) => {
+        e.preventDefault();
+        this.props.history.push('/myproperties');
+    }
+    onSubmitProperty = (e) => {
+        e.preventDefault();
+        this.props.history.push('/submitproperty');
+    }
+    onChangePassword = (e) => {
+        e.preventDefault();
+        this.props.history.push('/changepassword');
+    }
+    onShowProfile = (e) => {
+        e.preventDefault();
+        this.props.history.push('/profile');
+    }
     render() {
         return (
             <div>
@@ -48,27 +67,22 @@ class Info extends Component {
                     <div className="content">
                         <ul>
                             <li>
-                                <a href="user-profile.html" className="active">
+                                <a href="true" onClick={this.onShowProfile} className={this.props.component === PROFILE ? "active" : ""}>
                                     <i className="flaticon-social" />Profile
                                 </a>
                             </li>
                             <li>
-                                <a href="my-properties.html">
+                                <a href="true" onClick={this.onMyProperties} className={this.props.component === MY_PROPERTIES ? "active" : ""}>
                                     <i className="flaticon-apartment" />My Properties
                                 </a>
                             </li>
                             <li>
-                                <a href="favorited-properties.html">
-                                    <i className="fa fa-heart" />Favorited Properties
-                                </a>
-                            </li>
-                            <li>
-                                <a href="submit-property.html">
+                                <a href="true" onClick={this.onSubmitProperty} className={this.props.component === SUBMIT_ESTATE ? "active" : ""}>
                                     <i className="fa fa-plus" />Submit New Property
                                 </a>
                             </li>
                             <li>
-                                <a href="change-password.html">
+                                <a href="true" onClick={this.onChangePassword} className={this.props.component === CHANGE_PASSWORD ? "active" : ""}>
                                     <i className="flaticon-security" />Change Password
                                 </a>
                             </li>
@@ -85,4 +99,4 @@ class Info extends Component {
     }
 }
 
-export default Info;
+export default (withRouter(Info));
