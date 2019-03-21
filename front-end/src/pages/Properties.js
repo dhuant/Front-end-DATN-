@@ -3,20 +3,29 @@ import PropertiesDetail from '../components/Properties/PropertiesDetail'
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import MainHeader from '../components/MainHeader';
+import axios from 'axios'
 import Sidebar from '../components/Properties/Sidebar'
 import { connect } from 'react-redux';
 import * as Types from './../constants/ActionTypes';
 import * as actions from '../actions/request';
 class Properties extends Component {
-    componentDidMount(){
-        if (this.props.match){
-            this.props.actGetEstateRequest(this.props.match.params.id)
+    constructor(props) {
+        super(props);
+        this.state = {
+            error: ''
         }
     }
+    componentDidMount(){
+        this.props.actGetEstateRequest(this.props.match.params.id);
+        this.setState({
+            error:'success'
+        })
+    }
     render() {
-        console.log(this.props.match.params.id);
-        const {id} = this.props.match.params;
-        console.log(id);
+
+        let info = this.props.info;
+        console.log(info);
+        
         return (
             <div>
                 
@@ -24,24 +33,23 @@ class Properties extends Component {
                 <div className="content-area  properties-details-page">
                     <div className="container">
                         <div className="row">
-                            <PropertiesDetail component={id}/>
-                            {/* <Sidebar/> */}
+                            <PropertiesDetail info={info}/>
                         </div>
                     </div>
                 </div>
-                <Footer/>
+                <Footer />
             </div>
         );
     }
 }
 const mapDispathToProp = (dispatch) => {
-	return {
-		actGetEstateRequest: (id) => dispatch(actions.actGetEstateRequest(id))
-	}
+    return {
+        actGetEstateRequest: (id) => dispatch(actions.actGetEstateRequest(id))
+    }
 }
 const mapStateToProp = (state) => {
-	return {
-		estate: state.estate
-	}
+    return {
+        info: state.estateInfo
+    }
 }
-export default connect(mapStateToProp, mapDispathToProp) (Properties);
+export default connect(mapStateToProp, mapDispathToProp)(Properties);
