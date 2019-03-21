@@ -11,7 +11,7 @@ class Profile extends Component {
     render() {
         return (
             <div>
-                <Header />
+                
                 <MainHeader />
                 {/* Sub banner start */}
                 <div className="sub-banner overview-bgi">

@@ -9,7 +9,7 @@ export default class ChangePassword extends Component {
     render() {
         return (
             <div>
-                <Header />
+                
                 <div>
                     {/* Sub banner start */}
                     <div className="sub-banner overview-bgi">

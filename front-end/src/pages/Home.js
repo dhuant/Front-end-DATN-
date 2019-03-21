@@ -5,10 +5,27 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import MainHeader from '../components/MainHeader';
 import { withRouter } from 'react-router-dom';
+import Select from 'react-select'
+const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+];
+
 class Home extends Component {
-    componentDidMount(){
+    constructor() {
+        super();
+        this.state = {
+            selectedOption: null,
+        };
+    }
+    handleChange = (selectedOption) => {
+        this.setState({ selectedOption });
+        console.log(`Option selected:`, selectedOption);
+    }
+    componentDidMount() {
         // if (localStorage.getItem('token') !=== 'true' || ) {
-            
+
         // }
     }
     onGoToMap = (e) => {
@@ -20,9 +37,10 @@ class Home extends Component {
         this.props.history.push("/properties");
     }
     render() {
+        const { selectedOption } = this.state;
         return (
             <div>
-                <Header />
+                
                 <MainHeader />
 
                 {
@@ -166,107 +184,78 @@ class Home extends Component {
                                         <div className="row">
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                 <div className="form-group">
-                                                    <select
-                                                        className="selectpicker search-fields"
-                                                        name="area-from"
-                                                        data-live-search="true"
-                                                        data-live-search-placeholder="Search value"
-                                                    >
-                                                        <option>Area From</option>
-                                                        <option>1000</option>
-                                                        <option>800</option>
-                                                        <option>600</option>
-                                                        <option>400</option>
-                                                        <option>200</option>
-                                                        <option>100</option>
-                                                    </select>
+                                                    <Select
+                                                        defaultValue={options[0].label}
+                                                        value={selectedOption}
+                                                        onChange={this.handleChange}
+                                                        options={options}
+                                                        isClearable
+                                                        name="Area from"
+                                                        className="Area from"
+                                                    />  
                                                 </div>
                                             </div>
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                 <div className="form-group">
-                                                    <select
-                                                        className="selectpicker search-fields"
-                                                        name="property-status"
-                                                        data-live-search="true"
-                                                        data-live-search-placeholder="Search value"
-                                                    >
-                                                        <option>Property Status</option>
-                                                        <option>For Sale</option>
-                                                        <option>For Rent</option>
-                                                    </select>
+                                                <Select
+                                                        defaultValue={options[0].label}
+                                                        value={selectedOption}
+                                                        onChange={this.handleChange}
+                                                        options={options}
+                                                        isClearable
+                                                        name="Property Status"
+                                                        className="Property Status"
+                                                    />  
                                                 </div>
                                             </div>
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                 <div className="form-group">
-                                                    <select
-                                                        className="selectpicker search-fields"
-                                                        name="location"
-                                                        data-live-search="true"
-                                                        data-live-search-placeholder="Search value"
-                                                    >
-                                                        <option>Location</option>
-                                                        <option>United States</option>
-                                                        <option>United Kingdom</option>
-                                                        <option>American Samoa</option>
-                                                        <option>Belgium</option>
-                                                        <option>Cameroon</option>
-                                                        <option>Canada</option>
-                                                    </select>
+                                                    <Select
+                                                        defaultValue={options[0].label}
+                                                        value={selectedOption}
+                                                        onChange={this.handleChange}
+                                                        options={options}
+                                                        isClearable
+                                                        name="Location"
+                                                    />  
                                                 </div>
                                             </div>
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                 <div className="form-group">
-                                                    <select
-                                                        className="selectpicker search-fields"
-                                                        name="property-types"
-                                                        data-live-search="true"
-                                                        data-live-search-placeholder="Search value"
-                                                    >
-                                                        <option>Property Types</option>
-                                                        <option>Residential</option>
-                                                        <option>Commercial</option>
-                                                        <option>Land</option>
-                                                    </select>
+                                                    <Select
+                                                        defaultValue={options[0].label}
+                                                        value={selectedOption}
+                                                        onChange={this.handleChange}
+                                                        options={options}
+                                                        isClearable
+                                                        name="Property Types"
+                                                    />  
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                 <div className="form-group">
-                                                    <select
-                                                        className="selectpicker search-fields"
-                                                        name="bedrooms"
-                                                        data-live-search="true"
-                                                        data-live-search-placeholder="Search value"
-                                                    >
-                                                        <option>Bedrooms</option>
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                        <option>6</option>
-                                                        <option>7</option>
-                                                    </select>
+                                                    <Select
+                                                        defaultValue={options[0].label}
+                                                        value={selectedOption}
+                                                        onChange={this.handleChange}
+                                                        options={options}
+                                                        isClearable
+                                                        name="Bedrooms"
+                                                    />  
                                                 </div>
                                             </div>
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                 <div className="form-group">
-                                                    <select
-                                                        className="selectpicker search-fields"
-                                                        name="bathrooms"
-                                                        data-live-search="true"
-                                                        data-live-search-placeholder="Search value"
-                                                    >
-                                                        <option>Bathrooms</option>
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                        <option>6</option>
-                                                        <option>7</option>
-                                                    </select>
+                                                <Select
+
+                                                        value={selectedOption}
+                                                        onChange={this.handleChange}
+                                                        options={options}
+                                                        isClearable
+                                                        name="Bathrooms"
+                                                    />  
                                                 </div>
                                             </div>
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">

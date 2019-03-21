@@ -9,6 +9,14 @@ class MainHeader extends Component {
         e.preventDefault();
         this.props.history.push('/');
     }
+    onLogin = (e) => {
+        e.preventDefault();
+        this.props.history.push('/login');
+    }
+    onHandleProfile = (e) => {
+        e.preventDefault();
+        this.props.history.push('/profile');
+    }
     render() {
         return (
             <div>
@@ -28,7 +36,7 @@ class MainHeader extends Component {
                                     <span className="icon-bar" />
                                     <span className="icon-bar" />
                                 </button>
-                                <a href="true"onClick={this.onRedirectHome} className="logo">
+                                <a href="true" onClick={this.onRedirectHome} className="logo">
                                     <img src="img/logos/logo.png" alt="logo" />
                                 </a>
                             </div>
@@ -40,34 +48,15 @@ class MainHeader extends Component {
                                 id="app-navigation"
                             >
                                 <ul className="nav navbar-nav">
-                                    <li className="dropdown active">
-                                        <a
-                                            href="true"
-                                            tabIndex={0}
-                                            data-toggle="dropdown"
-                                            data-submenu
-                                            aria-expanded="false"
-                                            
-                                        >
-                                            Home<span className="caret" />
+                                    <li>
+                                        <a href="true" onClick={this.onRedirectHome}>
+                                            Home
                                         </a>
-                                        <ul className="dropdown-menu">
-                                            <li>
-                                                <a href="index.html">Home 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="index-2.html">Home 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="index-3.html">Home 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="index-4.html">Home 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="index-5.html">Home 5</a>
-                                            </li>
-                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="true" onClick={this.onRedirectHome}>
+                                            About
+                                        </a>
                                     </li>
                                     <li className="dropdown">
                                         <a
@@ -77,110 +66,7 @@ class MainHeader extends Component {
                                             aria-expanded="false"
                                             href="true"
                                         >
-                                            Properties<span className="caret" />
-                                        </a>
-                                        <ul className="dropdown-menu">
-                                            <li className="dropdown-submenu">
-                                                <a href="true"tabIndex={0}>List Layout</a>
-                                                <ul className="dropdown-menu">
-                                                    <li>
-                                                        <a onClick={this.estateList} href="true">
-                                                            Right Sidebar
-                              </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="properties-list-leftside.html">
-                                                            Left Sidebar
-                              </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="properties-list-fullwidth.html">
-                                                            Fullwidth
-                              </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li className="dropdown-submenu">
-                                                <a href="true"tabIndex={0}>Grid Layout</a>
-                                                <ul className="dropdown-menu">
-                                                    <li>
-                                                        <a href="properties-grid-rightside.html">
-                                                            Right Sidebar
-                              </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="properties-grid-leftside.html">
-                                                            Left Sidebar
-                              </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="properties-grid-fullwidth.html">
-                                                            Fullwidth
-                              </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li className="dropdown-submenu">
-                                                <a href="true"tabIndex={0}>Map View</a>
-                                                <ul className="dropdown-menu">
-                                                    <li>
-                                                        <a href="properties-map-leftside-list.html">
-                                                            Map List 1
-                              </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="properties-map-rightside-list.html">
-                                                            Map List 2
-                              </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="properties-map-leftside-grid.html">
-                                                            Map Grid 1
-                              </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="properties-map-rightside-grid.html">
-                                                            Map Grid 2
-                              </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="properties-map-full.html">
-                                                            Map FullWidth
-                              </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li className="dropdown-submenu">
-                                                <a href="true"tabIndex={0}>Property Detail</a>
-                                                <ul className="dropdown-menu">
-                                                    <li>
-                                                        <a href="properties-details.html">
-                                                            Property Detail 1
-                              </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="properties-details-2.html">
-                                                            Property Detail 2
-                              </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="properties-details-3.html">
-                                                            Property Detail 3
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li className="dropdown">
-                                        <a
-                                            tabIndex={0}
-                                            data-toggle="dropdown"
-                                            data-submenu
-                                            aria-expanded="false"
-                                            href="true"
-                                        >
-                                            Agents<span className="caret" />
+                                            Account<span className="caret" />
                                         </a>
                                         <ul className="dropdown-menu">
                                             <li>
@@ -312,7 +198,7 @@ class MainHeader extends Component {
                               </a>
                                                     </li>
                                                     <li>
-                                                        <a href="true"onClick={this.onSubmitProperty}>Submit Property</a>
+                                                        <a href="true" onClick={this.onSubmitProperty}>Submit Property</a>
                                                     </li>
                                                     <li>
                                                         <a href="login.html">Login</a>
@@ -339,7 +225,7 @@ class MainHeader extends Component {
                                         </a>
                                         <ul className="dropdown-menu">
                                             <li className="dropdown-submenu">
-                                                <a href="true"tabIndex={0}>Classic</a>
+                                                <a href="true" tabIndex={0}>Classic</a>
                                                 <ul className="dropdown-menu">
                                                     <li>
                                                         <a
@@ -368,7 +254,7 @@ class MainHeader extends Component {
                                                 </ul>
                                             </li>
                                             <li className="dropdown-submenu">
-                                                <a href="true"tabIndex={0}>Columns</a>
+                                                <a href="true" tabIndex={0}>Columns</a>
                                                 <ul className="dropdown-menu">
                                                     <li>
                                                         <a
@@ -389,7 +275,7 @@ class MainHeader extends Component {
                                                 </ul>
                                             </li>
                                             <li className="dropdown-submenu">
-                                                <a href="true"tabIndex={0}>Blog Details</a>
+                                                <a href="true" tabIndex={0}>Blog Details</a>
                                                 <ul className="dropdown-menu">
                                                     <li>
                                                         <a
@@ -422,10 +308,25 @@ class MainHeader extends Component {
                                 </ul>
                                 <ul className="nav navbar-nav navbar-right rightside-navbar">
                                     <li>
-                                        <a href="true"onClick={this.onSubmitProperty} className="button">
+                                        <a href="true" onClick={this.onSubmitProperty} className="button" style={{ marginRight: '5px' }}>
                                             Submit Property
-                      </a>
+                                        </a>
                                     </li>
+                                    <li>
+                                        <a href="true" onClick={this.onLogin} className="button" style={{ marginRight: '5px' }}>
+                                            <i className="fa fa-sign-in" /> Login
+                                                </a>
+                                    </li>
+                                    <li>
+                                        <a href="true" onClick={this.onHandleProfile} className="button">
+                                            <i className="fa fa-user" /> Account
+                                        </a>
+                                    </li>
+                                    {/* <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                        <ul className="top-social-media pull-right">
+                                            
+                                        </ul>
+                                    </div> */}
                                 </ul>
                             </div>
                         </nav>

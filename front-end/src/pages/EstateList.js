@@ -9,7 +9,7 @@ export default class EstateList extends Component {
     
     return (
       <div>
-        <Header />
+        
         <MainHeader />
         <EstateListComp />
         <Footer />

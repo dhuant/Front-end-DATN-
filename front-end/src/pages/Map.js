@@ -16,6 +16,12 @@ const options = [
 	{ value: 'strawberry', label: 'Strawberry' },
 	{ value: 'vanilla', label: 'Vanilla' },
 ];
+const options2 =[
+	{value: 1},
+	{value: 2},
+	{value: 3},
+	{value: 4},
+];
 class Map extends Component {
 	constructor() {
 		super();
@@ -80,7 +86,7 @@ class Map extends Component {
 		console.log(this.props.estates);
 		return (
 			<div>
-				<Header />
+				
 				<MainHeader />
 				<div className="map-content content-area container-fluid" >
 					<div className="col-xs-12 col-sm-12 col-md-5 col-md-push-7 col-lg-6 col-lg-push-6">
@@ -103,7 +109,7 @@ class Map extends Component {
           					</a>
 							<div className="clearfix" />
 						</div>
-						<div className="properties-map-search" style={{height: '1000px'}}>
+						<div className="properties-map-search">
 							<div className="properties-map-search-content">
 								<div className="row">
 									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -114,9 +120,11 @@ class Map extends Component {
 									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 										<div className="form-group">
 											<Select
+												placeholder="All Status"
 												value={selectedOption}
 												onChange={this.handleChange}
 												options={options}
+												menuPosition="fixed"
 											/>
 											<br />
 										</div>
@@ -125,19 +133,22 @@ class Map extends Component {
 									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 										<div className="form-group">
 											<Select
+												placeholder="All State"
 												value={selectedOption}
 												onChange={this.handleChange}
 												options={options}
+												menuPosition="fixed"
 											/>
 										</div>
 									</div>
 									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 										<div className="form-group">
 											<Select
+												placeholder="All Type"
 												value={selectedOption}
 												onChange={this.handleChange}
 												options={options}
-
+												menuPosition="fixed"
 											/>
 										</div>
 									</div>
@@ -161,18 +172,22 @@ class Map extends Component {
 										<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 											<div className="form-group">
 												<Select
+													placeholder="Bacony"
 													value={selectedOption}
 													onChange={this.handleChange}
 													options={options}
+													menuPosition="fixed"
 												/>
 											</div>
 										</div>
 										<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 											<div className="form-group">
 												<Select
+													placeholder="Garage"
 													value={selectedOption}
 													onChange={this.handleChange}
 													options={options}
+													menuPosition="fixed"
 												/>
 											</div>
 										</div>
@@ -181,18 +196,22 @@ class Map extends Component {
 										<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 											<div className="form-group">
 												<Select
+													placeholder="Bathrooms"
 													value={selectedOption}
 													onChange={this.handleChange}
 													options={options}
+													menuPosition="fixed"
 												/>
 											</div>
 										</div>
 										<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 											<div className="form-group">
 												<Select
+													placeholder="Bedrooms"
 													value={selectedOption}
 													onChange={this.handleChange}
 													options={options}
+													menuPosition="fixed"
 												/>
 											</div>
 										</div>

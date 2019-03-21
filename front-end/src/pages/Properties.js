@@ -16,7 +16,7 @@ class Properties extends Component {
     render() {
         return (
             <div>
-                <Header />
+                
                 <MainHeader />
                 <div className="content-area  properties-details-page">
                     <div className="container">

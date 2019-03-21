@@ -2,13 +2,30 @@ import React, { Component } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import MainHeader from '../components/MainHeader';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import Select from 'react-select';
+const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+];
 
 class SubmitProperty extends Component {
+    constructor() {
+        super();
+        this.state = {
+            selectedOption: null,
+        };
+    }
+    handleChange = (selectedOption) => {
+        this.setState({ selectedOption });
+        console.log(`Option selected:`, selectedOption);
+    }
     render() {
+        const { selectedOption } = this.state;
         return (
             <div>
-                <Header />
+                
                 <MainHeader />
                 {
                     /* Sub banner start */
@@ -67,26 +84,21 @@ class SubmitProperty extends Component {
                                                 <div className="col-md-6 col-sm-6">
                                                     <div className="form-group">
                                                         <label>Status</label>
-                                                        <select className="selectpicker search-f    ields">
-                                                            <option>Mustard</option>
-                                                            <option>Ketchup</option>
-                                                            <option>Relish</option>
-                                                        </select>
+                                                        <Select
+                                                            value={selectedOption}
+                                                            onChange={this.handleChange}
+                                                            options={options}
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6 col-sm-6">
                                                     <div className="form-group">
                                                         <label>Type</label>
-                                                        <select
-                                                            className="selectpicker search-fields"
-                                                            name="apartment"
-                                                        >
-                                                            <option>Apartment</option>
-                                                            <option>House</option>
-                                                            <option>Commercial</option>
-                                                            <option>Garage</option>
-                                                            <option>Lot</option>
-                                                        </select>
+                                                        <Select
+                                                            value={selectedOption}
+                                                            onChange={this.handleChange}
+                                                            options={options}
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
@@ -116,33 +128,21 @@ class SubmitProperty extends Component {
                                                 <div className="col-md-3 col-sm-6">
                                                     <div className="form-group">
                                                         <label>Rooms</label>
-                                                        <select
-                                                            className="selectpicker search-fields"
-                                                            name={1}
-                                                        >
-                                                            <option>1</option>
-                                                            <option>2</option>
-                                                            <option>3</option>
-                                                            <option>4</option>
-                                                            <option>5</option>
-                                                            <option>6</option>
-                                                        </select>
+                                                        <Select
+                                                            value={selectedOption}
+                                                            onChange={this.handleChange}
+                                                            options={options}
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-3 col-sm-6">
                                                     <div className="form-group">
                                                         <label>Bathroom</label>
-                                                        <select
-                                                            className="selectpicker search-fields"
-                                                            name={1}
-                                                        >
-                                                            <option>1</option>
-                                                            <option>2</option>
-                                                            <option>3</option>
-                                                            <option>4</option>
-                                                            <option>5</option>
-                                                            <option>6</option>
-                                                        </select>
+                                                        <Select
+                                                            value={selectedOption}
+                                                            onChange={this.handleChange}
+                                                            options={options}
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
@@ -180,52 +180,11 @@ class SubmitProperty extends Component {
                                             <div className="col-md-6 col-sm-6">
                                                 <div className="form-group">
                                                     <label>City</label>
-                                                    <select
-                                                        className="selectpicker search-fields"
-                                                        name="choose-city"
-                                                        data-live-search="true"
-                                                        data-live-search-placeholder="Search value"
-                                                    >
-                                                        <option>Choose City</option>
-                                                        <option>New York</option>
-                                                        <option>Los Angeles</option>
-                                                        <option>Chicago</option>
-                                                        <option>Brooklyn</option>
-                                                        <option>Queens</option>
-                                                        <option>Houston</option>
-                                                        <option>Manhattan</option>
-                                                        <option>Philadelphia</option>
-                                                        <option>Phoenix</option>
-                                                        <option>San Antonio</option>
-                                                        <option>Bronx</option>
-                                                        <option>San Diego</option>
-                                                        <option>Dallas</option>
-                                                        <option>San Jose</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div className="col-md-6 col-sm-6">
-                                                <div className="form-group">
-                                                    <label>State</label>
-                                                    <select
-                                                        className="selectpicker search-fields"
-                                                        name="choose-state"
-                                                        data-live-search="true"
-                                                        data-live-search-placeholder="Search value"
-                                                    >
-                                                        <option>Choose State</option>
-                                                        <option>Alabama</option>
-                                                        <option>Alaska</option>
-                                                        <option>Arizona</option>
-                                                        <option>Arkansas</option>
-                                                        <option>California</option>
-                                                        <option>Colorado</option>
-                                                        <option>Connecticut</option>
-                                                        <option>Delaware</option>
-                                                        <option>Florida</option>
-                                                        <option>Georgia</option>
-                                                        <option>Hawaii</option>
-                                                    </select>
+                                                    <Select
+                                                        value={selectedOption}
+                                                        onChange={this.handleChange}
+                                                        options={options}
+                                                    />
                                                 </div>
                                             </div>
                                             <div className="col-md-6 col-sm-6">
@@ -239,6 +198,17 @@ class SubmitProperty extends Component {
                                                     />
                                                 </div>
                                             </div>
+                                            <div className="col-md-6 col-sm-6">
+                                                <div className="form-group">
+                                                    <label>State</label>
+                                                    <Select
+                                                        value={selectedOption}
+                                                        onChange={this.handleChange}
+                                                        options={options}
+                                                    />
+                                                </div>
+                                            </div>
+                                            
                                         </div>
                                         <div className="main-title-2">
                                             <h1>
@@ -264,49 +234,31 @@ class SubmitProperty extends Component {
                                                     <label>
                                                         Building Age <span>(optional)</span>
                                                     </label>
-                                                    <select
-                                                        className="selectpicker search-fields"
-                                                        name="years"
-                                                    >
-                                                        <option>0-1 Years</option>
-                                                        <option>0-5 Years</option>
-                                                        <option>0-10 Years</option>
-                                                        <option>0-20 Years</option>
-                                                        <option>0-40 Years</option>
-                                                        <option>40+Years</option>
-                                                    </select>
+                                                    <Select
+                                                        value={selectedOption}
+                                                        onChange={this.handleChange}
+                                                        options={options}
+                                                    />
                                                 </div>
                                             </div>
                                             <div className="col-md-4 col-sm-4">
                                                 <div className="form-group">
                                                     <label>Bedrooms (optional)</label>
-                                                    <select
-                                                        className="selectpicker search-fields"
-                                                        name={1}
-                                                    >
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                        <option>6</option>
-                                                    </select>
+                                                    <Select
+                                                        value={selectedOption}
+                                                        onChange={this.handleChange}
+                                                        options={options}
+                                                    />
                                                 </div>
                                             </div>
                                             <div className="col-md-4 col-sm-4">
                                                 <div className="form-group">
                                                     <label>Bathrooms (optional)</label>
-                                                    <select
-                                                        className="selectpicker search-fields"
-                                                        name={1}
-                                                    >
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                        <option>6</option>
-                                                    </select>
+                                                    <Select
+                                                        value={selectedOption}
+                                                        onChange={this.handleChange}
+                                                        options={options}
+                                                    />
                                                 </div>
                                             </div>
                                             <div className="col-lg-12">
@@ -416,7 +368,7 @@ class SubmitProperty extends Component {
                     /* Submit Property end */
                 }
                 <Footer />
-                
+
             </div>
         );
     }

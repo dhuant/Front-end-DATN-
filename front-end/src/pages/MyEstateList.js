@@ -10,7 +10,7 @@ export default class MyEstateList extends Component {
     render() {
         return (
             <div>
-                <Header />
+                
                 {/* Sub banner start */}
                 <div className="sub-banner overview-bgi">
                     <div className="overlay">
