@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import Sidebar from './Sidebar'
+import Sidebar from './Sidebar';
+import { connect } from 'react-redux';
 
 class PropertiesDetail extends Component {
+    
     render() {
+        //let {estate} = this.props;
         return (
             <div>
                 <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
@@ -30,7 +33,7 @@ class PropertiesDetail extends Component {
                                     {/* Wrapper for slides */}
                                     <div className="carousel-inner">
                                         <div className="item">
-                                            <img src="img/properties/properties-1.jpg" className="thumb-preview" alt="Chevrolet Impala" />
+                                            <img src={"img/properties/properties-1.jpg"} className="thumb-preview" alt="Chevrolet Impala" />
                                         </div>
                                         <div className="item">
                                             <img src="img/properties/properties-3.jpg" className="thumb-preview" alt="Chevrolet Impala" />
@@ -574,4 +577,14 @@ class PropertiesDetail extends Component {
     }
 }
 
-export default PropertiesDetail;
+// const mapDispathToProp = (dispatch) => {
+// 	return {
+// 		actGetEstateRequest: (id) => dispatch(actions.actGetEstateRequest(id))
+// 	}
+// }
+const mapStateToProp = (state) => {
+	return {
+		estate: state.estate
+	}
+}
+export default connect(mapStateToProp, null)(PropertiesDetail);

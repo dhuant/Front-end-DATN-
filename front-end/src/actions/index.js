@@ -7,3 +7,9 @@ export const actFetchEstates = (estates) => {
         estates: estates
     }
 }
+export const actGetEstate = (estate) => {
+    return {
+        type : Types.GET_ESTATE,
+        estate: estate
+    }
+}

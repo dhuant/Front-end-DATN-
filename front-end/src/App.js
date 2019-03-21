@@ -24,7 +24,7 @@ class App extends Component {
             <Route exact path='/submitproperty' component={SubmitProperty}/>
             <Route exact path='/maps' component={Map} />
             <Route exact path='/profile' component={Profile} />
-            <Route exact path='/properties' component={Properties} />
+            <Route exact path='/properties/:id' component={Properties} />
             <Route exact path='/estatelist' component={EstateList} />
             <Route exact path='/myproperties' component={MyEstateList} />
             <Route exact path="/changepassword" component={ChangePassword}/>

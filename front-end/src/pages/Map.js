@@ -4,7 +4,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import * as Types from './../constants/ActionTypes';
 import * as actions from '../actions/request';
-import DetailEstate from '../components/Map/DetailEstate'
+import InfoEstate from '../components/Map/InfoEstate'
 import Select from 'react-select';
 import Header from '../components/Header';
 import MainHeader from '../components/MainHeader';
@@ -66,7 +66,7 @@ class Map extends Component {
 		if (estates) {
 			listEstates = estates.map((estate, index) => {
 				return (
-					<DetailEstate
+					<InfoEstate
 						key={index}
 						estate={estate}
 					/>
@@ -103,7 +103,7 @@ class Map extends Component {
           					</a>
 							<div className="clearfix" />
 						</div>
-						<div className="properties-map-search">
+						<div className="properties-map-search" style={{height: '1000px'}}>
 							<div className="properties-map-search-content">
 								<div className="row">
 									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">

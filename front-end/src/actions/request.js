@@ -8,3 +8,11 @@ export const actFetchEstatesRequest = (info) => {
         });
     };
 }
+export const actGetEstateRequest = (id) => {
+    return dispatch => {
+        return callApi(`projects/${id}`, 'GET', null).then(res => {
+            //dispatch(actGetEstate(res.data));
+            console.log(res)
+        });
+    }
+}
