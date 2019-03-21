@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 class InfoEstate extends Component {
-    onDetailEstate = (e) => {
-        e.preventDefault();
-        
-    }
+    
     render() {
         let { estate } = this.props;
         let url = `/properties/${estate._id}`
+
         return (
             <Link to = {url}>
                 <div className="property map-properties-list clearfix">

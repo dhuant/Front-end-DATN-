@@ -2,23 +2,24 @@ import React, { Component } from 'react';
 import Sidebar from './Sidebar';
 import { connect } from 'react-redux';
 
+
 class PropertiesDetail extends Component {
     
     render() {
-        //let {estate} = this.props;
+        let {info} = this.props;
         return (
             <div>
                 <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                     {/* Header */}
                     <div className="heading-properties clearfix sidebar-widget">
                         <div className="pull-left">
-                            <h3>Sweet Family Home</h3>
+                            <h3>{info.name}</h3>
                             <p>
-                                <i className="fa fa-map-marker" />123 Kathal St. Tampa City,
-            </p>
+                                <i className="fa fa-map-marker" />{info.address}
+                            </p>
                         </div>
                         <div className="pull-right">
-                            <h3><span>$362,100</span></h3>
+                            <h3><span>{info.price}</span></h3>
                             <h5>
                                 Per Manth
             </h5>
@@ -214,9 +215,9 @@ class PropertiesDetail extends Component {
                                             <div className="main-title-2">
                                                 <h1><span>Description</span></h1>
                                             </div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra a. Aliquam pellentesque nibh et nibh feugiat gravida. Maecenas ultricies, diam vitae semper placerat, velit risus accumsan nisl, eget tempor lacus est vel nunc. Proin accumsan elit sed neque euismod fringilla. Curabitur lobortis nunc velit, et fermentum urna dapibus non. Vivamus magna lorem, elementum id gravida ac, laoreet tristique augue. Maecenas dictum lacus eu nunc porttitor, ut hendrerit arcu efficitur.</p>
+                                            <p>{info.info}</p>
                                             <br />
-                                            <p>Nam mattis lobortis felis eu blandit. Morbi tellus ligula, interdum sit amet ipsum et, viverra hendrerit lectus. Nunc efficitur sem vel est laoreet, sed bibendum eros viverra. Vestibulum finibus, ligula sed euismod tincidunt, lacus libero lobortis ligula, sit amet molestie ipsum purus ut tortor. Nunc varius, dui et sollicitudin facilisis, erat felis imperdiet felis, et iaculis dui magna vitae diam. Donec mattis diam nisl, quis ullamcorper enim malesuada non. Curabitur lobortis eu mauris nec vestibulum. Nam efficitur, ex ac semper malesuada nisi odio consequat dui, hendrerit vulputate odio dui vitae massa. Aliquam tortor urna, tincidunt</p>
+                                            
                                         </div>
                                         <div className="tab-pane fade features" id="tab2default">
                                             {/* Properties condition start */}
@@ -583,8 +584,8 @@ class PropertiesDetail extends Component {
 // 	}
 // }
 const mapStateToProp = (state) => {
-	return {
-		estate: state.estate
-	}
+    return {
+        info: state.estateInfo
+    }
 }
 export default connect(mapStateToProp, null)(PropertiesDetail);

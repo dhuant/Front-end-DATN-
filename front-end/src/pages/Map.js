@@ -62,7 +62,6 @@ class Map extends Component {
 		const { selectedOption } = this.state;
 		let estates = this.props.estates;
 		let listEstates = null;
-		console.log(listEstates);
 		if (estates) {
 			listEstates = estates.map((estate, index) => {
 				return (
@@ -74,9 +73,7 @@ class Map extends Component {
 			}
 			)
 		}
-
-
-
+		console.log(estates);
 		console.log(this.props.estates);
 		return (
 			<div>
