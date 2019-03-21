@@ -28,6 +28,7 @@ class App extends Component {
             <Route exact path='/estatelist' component={EstateList} />
             <Route exact path='/myproperties' component={MyEstateList} />
             <Route exact path="/changepassword" component={ChangePassword}/>
+            <Route exact path='/properties' component={Properties} />
           </Switch>
         </div>
       </BrowserRouter>

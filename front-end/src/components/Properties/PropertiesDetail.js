@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
 import Sidebar from './Sidebar';
 import { connect } from 'react-redux';
+import Select from 'react-select' 
 
 class PropertiesDetail extends Component {
     
     render() {
-        //let {estate} = this.props;
+        // let {id} = this.props.component;
+        // console.log(id);
         return (
             <div>
                 <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                     {/* Header */}
                     <div className="heading-properties clearfix sidebar-widget">
                         <div className="pull-left">
-                            <h3>Sweet Family Home</h3>
+                            <h3>ABC</h3>
                             <p>
                                 <i className="fa fa-map-marker" />123 Kathal St. Tampa City,
-            </p>
+                            </p>
                         </div>
                         <div className="pull-right">
                             <h3><span>$362,100</span></h3>
                             <h5>
                                 Per Manth
-            </h5>
+                            </h5>
                         </div>
                     </div>
                     {/* Properties details section start */}
@@ -33,28 +35,28 @@ class PropertiesDetail extends Component {
                                     {/* Wrapper for slides */}
                                     <div className="carousel-inner">
                                         <div className="item">
-                                            <img src={"img/properties/properties-1.jpg"} className="thumb-preview" alt="Chevrolet Impala" />
+                                            <img src={"/img/properties/properties-1.jpg"} className="thumb-preview" alt="Chevrolet Impala" />
                                         </div>
                                         <div className="item">
-                                            <img src="img/properties/properties-3.jpg" className="thumb-preview" alt="Chevrolet Impala" />
+                                            <img src="/img/properties/properties-3.jpg" className="thumb-preview" alt="Chevrolet Impala" />
                                         </div>
                                         <div className="item">
-                                            <img src="img/properties/properties-4.jpg" className="thumb-preview" alt="Chevrolet Impala" />
+                                            <img src="/img/properties/properties-4.jpg" className="thumb-preview" alt="Chevrolet Impala" />
                                         </div>
                                         <div className="item">
-                                            <img src="img/properties/properties-5.jpg" className="thumb-preview" alt="Chevrolet Impala" />
+                                            <img src="/img/properties/properties-5.jpg" className="thumb-preview" alt="Chevrolet Impala" />
                                         </div>
                                         <div className="item">
-                                            <img src="img/properties/properties-6.jpg" className="thumb-preview" alt="Chevrolet Impala" />
+                                            <img src="/img/properties/properties-6.jpg" className="thumb-preview" alt="Chevrolet Impala" />
                                         </div>
                                         <div className="item">
-                                            <img src="img/properties/properties-7.jpg" className="thumb-preview" alt="Chevrolet Impala" />
+                                            <img src="/img/properties/properties-7.jpg" className="thumb-preview" alt="Chevrolet Impala" />
                                         </div>
                                         <div className="item">
-                                            <img src="img/properties/properties-8.jpg" className="thumb-preview" alt="Chevrolet Impala" />
+                                            <img src="/img/properties/properties-8.jpg" className="thumb-preview" alt="Chevrolet Impala" />
                                         </div>
                                         <div className="item active">
-                                            <img src="img/properties/properties-2.jpg" className="thumb-preview" alt="Chevrolet Impala" />
+                                            <img src="/img/properties/properties-2.jpg" className="thumb-preview" alt="Chevrolet Impala" />
                                         </div>
                                     </div>
                                     {/* Controls */}
@@ -73,14 +75,14 @@ class PropertiesDetail extends Component {
                                 </div>
                                 {/* Indicators */}
                                 <ol className="carousel-indicators thumbs visible-lg visible-md">
-                                    <li data-target="#carousel-custom" data-slide-to={0} className><img src="img/properties/properties-small-1.jpg" alt="Chevrolet Impala" /></li>
-                                    <li data-target="#carousel-custom" data-slide-to={1} className><img src="img/properties/properties-small-3.jpg" alt="Chevrolet Impala" /></li>
-                                    <li data-target="#carousel-custom" data-slide-to={2} className><img src="img/properties/properties-small-4.jpg" alt="Chevrolet Impala" /></li>
-                                    <li data-target="#carousel-custom" data-slide-to={3} className><img src="img/properties/properties-small-5.jpg" alt="Chevrolet Impala" /></li>
-                                    <li data-target="#carousel-custom" data-slide-to={4} className><img src="img/properties/properties-small-6.jpg" alt="Chevrolet Impala" /></li>
-                                    <li data-target="#carousel-custom" data-slide-to={5} className><img src="img/properties/properties-small-7.jpg" alt="Chevrolet Impala" /></li>
-                                    <li data-target="#carousel-custom" data-slide-to={6} className><img src="img/properties/properties-small-8.jpg" alt="Chevrolet Impala" /></li>
-                                    <li data-target="#carousel-custom" data-slide-to={7} className><img src="img/properties/properties-small-2.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={0} className><img src="/img/properties/properties-small-1.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={1} className><img src="/img/properties/properties-small-3.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={2} className><img src="/img/properties/properties-small-4.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={3} className><img src="/img/properties/properties-small-5.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={4} className><img src="/img/properties/properties-small-6.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={5} className><img src="/img/properties/properties-small-7.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={6} className><img src="/img/properties/properties-small-8.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={7} className><img src="/img/properties/properties-small-2.jpg" alt="Chevrolet Impala" /></li>
                                 </ol>
                             </div>
                         </div>
@@ -338,7 +340,7 @@ class PropertiesDetail extends Component {
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <img src="img/properties/floor-plans.html" alt="floor-plans" className="img-responsive" />
+                                                <img src="/img/properties/floor-plans.html" alt="floor-plans" className="img-responsive" />
                                             </div>
                                             {/* Floor Plans end */}
                                         </div>
@@ -386,7 +388,7 @@ class PropertiesDetail extends Component {
                                         <div className="comment">
                                             <div className="comment-author">
                                                 <a href="true">
-                                                    <img src="img/avatar/avatar-5.png" alt="avatar-5" />
+                                                    <img src="/img/avatar/avatar-5.png" alt="avatar-5" />
                                                 </a>
                                             </div>
                                             <div className="comment-content">
@@ -419,7 +421,7 @@ class PropertiesDetail extends Component {
                                                 <div className="comment">
                                                     <div className="comment-author">
                                                         <a href="true">
-                                                            <img src="img/avatar/avatar-5.png" alt="avatar-5" />
+                                                            <img src="/img/avatar/avatar-5.png" alt="avatar-5" />
                                                         </a>
                                                     </div>
                                                     <div className="comment-content">
@@ -454,7 +456,7 @@ class PropertiesDetail extends Component {
                                         <div className="comment">
                                             <div className="comment-author">
                                                 <a href="true">
-                                                    <img src="img/avatar/avatar-5.png" alt="avatar-5" />
+                                                    <img src="/img/avatar/avatar-5.png" alt="avatar-5" />
                                                 </a>
                                             </div>
                                             <div className="comment-content">
@@ -488,7 +490,7 @@ class PropertiesDetail extends Component {
                                                 <div className="comment comment-mrg-bdr-nane">
                                                     <div className="comment-author">
                                                         <a href="true">
-                                                            <img src="img/avatar/avatar-5.png" alt="avatar-5" />
+                                                            <img src="/img/avatar/avatar-5.png" alt="avatar-5" />
                                                         </a>
                                                     </div>
                                                     <div className="comment-content">

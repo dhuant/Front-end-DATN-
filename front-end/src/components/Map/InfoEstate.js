@@ -14,7 +14,7 @@ class InfoEstate extends Component {
                     <div className="col-lg-5 col-md-5 col-sm-5 col-xs-12 col-pad"> <a href="properties-details.html" className="property-img height">
                         <div className="property-tag button alt featured">Featured</div>
                         <div className="property-tag button sale">Sale</div>
-                        <div className="property-price">$2505.11</div> <img src="img/properties/properties-1.jpg" alt="properties" className="img-responsive img-inside-map" />
+                        <div className="property-price">$2505.11</div> <img src="/img/properties/properties-1.jpg" alt="properties" className="img-responsive img-inside-map" />
                     </a> </div>
                     <div className="col-lg-7 col-md-7 col-sm-7 col-xs-12 property-content ">
                         {/* title */}

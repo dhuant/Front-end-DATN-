@@ -5,12 +5,13 @@ import Header from '../components/Header'
 import SingleProperty from '../components/Profile/SingleProperty'
 import { MY_PROPERTIES } from '../constants/Profile';
 import {Link} from 'react-router-dom'
+import MainHeader from '../components/MainHeader';
 
 export default class MyEstateList extends Component {
     render() {
         return (
             <div>
-                
+                <MainHeader />
                 {/* Sub banner start */}
                 <div className="sub-banner overview-bgi">
                     <div className="overlay">

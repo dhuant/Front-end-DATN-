@@ -14,6 +14,9 @@ class Properties extends Component {
         }
     }
     render() {
+        console.log(this.props.match.params.id);
+        const {id} = this.props.match.params;
+        console.log(id);
         return (
             <div>
                 
@@ -21,7 +24,7 @@ class Properties extends Component {
                 <div className="content-area  properties-details-page">
                     <div className="container">
                         <div className="row">
-                            <PropertiesDetail />
+                            <PropertiesDetail component={id}/>
                             {/* <Sidebar/> */}
                         </div>
                     </div>

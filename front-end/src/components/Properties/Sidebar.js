@@ -129,7 +129,7 @@ class Sidebar extends Component {
               </div>
               <div className="media">
                 <div className="media-left">
-                  <img className="media-object" src="img/properties/small-properties-1.jpg" alt="small-properties-1" />
+                  <img className="media-object" src="/img/properties/small-properties-1.jpg" alt="small-properties-1" />
                 </div>
                 <div className="media-body">
                   <h3 className="media-heading">
@@ -143,7 +143,7 @@ class Sidebar extends Component {
               </div>
               <div className="media">
                 <div className="media-left">
-                  <img className="media-object" src="img/properties/small-properties-2.jpg" alt="small-properties-2" />
+                  <img className="media-object" src="/img/properties/small-properties-2.jpg" alt="small-properties-2" />
                 </div>
                 <div className="media-body">
                   <h3 className="media-heading">
@@ -157,7 +157,7 @@ class Sidebar extends Component {
               </div>
               <div className="media">
                 <div className="media-left">
-                  <img className="media-object" src="img/properties/small-properties-3.jpg" alt="small-properties-3" />
+                  <img className="media-object" src="/img/properties/small-properties-3.jpg" alt="small-properties-3" />
                 </div>
                 <div className="media-body">
                   <h3 className="media-heading">

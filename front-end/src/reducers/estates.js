@@ -8,7 +8,7 @@ const estates = (state = initialState, action) => {
             state = action.estates;
             return [...state];
         case Types.GET_ESTATE:
-            state = action.estates;
+            state = action.estates
             return [...state];
         default: return [...state];
     }

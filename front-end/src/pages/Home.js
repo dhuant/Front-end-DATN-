@@ -186,7 +186,7 @@ class Home extends Component {
                                                 <div className="form-group">
                                                     <Select
                                                         defaultValue={options[0].label}
-                                                        value={selectedOption}
+                                                        // value={selectedOption}
                                                         onChange={this.handleChange}
                                                         options={options}
                                                         isClearable
@@ -199,7 +199,7 @@ class Home extends Component {
                                                 <div className="form-group">
                                                 <Select
                                                         defaultValue={options[0].label}
-                                                        value={selectedOption}
+                                                        // value={selectedOption}
                                                         onChange={this.handleChange}
                                                         options={options}
                                                         isClearable
@@ -212,7 +212,7 @@ class Home extends Component {
                                                 <div className="form-group">
                                                     <Select
                                                         defaultValue={options[0].label}
-                                                        value={selectedOption}
+                                                        // value={selectedOption}
                                                         onChange={this.handleChange}
                                                         options={options}
                                                         isClearable
@@ -224,7 +224,7 @@ class Home extends Component {
                                                 <div className="form-group">
                                                     <Select
                                                         defaultValue={options[0].label}
-                                                        value={selectedOption}
+                                                        // value={selectedOption}
                                                         onChange={this.handleChange}
                                                         options={options}
                                                         isClearable
@@ -238,7 +238,7 @@ class Home extends Component {
                                                 <div className="form-group">
                                                     <Select
                                                         defaultValue={options[0].label}
-                                                        value={selectedOption}
+                                                        // value={selectedOption}
                                                         onChange={this.handleChange}
                                                         options={options}
                                                         isClearable
@@ -250,7 +250,7 @@ class Home extends Component {
                                                 <div className="form-group">
                                                 <Select
 
-                                                        value={selectedOption}
+                                                        // value={selectedOption}
                                                         onChange={this.handleChange}
                                                         options={options}
                                                         isClearable
@@ -299,31 +299,31 @@ class Home extends Component {
                                     data-filter="all"
                                 >
                                     All
-        </li>
+                                </li>
                                 <li
                                     data-filter={1}
                                     className="btn btn-inline filtr-button filtr"
                                 >
                                     House
-        </li>
+                                </li>
                                 <li
                                     data-filter={2}
                                     className="btn btn-inline filtr-button filtr"
                                 >
                                     Office
-        </li>
+                                </li>
                                 <li
                                     data-filter={3}
                                     className="btn btn-inline filtr-button filtr"
                                 >
                                     Apartment
-        </li>
+                                </li>
                                 <li
                                     data-filter={4}
                                     className="btn btn-inline filtr-button filtr"
                                 >
                                     Residential
-        </li>
+                                </li>
                             </ul>
                             <div className="row">
                                 <div className="filtr-container">
@@ -336,10 +336,10 @@ class Home extends Component {
                                             <div className="property-img">
                                                 <div className="property-tag button alt featured">
                                                     Featured
-                </div>
+                                                </div>
                                                 <div className="property-tag button sale">
                                                     For Sale
-                </div>
+                                                </div>
                                                 <div className="property-price">$150,000</div>
                                                 <img
                                                     src="img/properties/properties-1.jpg"
@@ -383,14 +383,14 @@ class Home extends Component {
                                                 <h1 className="title">
                                                     <a onClick={this.onProperties} href="properties-details.html">
                                                         Beautiful Single Home
-                  </a>
+                                                    </a>
                                                 </h1>
                                                 {/* Property address */}
                                                 <h3 className="property-address">
                                                     <a href="properties-details.html">
                                                         <i className="fa fa-map-marker" />123 Kathal St.
                                                         Tampa City,
-                  </a>
+                                                    </a>
                                                 </h3>
                                                 {/* Facilities List */}
                                                 <ul className="facilities-list clearfix">

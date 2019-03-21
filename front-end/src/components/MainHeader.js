@@ -37,7 +37,7 @@ class MainHeader extends Component {
                                     <span className="icon-bar" />
                                 </button>
                                 <a href="true" onClick={this.onRedirectHome} className="logo">
-                                    <img src="img/logos/logo.png" alt="logo" />
+                                    <img src="/img/logos/logo.png" alt="logo" />
                                 </a>
                             </div>
                             {/* Collect the nav links, forms, and other content for toggling */}

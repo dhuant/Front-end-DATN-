@@ -4,12 +4,13 @@ import Footer from '../components/Footer'
 import Info from '../components/Profile/Info'
 import { CHANGE_PASSWORD } from '../constants/Profile';
 import {Link} from 'react-router-dom'
+import MainHeader from '../components/MainHeader';
 
 export default class ChangePassword extends Component {
     render() {
         return (
             <div>
-                
+                <MainHeader />
                 <div>
                     {/* Sub banner start */}
                     <div className="sub-banner overview-bgi">

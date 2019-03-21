@@ -95,7 +95,7 @@ const Footer = () => {
                                         <div className="media-left">
                                             <img
                                                 className="media-object"
-                                                src="img/properties/small-properties-1.jpg"
+                                                src="/img/properties/small-properties-1.jpg"
                                                 alt="small-properties-1"
                                             />
                                         </div>
@@ -113,7 +113,7 @@ const Footer = () => {
                                         <div className="media-left">
                                             <img
                                                 className="media-object"
-                                                src="img/properties/small-properties-2.jpg"
+                                                src="/img/properties/small-properties-2.jpg"
                                                 alt="small-properties-2"
                                             />
                                         </div>
@@ -131,7 +131,7 @@ const Footer = () => {
                                         <div className="media-left">
                                             <img
                                                 className="media-object"
-                                                src="img/properties/small-properties-3.jpg"
+                                                src="/img/properties/small-properties-3.jpg"
                                                 alt="small-properties-3"
                                             />
                                         </div>

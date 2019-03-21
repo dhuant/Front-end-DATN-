@@ -33,9 +33,14 @@ class Map extends Component {
 			selectedOption: null,
 		};
 	}
-	handleChange = (selectedOption) => {
+	handleChangeState = (selectedOption) => {
 		this.setState({ selectedOption });
-		console.log(`Option selected:`, selectedOption);
+		
+	}
+
+	handleChangeStatus = (selectedOption) => {
+		this.setState({ selectedOption });
+		
 	}
 	findAround = (e) => {
 		e.preventDefault();
@@ -65,7 +70,7 @@ class Map extends Component {
 	}
 
 	render() {
-		const { selectedOption } = this.state;
+		const { selectedOptionState, selectedOptionStatus } = this.state;
 		let estates = this.props.estates;
 		let listEstates = null;
 		console.log(listEstates);
@@ -121,8 +126,8 @@ class Map extends Component {
 										<div className="form-group">
 											<Select
 												placeholder="All Status"
-												value={selectedOption}
-												onChange={this.handleChange}
+												value={selectedOptionState}
+												onChange={this.handleChangeState}
 												options={options}
 												menuPosition="fixed"
 											/>
@@ -134,8 +139,8 @@ class Map extends Component {
 										<div className="form-group">
 											<Select
 												placeholder="All State"
-												value={selectedOption}
-												onChange={this.handleChange}
+												value={selectedOptionStatus}
+												onChange={this.handleChangeStatus}
 												options={options}
 												menuPosition="fixed"
 											/>
@@ -145,7 +150,7 @@ class Map extends Component {
 										<div className="form-group">
 											<Select
 												placeholder="All Type"
-												value={selectedOption}
+												// value={selectedOption}
 												onChange={this.handleChange}
 												options={options}
 												menuPosition="fixed"
@@ -173,7 +178,7 @@ class Map extends Component {
 											<div className="form-group">
 												<Select
 													placeholder="Bacony"
-													value={selectedOption}
+													// value={selectedOption}
 													onChange={this.handleChange}
 													options={options}
 													menuPosition="fixed"
@@ -184,7 +189,7 @@ class Map extends Component {
 											<div className="form-group">
 												<Select
 													placeholder="Garage"
-													value={selectedOption}
+													// value={selectedOption}
 													onChange={this.handleChange}
 													options={options}
 													menuPosition="fixed"
@@ -197,7 +202,7 @@ class Map extends Component {
 											<div className="form-group">
 												<Select
 													placeholder="Bathrooms"
-													value={selectedOption}
+													// value={selectedOption}
 													onChange={this.handleChange}
 													options={options}
 													menuPosition="fixed"
@@ -208,7 +213,7 @@ class Map extends Component {
 											<div className="form-group">
 												<Select
 													placeholder="Bedrooms"
-													value={selectedOption}
+													// value={selectedOption}
 													onChange={this.handleChange}
 													options={options}
 													menuPosition="fixed"
@@ -223,7 +228,7 @@ class Map extends Component {
 												<input id="checkbox1" type="checkbox" />
 												<label htmlFor="checkbox1">
 													Free Parking
-                      </label>
+                      	</label>
 											</div>
 											<div className="checkbox checkbox-theme checkbox-circle">
 												<input id="checkbox2" type="checkbox" />
