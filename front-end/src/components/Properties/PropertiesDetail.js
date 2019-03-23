@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
 import Sidebar from './Sidebar';
 import { connect } from 'react-redux';
-import Select from 'react-select' 
 
+const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+];
 
 class PropertiesDetail extends Component {
-    
+    constructor() {
+        super();
+        this.state = {
+            selectedOption: null,
+        };
+    }
+    handleChange = (selectedOption) => {
+        this.setState({ selectedOption });
+        console.log(`Option selected:`, selectedOption);
+    }
     render() {
-        let {info} = this.props;
-
+        const { selectedOption } = this.state;
+        let { info } = this.props;
         return (
             <div>
                 <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
@@ -91,118 +104,6 @@ class PropertiesDetail extends Component {
                         </div>
                         {/* Properties detail slider end */}
 
-                        {/* Advanced search start */}
-                        <div className="advabced-search hidden-lg hidden-md">
-                            <div className="main-title-2">
-                                <h1><span>Advanced</span> Search</h1>
-                            </div>
-                            <form method="GET">
-                                <div className="form-group">
-                                    <select className="selectpicker search-fields" name="property-status" data-live-search="true" data-live-search-placeholder="Search value">
-                                        <option>Property Status</option>
-                                        <option>For Sale</option>
-                                        <option>For Rent</option>
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    <select className="selectpicker search-fields" name="location" data-live-search="true" data-live-search-placeholder="Search value">
-                                        <option>Location</option>
-                                        <option>United States</option>
-                                        <option>United Kingdom</option>
-                                        <option>American Samoa</option>
-                                        <option>Belgium</option>
-                                        <option>Cameroon</option>
-                                        <option>Canada</option>
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    <select className="selectpicker search-fields" name="property-types" data-live-search="true" data-live-search-placeholder="Search value">
-                                        <option>Property Types</option>
-                                        <option>Residential</option>
-                                        <option>Commercial</option>
-                                        <option>Land</option>
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    <select className="selectpicker search-fields" name="area-from" data-live-search="true" data-live-search-placeholder="Search value">
-                                        <option>Area From</option>
-                                        <option>1000</option>
-                                        <option>800</option>
-                                        <option>600</option>
-                                        <option>400</option>
-                                        <option>200</option>
-                                        <option>100</option>
-                                    </select>
-                                </div>
-                                <div className="row">
-                                    <div className="col-lg-6 col-md-6 col-sm-6">
-                                        <div className="form-group">
-                                            <select className="selectpicker search-fields" name="bedrooms">
-                                                <option>Bedrooms</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-6 col-md-6 col-sm-6">
-                                        <div className="form-group">
-                                            <select className="selectpicker search-fields" name="bathroom">
-                                                <option>Bathroom</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-lg-6 col-md-6 col-sm-6">
-                                        <div className="form-group">
-                                            <select className="selectpicker search-fields" name="balcony">
-                                                <option>Balcony</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-6 col-md-6 col-sm-6">
-                                        <div className="form-group">
-                                            <select className="selectpicker search-fields" data-live-search="true" name="garage">
-                                                <option>Garage</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="range-slider">
-                                    <label>Area</label>
-                                    <div data-min={0} data-max={10000} data-unit="Sq ft" data-min-name="min_area" data-max-name="max_area" className="range-slider-ui ui-slider" aria-disabled="false" />
-                                    <div className="clearfix" />
-                                </div>
-                                <div className="range-slider">
-                                    <label>Price</label>
-                                    <div data-min={0} data-max={150000} data-unit="USD" data-min-name="min_price" data-max-name="max_price" className="range-slider-ui ui-slider" aria-disabled="false" />
-                                    <div className="clearfix" />
-                                </div>
-                                <div className="form-group">
-                                    <button className="search-button">Search</button>
-                                </div>
-                            </form>
-                        </div>
-                        {/* Advanced search end */}
-
                         {/* Property description start */}
                         <div className="panel-box properties-panel-box Property-description">
                             <ul className="nav nav-tabs">
@@ -221,7 +122,7 @@ class PropertiesDetail extends Component {
                                             </div>
                                             <p>{info.info}</p>
                                             <br />
-                                            
+
                                         </div>
                                         <div className="tab-pane fade features" id="tab2default">
                                             {/* Properties condition start */}
@@ -343,7 +244,7 @@ class PropertiesDetail extends Component {
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <img src="/img/properties/floor-plans.html" alt="floor-plans" className="img-responsive" />
+                                                <img src="img/properties/floor-plans.html" alt="floor-plans" className="img-responsive" />
                                             </div>
                                             {/* Floor Plans end */}
                                         </div>

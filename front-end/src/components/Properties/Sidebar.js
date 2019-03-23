@@ -3,8 +3,24 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/no-redundant-roles */
 import React, { Component } from 'react';
+import Select from 'react-select'
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' },
+];
 
 class Sidebar extends Component {
+  constructor() {
+    super();
+    this.state = {
+      selectedOption: null,
+    };
+  }
+  handleChange = (selectedOption) => {
+    this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
+  }
   render() {
     return (
       <div>
@@ -18,97 +34,108 @@ class Sidebar extends Component {
               </div>
               <form method="GET">
                 <div className="form-group">
-                  <select className="selectpicker search-fields" name="property-status" data-live-search="true" data-live-search-placeholder="Search value">
-                    <option>Property Status</option>
-                    <option>For Sale</option>
-                    <option>For Rent</option>
-                  </select>
+                  <Select
+                    defaultValue={options[0].label}
+                    // value={selectedOption}
+                    onChange={this.handleChange}
+                    options={options}
+                    isClearable
+                    placeholder="Properties Status"
+                    className="Properties Status"
+                  />
                 </div>
                 <div className="form-group">
-                  <select className="selectpicker search-fields" name="location" data-live-search="true" data-live-search-placeholder="Search value">
-                    <option>Location</option>
-                    <option>United States</option>
-                    <option>United Kingdom</option>
-                    <option>American Samoa</option>
-                    <option>Belgium</option>
-                    <option>Cameroon</option>
-                    <option>Canada</option>
-                  </select>
+                  <Select
+                    defaultValue={options[0].label}
+                    // value={selectedOption}
+                    onChange={this.handleChange}
+                    options={options}
+                    isClearable
+                    placeholder="Location"
+                    className="Location"
+                  />
                 </div>
                 <div className="form-group">
-                  <select className="selectpicker search-fields" name="property-types" data-live-search="true" data-live-search-placeholder="Search value">
-                    <option>Property Types</option>
-                    <option>Residential</option>
-                    <option>Commercial</option>
-                    <option>Land</option>
-                  </select>
+                  <Select
+                    defaultValue={options[0].label}
+                    // value={selectedOption}
+                    onChange={this.handleChange}
+                    options={options}
+                    isClearable
+                    placeholder="Properties Types"
+                    className="Properties Types"
+                  />
                 </div>
                 <div className="form-group">
-                  <select className="selectpicker search-fields" name="area-from" data-live-search="true" data-live-search-placeholder="Search value">
-                    <option>Area From</option>
-                    <option>1000</option>
-                    <option>800</option>
-                    <option>600</option>
-                    <option>400</option>
-                    <option>200</option>
-                    <option>100</option>
-                  </select>
+                  <Select
+                    defaultValue={options[0].label}
+                    // value={selectedOption}
+                    onChange={this.handleChange}
+                    options={options}
+                    isClearable
+                    placeholder="Area Form"
+                    className="Area Form"
+                  />
                 </div>
                 <div className="row">
                   <div className="col-lg-6 col-md-6 col-sm-6">
                     <div className="form-group">
-                      <select className="selectpicker search-fields" name="bedrooms">
-                        <option>Bedrooms</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                      </select>
+                      <Select
+                        defaultValue={options[0].label}
+                        // value={selectedOption}
+                        onChange={this.handleChange}
+                        options={options}
+                        isClearable
+                        placeholder="Bedrooms"
+                        className="Bedrooms"
+                      />
                     </div>
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6">
                     <div className="form-group">
-                      <select className="selectpicker search-fields" name="bathroom">
-                        <option>Bathroom</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                      </select>
+                      <Select
+                        defaultValue={options[0].label}
+                        // value={selectedOption}
+                        onChange={this.handleChange}
+                        options={options}
+                        isClearable
+                        placeholder="Bathrooms"
+                        className="Bathrooms"
+                      />
                     </div>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-lg-6 col-md-6 col-sm-6">
                     <div className="form-group">
-                      <select className="selectpicker search-fields" name="balcony">
-                        <option>Balcony</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                      </select>
+                      <Select
+                        defaultValue={options[0].label}
+                        // value={selectedOption}
+                        onChange={this.handleChange}
+                        options={options}
+                        isClearable
+                        placeholder="Balcony"
+                        className="Balcony"
+                      />
                     </div>
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6">
                     <div className="form-group">
-                      <select className="selectpicker search-fields" data-live-search="true" name="garage">
-                        <option>Garage</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                      </select>
+                      <Select
+                        defaultValue={options[0].label}
+                        // value={selectedOption}
+                        onChange={this.handleChange}
+                        options={options}
+                        isClearable
+                        placeholder="Garage"
+                        className="Garage"
+                      />
                     </div>
                   </div>
                 </div>
                 <div className="range-slider">
                   <label>Area</label>
-                  <div data-min={0} data-max={10000} data-unit="Sq ft" data-min-name="min_area" data-max-name="max_area" className="range-slider-ui ui-slider" aria-disabled="false" />
+                  <div data-min={0} data-max={10000} data-unit="Sq ft" data-min-name="min_area" data-max-name="max_area" className="range-slider-ui ui-slider" aria-disabled="false" ></div>
                   <div className="clearfix" />
                 </div>
                 <div className="range-slider">

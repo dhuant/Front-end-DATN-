@@ -49,7 +49,7 @@ class MainHeader extends Component {
                             >
                                 <ul className="nav navbar-nav">
                                     <li>
-                                        <a href="true" onClick={this.onRedirectHome}>
+                                        <a href="true" onClick={this.onRedirectHome} data-toggle="dropdown active">
                                             Home
                                         </a>
                                     </li>
@@ -233,7 +233,7 @@ class MainHeader extends Component {
                                                             href="blog-classic-sidebar-right.html"
                                                         >
                                                             Right Sidebar
-                              </a>
+                                                        </a>
                                                     </li>
                                                     <li>
                                                         <a
@@ -241,7 +241,7 @@ class MainHeader extends Component {
                                                             href="blog-classic-sidebar-left.html"
                                                         >
                                                             Left Sidebar
-                              </a>
+                                                        </a>
                                                     </li>
                                                     <li>
                                                         <a
@@ -249,7 +249,7 @@ class MainHeader extends Component {
                                                             href="blog-classic-fullwidth.html"
                                                         >
                                                             FullWidth
-                              </a>
+                                                        </a>
                                                     </li>
                                                 </ul>
                                             </li>
@@ -262,7 +262,7 @@ class MainHeader extends Component {
                                                             href="blog-columns-2col.html"
                                                         >
                                                             2 Columns
-                              </a>
+                                                        </a>
                                                     </li>
                                                     <li>
                                                         <a
@@ -270,7 +270,7 @@ class MainHeader extends Component {
                                                             href="blog-columns-3col.html"
                                                         >
                                                             3 Columns
-                              </a>
+                                                        </a>
                                                     </li>
                                                 </ul>
                                             </li>
@@ -283,7 +283,7 @@ class MainHeader extends Component {
                                                             href="blog-single-sidebar-right.html"
                                                         >
                                                             Right Sidebar
-                              </a>
+                                                        </a>
                                                     </li>
                                                     <li>
                                                         <a
@@ -291,7 +291,7 @@ class MainHeader extends Component {
                                                             href="blog-single-sidebar-left.html"
                                                         >
                                                             Left Sidebar
-                              </a>
+                                                        </a>
                                                     </li>
                                                     <li>
                                                         <a
@@ -299,7 +299,7 @@ class MainHeader extends Component {
                                                             href="blog-single-fullwidth.html"
                                                         >
                                                             Fullwidth
-                              </a>
+                                                        </a>
                                                     </li>
                                                 </ul>
                                             </li>

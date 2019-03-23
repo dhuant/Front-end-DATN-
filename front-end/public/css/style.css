@@ -992,12 +992,18 @@ input[type=checkbox]:checked + label:before {
     border-radius: 2px;
     border: none;
     width: 100%;
+    background: #95c41f;
 }
 
 .search-button:hover,
 .search-button:focus {
     outline: none;
     color: #fff;
+}
+
+.search-button:hover {
+    color: #fff;
+    background: #84ad1d;
 }
 
 .banner-search-box {
@@ -4030,18 +4036,8 @@ a:hover {
     background-position: 0 0;
 }
 
-.range-slider .ui-slider .ui-slider-handle {
-}
-
 .range-slider .ui-widget-content {
     background-color: #ccc;
-}
-
-.range-slider .ui-widget-header {
-}
-
-.range-slider .ui-slider.ui-state-disabled .ui-slider-handle, .range-slider .ui-slider.ui-state-disabled .ui-slider-range {
-    filter: inherit;
 }
 
 .range-slider .ui-slider-horizontal {
@@ -4049,6 +4045,10 @@ a:hover {
     border-radius: 10px;
     width: calc(100% - 16px);
     margin-left: 8px;
+}
+
+.range-slider .ui-slider.ui-state-disabled .ui-slider-handle, .range-slider .ui-slider.ui-state-disabled .ui-slider-range {
+    filter: inherit;
 }
 
 .range-slider .ui-slider-horizontal .ui-slider-range {
