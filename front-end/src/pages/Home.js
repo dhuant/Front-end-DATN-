@@ -5,23 +5,73 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import MainHeader from '../components/MainHeader';
 import { withRouter } from 'react-router-dom';
-import Select from 'react-select'
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-];
+import * as actions from '../actions/request';
+// import { Select } from 'antd';
+import { connect } from 'react-redux';
 
+const Types = [
+    { value: 'sell', label: 'Sell' },
+    { value: 'sold', label: 'Sold' },
+    { value: 'rented', label: 'Rent' },
+];
+const ProvinceData = [
+    { value: 'hochiminh', label: 'Hồ Chí Minh' },
+    { value: 'hanoi', label: 'Hà Nội' }];
+const DistrictData = {
+    hochiminh: ['Quận 1', 'Quận 2', 'Tân Phú'],
+    hanoi: ['Hoàn Kiếm', 'Ba Đình', 'Đống Đa'],
+};
+
+const Area = [
+    { value: '30-50', label: '30 - 50 m2' },
+    { value: '70-110', label: '70 - 110 m2' },
+];
+const Price = [
+    { value: '1000-10000', label: '1000 - 10000' },
+    { value: '10000-20000', label: '10000 - 20000' },
+];
 class Home extends Component {
     constructor() {
         super();
         this.state = {
-            selectedOption: null,
+            type: Types[0].value,
+            province: ProvinceData[0].label,
+            districts: DistrictData[ProvinceData[0].value],
+            district: DistrictData[ProvinceData[0].value][0],
+            area: Area[0].value,
+            price: Price[0].value,
         };
     }
-    handleChange = (selectedOption) => {
-        this.setState({ selectedOption });
-        console.log(`Option selected:`, selectedOption);
+    handleProvinceChange = (e) => {
+        let target = e.target;
+        let name = target.name;
+        let value = target.value;
+        const result = ProvinceData.find(city => city.label === value);
+        this.setState({
+            [name]: value,
+            districts: DistrictData[result.value],
+            district: DistrictData[result.value][0],
+        });
+
+    }
+    handleOnChange = (e) => {
+        let target = e.target;
+        let name = target.name;
+        let value = target.value;
+        this.setState({
+            [name]: value,
+        });
+    }
+    onSearch = (e) => {
+        e.preventDefault();
+        let data = {
+            type: this.state.type,
+            address: `${this.state.district}, ${this.state.province}`,
+            area: this.state.area,
+            price: this.state.price
+        }
+        console.log(data);
+        this.props.actGetListEstatesFromFormSearch(data);
     }
     componentDidMount() {
         // if (localStorage.getItem('token') !=== 'true' || ) {
@@ -37,10 +87,16 @@ class Home extends Component {
         this.props.history.push("/properties");
     }
     render() {
-        const { selectedOption } = this.state;
+        let { type, province, districts, district, area, price } = this.state;
+        console.log(type);
+        console.log(province);
+        console.log(district);
+        console.log(area);
+        console.log(price);
+
         return (
             <div>
-                
+
                 <MainHeader />
 
                 {
@@ -184,70 +240,108 @@ class Home extends Component {
                                         <div className="row">
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                 <div className="form-group">
-                                                    <Select
-                                                        defaultValue={options[0].label}
-                                                        // value={selectedOption}
-                                                        onChange={this.handleChange}
-                                                        options={options}
-                                                        isClearable
-                                                        name="Area from"
-                                                        className="Area from"
-                                                    />  
+                                                    <label>
+                                                        Loại nhà đất
+                                                </label>
+                                                    <select className="form-control"
+                                                        name="type"
+                                                        value={type}
+                                                        onChange={this.handleOnChange}
+                                                        id="sel1">
+                                                        {Types.map((type, index) => <option key={index} value={type.value}>{type.label}</option>)}
+
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                 <div className="form-group">
-                                                <Select
-                                                        defaultValue={options[0].label}
-                                                        // value={selectedOption}
-                                                        onChange={this.handleChange}
-                                                        options={options}
-                                                        isClearable
-                                                        name="Property Status"
-                                                        className="Property Status"
-                                                    />  
+                                                    <label>
+                                                        Thành phố
+                                                </label>
+                                                    <select className="form-control"
+                                                        name="province"
+                                                        value={province}
+                                                        onChange={this.handleProvinceChange}
+                                                        id="sel1">
+                                                        {ProvinceData.map((province, index) => <option key={index} value={province.label}>{province.label}</option>)}
+
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                 <div className="form-group">
-                                                    <Select
-                                                        defaultValue={options[0].label}
-                                                        // value={selectedOption}
-                                                        onChange={this.handleChange}
-                                                        options={options}
-                                                        isClearable
-                                                        name="Location"
-                                                    />  
+                                                    <label>
+                                                        Quận
+                                                </label>
+                                                    <select className="form-control"
+                                                        name="district"
+                                                        value={district}
+                                                        onChange={this.handleOnChange}
+                                                        id="sel2">
+                                                        {districts.map((district, index) => <option key={index} value={district}>{district}</option>)}
+
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                 <div className="form-group">
-                                                    <Select
-                                                        defaultValue={options[0].label}
-                                                        // value={selectedOption}
-                                                        onChange={this.handleChange}
-                                                        options={options}
-                                                        isClearable
-                                                        name="Property Types"
-                                                    />  
+                                                    <label>
+                                                        Diện tích
+                                                </label>
+                                                    <select className="form-control"
+                                                        name="area"
+                                                        value={area}
+                                                        onChange={this.handleOnChange}
+                                                        id="sel2">
+                                                        {Area.map((area, index) => <option key={index} value={area.value}>{area.label}</option>)}
+
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                 <div className="form-group">
-                                                    <Select
-                                                        defaultValue={options[0].label}
-                                                        // value={selectedOption}
-                                                        onChange={this.handleChange}
-                                                        options={options}
-                                                        isClearable
-                                                        name="Bedrooms"
-                                                    />  
+                                                    <label>
+                                                        Giá
+                                                </label>
+                                                    <select className="form-control"
+                                                        name="price"
+                                                        value={price}
+                                                        onChange={this.handleOnChange}
+                                                        id="sel2">
+                                                        {Price.map((price, index) => <option key={index} value={price.value}>{price.label}</option>)}
+
+                                                    </select>
                                                 </div>
                                             </div>
+                                            {/* <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+
+                                                <Select
+                                                    defaultValue={provinceData[0]}
+                                                    style={{ width: 120 }}
+                                                    onChange={this.handleProvinceChange}
+                                                >
+                                                    {provinceData.map(province => <Option key={province}>{province}</Option>)}
+                                                </Select>
+                                            </div>
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+
+                                                <Select
+                                                    style={{ width: 120 }}
+                                                    value={this.state.secondCity}
+                                                    onChange={this.onSecondCityChange}
+                                                >
+                                                    {cities.map(city => <Option key={city}>{city}</Option>)}
+                                                </Select>
+                                            </div> */}
+                                            
+
+                                            {/* <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                 <div className="form-group">
+                                                <label>
+                                                    Loại nhà đất
+                                                </label>
                                                 <Select
 
                                                         // value={selectedOption}
@@ -260,6 +354,9 @@ class Home extends Component {
                                             </div>
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                 <div className="form-group">
+                                                <label>
+                                                    Loại nhà đất
+                                                </label>
                                                     <div className="range-slider">
                                                         <div
                                                             data-min={0}
@@ -273,10 +370,11 @@ class Home extends Component {
                                                         <div className="clearfix" />
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 ">
+                                                <br />
                                                 <div className="form-group">
-                                                    <button className="search-button">Search</button>
+                                                    <button onClick={this.onSearch} className="search-button" type="submit">Search</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1374,5 +1472,14 @@ class Home extends Component {
         );
     }
 }
-
-export default (withRouter(Home));
+const mapDispathToProp = (dispatch) => {
+    return {
+        actGetListEstatesFromFormSearch: (data) => dispatch(actions.actGetListEstatesFromFormSearch(data))
+    }
+}
+const mapStateToProp = (state) => {
+    return {
+        estates: state.estates
+    }
+}
+export default connect(mapStateToProp, mapDispathToProp)(withRouter(Home));
