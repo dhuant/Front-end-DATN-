@@ -1,10 +1,14 @@
-import * as Types from './../constants/ActionTypes';
+import * as Types from '../constants/ActionTypes';
+//Lấy list Estates xung quanh 1 location nhất định
 var initialState = [];
 const estates = (state = initialState, action) => {
     // var index = -1;
     // var { id, estate } = action;
     switch (action.type) {
-        case Types.FETCH_ESTATES:
+        case Types.FETCH_ESTATES_AROUND_CURRENT_LOCATION:
+            state = action.estates;
+            return [...state];
+        case Types.GET_LIST_ESTATE_FROM_FORM_SEARCH:
             state = action.estates;
             return [...state];
         default: return [...state];

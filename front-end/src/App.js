@@ -12,6 +12,8 @@ import EstateList from './pages/EstateList'
 import MyEstateList from './pages/MyEstateList'
 import ChangePassword from './pages/ChangePassword'
 import NotFound from './pages/404'
+import test from './pages/test'
+
 
 class App extends Component {
   render() {
@@ -19,16 +21,17 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Switch>
+            <Route exact path='/test' component={test} />
             <Route exact path='/' component={Home} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/login2' component={Login2} />
-            <Route exact path='/submitproperty' component={SubmitProperty}/>
+            <Route exact path='/submitproperty' component={SubmitProperty} />
             <Route exact path='/maps' component={Map} />
             <Route exact path='/profile' component={Profile} />
             <Route exact path='/properties/:id' component={Properties} />
             <Route exact path='/estatelist' component={EstateList} />
             <Route exact path='/myproperties' component={MyEstateList} />
-            <Route exact path="/changepassword" component={ChangePassword}/>
+            <Route exact path="/changepassword" component={ChangePassword} />
             <Route exact path='/properties' component={Properties} />
             <Route exact path='' component={NotFound}/>
           </Switch>
