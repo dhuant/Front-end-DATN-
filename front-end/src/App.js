@@ -11,6 +11,7 @@ import Properties from './pages/Properties'
 import EstateList from './pages/EstateList'
 import MyEstateList from './pages/MyEstateList'
 import ChangePassword from './pages/ChangePassword'
+import NotFound from './pages/404'
 
 class App extends Component {
   render() {
@@ -29,6 +30,7 @@ class App extends Component {
             <Route exact path='/myproperties' component={MyEstateList} />
             <Route exact path="/changepassword" component={ChangePassword}/>
             <Route exact path='/properties' component={Properties} />
+            <Route exact path='' component={NotFound}/>
           </Switch>
         </div>
       </BrowserRouter>

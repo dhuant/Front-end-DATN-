@@ -1,13 +1,51 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { GoogleLogin } from 'react-google-login';
+import * as Config from '../constants/Config'
+
 class Login extends Component {
     constructor() {
         super();
         this.state = {
             email: '',
             password: '',
-            error: ''
+            error: '',
+            isAuthenticated: false,
+            user: null,
+            token: ''
         };
+    }
+    logout = () => {
+        this.setState({
+            isAuthenticated: false,
+            token: '', user: null
+        })
+    };
+    googleResponse = (response) => {
+        // const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type : 'application/json'});
+        // const options = {
+        //     method: 'POST',
+        //     body: tokenBlob,
+        //     mode: 'cors',
+        //     cache: 'default'
+        // };
+        // fetch('http://localhost:3001/api/v1/auth/google', options).then(r => {
+        //     const token = r.headers.get('x-auth-token');
+        //     r.json().then(user => {
+        //         if (token) {
+        //             this.setState({isAuthenticated: true, user, token})
+        //         }
+        //     });
+        // })
+        if(response.Zi.accessToken !== null){
+            localStorage.setItem('accessToken', response.Zi.access_token);
+        }
+        this.props.history.goBack();
+        console.log(response);
+        console.log(response.Zi.access_token);   
+    };
+    onFailure = (error) => {
+        alert(error);
     }
     componentDidMount() {
         if (localStorage.getItem('token') === 'true') {
@@ -34,7 +72,7 @@ class Login extends Component {
             "Access-Control-Allow-Origin": "*",
         }
         //alert('Email address is ' + this.state.email + ' Password is ' + this.state.password);
-        axios.post('http://localhost:3001/users/login',{
+        axios.post('http://localhost:3001/users/login', {
             email: this.state.email,
             password: this.state.password
         }, headers)
@@ -69,7 +107,41 @@ class Login extends Component {
         //   })
     }
     render() {
-
+        let content = !!this.state.isAuthenticated ?
+            (
+                <div>
+                    <p>Authenticated</p>
+                    <div>
+                        {this.state.user.email}
+                    </div>
+                    <div>
+                        <button onClick={this.logout} className="button">
+                            Log out
+                        </button>
+                    </div>
+                </div>
+            ) :
+            (
+                <div>
+                    <GoogleLogin
+                        clientId={Config.GOOGLE_CLIENT_ID}
+                        buttonText="Login"
+                        render={renderProps => (
+                            <button
+                                onClick={renderProps.onClick}
+                                type="submit"
+                                className="button-google btn-block"
+                                style={{ border: "solid 1px black" }}
+                            >
+                                <img src="/images/icons/icon-google.png" alt="GOOGLE" style={{ marginRight: "10px", width: "18px" }} />
+                                Login With Google
+                            </button>
+                        )}
+                        onSuccess={this.googleResponse}
+                        onFailure={this.onFailure}
+                    />
+                </div>
+            );
         return (
             <div className="content-area">
                 <div className="container">
@@ -90,12 +162,12 @@ class Login extends Component {
                                         action="http://themevessel-item.s3-website-us-east-1.amazonaws.com/nest/index.html"
                                         method="GET"
                                     >
-                                        <div style={{ marginBottom: '10px' }}>
+                                        {/* <div style={{ marginBottom: '10px' }}>
                                             <a className="btn-google m-b-20" href>
                                                 <img src="images/icons/icon-google.png" alt="GOOGLE" />
                                                 Google
                                             </a>
-                                        </div>
+                                        </div> */}
                                         <div className="form-group">
                                             <input
                                                 onChange={this.handleEmailChange}
@@ -137,6 +209,10 @@ class Login extends Component {
                                             >
                                                 login
                                             </button>
+                                            <br />
+                                            <div className="App">
+                                                {content}
+                                            </div>
                                         </div>
                                     </form>
                                     {/* Form end */}

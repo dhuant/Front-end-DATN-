@@ -55,8 +55,19 @@ class Login2 extends Component {
             (
                 <div>
                     <GoogleLogin
-                        clientId = {Config.GOOGLE_CLIENT_ID}
+                        clientId={Config.GOOGLE_CLIENT_ID}
                         buttonText="Login"
+                        render={renderProps => (
+                            <button
+                                onClick={renderProps.onClick}
+                                type="submit"
+                                className="button-google btn-block"
+                                style={{ border: "solid 1px black" }}
+                            >
+                                <img src="/images/icons/icon-google.png" alt="GOOGLE" style={{ marginRight: "10px", width: "18px" }} />
+                                Login With Google
+                            </button>
+                        )}
                         onSuccess={this.googleResponse}
                         onFailure={this.onFailure}
                     />

@@ -4,6 +4,7 @@ class MainHeader extends Component {
     onSubmitProperty = (e) => {
         e.preventDefault();
         this.props.history.push('/submitproperty');
+       
     }
     onRedirectHome = (e) => {
         e.preventDefault();
@@ -17,7 +18,39 @@ class MainHeader extends Component {
         e.preventDefault();
         this.props.history.push('/profile');
     }
+    onSignOut = (e) => {
+        e.preventDefault();
+        this.props.history.push('/');
+        localStorage.removeItem('accessToken');
+    }
+    
+    onAfterLogin = (token) => {
+        if (token !== null)
+            return (<React.Fragment>
+                <li>
+                    <a href="true" onClick={this.onHandleProfile} className="button" style={{ marginRight: '5px' }}>
+                        <i className="fa fa-user" /> Account
+                                        </a>
+                </li>
+                <li>
+                    <a href="true" onClick={this.onSignOut} className="button-signout" style={{ marginRight: '5px', color: 'red', border: '1px solid red' }}>
+                        <i className="fa fa-sign-out" /> Sign Out
+                                                </a>
+                </li>
+            </React.Fragment>);
+        else if (token === null)
+            return (
+                <li>
+                    <a href="true" onClick={this.onLogin} className="button" style={{ marginRight: '5px' }}>
+                        <i className="fa fa-sign-in" /> Login
+                                                </a>
+                </li>
+
+            );
+    }
     render() {
+        let token = localStorage.getItem('accessToken');
+
         return (
             <div>
                 <header className="main-header">
@@ -312,16 +345,8 @@ class MainHeader extends Component {
                                             Submit Property
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="true" onClick={this.onLogin} className="button" style={{ marginRight: '5px' }}>
-                                            <i className="fa fa-sign-in" /> Login
-                                                </a>
-                                    </li>
-                                    <li>
-                                        <a href="true" onClick={this.onHandleProfile} className="button">
-                                            <i className="fa fa-user" /> Account
-                                        </a>
-                                    </li>
+
+                                    {this.onAfterLogin(token)}
                                     {/* <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                         <ul className="top-social-media pull-right">
                                             
