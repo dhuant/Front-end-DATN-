@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import users from './users';
+import user from './user';
 import estates from './estates';
 import estateInfo from './InfoEstate'
 
 
 const appReducers = combineReducers({
-    users,
+    user,
     estates,
     estateInfo,
 });

@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { GoogleLogin } from 'react-google-login';
 import * as Config from '../constants/Config'
+import { withRouter } from 'react-router-dom';
+import * as actions from '../actions/request';
+// import { Select } from 'antd';
+import { connect } from 'react-redux';
+
 
 class Login extends Component {
     constructor() {
@@ -48,8 +53,7 @@ class Login extends Component {
         alert(error);
     }
     componentDidMount() {
-        if (localStorage.getItem('token') === 'true') {
-            // console.log('logged');
+        if (JSON.parse(localStorage.getItem('user'))) {
             this.props.history.push('/');
         }
     }
@@ -79,9 +83,10 @@ class Login extends Component {
             .then(res => {
                 console.log(res);
                 if (res.data.status === 200) {
-                    localStorage.setItem('token', true);
+                    localStorage.setItem('user', JSON.stringify(res.data));
+                    this.props.actGetInfoUser(res.data.id);
                     // console.log(res.data.result);
-                    this.props.history.push('/');
+                    //this.props.history.push(`/profile/${res.data.id}`);
                 } else {
                     this.setState({
                         error: 'Auth failed!!'
@@ -232,5 +237,14 @@ class Login extends Component {
         );
     }
 }
-
-export default Login;
+const mapDispathToProp = (dispatch) => {
+    return {
+        actGetInfoUser: (id) => dispatch(actions.actGetInfoUser(id))
+    }
+}
+const mapStateToProp = (state) => {
+    return {
+        
+    }
+}
+export default connect(mapStateToProp, mapDispathToProp)(withRouter(Login));

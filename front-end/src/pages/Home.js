@@ -74,8 +74,8 @@ class Home extends Component {
         this.props.actGetListEstatesFromFormSearch(data);
     }
     componentDidMount() {
-        // if (localStorage.getItem('token') !=== 'true' || ) {
-
+        // if (JSON.parse(localStorage.getItem('user'))) {
+        //     this.props.history.push('/')
         // }
     }
     onGoToMap = (e) => {

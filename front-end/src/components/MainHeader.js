@@ -4,7 +4,7 @@ class MainHeader extends Component {
     onSubmitProperty = (e) => {
         e.preventDefault();
         this.props.history.push('/submitproperty');
-       
+
     }
     onRedirectHome = (e) => {
         e.preventDefault();
@@ -21,21 +21,21 @@ class MainHeader extends Component {
     onSignOut = (e) => {
         e.preventDefault();
         this.props.history.push('/');
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem('user');
     }
-    
+
     onAfterLogin = (token) => {
         if (token !== null)
             return (<React.Fragment>
                 <li>
                     <a href="true" onClick={this.onHandleProfile} className="button" style={{ marginRight: '5px' }}>
                         <i className="fa fa-user" /> Account
-                                        </a>
+                    </a>
                 </li>
                 <li>
                     <a href="true" onClick={this.onSignOut} className="button-signout" style={{ marginRight: '5px', color: 'red', border: '1px solid red' }}>
                         <i className="fa fa-sign-out" /> Sign Out
-                                                </a>
+                    </a>
                 </li>
             </React.Fragment>);
         else if (token === null)
@@ -49,7 +49,7 @@ class MainHeader extends Component {
             );
     }
     render() {
-        let token = localStorage.getItem('accessToken');
+        let token = localStorage.getItem('user');
 
         return (
             <div>

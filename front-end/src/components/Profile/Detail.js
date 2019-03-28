@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 class Detail extends Component {
     render() {
+        let {user} = this.props;
+        console.log(user);
         return (
             <div>
                 <div className="my-address">
@@ -11,7 +13,7 @@ class Detail extends Component {
                     <form action="http://themevessel-item.s3-website-us-east-1.amazonaws.com/nest/index.html" method="GET">
                         <div className="form-group">
                             <label>Your Name</label>
-                            <input type="text" className="input-text" name="your name" placeholder="John Antony" />
+                            <input type="text" className="input-text" name="your name" placeholder="John Antony" value={user.fullname}/>
                         </div>
                         <div className="form-group">
                             <label>Your Title</label>
