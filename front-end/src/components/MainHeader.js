@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 class MainHeader extends Component {
+    constructor() {
+        super();
+        this.state = {
+            username: null
+        };
+    }
+
     onSubmitProperty = (e) => {
         e.preventDefault();
         this.props.history.push('/submitproperty');
-       
+
     }
     onRedirectHome = (e) => {
         e.preventDefault();
@@ -16,21 +23,30 @@ class MainHeader extends Component {
     }
     onHandleProfile = (e) => {
         e.preventDefault();
-        this.props.history.push('/profile');
+        let token = JSON.parse(localStorage.getItem('user'));
+        console.log(token.googleId);
+        // console.log(this.state.token);
+        if (token.id) {
+            this.props.history.push(`/profile/${token.id}`);
+        }
+        else {
+            this.props.history.push(`/profile/${token.googleId}`);
+        }
+
     }
     onSignOut = (e) => {
         e.preventDefault();
         this.props.history.push('/');
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem('user');
     }
-    
-    onAfterLogin = (token) => {
+
+    onAfterLogin = (token, name) => {
         if (token !== null)
             return (<React.Fragment>
                 <li>
                     <a href="true" onClick={this.onHandleProfile} className="button" style={{ marginRight: '5px' }}>
-                        <i className="fa fa-user" /> Account
-                                        </a>
+                        <i className="fa fa-user" /> {name}
+                    </a>
                 </li>
                 <li>
                     <a href="true" onClick={this.onSignOut} className="button-signout" style={{ marginRight: '5px', color: 'red', border: '1px solid red' }}>
@@ -49,8 +65,18 @@ class MainHeader extends Component {
             );
     }
     render() {
-        let token = localStorage.getItem('accessToken');
+        let token = localStorage.getItem('user');
 
+        // if(token.id){
+        //     this.setState({
+        //         username: token.username
+        //     })
+        // }
+        // else {
+        //     this.setState({
+        //         username: token.w3.ig
+        //     })
+        // }dd
         return (
             <div>
                 <header className="main-header">

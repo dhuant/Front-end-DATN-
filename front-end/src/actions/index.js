@@ -19,3 +19,10 @@ export const actGetListEstateFromFromSearch = (estates) => {
         estates: estates
     }
 }
+
+export const actSaveInfoUser = (user) => {
+    return {
+        type: Types.SAVE_INFO_USER,
+        user: user
+    }
+}

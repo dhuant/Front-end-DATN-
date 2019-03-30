@@ -8,11 +8,12 @@ import SubmitProperty from './pages/SubmitProperty'
 import Map from './pages/Map'
 import Profile from './pages/Profile'
 import Properties from './pages/Properties'
-import EstateList from './pages/EstateList'
+import EstateListGridView from './pages/EstateList_GridView'
 import MyEstateList from './pages/MyEstateList'
 import ChangePassword from './pages/ChangePassword'
 import NotFound from './pages/404'
 import test from './pages/test'
+import EstateListListView from './pages/EstateList_ListView'
 
 
 class App extends Component {
@@ -28,11 +29,13 @@ class App extends Component {
             <Route exact path='/submitproperty' component={SubmitProperty} />
             <Route exact path='/maps' component={Map} />
             <Route exact path='/profile' component={Profile} />
+            <Route exact path='/profile/:id' component={Profile} />
             <Route exact path='/properties/:id' component={Properties} />
-            <Route exact path='/estatelist' component={EstateList} />
+            <Route exact path='/estategridview' component={EstateListGridView} />
+            <Route exact path='/estatelistview' component={EstateListListView} />
             <Route exact path='/myproperties' component={MyEstateList} />
             <Route exact path="/changepassword" component={ChangePassword} />
-            <Route exact path='/properties' component={Properties} />
+            {/* <Route exact path='/properties' component={Properties} /> */}
             <Route exact path='' component={NotFound}/>
           </Switch>
         </div>
