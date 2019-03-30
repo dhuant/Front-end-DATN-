@@ -76,7 +76,7 @@ class Home extends Component {
         this.props.history.push('/estatelistview');
     }
     componentDidMount() {
-         // if (JSON.parse(localStorage.getItem('user'))) {
+        // if (JSON.parse(localStorage.getItem('user'))) {
         //     this.props.history.push('/')
         // }
     }

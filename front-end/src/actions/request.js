@@ -1,7 +1,6 @@
 import * as Action from './index';
 import callApi from './../utils/apiCaller';
-
-import {authHeader} from '../constants/authHeader'
+import {authHeader} from '../constants/autHeader'
 import {API_URL} from '../constants/Config';
 import axios from 'axios'
 
@@ -33,7 +32,11 @@ export const actGetInfoUser = (id) => {
     return dispatch => {
         return axios.get(`http://localhost:3001/users/info/${id}`, {headers:authHeader()}).then(res => {
             dispatch(Action.actSaveInfoUser(res.data))
+
             console.log(res.data);
         });
     }
 }
+
+        
+

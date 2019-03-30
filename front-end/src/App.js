@@ -28,7 +28,6 @@ class App extends Component {
             <Route exact path='/login2' component={Login2} />
             <Route exact path='/submitproperty' component={SubmitProperty} />
             <Route exact path='/maps' component={Map} />
-            <Route exact path='/profile' component={Profile} />
             <Route exact path='/profile/:id' component={Profile} />
             <Route exact path='/properties/:id' component={Properties} />
             <Route exact path='/estategridview' component={EstateListGridView} />

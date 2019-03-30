@@ -65,12 +65,14 @@ class Login extends Component {
     onFailure = (error) => {
         alert(error);
     }
+
     // componentDidMount() {
     //     if (JSON.parse(localStorage.getItem('user'))) {
     //         // console.log('logged');
     //         this.props.history.push('/');
     //     }
     // }
+
     handleEmailChange = (e) => {
         // console.log(e.target.value);
         this.setState({
@@ -105,6 +107,7 @@ class Login extends Component {
                     // console.log(res.data.result);
                     //this.props.history.push(`/profile/${res.data.id}`);
                     this.props.history.goBack();
+
                 } else {
                     this.setState({
                         error: 'Auth failed!!'
@@ -259,7 +262,6 @@ class Login extends Component {
 const mapDispathToProp = (dispatch) => {
     return {
         actGetInfoUser: (id) => dispatch(actions.actGetInfoUser(id)),
-        
     }
 }
 const mapStateToProp = (state) => {
