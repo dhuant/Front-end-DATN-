@@ -1,32 +1,37 @@
 import React from "react";
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, } from "react-google-maps";
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import { } from 'react-google-maps'
 import EstateMarker from "./EstateMarker";
 import { connect } from 'react-redux';
+import compass from '../../marker/compass.png'
 
-const EstatesMap = withScriptjs(withGoogleMap((props) =>{
+const EstatesMap = withScriptjs(withGoogleMap((props) => {
 
-  const markers = props.estates.map( estate => <EstateMarker
-                    key={estate._id}
-                    estate={estate}
-                    location={{lat: estate.lat, lng: estate.long}}
-                  />);
-            
+  const markers = props.estates.map(estate => <EstateMarker
+    key={estate._id}
+    estate={estate}
+    location={{ lat: estate.lat, lng: estate.long }}
+  />);
+
   return (
-      <GoogleMap
-        defaultZoom={14}
-        center={ { lat: 10.792502, lng: 106.6137603 } }
-        >
-        {markers}
-        {/* {props.isMarkerShown && <EstateMarker/>} */}
-      </GoogleMap>
-    );
-  }
+    <GoogleMap
+      defaultZoom={14}
+      center={{ lat: props.currentLocation.lat, lng: props.currentLocation.lng }}
+    >
+      {markers}
+      {props.isMarkerShown && <Marker
+        icon={compass}
+        position={{ lat: props.currentLocation.lat, lng: props.currentLocation.lng }}
+      />}
+    </GoogleMap>
+  );
+}
 ))
 
 
 const mapStateToProp = (state) => {
-	return {
-		estates: state.estates
-	}
+  return {
+    estates: state.estates
+  }
 }
-export default connect(mapStateToProp, null) (EstatesMap);
+export default connect(mapStateToProp, null)(EstatesMap);

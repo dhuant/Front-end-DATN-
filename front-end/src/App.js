@@ -13,6 +13,7 @@ import MyEstateList from './pages/MyEstateList'
 import ChangePassword from './pages/ChangePassword'
 import NotFound from './pages/404'
 import test from './pages/test'
+import HomeMap from './pages/Map/HomeMap'
 
 
 class App extends Component {
@@ -33,7 +34,8 @@ class App extends Component {
             <Route exact path='/myproperties' component={MyEstateList} />
             <Route exact path="/changepassword" component={ChangePassword} />
             <Route exact path='/properties' component={Properties} />
-            <Route exact path='' component={NotFound}/>
+            <Route exact path='/homemaps' component={HomeMap} />
+            <Route  path='' component={NotFound} />
           </Switch>
         </div>
       </BrowserRouter>

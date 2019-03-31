@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EstatesMaps from '../components/Map/EstatesMap'
+import EstatesMap from '../components/Map/EstatesMap'
 import axios from 'axios';
 import { connect } from 'react-redux';
 import * as Types from './../constants/ActionTypes';
@@ -16,12 +16,12 @@ const options = [
 	{ value: 'strawberry', label: 'Strawberry' },
 	{ value: 'vanilla', label: 'Vanilla' },
 ];
-const options2 =[
-	{value: 1},
-	{value: 2},
-	{value: 3},
-	{value: 4},
-];
+// const options2 =[
+// 	{value: 1},
+// 	{value: 2},
+// 	{value: 3},
+// 	{value: 4},
+// ];
 class Map extends Component {
 	constructor() {
 		super();
@@ -93,7 +93,7 @@ class Map extends Component {
 				<div className="map-content content-area container-fluid" >
 					<div className="col-xs-12 col-sm-12 col-md-5 col-md-push-7 col-lg-6 col-lg-push-6">
 						<div className="row">
-							<EstatesMaps
+							<EstatesMap
 								isMarkerShown
 								estates={this.props.estates}
 								googleMapURL={`https://maps.googleapis.com/maps/api/js?key=AIzaSyCaznvdfOL3vMLdqR729vJEWauyZp9-Ud8&v=3.exp&libraries=geometry,drawing,places`}
@@ -106,9 +106,9 @@ class Map extends Component {
 					<div className="col-xs-12 col-sm-12 col-md-7 col-md-pull-5 col-lg-6 col-lg-pull-6 map-content-sidebar">
 						<div className="title-area">
 							<h2 className="pull-left">Search</h2>
-							<a className="show-more-options pull-right" data-toggle="collapse" data-target="#options-content">
+							{/* <a className="show-more-options pull-right" data-toggle="collapse" data-target="#options-content">
 								<i className="fa fa-plus-circle" /> Show More Options
-          					</a>
+          					</a> */}
 							<div className="clearfix" />
 						</div>
 						<div className="properties-map-search">
@@ -218,61 +218,7 @@ class Map extends Component {
 											</div>
 										</div>
 									</div>
-									<label className="margin-t-10">Features</label>
-									<div className="row">
-										<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-											<div className="checkbox checkbox-theme checkbox-circle">
-												<input id="checkbox1" type="checkbox" />
-												<label htmlFor="checkbox1">
-													Free Parking
-                      	</label>
-											</div>
-											<div className="checkbox checkbox-theme checkbox-circle">
-												<input id="checkbox2" type="checkbox" />
-												<label htmlFor="checkbox2">
-													Air Condition
-                      </label>
-											</div>
-											<div className="checkbox checkbox-theme checkbox-circle">
-												<input id="checkbox3" type="checkbox" />
-												<label htmlFor="checkbox3">
-													Places to seat
-                      </label>
-											</div>
-											<div className="checkbox checkbox-theme checkbox-circle">
-												<input id="checkbox4" type="checkbox" />
-												<label htmlFor="checkbox4">
-													Swimming Pool
-                      </label>
-											</div>
-										</div>
-										<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-											<div className="checkbox checkbox-theme checkbox-circle">
-												<input id="checkbox5" type="checkbox" />
-												<label htmlFor="checkbox5">
-													Laundry Room
-                      </label>
-											</div>
-											<div className="checkbox checkbox-theme checkbox-circle">
-												<input id="checkbox6" type="checkbox" />
-												<label htmlFor="checkbox6">
-													Window Covering
-                      </label>
-											</div>
-											<div className="checkbox checkbox-theme checkbox-circle">
-												<input id="checkbox7" type="checkbox" />
-												<label htmlFor="checkbox7">
-													Central Heating
-                      </label>
-											</div>
-											<div className="checkbox checkbox-theme checkbox-circle">
-												<input id="checkbox8" type="checkbox" />
-												<label htmlFor="checkbox8">
-													Alarm
-                      </label>
-											</div>
-										</div>
-									</div>
+									
 								</div>
 							</div>
 
