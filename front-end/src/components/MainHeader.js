@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 class MainHeader extends Component {
+    constructor() {
+        super();
+        this.state = {
+            username: null
+        };
+    }
+
     onSubmitProperty = (e) => {
         e.preventDefault();
         this.props.history.push('/submitproperty');
@@ -16,13 +23,23 @@ class MainHeader extends Component {
     }
     onHandleProfile = (e) => {
         e.preventDefault();
-        this.props.history.push('/profile');
+        let token = JSON.parse(localStorage.getItem('user'));
+        console.log(token.googleId);
+        // console.log(this.state.token);
+        if (token.id) {
+            this.props.history.push(`/profile/${token.id}`);
+        }
+        else {
+            this.props.history.push(`/profile/${token.googleId}`);
+        }
+
     }
     onSignOut = (e) => {
         e.preventDefault();
         this.props.history.push('/');
         localStorage.removeItem('user');
     }
+
 
     onAfterLogin = (token) => {
         if (token !== null)
@@ -51,6 +68,16 @@ class MainHeader extends Component {
     render() {
         let token = localStorage.getItem('user');
 
+        // if(token.id){
+        //     this.setState({
+        //         username: token.username
+        //     })
+        // }
+        // else {
+        //     this.setState({
+        //         username: token.w3.ig
+        //     })
+        // }dd
         return (
             <div>
                 <header className="main-header">

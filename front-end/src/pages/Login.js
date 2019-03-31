@@ -27,44 +27,60 @@ class Login extends Component {
         })
     };
     googleResponse = (response) => {
-        // const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type : 'application/json'});
-        // const options = {
-        //     method: 'POST',
-        //     body: tokenBlob,
-        //     mode: 'cors',
-        //     cache: 'default'
-        // };
-        // fetch('http://localhost:3001/api/v1/auth/google', options).then(r => {
-        //     const token = r.headers.get('x-auth-token');
-        //     r.json().then(user => {
-        //         if (token) {
-        //             this.setState({isAuthenticated: true, user, token})
-        //         }
-        //     });
-        // })
-        if(response.Zi.accessToken !== null){
-            localStorage.setItem('accessToken', response.Zi.access_token);
-        }
-        this.props.history.goBack();
         console.log(response);
-        console.log(response.Zi.access_token);   
+        const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type : 'application/json'});
+        const options = {
+            method: 'POST',
+            body: tokenBlob,
+            mode: 'cors',
+            cache: 'default'
+        };
+        fetch('http://localhost:3001/users/auth/google', options).then(r => {
+            const token = r.headers.get('x-auth-token');
+            // console.log(r.json());  
+            r.json().then(user => {
+                if (token) {
+                    this.setState({isAuthenticated: true, user, token})
+                }
+            });
+        })
+        if(response.Zi.accessToken !== null){
+            localStorage.setItem('user', JSON.stringify(response));
+            console.log(response.accessToken);
+            console.log(response.googleId);
+            this.props.actGetInfoUser(response.googleId);
+            // this.props.actPostGoogleTokenRequest(response.accessToken);
+            // this.props.history.goBack();
+        }
+        else (
+            this.setState({ 
+                error: 'Auth failed!!'
+            })
+        )
+        this.props.history.goBack();
+    
+        console.log(response.googleId);   
+        
     };
     onFailure = (error) => {
         alert(error);
     }
-    componentDidMount() {
-        if (JSON.parse(localStorage.getItem('user'))) {
-            this.props.history.push('/');
-        }
-    }
+
+    // componentDidMount() {
+    //     if (JSON.parse(localStorage.getItem('user'))) {
+    //         // console.log('logged');
+    //         this.props.history.push('/');
+    //     }
+    // }
+
     handleEmailChange = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         this.setState({
             email: e.target.value
         })
     }
     handlePasswordChange = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         this.setState({
             password: e.target.value
         })
@@ -81,12 +97,17 @@ class Login extends Component {
             password: this.state.password
         }, headers)
             .then(res => {
-                console.log(res);
+                // console.log(res.data);
                 if (res.data.status === 200) {
+                    console.log(res.data);
+                    delete res.data.status;
                     localStorage.setItem('user', JSON.stringify(res.data));
                     this.props.actGetInfoUser(res.data.id);
+                    
                     // console.log(res.data.result);
                     //this.props.history.push(`/profile/${res.data.id}`);
+                    this.props.history.goBack();
+
                 } else {
                     this.setState({
                         error: 'Auth failed!!'
@@ -237,9 +258,10 @@ class Login extends Component {
         );
     }
 }
+
 const mapDispathToProp = (dispatch) => {
     return {
-        actGetInfoUser: (id) => dispatch(actions.actGetInfoUser(id))
+        actGetInfoUser: (id) => dispatch(actions.actGetInfoUser(id)),
     }
 }
 const mapStateToProp = (state) => {

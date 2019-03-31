@@ -8,6 +8,7 @@ import { withRouter } from 'react-router-dom';
 import * as actions from '../actions/request';
 // import { Select } from 'antd';
 import { connect } from 'react-redux';
+import {Link} from 'react-router-dom'
 
 const Types = [
     { value: 'sell', label: 'Sell' },
@@ -72,6 +73,7 @@ class Home extends Component {
         }
         console.log(data);
         this.props.actGetListEstatesFromFormSearch(data);
+        this.props.history.push('/estatelistview');
     }
     componentDidMount() {
         // if (JSON.parse(localStorage.getItem('user'))) {
@@ -116,7 +118,7 @@ class Home extends Component {
                         <div className="carousel-inner" role="listbox">
                             <div className="item banner-max-height active">
                                 <img
-                                    src="img/banner/banner-slider-1.jpg"
+                                    src="/img/banner/banner-slider-1.jpg"
                                     alt="banner-slider-1"
                                 />
                                 <div className="carousel-caption banner-slider-inner">
@@ -146,7 +148,7 @@ class Home extends Component {
                             </div>
                             <div className="item banner-max-height">
                                 <img
-                                    src="img/banner/banner-slider-2.jpg"
+                                    src="/img/banner/banner-slider-2.jpg"
                                     alt="banner-slider-2"
                                 />
                                 <div className="carousel-caption banner-slider-inner">
@@ -176,7 +178,7 @@ class Home extends Component {
                             </div>
                             <div className="item banner-max-height">
                                 <img
-                                    src="img/banner/banner-slider-3.jpg"
+                                    src="/img/banner/banner-slider-3.jpg"
                                     alt="banner-slider-3"
                                 />
                                 <div className="carousel-caption banner-slider-inner">
@@ -340,8 +342,7 @@ class Home extends Component {
                                                     {cities.map(city => <Option key={city}>{city}</Option>)}
                                                 </Select>
                                             </div> */}
-                                            
-
+                                        
                                             {/* <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                 <div className="form-group">
                                                 <label>

@@ -14,13 +14,16 @@ class Properties extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            error: ''
+            error: '',
+            
         }
     }
     componentDidMount(){
         this.props.actGetEstateRequest(this.props.match.params.id);
+        console.log(this.props.match.params.id);
         this.setState({
             error:'success'
+            
         })
     }
     render() {

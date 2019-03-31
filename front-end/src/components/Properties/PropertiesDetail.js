@@ -22,6 +22,8 @@ class PropertiesDetail extends Component {
     render() {
         const { selectedOption } = this.state;
         let { info } = this.props;
+        console.log(info);
+        
         return (
             <div>
                 <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
@@ -488,9 +490,9 @@ class PropertiesDetail extends Component {
 // 		actGetEstateRequest: (id) => dispatch(actions.actGetEstateRequest(id))
 // 	}
 // }
-const mapStateToProp = (state) => {
-    return {
-        info: state.estateInfo
-    }
-}
-export default connect(mapStateToProp, null)(PropertiesDetail);
+// const mapStateToProp = (state) => {
+//     return {
+//         info: state.estateInfo,
+//     }
+// }
+export default connect(null, null)(PropertiesDetail);

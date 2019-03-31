@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import Info from '../components/Profile/Info'
 import Footer from '../components/Footer';
-import Header from '../components/Header';
 import MainHeader from '../components/MainHeader';
 import Detail from '../components/Profile/Detail'
 import { PROFILE } from '../constants/Profile';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions/request';
+
 class Profile extends Component {
     componentDidMount(){
         this.props.actGetInfoUser(this.props.match.params.id);
+        console.log(this.props.match.params.id);
+
     }
     render() {
         let {user} = this.props;
@@ -51,6 +53,7 @@ class Profile extends Component {
         );
     }
 }
+
 const mapDispathToProp = (dispatch) => {
     return {
         actGetInfoUser: (id) => dispatch(actions.actGetInfoUser(id))
@@ -61,4 +64,5 @@ const mapStateToProp = (state) => {
         user: state.user
     }
 }
+
 export default connect(mapStateToProp,mapDispathToProp)(Profile);

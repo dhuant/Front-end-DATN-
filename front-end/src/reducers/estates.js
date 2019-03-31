@@ -10,6 +10,7 @@ const estates = (state = initialState, action) => {
             return [...state];
         case Types.GET_LIST_ESTATE_FROM_FORM_SEARCH:
             state = action.estates;
+            console.log(state);
             return [...state];
         default: return [...state];
     }
