@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import axios from 'axios';
 import { GoogleLogin } from 'react-google-login';
@@ -37,6 +38,7 @@ class Login extends Component {
         };
         fetch('http://localhost:3001/users/auth/google', options).then(r => {
             const token = r.headers.get('x-auth-token');
+            console.log(token);
             // console.log(r.json());  
             r.json().then(user => {
                 if (token) {

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
 
-
-const Option = Select.Option;
+// const Option = Select.Option;
 const provinceData = [{ value: 'hochiminh', label: 'Hồ Chí Minh' }, { value: 'hanoi', label: 'Hà Nội' }];
 const districtData = {
     hochiminh: ['Quận 1', 'Quận 2', 'Tân Phú'],

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import EstatesMaps from '../components/Map/EstatesMap'
 import axios from 'axios';

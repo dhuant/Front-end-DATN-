@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom'
+
 import { withRouter } from 'react-router-dom';
 import {MY_PROPERTIES, CHANGE_PASSWORD, SUBMIT_ESTATE, PROFILE} from '../../constants/Profile'
 

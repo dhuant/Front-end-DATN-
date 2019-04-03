@@ -2,13 +2,12 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 import React, { Component } from 'react';
 import Footer from '../components/Footer';
-import Header from '../components/Header';
 import MainHeader from '../components/MainHeader';
 import { withRouter } from 'react-router-dom';
 import * as actions from '../actions/request';
 // import { Select } from 'antd';
 import { connect } from 'react-redux';
-import {Link} from 'react-router-dom'
+import {HOME} from '../constants/Navbar'
 
 const Types = [
     { value: 'sell', label: 'Sell' },
@@ -99,7 +98,7 @@ class Home extends Component {
         return (
             <div>
 
-                <MainHeader />
+                <MainHeader component={HOME}/>
 
                 {
                     /* Banner start */

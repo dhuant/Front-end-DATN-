@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import Sidebar from './Sidebar';
 import { connect } from 'react-redux';
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-];
+// const options = [
+//     { value: 'chocolate', label: 'Chocolate' },
+//     { value: 'strawberry', label: 'Strawberry' },
+//     { value: 'vanilla', label: 'Vanilla' },
+// ];
 
 class PropertiesDetail extends Component {
     constructor() {
@@ -20,7 +20,7 @@ class PropertiesDetail extends Component {
         console.log(`Option selected:`, selectedOption);
     }
     render() {
-        const { selectedOption } = this.state;
+        
         let { info } = this.props;
         console.log(info);
         

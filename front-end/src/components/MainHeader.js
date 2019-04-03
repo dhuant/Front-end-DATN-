@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import {HOME, NEWS, ABOUT} from '../constants/Navbar'
+
 class MainHeader extends Component {
     constructor() {
         super();
@@ -17,6 +19,10 @@ class MainHeader extends Component {
         e.preventDefault();
         this.props.history.push('/');
     }
+    onNews = (e) => {
+        e.preventDefault();
+        this.props.history.push('/news')
+    }
     onLogin = (e) => {
         e.preventDefault();
         this.props.history.push('/login');
@@ -31,7 +37,9 @@ class MainHeader extends Component {
         }
         else {
             this.props.history.push(`/profile/${token.googleId}`);
+            
         }
+
 
     }
     onSignOut = (e) => {
@@ -108,47 +116,20 @@ class MainHeader extends Component {
                                 id="app-navigation"
                             >
                                 <ul className="nav navbar-nav">
-                                    <li>
+                                    <li className={this.props.component === HOME ? "active" : ""}>
                                         <a href="true" onClick={this.onRedirectHome} data-toggle="dropdown active">
                                             Home
                                         </a>
                                     </li>
-                                    <li>
+                                    <li className={this.props.component === ABOUT ? "active" : ""}>
                                         <a href="true" onClick={this.onRedirectHome}>
                                             About
                                         </a>
                                     </li>
-                                    <li className="dropdown">
-                                        <a
-                                            tabIndex={0}
-                                            data-toggle="dropdown"
-                                            data-submenu
-                                            aria-expanded="false"
-                                            href="true"
-                                        >
-                                            Account<span className="caret" />
+                                    <li className={this.props.component === NEWS ? "active" : ""}>
+                                        <a href="true" onClick={this.onNews}>
+                                            News
                                         </a>
-                                        <ul className="dropdown-menu">
-                                            <li>
-                                                <a href="agent-listing-grid.html">Agent grid</a>
-                                            </li>
-                                            <li>
-                                                <a href="agent-listing-grid-sidebar.html">
-                                                    Agent Grid sidebarbar
-                          </a>
-                                            </li>
-                                            <li>
-                                                <a href="agent-listing-row.html">Agent list</a>
-                                            </li>
-                                            <li>
-                                                <a href="agent-listing-row-sidebar.html">
-                                                    Agent List Sidebarbar
-                          </a>
-                                            </li>
-                                            <li>
-                                                <a href="agent-single.html">Agent Detail</a>
-                                            </li>
-                                        </ul>
                                     </li>
                                     <li className="dropdown mega-dropdown">
                                         <a
@@ -391,4 +372,4 @@ class MainHeader extends Component {
     }
 }
 
-export default (withRouter(MainHeader));
+export default withRouter(MainHeader);

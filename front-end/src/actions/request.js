@@ -1,7 +1,6 @@
 import * as Action from './index';
 import callApi from './../utils/apiCaller';
-import {authHeader} from '../constants/autHeader'
-import {API_URL} from '../constants/Config';
+import {authHeader} from '../constants/authHeader'
 import axios from 'axios'
 
 export const actFetchEstatesRequest = (info) => {
@@ -32,11 +31,27 @@ export const actGetInfoUser = (id) => {
     return dispatch => {
         return axios.get(`http://localhost:3001/users/info/${id}`, {headers:authHeader()}).then(res => {
             dispatch(Action.actSaveInfoUser(res.data))
-
             console.log(res.data);
         });
     }
 }
 
+export const actGetNewsByTypeRequest = (type) => {
+    return dispatch => {
+        return callApi(`news/all/${type}`, 'GET', null).then(res => {
+            dispatch(Action.actGetNewsByType(res.data.news));
+            console.log(res.data.news);
+        })
+    }
+}
+
+export const actGetNewsByIdRequest = (id) => {
+    return dispatch => {
+        return callApi(`news/${id}`, 'GET', null).then(res => {
+            dispatch(Action.actGetNewsById(res.data.news));
+            console.log(res.data.news);
+        })
+    }
+}
         
 

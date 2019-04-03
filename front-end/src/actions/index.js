@@ -26,3 +26,17 @@ export const actSaveInfoUser = (user) => {
         user: user
     }
 }
+
+export const actGetNewsByType = (news) => {
+    return {
+        type: Types.GET_NEWS_BY_TYPE,
+        news: news
+    }
+}
+
+export const actGetNewsById = (newsDetail) => {
+    return {
+        type: Types.GET_NEWS_BY_ID,
+        newsDetail: newsDetail
+    }
+}

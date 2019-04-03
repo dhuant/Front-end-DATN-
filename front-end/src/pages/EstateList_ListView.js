@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react'
 import SingleEstateListView from '../components/Properties/SingleEstateListView'
 import MainHeader from '../components/MainHeader'

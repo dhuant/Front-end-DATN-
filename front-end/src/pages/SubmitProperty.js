@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import Footer from '../components/Footer';
-import Header from '../components/Header';
+import { connect } from 'react-redux';
+// import * as Types from './../constants/ActionTypes';
+import * as actions from '../actions/request';
 import MainHeader from '../components/MainHeader';
 import { Link } from 'react-router-dom'
 import Select from 'react-select';
+import axios from 'axios'
+import { authHeader } from '../constants/authHeader';
 const options = [
     { value: 'chocolate', label: 'Chocolate' },
     { value: 'strawberry', label: 'Strawberry' },
@@ -21,11 +25,34 @@ class SubmitProperty extends Component {
         this.setState({ selectedOption });
         console.log(`Option selected:`, selectedOption);
     }
+    onSubmit = () => {
+        let ownid = JSON.parse(localStorage.getItem('user'));
+        let info = {
+            name: "Biệt phủ",
+            investor: "uscandymc",
+            price: 600000,
+            unit: 'triệu',
+            area: 800,
+            address: '277 Phan Đình Phùng, Phường 15, Phú Nhuận, Hồ Chí Minh, Việt Nam',
+            type: 'Biệt phủ',
+            info: 'Đang cập nhật',
+            lat: 10.7971632,
+            long: 106.6804359,
+            ownerid: ownid.id,
+            statusProject: 'sell'
+        };
+        console.log(info);
+        axios.post('http://localhost:3001/projects/', info, { headers: authHeader() })
+            .then(res => {
+                console.log(res);
+            });
+
+    }
     render() {
         const { selectedOption } = this.state;
         return (
             <div>
-                
+
                 <MainHeader />
                 {
                     /* Sub banner start */
@@ -208,7 +235,7 @@ class SubmitProperty extends Component {
                                                     />
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div className="main-title-2">
                                             <h1>
@@ -353,7 +380,7 @@ class SubmitProperty extends Component {
                                                 </div>
                                             </div>
                                             <div className="col-md-12">
-                                                <a href className="btn button-md button-theme">
+                                                <a href className="btn button-md button-theme" onClick={this.onSubmit}>
                                                     Preview
                                                 </a>
                                             </div>
@@ -374,4 +401,14 @@ class SubmitProperty extends Component {
     }
 }
 
-export default SubmitProperty;
+const mapDispathToProp = (dispatch) => {
+    return {
+        actFetchEstatesRequest: (info) => dispatch(actions.actFetchEstatesRequest(info))
+    }
+}
+const mapStateToProp = (state) => {
+    return {
+        user: state.user
+    }
+}
+export default connect(mapStateToProp, mapDispathToProp)(SubmitProperty);

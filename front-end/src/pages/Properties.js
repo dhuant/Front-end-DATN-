@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import PropertiesDetail from '../components/Properties/PropertiesDetail'
 import Footer from '../components/Footer';
-import Header from '../components/Header';
 import MainHeader from '../components/MainHeader';
-import axios from 'axios'
-import Sidebar from '../components/Properties/Sidebar'
 import { connect } from 'react-redux';
-import * as Types from './../constants/ActionTypes';
 import * as actions from '../actions/request';
 import {Link} from 'react-router-dom'
 

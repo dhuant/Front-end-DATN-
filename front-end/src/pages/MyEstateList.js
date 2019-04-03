@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Info from '../components/Profile/Info'
 import Footer from '../components/Footer'
-import Header from '../components/Header'
 import SingleProperty from '../components/Profile/SingleProperty'
 import { MY_PROPERTIES } from '../constants/Profile';
 import {Link} from 'react-router-dom'

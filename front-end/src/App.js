@@ -14,7 +14,8 @@ import ChangePassword from './pages/ChangePassword'
 import NotFound from './pages/404'
 import test from './pages/test'
 import EstateListListView from './pages/EstateList_ListView'
-
+import News from './pages/News'
+import NewsDetail from './pages/NewsDetail' 
 
 class App extends Component {
   render() {
@@ -34,6 +35,9 @@ class App extends Component {
             <Route exact path='/estatelistview' component={EstateListListView} />
             <Route exact path='/myproperties' component={MyEstateList} />
             <Route exact path="/changepassword" component={ChangePassword} />
+            <Route exact path="/news" component={News} />
+            <Route exact path="/news/:id" component={NewsDetail} />
+            
             {/* <Route exact path='/properties' component={Properties} /> */}
             <Route exact path='' component={NotFound}/>
           </Switch>
