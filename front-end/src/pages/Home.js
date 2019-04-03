@@ -83,6 +83,10 @@ class Home extends Component {
         e.preventDefault();
         this.props.history.push("/maps");
     }
+    onGoHomeMap = (e) => {
+        e.preventDefault();
+        this.props.history.push("/homemaps");
+    }
     onProperties = (e) => {
         e.preventDefault();
         this.props.history.push("/properties");
@@ -158,8 +162,9 @@ class Home extends Component {
                                         <a
                                             className="btn button-md button-theme"
                                             data-animation="animated fadeInUp delay-15s"
+                                            onClick={this.onGoHomeMap}
                                         >
-                                            Get Started Now
+                                            Get Home Maps
                                         </a>
                                         <a
                                             className="btn button-md border-button-theme"
