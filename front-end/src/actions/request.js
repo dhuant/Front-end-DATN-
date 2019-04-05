@@ -11,11 +11,13 @@ export const actFetchEstatesRequest = (info) => {
         });
     };
 }
+
+//Hàm này sử dụng cho việc lấy detail của 1 estate
 export const actGetEstateRequest = (id) => {
     return dispatch => {
         return callApi(`projects/${id}`, 'GET', null).then(res => {
-            dispatch(Action.actGetEstate(res.data.result));
-            console.log(res.data.result);
+            dispatch(Action.actGetEstate(res.data.project));
+            console.log(res.data.project);
         });
     }
 }
