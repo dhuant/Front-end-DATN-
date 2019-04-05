@@ -29,6 +29,7 @@ export default class Searching extends Component {
             id="autocomplete"
             placeholder="Enter your address"
             type="text"
+            style={{width: '100%', height: '40px', border: '2px solid #84ad1d', borderRadius: '5px'}}
           />
         );
       }

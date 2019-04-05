@@ -14,11 +14,39 @@ const options = [
     { value: 'vanilla', label: 'Vanilla' },
 ];
 
+const Types = [
+    { value: 'sell', label: 'Sell' },
+    { value: 'sold', label: 'Sold' },
+    { value: 'rented', label: 'Rent' },
+];
+const ProvinceData = [
+    { value: 'hochiminh', label: 'Hồ Chí Minh' },
+    { value: 'hanoi', label: 'Hà Nội' }];
+const DistrictData = {
+    hochiminh: ['Quận 1', 'Quận 2', 'Tân Phú'],
+    hanoi: ['Hoàn Kiếm', 'Ba Đình', 'Đống Đa'],
+};
+
+const Area = [
+    { value: '30-50', label: '30 - 50 m2' },
+    { value: '70-110', label: '70 - 110 m2' },
+];
+const Price = [
+    { value: '1000-10000', label: '1000 - 10000' },
+    { value: '10000-20000', label: '10000 - 20000' },
+];
+
 class SubmitProperty extends Component {
     constructor() {
         super();
         this.state = {
             selectedOption: null,
+            type: Types[0].value,
+            province: ProvinceData[0].label,
+            districts: DistrictData[ProvinceData[0].value],
+            district: DistrictData[ProvinceData[0].value][0],
+            area: Area[0].value,
+            price: Price[0].value,
         };
     }
     handleChange = (selectedOption) => {
@@ -50,6 +78,7 @@ class SubmitProperty extends Component {
     }
     render() {
         const { selectedOption } = this.state;
+        let { type, province, districts, district, area, price } = this.state;
         return (
             <div>
 
@@ -99,26 +128,29 @@ class SubmitProperty extends Component {
                                         </div>
                                         <div className="search-contents-sidebar mb-30">
                                             <div className="form-group">
-                                                <label>Property Title</label>
+                                                <label>Property Name</label>
                                                 <input
                                                     type="text"
                                                     className="input-text"
                                                     name="your name"
-                                                    placeholder="Property Title"
+                                                    placeholder="Property Name"
                                                 />
                                             </div>
                                             <div className="row">
-                                                <div className="col-md-6 col-sm-6">
+                                                <div className="col-md-3 col-sm-6">
                                                     <div className="form-group">
                                                         <label>Status</label>
-                                                        <Select
-                                                            value={selectedOption}
+                                                        <select className="form-control"
+                                                            name="type"
+                                                            value={type}
                                                             onChange={this.handleChange}
-                                                            options={options}
-                                                        />
+                                                            id="sel1">
+                                                            {Types.map((type, index) => <option key={index} value={type.value}>{type.label}</option>)}
+
+                                                        </select>
                                                     </div>
                                                 </div>
-                                                <div className="col-md-6 col-sm-6">
+                                                <div className="col-md-3 col-sm-6">
                                                     <div className="form-group">
                                                         <label>Type</label>
                                                         <Select
@@ -128,8 +160,8 @@ class SubmitProperty extends Component {
                                                         />
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="row">
+
+
                                                 <div className="col-md-3 col-sm-6">
                                                     <div className="form-group">
                                                         <label>Price</label>
@@ -152,7 +184,7 @@ class SubmitProperty extends Component {
                                                         />
                                                     </div>
                                                 </div>
-                                                <div className="col-md-3 col-sm-6">
+                                                {/* <div className="col-md-3 col-sm-6">
                                                     <div className="form-group">
                                                         <label>Rooms</label>
                                                         <Select
@@ -171,7 +203,7 @@ class SubmitProperty extends Component {
                                                             options={options}
                                                         />
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                         <div className="main-title-2">

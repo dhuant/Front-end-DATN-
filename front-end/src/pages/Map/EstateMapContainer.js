@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import EstatesMap from '../../components/Map/EstatesMap'
 import { connect } from 'react-redux';
 import * as actions from '../../actions/request';
+import Searching from './Searching'
 
 class EstateMapContainer extends Component {
     constructor(props) {
@@ -13,6 +14,9 @@ class EstateMapContainer extends Component {
                 lng: 106.6137603
             },
             isMarkerShown: false,
+            place: {
+                
+              }
         }
     }
     componentDidMount() {
@@ -22,7 +26,10 @@ class EstateMapContainer extends Component {
             long: this.state.currentLatLng.lng.toString(),
         };
         console.log(info);
-        this.props.actFetchEstatesRequest(info);
+        this.props.actFetchEstatesRequest(info); 
+    }
+    showPlaceDetails(place) {
+        this.setState({ place });
     }
     showCurrentLocation = () => {
         if (navigator.geolocation) {
@@ -53,20 +60,35 @@ class EstateMapContainer extends Component {
     // showCurrentLocation = () => {
     //     this.getLocation();
     // }
+    // getSnapshotBeforeUpdate(prevProps, prevState) {
+    //     if (prevState.currentLatLng.lat !== this.state.currentLatLng.lat) {
+    //         return this.state.currentLatLng;
+    //     }
+    // }
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     if (snapshot) {
+    //         let info = {
+    //             radius: 5,
+    //             lat: this.state.currentLatLng.lat.toString(),
+    //             long: this.state.currentLatLng.lng.toString(),
+    //         }
+    //         console.log(info);
+    //         this.props.actFetchEstatesRequest(info);
+    //     }
+    // }
     getSnapshotBeforeUpdate(prevProps, prevState) {
-        if (prevState.currentLatLng.lat !== this.state.currentLatLng.lat) {
-            return this.state.currentLatLng;
+        if (prevState.place !== this.state.place) {
+            return this.state.place;
         }
+        
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (snapshot) {
-            let info = {
-                radius: 5,
-                lat: this.state.currentLatLng.lat.toString(),
-                long: this.state.currentLatLng.lng.toString(),
-            }
-            console.log(info);
-            this.props.actFetchEstatesRequest(info);
+            let info = //
+                this.state.place.geometry.location
+            
+            console.log(JSON.stringify(info));
+            // this.props.actFetchEstatesRequest(info);
         }
     }
     // componentDidUpdate(){
@@ -83,9 +105,19 @@ class EstateMapContainer extends Component {
 
     render() {
         const { estates } = this.props;
-        console.log(estates);
+        let {place} = this.state;
+        console.log(place.ge);
+        
+        // // const { place } = 
+        // console.log(estates);
+        // let tmp = JSON.stringify(place.geometry, null, 2);
+        // console.log(tmp);
+
+        // let tmp2 = JSON.stringify(tmp.location, null, 2)
+        // console.log(JSON.stringify(place.geometry, null, 2));
         return (
             <div>
+                <Searching  onPlaceChanged = {this.showPlaceDetails.bind(this)}/>
                 <EstatesMap
                     isMarkerShown={this.state.isMarkerShown}
                     currentLocation={this.state.currentLatLng}
