@@ -5,27 +5,15 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/request';
 import MainHeader from '../components/MainHeader';
 import { Link } from 'react-router-dom'
-import Select from 'react-select';
 import axios from 'axios'
 import { authHeader } from '../constants/authHeader';
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-];
+import MapSearching from '../components/Map/MapSearching'
 
 const Types = [
-    { value: 'sell', label: 'Sell' },
-    { value: 'sold', label: 'Sold' },
-    { value: 'rented', label: 'Rent' },
+    { value: 'Căn hộ, Chung cư', label: 'Căn hộ, Chung cư' },
+    { value: 'Biệt thự', label: 'Biệt thự' },
+    { value: 'Nhà đất', label: 'Nhà đất' },
 ];
-const ProvinceData = [
-    { value: 'hochiminh', label: 'Hồ Chí Minh' },
-    { value: 'hanoi', label: 'Hà Nội' }];
-const DistrictData = {
-    hochiminh: ['Quận 1', 'Quận 2', 'Tân Phú'],
-    hanoi: ['Hoàn Kiếm', 'Ba Đình', 'Đống Đa'],
-};
 
 const Area = [
     { value: '30-50', label: '30 - 50 m2' },
@@ -35,39 +23,61 @@ const Price = [
     { value: '1000-10000', label: '1000 - 10000' },
     { value: '10000-20000', label: '10000 - 20000' },
 ];
-
+const Status = [
+    {value: 'sell', label: 'Sell'},
+    {value: 'rented', label: 'Rented'},
+    {value: 'sold', label: 'Sold'},
+    {value: 'rent', label: 'Rent'},
+];
 class SubmitProperty extends Component {
     constructor() {
         super();
         this.state = {
             selectedOption: null,
+            status: Status[0].value,
             type: Types[0].value,
-            province: ProvinceData[0].label,
-            districts: DistrictData[ProvinceData[0].value],
-            district: DistrictData[ProvinceData[0].value][0],
             area: Area[0].value,
             price: Price[0].value,
+            name: '',
+            description: ''
         };
     }
-    handleChange = (selectedOption) => {
-        this.setState({ selectedOption });
-        console.log(`Option selected:`, selectedOption);
+    // handleChange = (selectedOption) => {
+    //     this.setState({ selectedOption });
+    //     console.log(`Option selected:`, selectedOption);
+    // }
+    onHandleChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value });
     }
     onSubmit = () => {
-        let ownid = JSON.parse(localStorage.getItem('user'));
+        // let ownid = JSON.parse(localStorage.getItem('user'));
+        // let info = {
+        //     name: "Biệt phủ",
+        //     investor: "uscandymc",
+        //     price: 600000,
+        //     unit: 'triệu',
+        //     area: 800,
+        //     address: '277 Phan Đình Phùng, Phường 15, Phú Nhuận, Hồ Chí Minh, Việt Nam',
+        //     type: 'Biệt phủ',
+        //     info: 'Đang cập nhật',
+        //     lat: 10.7971632,
+        //     long: 106.6804359,
+        //     ownerid: ownid.id,
+        //     statusProject: 'sell'
+        // };
         let info = {
-            name: "Biệt phủ",
+            name: this.state.name,
             investor: "uscandymc",
-            price: 600000,
+            price: this.state.price,
             unit: 'triệu',
             area: 800,
-            address: '277 Phan Đình Phùng, Phường 15, Phú Nhuận, Hồ Chí Minh, Việt Nam',
-            type: 'Biệt phủ',
-            info: 'Đang cập nhật',
-            lat: 10.7971632,
-            long: 106.6804359,
-            ownerid: ownid.id,
-            statusProject: 'sell'
+            address: this.props.address.addressDetail,
+            type: this.state.type,
+            info: this.state.description,
+            lat: this.props.address.markerPosition.lat,
+            long: this.props.address.markerPosition.lng,
+            ownerid: "5ca7252d6f6dcf410404d1d1",
+            statusProject: this.state.status
         };
         console.log(info);
         axios.post('http://localhost:3001/projects/', info, { headers: authHeader() })
@@ -77,8 +87,10 @@ class SubmitProperty extends Component {
 
     }
     render() {
-        const { selectedOption } = this.state;
-        let { type, province, districts, district, area, price } = this.state;
+        // const { selectedOption } = this.state;
+        let { type} = this.state;
+        console.log(this.props.address)
+
         return (
             <div>
 
@@ -115,7 +127,7 @@ class SubmitProperty extends Component {
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                         Aenean ac tortor at tellus feugiat congue quis ut nunc.
                                         Semper ac dolor vitae accumsan.
-          </p>
+                                    </p>
                                 </div>
                             </div>
                             <div className="col-md-12">
@@ -132,8 +144,9 @@ class SubmitProperty extends Component {
                                                 <input
                                                     type="text"
                                                     className="input-text"
-                                                    name="your name"
+                                                    name="name"
                                                     placeholder="Property Name"
+                                                    onChange={this.onHandleChange}
                                                 />
                                             </div>
                                             <div className="row">
@@ -141,11 +154,11 @@ class SubmitProperty extends Component {
                                                     <div className="form-group">
                                                         <label>Status</label>
                                                         <select className="form-control"
-                                                            name="type"
+                                                            name="status"
                                                             value={type}
-                                                            onChange={this.handleChange}
-                                                            id="sel1">
-                                                            {Types.map((type, index) => <option key={index} value={type.value}>{type.label}</option>)}
+                                                            onChange={this.onHandleChange}
+                                                            >
+                                                            {Status.map((type, index) => <option key={index} value={type.value}>{type.label}</option>)}
 
                                                         </select>
                                                     </div>
@@ -153,11 +166,14 @@ class SubmitProperty extends Component {
                                                 <div className="col-md-3 col-sm-6">
                                                     <div className="form-group">
                                                         <label>Type</label>
-                                                        <Select
-                                                            value={selectedOption}
-                                                            onChange={this.handleChange}
-                                                            options={options}
-                                                        />
+                                                        <select className="form-control"
+                                                            name="type"
+                                                            value={type}
+                                                            onChange={this.onHandleChange}
+                                                            >
+                                                            {Types.map((type, index) => <option key={index} value={type.value}>{type.label}</option>)}
+
+                                                        </select>
                                                     </div>
                                                 </div>
 
@@ -168,111 +184,40 @@ class SubmitProperty extends Component {
                                                         <input
                                                             type="text"
                                                             className="input-text"
-                                                            name="your name"
+                                                            name="price"
                                                             placeholder="USD"
+                                                            onChange={this.onHandleChange}
                                                         />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-3 col-sm-6">
                                                     <div className="form-group">
-                                                        <label>Area/Location</label>
+                                                        <label>Area</label>
                                                         <input
                                                             type="text"
                                                             className="input-text"
-                                                            name="your name"
+                                                            name="area"
                                                             placeholder="SqFt"
+                                                            onChange={this.onHandleChange}
                                                         />
                                                     </div>
                                                 </div>
-                                                {/* <div className="col-md-3 col-sm-6">
-                                                    <div className="form-group">
-                                                        <label>Rooms</label>
-                                                        <Select
-                                                            value={selectedOption}
-                                                            onChange={this.handleChange}
-                                                            options={options}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="col-md-3 col-sm-6">
-                                                    <div className="form-group">
-                                                        <label>Bathroom</label>
-                                                        <Select
-                                                            value={selectedOption}
-                                                            onChange={this.handleChange}
-                                                            options={options}
-                                                        />
-                                                    </div>
-                                                </div> */}
+                                                
                                             </div>
                                         </div>
-                                        <div className="main-title-2">
-                                            <h1>
-                                                <span>Property</span> Gallery
-                                            </h1>
+                                        <div style={{paddingBottom: '80px'}}>
+                                            <MapSearching
+                                                google={this.props.google}
+                                                center={{ lat: 10.7625626, lng: 106.6805316 }}
+                                                height='300px'
+                                                zoom={15}
+                                            />
                                         </div>
-                                        <div
-                                            id="myDropZone"
-                                            className="dropzone dropzone-design mb-50"
-                                        >
-                                            <div className="dz-default dz-message">
-                                                <span>Drop files here to upload</span>
-                                            </div>
-                                        </div>
-                                        <div className="main-title-2">
-                                            <h1>
-                                                <span>Location</span>
-                                            </h1>
-                                        </div>
-                                        <div className="row mb-30 ">
-                                            <div className="col-md-6 col-sm-6">
-                                                <div className="form-group">
-                                                    <label>Address</label>
-                                                    <input
-                                                        type="text"
-                                                        className="input-text"
-                                                        name="address"
-                                                        placeholder="Address"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-6 col-sm-6">
-                                                <div className="form-group">
-                                                    <label>City</label>
-                                                    <Select
-                                                        value={selectedOption}
-                                                        onChange={this.handleChange}
-                                                        options={options}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-6 col-sm-6">
-                                                <div className="form-group">
-                                                    <label>Postal Code</label>
-                                                    <input
-                                                        type="text"
-                                                        className="input-text"
-                                                        name="zip"
-                                                        placeholder="Postal Code"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-6 col-sm-6">
-                                                <div className="form-group">
-                                                    <label>State</label>
-                                                    <Select
-                                                        value={selectedOption}
-                                                        onChange={this.handleChange}
-                                                        options={options}
-                                                    />
-                                                </div>
-                                            </div>
 
-                                        </div>
                                         <div className="main-title-2">
                                             <h1>
                                                 <span>Detailed</span> Information
-              </h1>
+                                            </h1>
                                         </div>
                                         <div className="row mb-30">
                                             <div className="col-md-12">
@@ -280,137 +225,17 @@ class SubmitProperty extends Component {
                                                     <label>Detailed Information</label>
                                                     <textarea
                                                         className="input-text"
-                                                        name="message"
+                                                        name="description"
                                                         placeholder="Detailed Information"
                                                         defaultValue={""}
+                                                        onChange={this.onHandleChange}
                                                     />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="row mb-30">
-                                            <div className="col-md-4 col-sm-4">
-                                                <div className="form-group">
-                                                    <label>
-                                                        Building Age <span>(optional)</span>
-                                                    </label>
-                                                    <Select
-                                                        value={selectedOption}
-                                                        onChange={this.handleChange}
-                                                        options={options}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4 col-sm-4">
-                                                <div className="form-group">
-                                                    <label>Bedrooms (optional)</label>
-                                                    <Select
-                                                        value={selectedOption}
-                                                        onChange={this.handleChange}
-                                                        options={options}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4 col-sm-4">
-                                                <div className="form-group">
-                                                    <label>Bathrooms (optional)</label>
-                                                    <Select
-                                                        value={selectedOption}
-                                                        onChange={this.handleChange}
-                                                        options={options}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-lg-12">
-                                                <label className="margin-t-10">
-                                                    Features (optional)
-                </label>
-                                                <div className="row">
-                                                    <div className="col-lg-4 col-sm-4 col-xs-12">
-                                                        <div className="checkbox checkbox-theme checkbox-circle">
-                                                            <input id="checkbox1" type="checkbox" />
-                                                            <label htmlFor="checkbox1">Free Parking</label>
-                                                        </div>
-                                                        <div className="checkbox checkbox-theme checkbox-circle">
-                                                            <input id="checkbox2" type="checkbox" />
-                                                            <label htmlFor="checkbox2">Air Condition</label>
-                                                        </div>
-                                                        <div className="checkbox checkbox-theme checkbox-circle">
-                                                            <input id="checkbox3" type="checkbox" />
-                                                            <label htmlFor="checkbox3">
-                                                                Places to seat
-                      </label>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-lg-4 col-sm-4 col-xs-12">
-                                                        <div className="checkbox checkbox-theme checkbox-circle">
-                                                            <input id="checkbox4" type="checkbox" />
-                                                            <label htmlFor="checkbox4">Swimming Pool</label>
-                                                        </div>
-                                                        <div className="checkbox checkbox-theme checkbox-circle">
-                                                            <input id="checkbox5" type="checkbox" />
-                                                            <label htmlFor="checkbox5">Laundry Room</label>
-                                                        </div>
-                                                        <div className="checkbox checkbox-theme checkbox-circle">
-                                                            <input id="checkbox6" type="checkbox" />
-                                                            <label htmlFor="checkbox6">
-                                                                Window Covering
-                      </label>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-lg-4 col-sm-4 col-xs-12">
-                                                        <div className="checkbox checkbox-theme checkbox-circle">
-                                                            <input id="checkbox7" type="checkbox" />
-                                                            <label htmlFor="checkbox7">
-                                                                Central Heating
-                      </label>
-                                                        </div>
-                                                        <div className="checkbox checkbox-theme checkbox-circle">
-                                                            <input id="checkbox8" type="checkbox" />
-                                                            <label htmlFor="checkbox8">Alarm</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="main-title-2">
-                                            <h1>
-                                                <span>Contact</span> Details
-              </h1>
-                                        </div>
+                                        
                                         <div className="row">
-                                            <div className="col-md-4 col-sm-4">
-                                                <div className="form-group">
-                                                    <label>Name</label>
-                                                    <input
-                                                        type="text"
-                                                        className="input-text"
-                                                        name="name"
-                                                        placeholder="Name"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4 col-sm-4">
-                                                <div className="form-group">
-                                                    <label>Email</label>
-                                                    <input
-                                                        type="email"
-                                                        className="input-text"
-                                                        name="email"
-                                                        placeholder="Email"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4 col-sm-4">
-                                                <div className="form-group">
-                                                    <label>Phone (optional)</label>
-                                                    <input
-                                                        type="text"
-                                                        className="input-text"
-                                                        name="phone"
-                                                        placeholder="Phone"
-                                                    />
-                                                </div>
-                                            </div>
+                                            
                                             <div className="col-md-12">
                                                 <a href className="btn button-md button-theme" onClick={this.onSubmit}>
                                                     Preview
@@ -440,7 +265,8 @@ const mapDispathToProp = (dispatch) => {
 }
 const mapStateToProp = (state) => {
     return {
-        user: state.user
+        user: state.user,
+        address: state.address
     }
 }
 export default connect(mapStateToProp, mapDispathToProp)(SubmitProperty);

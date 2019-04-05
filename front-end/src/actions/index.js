@@ -40,3 +40,10 @@ export const actGetNewsById = (newsDetail) => {
         newsDetail: newsDetail
     }
 }
+
+export const actSaveLocationInfo = (address) => {
+    return {
+        type: Types.SAVE_LOCATION_INFO,
+        address: address
+    }
+}

@@ -5,6 +5,7 @@ import news from './news'
 import newsDetail from './newsdetail'
 import estateInfo from './InfoEstate';
 import location from './Map/location'
+import address from './address'
 
 const appReducers = combineReducers({
     user,
@@ -12,7 +13,8 @@ const appReducers = combineReducers({
     estateInfo,
     news,
     newsDetail,
-    location
+    location,
+    address
 });
 
 export default appReducers;

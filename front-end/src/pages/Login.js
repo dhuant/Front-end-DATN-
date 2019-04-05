@@ -36,11 +36,11 @@ class Login extends Component {
             mode: 'cors',
             cache: 'default'
         };
-        fetch('http://localhost:3001/users/auth/google', options).then(r => {
+        fetch('http://localhost:3001/usersGG/auth/google', options).then(r => {
             const token = r.headers.get('x-auth-token');
             console.log(token);
             // console.log(r.json());  
-            r.json().then(user => {
+            r.clone().json().then(user => {
                 if (token) {
                     this.setState({isAuthenticated: true, user, token})
                 }
