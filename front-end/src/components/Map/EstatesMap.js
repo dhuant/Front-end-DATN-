@@ -9,8 +9,11 @@ const EstatesMap = withScriptjs(withGoogleMap((props) => {
 
   const markers = props.estates.map(estate => <EstateMarker
     key={estate._id}
+    uid={estate._id}
     estate={estate}
     location={{ lat: estate.lat, lng: estate.long }}
+    activeMarker={estate._id === props.activeMarker ? true : false}
+    closeMarkers={props.closeOtherMarkers}
   />);
 
   return (

@@ -14,9 +14,7 @@ class EstateMapContainer extends Component {
                 lng: 106.6137603
             },
             isMarkerShown: false,
-            place: {
-                
-              }
+            place: {}
         }
     }
     componentDidMount() {
@@ -48,65 +46,42 @@ class EstateMapContainer extends Component {
             console.log('error')
         }
     }
-    // getLocation = () => {
-    //     this.setState({
-    //         currentLatLng: {
-    //             lat: 10.763240,
-    //             lng: 106.682161
-    //         },
-    //         isMarkerShown: true
-    //     })
-    // }
-    // showCurrentLocation = () => {
-    //     this.getLocation();
-    // }
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        if (prevState.currentLatLng.lat !== this.state.currentLatLng.lat) {
+            return this.state.currentLatLng;
+        }
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (snapshot) {
+            let info = {
+                radius: 5,
+                lat: this.state.currentLatLng.lat.toString(),
+                long: this.state.currentLatLng.lng.toString(),
+            }
+            console.log(info);
+            this.props.actFetchEstatesRequest(info);
+        }
+    }
+    closeOtherMarkers = (uid) => {
+		this.setState({activeMarker: uid})
+	}
+    //===============Hàm cho Search==============
     // getSnapshotBeforeUpdate(prevProps, prevState) {
-    //     if (prevState.currentLatLng.lat !== this.state.currentLatLng.lat) {
-    //         return this.state.currentLatLng;
+    //     if (prevState.place !== this.state.place) {
+    //         return this.state.place;
     //     }
     // }
     // componentDidUpdate(prevProps, prevState, snapshot) {
     //     if (snapshot) {
-    //         let info = {
-    //             radius: 5,
-    //             lat: this.state.currentLatLng.lat.toString(),
-    //             long: this.state.currentLatLng.lng.toString(),
-    //         }
-    //         console.log(info);
-    //         this.props.actFetchEstatesRequest(info);
+    //         let info = this.state.place.geometry.location
+    //         console.log(JSON.stringify(info));
     //     }
     // }
-    getSnapshotBeforeUpdate(prevProps, prevState) {
-        if (prevState.place !== this.state.place) {
-            return this.state.place;
-        }
-        
-    }
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (snapshot) {
-            let info = //
-                this.state.place.geometry.location
-            
-            console.log(JSON.stringify(info));
-            // this.props.actFetchEstatesRequest(info);
-        }
-    }
-    // componentDidUpdate(){
-    //     let info = {
-    //         radius: 5,
-    //         lat: this.state.currentLatLng.lat.toString(),
-    //         lng: this.state.currentLatLng.lng.toString(),
-    //     }
-    //     console.log(info);
-    //     this.props.actFetchEstatesRequest(info);
-    // }
-
-    
 
     render() {
         const { estates } = this.props;
-        let {place} = this.state;
-        console.log(place.ge);
+        // let {place} = this.state;
+        // console.log(place.ge);
         
         // // const { place } = 
         // console.log(estates);
@@ -117,7 +92,7 @@ class EstateMapContainer extends Component {
         // console.log(JSON.stringify(place.geometry, null, 2));
         return (
             <div>
-                <Searching  onPlaceChanged = {this.showPlaceDetails.bind(this)}/>
+                {/* <Searching  onPlaceChanged = {this.showPlaceDetails.bind(this)}/> */}
                 <EstatesMap
                     isMarkerShown={this.state.isMarkerShown}
                     currentLocation={this.state.currentLatLng}
@@ -126,6 +101,8 @@ class EstateMapContainer extends Component {
                     loadingElement={<div style={{ height: `100%` }} />}
                     containerElement={<div style={{ height: `100vh`, width: `100%` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
+                    activeMarker={this.state.activeMarker}
+					closeOtherMarkers={this.closeOtherMarkers}
                 />
                 <div className="form-group">
                     <button
