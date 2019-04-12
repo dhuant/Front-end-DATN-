@@ -18,6 +18,7 @@ class EstateMapContainer extends Component {
         }
     }
     componentDidMount() {
+        this.showCurrentLocation();
         var info = {
             radius: 5,
             lat: this.state.currentLatLng.lat.toString(),

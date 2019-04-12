@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Sidebar from './Sidebar';
 import { connect } from 'react-redux';
-
+import MapOfDetailEstate from './MapOfDetailEstate'
 // const options = [
 //     { value: 'chocolate', label: 'Chocolate' },
 //     { value: 'strawberry', label: 'Strawberry' },
@@ -20,10 +20,10 @@ class PropertiesDetail extends Component {
         console.log(`Option selected:`, selectedOption);
     }
     render() {
-        
+
         let { info } = this.props;
         console.log(info);
-        
+
         return (
             <div>
                 <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
@@ -275,7 +275,9 @@ class PropertiesDetail extends Component {
                             <div className="main-title-2">
                                 <h1><span>Location</span></h1>
                             </div>
-                            <div id="map" className="contact-map" />
+                            <MapOfDetailEstate
+                                info={info}
+                            />
                         </div>
                     </div>
                     {/* Location end */}
@@ -495,4 +497,4 @@ class PropertiesDetail extends Component {
 //         info: state.estateInfo,
 //     }
 // }
-export default connect(null, null)(PropertiesDetail);
+export default PropertiesDetail;

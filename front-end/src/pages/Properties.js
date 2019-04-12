@@ -17,10 +17,6 @@ class Properties extends Component {
     componentDidMount(){
         this.props.actGetEstateRequest(this.props.match.params.id);
         console.log(this.props.match.params.id);
-        this.setState({
-            error:'success'
-            
-        })
     }
     render() {
 

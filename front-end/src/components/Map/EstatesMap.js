@@ -1,5 +1,5 @@
 import React from "react";
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps";
 import { } from 'react-google-maps'
 import EstateMarker from "./EstateMarker";
 import { connect } from 'react-redux';
@@ -15,7 +15,9 @@ const EstatesMap = withScriptjs(withGoogleMap((props) => {
     activeMarker={estate._id === props.activeMarker ? true : false}
     closeMarkers={props.closeOtherMarkers}
   />);
+  const onInfoWindowClose = (event) => {
 
+  };
   return (
     <GoogleMap
       defaultZoom={14}
@@ -25,7 +27,18 @@ const EstatesMap = withScriptjs(withGoogleMap((props) => {
       {props.isMarkerShown && <Marker
         icon={compass}
         position={{ lat: props.currentLocation.lat, lng: props.currentLocation.lng }}
-      />}
+      >
+        <InfoWindow
+          onClose={onInfoWindowClose}
+          position={{ lat: (props.currentLocation.lat), lng: props.currentLocation.lng }}
+          onCloseClick
+        >
+          <div>
+            <span style={{ padding: 0, margin: 0 }}>Bạn đang ở đây</span>
+          </div>
+        </InfoWindow>
+      </Marker>}
+
     </GoogleMap>
   );
 }
