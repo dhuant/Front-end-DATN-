@@ -20,8 +20,12 @@ class Properties extends Component {
     }
     render() {
 
-        let info = this.props.info;
-        console.log(info);
+        let {info} = this.props;
+        let detail = '';
+        if(info){
+            console.log(info);
+            detail = <PropertiesDetail info={info}/>
+        }
         
         return (
             <div>
@@ -44,7 +48,7 @@ class Properties extends Component {
                 <div className="content-area  properties-details-page">
                     <div className="container">
                         <div className="row">
-                            <PropertiesDetail info={info}/>
+                            {detail}
                         </div>
                     </div>
                 </div>

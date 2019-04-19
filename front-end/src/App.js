@@ -17,6 +17,7 @@ import HomeMap from './pages/Map/HomeMap'
 import EstateListListView from './pages/EstateList_ListView'
 import News from './pages/News'
 import NewsDetail from './pages/NewsDetail' 
+import MapOfDetail from './components/Properties/MapOfDetailEstate'
 
 
 class App extends Component {
@@ -41,6 +42,7 @@ class App extends Component {
             <Route exact path="/news/:id" component={NewsDetail} />
             <Route exact path='/properties' component={Properties} />
             <Route exact path='/homemaps' component={HomeMap} />
+            <Route exact path='/demo' component={MapOfDetail}/>
             <Route  path='' component={NotFound} />
           </Switch>
         </div>
