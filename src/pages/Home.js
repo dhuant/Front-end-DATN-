@@ -44,24 +44,23 @@ class Home extends Component {
                                 <div className="carousel-caption banner-slider-inner">
                                     <div className="banner-content">
                                         <h1 data-animation="animated fadeInDown delay-05s">
-                                            <span>Find your </span> Dream House
+                                            <span>TÌM KIẾM </span> SỰ LỰA CHỌN ĐÚNG ĐẮN
                                         </h1>
                                         <p data-animation="animated fadeInUp delay-1s">
-                                            Lorem ipsum dolor sit amet, conconsectetuer adipiscing
-                                            elit Lorem ipsum dolor sit amet, conconsectetuer
+                                            Đến với chúng tôi, bạn sẽ tìm thấy những điều tuyệt vời nhất mà các dự án mang lại
                                         </p>
                                         <a
                                             onClick={this.onGoToMap}
                                             className="btn button-md button-theme"
                                             data-animation="animated fadeInUp delay-15s"
                                         >
-                                            Go to Maps
+                                            Mở bản đồ
                                         </a>
                                         <a
                                             className="btn button-md border-button-theme"
                                             data-animation="animated fadeInUp delay-15s"
                                         >
-                                            Learn More
+                                           Tìm hiểu thêm
                                         </a>
                                     </div>
                                 </div>
@@ -74,23 +73,23 @@ class Home extends Component {
                                 <div className="carousel-caption banner-slider-inner">
                                     <div className="banner-content">
                                         <h1 data-animation="animated fadeInDown delay-1s">
-                                            <span>Sweet Home For</span> Small Family
+                                            <span>MỞ RA</span> HẠNH PHÚC VỮNG BỀN
                                         </h1>
                                         <p data-animation="animated fadeInUp delay-05s">
-                                            Lorem ipsum dolor sit amet, conconsectetuer adipiscing
-                                            elit Lorem ipsum dolor sit amet, conconsectetuer
+                                           Chúng tôi tin rằng với niềm tin mãnh liệt giúp bạn xây dựng những tổ ấm hạnh phúc
                                         </p>
                                         <a
+                                            onClick={this.onGoToMap}
                                             className="btn button-md button-theme"
                                             data-animation="animated fadeInUp delay-15s"
                                         >
-                                            Get Started Now
+                                            Mở bản đồ
                                         </a>
                                         <a
                                             className="btn button-md border-button-theme"
                                             data-animation="animated fadeInUp delay-15s"
                                         >
-                                            Learn More
+                                             Tìm hiểu thêm
                                         </a>
                                     </div>
                                 </div>
@@ -103,25 +102,24 @@ class Home extends Component {
                                 <div className="carousel-caption banner-slider-inner">
                                     <div className="banner-content">
                                         <h1 data-animation="animated fadeInLeft delay-05s">
-                                            <span>Best Place To</span> Find Home
+                                            <span>CHO ĐI</span> LÀ NHẬN LẠI
                                         </h1>
                                         <p data-animation="animated fadeInLeft delay-1s">
-                                            Lorem ipsum dolor sit amet, conconsectetuer adipiscing
-                                            elit Lorem ipsum dolor sit amet, conconsectetuer
+                                            Chia sẻ lại tổ ấm của mình cho ngừoi khác là góp phần xây dựng thêm những tổ ấm yêu thương
                                         </p>
                                         <a
-
+                                            onClick={this.onGoToMap}
                                             className="btn button-md button-theme"
                                             data-animation="animated fadeInLeft delay-15s"
                                         >
-                                            Get Started Now
+                                            Mở bản đồ
                                         </a>
                                         <a
 
                                             className="btn button-md border-button-theme"
                                             data-animation="animated fadeInLeft delay-20s"
                                         >
-                                            Learn More
+                                             Tìm hiểu thêm
                                         </a>
                                     </div>
                                 </div>
@@ -137,7 +135,7 @@ class Home extends Component {
                             <span className="slider-mover-left" aria-hidden="true">
                                 <i className="fa fa-angle-left" />
                             </span>
-                            <span className="sr-only">Previous</span>
+                            <span className="sr-only">Trước</span>
                         </a>
                         <a
                             className="right carousel-control"
@@ -148,7 +146,7 @@ class Home extends Component {
                             <span className="slider-mover-right" aria-hidden="true">
                                 <i className="fa fa-angle-right" />
                             </span>
-                            <span className="sr-only">Next</span>
+                            <span className="sr-only">Sautrước</span>
                         </a>
                     </div>
                 </div>
@@ -204,7 +202,7 @@ class Home extends Component {
                                                         data-live-search="true"
                                                         data-live-search-placeholder="Search value"
                                                     >
-                                                        <option>Location</option>
+                                                        <option>yy</option>
                                                         <option>United States</option>
                                                         <option>United Kingdom</option>
                                                         <option>American Samoa</option>
@@ -302,7 +300,7 @@ class Home extends Component {
                         <div className="container">
                             {/* Main title */}
                             <div className="main-title">
-                                <h1>Featured Properties</h1>
+                                <h1>TIN NỔI BẬT</h1>
                             </div>
                             <ul className="list-inline-listing filters filters-listing-navigation">
                                 <li
@@ -982,7 +980,7 @@ class Home extends Component {
                         {/* Main title */}
                         <div className="main-title">
                             <h1>
-                                <span>Recently</span> Properties
+                                <span>TIN GẦN ĐÂY NHẤT</span>
       </h1>
                         </div>
                         <div className="row">

@@ -15,7 +15,7 @@ const Footer = () => {
                             <div className="col-lg-4 col-md-3 col-sm-6 col-xs-12">
                                 <div className="footer-item">
                                     <div className="main-title-2">
-                                        <h1>Contact Us</h1>
+                                        <h1>LIÊN HỆ VỚI CHÚNG TÔI</h1>
                                     </div>
                                     <p>
                                         Lorem Ipsum is simply dummy text of the printing and
@@ -25,23 +25,20 @@ const Footer = () => {
                                     <ul className="personal-info">
                                         <li>
                                             <i className="fa fa-map-marker" />
-                                            Address: 20/F Green Road, Dhanmondi, Dhaka
+                                            Địa chỉ: Trường Đại học Khoa học Tự nhiên, ĐHQG-HCM
               </li>
                                         <li>
                                             <i className="fa fa-envelope" />
-                                            Email:<a href="mailto:sales@hotelempire.com">
-                                                info@themevessel.com
+                                            Email:<a href="mailto:tungmazdatic@gmail.com">
+                                                tungmazdatic@gmail.com
                 </a>
                                         </li>
                                         <li>
                                             <i className="fa fa-phone" />
-                                            Phone:{" "}
-                                            <a href="tel:+55-417-634-7071">+55 4XX-634-7071</a>
+                                            Số điện thoại:{" "}
+                                            <a href="tel:+84 989 871 786">0989 871 786</a>
                                         </li>
-                                        <li>
-                                            <i className="fa fa-fax" />
-                                            Fax: +55 4XX-634-7071
-              </li>
+                                        
                                     </ul>
                                 </div>
                             </div>
@@ -49,39 +46,26 @@ const Footer = () => {
                             <div className="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                 <div className="footer-item">
                                     <div className="main-title-2">
-                                        <h1>Links</h1>
+                                        <h1>LIÊN KẾT</h1>
                                     </div>
                                     <ul className="links">
                                         <li>
-                                            <a href="index.html">Home</a>
+                                            <a href="index.html">Trang chủ</a>
                                         </li>
                                         <li>
-                                            <a href="about.html">About Us</a>
+                                            <a href="about.html">Về chúng tôi</a>
                                         </li>
                                         <li>
-                                            <a href="contact.html">Contact Us</a>
+                                            <a href="contact.html">Liên hệ</a>
                                         </li>
                                         <li>
                                             <a href="blog-single-sidebar-right.html">Blog</a>
                                         </li>
                                         <li>
-                                            <a href="blog-single-sidebar-right.html">Services</a>
+                                            <a href="blog-single-sidebar-right.html">Dịch vụ</a>
                                         </li>
-                                        <li>
-                                            <a href="properties-list-rightside.html">
-                                                properties Listing
-                </a>
-                                        </li>
-                                        <li>
-                                            <a href="properties-grid-rightside.html">
-                                                properties Grid
-                </a>
-                                        </li>
-                                        <li>
-                                            <a href="properties-details.html">
-                                                properties Details
-                </a>
-                                        </li>
+                                        
+                                        
                                     </ul>
                                 </div>
                             </div>
@@ -90,60 +74,6 @@ const Footer = () => {
                                 <div className="footer-item popular-posts">
                                     <div className="main-title-2">
                                         <h1>Popular Posts</h1>
-                                    </div>
-                                    <div className="media">
-                                        <div className="media-left">
-                                            <img
-                                                className="media-object"
-                                                src="img/properties/small-properties-1.jpg"
-                                                alt="small-properties-1"
-                                            />
-                                        </div>
-                                        <div className="media-body">
-                                            <h3 className="media-heading">
-                                                <a href="properties-details.html">
-                                                    Sweet Family Home
-                  </a>
-                                            </h3>
-                                            <p>February 27, 2018</p>
-                                            <div className="price">$734,000</div>
-                                        </div>
-                                    </div>
-                                    <div className="media">
-                                        <div className="media-left">
-                                            <img
-                                                className="media-object"
-                                                src="img/properties/small-properties-2.jpg"
-                                                alt="small-properties-2"
-                                            />
-                                        </div>
-                                        <div className="media-body">
-                                            <h3 className="media-heading">
-                                                <a href="properties-details.html">
-                                                    Modern Family Home
-                  </a>
-                                            </h3>
-                                            <p>February 27, 2018</p>
-                                            <div className="price">$734,000</div>
-                                        </div>
-                                    </div>
-                                    <div className="media">
-                                        <div className="media-left">
-                                            <img
-                                                className="media-object"
-                                                src="img/properties/small-properties-3.jpg"
-                                                alt="small-properties-3"
-                                            />
-                                        </div>
-                                        <div className="media-body">
-                                            <h3 className="media-heading">
-                                                <a href="properties-details.html">
-                                                    Beautiful Single Home
-                  </a>
-                                            </h3>
-                                            <p>February 27, 2018</p>
-                                            <div className="price">$734,000</div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +87,7 @@ const Footer = () => {
                                         <p>
                                             Excepteur sint occaecat cupidatat non proident, sunt
                                             in culpa qui officia deserunt mollit anim id
-              </p>
+                                        </p>
                                         <form action="#" method="post">
                                             <div className="form-group">
                                                 <input
@@ -174,8 +104,8 @@ const Footer = () => {
                                                     type="submit"
                                                     className="button-sm button-theme btn-block"
                                                 >
-                                                    Subscribe
-                  </button>
+                                                    THEO DÕI NHỮNG THÔNG TIN MỚI NHẤT
+                                                 </button>
                                             </div>
                                         </form>
                                     </div>
