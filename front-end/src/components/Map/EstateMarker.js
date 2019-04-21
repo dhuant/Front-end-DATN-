@@ -25,6 +25,7 @@ class EstateMarker extends Component {
     // componentWillReceiveProps(nextProps) {
     //     this.setState({ activeMarker: nextProps.activeMarker })
     // }
+    
     static getDerivedStateFromProps(props, state) {
         if (props.activeMarker !== state.activeMarker) {
             return {

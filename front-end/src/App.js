@@ -18,6 +18,7 @@ import EstateListListView from './pages/EstateList_ListView'
 import News from './pages/News'
 import NewsDetail from './pages/NewsDetail' 
 import ImagesUpload from './components/ImageUploading/Main'
+import MapOfDetail from './components/Properties/MapOfDetailEstate'
 
 class App extends Component {
   render() {
@@ -42,6 +43,7 @@ class App extends Component {
             <Route exact path='/properties' component={Properties} />
             <Route exact path='/homemaps' component={HomeMap} />
             <Route exact path='/imageupload' component={ImagesUpload}/>
+            <Route exact path='/demo' component={MapOfDetail}/>
             <Route  path='' component={NotFound} />
           </Switch>
         </div>

@@ -17,15 +17,15 @@ class Properties extends Component {
     componentDidMount(){
         this.props.actGetEstateRequest(this.props.match.params.id);
         console.log(this.props.match.params.id);
-        this.setState({
-            error:'success'
-            
-        })
     }
     render() {
 
-        let info = this.props.info;
-        console.log(info);
+        let {info} = this.props;
+        let detail = '';
+        if(info){
+            console.log(info);
+            detail = <PropertiesDetail info={info}/>
+        }
         
         return (
             <div>
@@ -49,6 +49,7 @@ class Properties extends Component {
                     <div className="container">
                         <div className="row">
                             <PropertiesDetail info={info} id={this.props.match.params.id}/>
+                            {detail}
                         </div>
                     </div>
                 </div>
