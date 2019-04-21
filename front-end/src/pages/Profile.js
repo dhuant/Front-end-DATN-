@@ -10,7 +10,7 @@ import * as actions from '../actions/request';
 
 class Profile extends Component {
     componentDidMount(){
-        this.props.actGetInfoUser(this.props.match.params.id);
+        // this.props.actGetInfoUser(this.props.match.params.id);
         console.log(this.props.match.params.id);
 
     }

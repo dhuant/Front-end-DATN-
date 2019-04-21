@@ -56,5 +56,14 @@ export const actGetNewsByIdRequest = (id) => {
         })
     }
 }
+
+export const actGetCommentsByIdRequest = (id) => {
+    return dispatch => {
+        return callApi(`comment/all/${id}`, 'GET', null).then(res => {
+            dispatch(Action.actGetComments(res.data.comments));
+            console.log(res.data.comments)
+        })
+    }
+}
         
 

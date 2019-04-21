@@ -17,7 +17,7 @@ import HomeMap from './pages/Map/HomeMap'
 import EstateListListView from './pages/EstateList_ListView'
 import News from './pages/News'
 import NewsDetail from './pages/NewsDetail' 
-
+import ImagesUpload from './components/ImageUploading/Main'
 
 class App extends Component {
   render() {
@@ -31,7 +31,7 @@ class App extends Component {
             <Route exact path='/login2' component={Login2} />
             <Route exact path='/submitproperty' component={SubmitProperty} />
             <Route exact path='/maps' component={Map} />
-            <Route exact path='/profile/:id' component={Profile} />
+            <Route exact path='/profile' component={Profile} />
             <Route exact path='/properties/:id' component={Properties} />
             <Route exact path='/estategridview' component={EstateListGridView} />
             <Route exact path='/estatelistview' component={EstateListListView} />
@@ -41,6 +41,7 @@ class App extends Component {
             <Route exact path="/news/:id" component={NewsDetail} />
             <Route exact path='/properties' component={Properties} />
             <Route exact path='/homemaps' component={HomeMap} />
+            <Route exact path='/imageupload' component={ImagesUpload}/>
             <Route  path='' component={NotFound} />
           </Switch>
         </div>

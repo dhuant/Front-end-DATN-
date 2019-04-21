@@ -51,6 +51,8 @@ class SubmitProperty extends Component {
     }
     onSubmit = () => {
         // let ownid = JSON.parse(localStorage.getItem('user'));
+        let ownerID = JSON.parse(localStorage.getItem('res')).user._id
+
         // let info = {
         //     name: "Biệt phủ",
         //     investor: "uscandymc",
@@ -76,7 +78,7 @@ class SubmitProperty extends Component {
             info: this.state.description,
             lat: this.props.address.markerPosition.lat,
             long: this.props.address.markerPosition.lng,
-            ownerid: "5ca7252d6f6dcf410404d1d1",
+            ownerid: ownerID,
             statusProject: this.state.status
         };
         console.log(info);
@@ -234,6 +236,8 @@ class SubmitProperty extends Component {
                                             </div>
                                         </div>
                                         
+                                        <button id="upload_widget_cloudinary" className="cloudinary-button">Upload files</button>
+
                                         <div className="row">
                                             
                                             <div className="col-md-12">

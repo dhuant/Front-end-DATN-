@@ -7,3 +7,4 @@ export const GET_NEWS_BY_ID = 'GET_NEWS_BY_ID'
 //========Map===========
 export const CHANGE_LOCATION = 'CHANGE_LOCATION'
 export const SAVE_LOCATION_INFO = 'SAVE_LOCATION_INFO'
+export const GET_ALL_COMMENT = 'GET_ALL_COMMENT'

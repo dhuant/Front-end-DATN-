@@ -6,7 +6,8 @@ class MainHeader extends Component {
     constructor() {
         super();
         this.state = {
-            username: null
+            username: null,
+            token: 'abc'
         };
     }
 
@@ -29,23 +30,18 @@ class MainHeader extends Component {
     }
     onHandleProfile = (e) => {
         e.preventDefault();
-        let token = JSON.parse(localStorage.getItem('user'));
+        let token = JSON.parse(localStorage.getItem('res'));
         console.log(token.googleId);
         // console.log(this.state.token);
-        if (token.id) {
-            this.props.history.push(`/profile/${token.id}`);
+        if (token.user._id) {
+            this.props.history.push(`/profile`);
         }
-        else {
-            this.props.history.push(`/profile/${token.googleId}`);
-            
-        }
-
 
     }
     onSignOut = (e) => {
         e.preventDefault();
         this.props.history.push('/');
-        localStorage.removeItem('user');
+        localStorage.removeItem('res');
     }
 
 
@@ -73,9 +69,31 @@ class MainHeader extends Component {
 
             );
     }
-    render() {
-        let token = localStorage.getItem('user');
 
+    // componentDidMount =() => {
+    //     let token = localStorage.getItem('res');
+    //     this.setState({
+    //         token: token
+    //     })
+    // }
+
+    // getSnapshotBeforeUpdate = (prevState) => {
+    //     if(prevState.token !== JSON.parse(localStorage.getItem('res')))
+    //     return this.state.token
+        
+    // }
+
+    // componentDidUpdate = (snapshot) => {
+    //     if(snapshot)
+    //     {
+    //         this.setState({
+    //             token: JSON.parse(localStorage.getItem('res'))
+    //         })
+    //     }
+    // }
+    render() {
+        var token = localStorage.getItem('res')
+        console.log(token)
         // if(token.id){
         //     this.setState({
         //         username: token.username

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Sidebar from './Sidebar';
 import { connect } from 'react-redux';
+import Comments from './Comments'
+import * as actions from '../../actions/request'
 
 // const options = [
 //     { value: 'chocolate', label: 'Chocolate' },
@@ -19,11 +21,15 @@ class PropertiesDetail extends Component {
         this.setState({ selectedOption });
         console.log(`Option selected:`, selectedOption);
     }
+    componentDidMount =() => {
+        console.log(this.props.id)
+        this.props.onGetCommentsById(this.props.id)
+    }
     render() {
         
-        let { info } = this.props;
+        let { info, comments } = this.props;
         console.log(info);
-        
+        console.log(comments)
         return (
             <div>
                 <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
@@ -93,14 +99,14 @@ class PropertiesDetail extends Component {
                                 </div>
                                 {/* Indicators */}
                                 <ol className="carousel-indicators thumbs visible-lg visible-md">
-                                    <li data-target="#carousel-custom" data-slide-to={0} className><img src="/img/properties/properties-small-1.jpg" alt="Chevrolet Impala" /></li>
-                                    <li data-target="#carousel-custom" data-slide-to={1} className><img src="/img/properties/properties-small-3.jpg" alt="Chevrolet Impala" /></li>
-                                    <li data-target="#carousel-custom" data-slide-to={2} className><img src="/img/properties/properties-small-4.jpg" alt="Chevrolet Impala" /></li>
-                                    <li data-target="#carousel-custom" data-slide-to={3} className><img src="/img/properties/properties-small-5.jpg" alt="Chevrolet Impala" /></li>
-                                    <li data-target="#carousel-custom" data-slide-to={4} className><img src="/img/properties/properties-small-6.jpg" alt="Chevrolet Impala" /></li>
-                                    <li data-target="#carousel-custom" data-slide-to={5} className><img src="/img/properties/properties-small-7.jpg" alt="Chevrolet Impala" /></li>
-                                    <li data-target="#carousel-custom" data-slide-to={6} className><img src="/img/properties/properties-small-8.jpg" alt="Chevrolet Impala" /></li>
-                                    <li data-target="#carousel-custom" data-slide-to={7} className><img src="/img/properties/properties-small-2.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={0}><img src="/img/properties/properties-small-1.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={1}><img src="/img/properties/properties-small-3.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={2}><img src="/img/properties/properties-small-4.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={3}><img src="/img/properties/properties-small-5.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={4}><img src="/img/properties/properties-small-6.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={5}><img src="/img/properties/properties-small-7.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={6}><img src="/img/properties/properties-small-8.jpg" alt="Chevrolet Impala" /></li>
+                                    <li data-target="#carousel-custom" data-slide-to={7}><img src="/img/properties/properties-small-2.jpg" alt="Chevrolet Impala" /></li>
                                 </ol>
                             </div>
                         </div>
@@ -290,143 +296,7 @@ class PropertiesDetail extends Component {
                                     <h1><span>Comments </span> Section</h1>
                                 </div>
                                 <ul className="comments">
-                                    <li>
-                                        <div className="comment">
-                                            <div className="comment-author">
-                                                <a href="true">
-                                                    <img src="/img/avatar/avatar-5.png" alt="avatar-5" />
-                                                </a>
-                                            </div>
-                                            <div className="comment-content">
-                                                <div className="comment-meta">
-                                                    <div className="comment-meta-author">
-                                                        Jane Doe
-                        </div>
-                                                    <div className="comment-meta-reply">
-                                                        <a href="true">Reply</a>
-                                                    </div>
-                                                    <div className="comment-meta-date">
-                                                        <span className="hidden-xs">8:42 PM 3/3/2017</span>
-                                                    </div>
-                                                </div>
-                                                <div className="clearfix" />
-                                                <div className="comment-body">
-                                                    <div className="comment-rating">
-                                                        <i className="fa fa-star" />
-                                                        <i className="fa fa-star" />
-                                                        <i className="fa fa-star" />
-                                                        <i className="fa fa-star" />
-                                                        <i className="fa fa-star-o" />
-                                                    </div>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros. Maecenas eros enim, tincidunt vel turpis vel, dapibus tempus nulla. Donec vel nulla dui. Pellentesque sed ante sed ligula hendrerit condimentum. Suspendisse rhoncus fringilla ipsum quis porta.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <ul>
-                                            <li>
-                                                <div className="comment">
-                                                    <div className="comment-author">
-                                                        <a href="true">
-                                                            <img src="/img/avatar/avatar-5.png" alt="avatar-5" />
-                                                        </a>
-                                                    </div>
-                                                    <div className="comment-content">
-                                                        <div className="comment-meta">
-                                                            <div className="comment-meta-author">
-                                                                Jane Doe
-                            </div>
-                                                            <div className="comment-meta-reply">
-                                                                <a href="true">Reply</a>
-                                                            </div>
-                                                            <div className="comment-meta-date">
-                                                                <span className="hidden-xs">8:42 PM 3/3/2017</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="clearfix" />
-                                                        <div className="comment-body">
-                                                            <div className="comment-rating">
-                                                                <i className="fa fa-star" />
-                                                                <i className="fa fa-star" />
-                                                                <i className="fa fa-star" />
-                                                                <i className="fa fa-star-half-o" />
-                                                                <i className="fa fa-star-o" />
-                                                            </div>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros. Maecenas eros enim, tincidunt vel turpis vel, dapibus tempus nulla. Donec vel nulla dui.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <div className="comment">
-                                            <div className="comment-author">
-                                                <a href="true">
-                                                    <img src="/img/avatar/avatar-5.png" alt="avatar-5" />
-                                                </a>
-                                            </div>
-                                            <div className="comment-content">
-                                                <div className="comment-meta">
-                                                    <div className="comment-meta-author">
-                                                        Jane Doe
-                        </div>
-                                                    <div className="comment-meta-reply">
-                                                        <a href="true">Reply</a>
-                                                    </div>
-                                                    <div className="comment-meta-date">
-                                                        <span className="hidden-xs">8:42 PM 3/3/2017</span>
-                                                    </div>
-                                                </div>
-                                                <div className="clearfix" />
-                                                <div className="comment-body">
-                                                    <div className="comment-rating">
-                                                        <i className="fa fa-star" />
-                                                        <i className="fa fa-star" />
-                                                        <i className="fa fa-star" />
-                                                        <i className="fa fa-star" />
-                                                        <i className="fa fa-star-o" />
-                                                    </div>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                        </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <ul>
-                                            <li>
-                                                <div className="comment comment-mrg-bdr-nane">
-                                                    <div className="comment-author">
-                                                        <a href="true">
-                                                            <img src="/img/avatar/avatar-5.png" alt="avatar-5" />
-                                                        </a>
-                                                    </div>
-                                                    <div className="comment-content">
-                                                        <div className="comment-meta">
-                                                            <div className="comment-meta-author">
-                                                                Jane Doe
-                            </div>
-                                                            <div className="comment-meta-reply">
-                                                                <a href="true">Reply</a>
-                                                            </div>
-                                                            <div className="comment-meta-date">
-                                                                <span className="hidden-xs">8:42 PM 3/3/2017</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="clearfix" />
-                                                        <div className="comment-body">
-                                                            <div className="comment-rating">
-                                                                <i className="fa fa-star" />
-                                                                <i className="fa fa-star" />
-                                                                <i className="fa fa-star" />
-                                                                <i className="fa fa-star-half-o" />
-                                                                <i className="fa fa-star-o" />
-                                                            </div>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros. Maecenas eros enim, tincidunt vel turpis vel, dapibus tempus nulla. Donec vel nulla dui.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
+                                    {this.ShowComments(comments)}
                                 </ul>
                             </div>
                             {/* Comments section end */}
@@ -483,16 +353,29 @@ class PropertiesDetail extends Component {
             </div>
         );
     }
+    ShowComments = (comments) => {
+        var result = null;
+        if (comments.length > 0) {
+            result = comments.map((comment, index) => {
+                // console.log(index)
+                return (
+                    <Comments key={index} comment={comment} />
+
+                );
+            });
+        }
+        return result;
+    }
 }
 
-// const mapDispathToProp = (dispatch) => {
-// 	return {
-// 		actGetEstateRequest: (id) => dispatch(actions.actGetEstateRequest(id))
-// 	}
-// }
-// const mapStateToProp = (state) => {
-//     return {
-//         info: state.estateInfo,
-//     }
-// }
-export default connect(null, null)(PropertiesDetail);
+const mapDispathToProp = (dispatch) => {
+	return {
+		onGetCommentsById : (id) => dispatch(actions.actGetCommentsByIdRequest(id))
+	}
+}
+const mapStateToProp = (state) => {
+    return {
+        comments: state.comments
+    }
+}
+export default connect(mapStateToProp, mapDispathToProp)(PropertiesDetail);

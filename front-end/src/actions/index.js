@@ -47,3 +47,10 @@ export const actSaveLocationInfo = (address) => {
         address: address
     }
 }
+
+export const actGetComments = (comments) => {
+    return {
+        type: Types.GET_ALL_COMMENT,
+        comments: comments
+    }
+}
