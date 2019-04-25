@@ -605,14 +605,12 @@ class PropertiesDetail extends Component {
                 // console.log(index)
                 return (
                     <Comments key={index} comment={comment} />
-    
                 );
             });
         }
         return result;
     }
 }
-
 const mapDispathToProp = (dispatch) => {
     return {
         onGetCommentsById: (id) => dispatch(actions.actGetCommentsByIdRequest(id))

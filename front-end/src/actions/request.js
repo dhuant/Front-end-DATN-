@@ -6,9 +6,8 @@ import axios from 'axios'
 export const actFetchEstatesRequest = (info) => {
     return dispatch => {
         return callApi('projects/home', 'POST', info).then(res => {
-            console.log(res)
             dispatch(Action.actFetchEstates(res.data.projects));
-            console.log(res.data.projects);
+            console.log(res);
         });
     };
 }
@@ -61,8 +60,8 @@ export const actGetNewsByIdRequest = (id) => {
 export const actGetCommentsByIdRequest = (id) => {
     return dispatch => {
         return callApi(`comment/all/${id}`, 'GET', null).then(res => {
-            dispatch(Action.actGetComments(res.data.comments));
-            console.log(res.data.comments)
+            //dispatch(Action.actGetComments(res.data.comments));
+            console.log(res)
         })
     }
 }
