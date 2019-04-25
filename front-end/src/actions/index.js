@@ -54,3 +54,10 @@ export const actGetComments = (comments) => {
         comments: comments
     }
 }
+
+export const actGetEstateListOfUser = (estates) => {
+    return {
+        type: Types.GET_ESTATE_LIST_OF_USER,
+        estates: estates
+    }
+}

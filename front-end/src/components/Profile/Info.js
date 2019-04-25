@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import { withRouter } from 'react-router-dom';
 import {MY_PROPERTIES, CHANGE_PASSWORD, SUBMIT_ESTATE, PROFILE} from '../../constants/Profile'
 
@@ -20,22 +19,24 @@ class Info extends Component {
         e.preventDefault();
         this.props.history.push('/profile');
     }
+    
     render() {
+        let userInfo = JSON.parse(localStorage.getItem('res'))
         return (
             <div>
                 <div className="user-account-box">
                     <div className="header clearfix">
                         <div className="edit-profile-photo">
-                            <img src="img/avatar/avatar-3.jpg" alt="agent-1" className="img-responsive" />
-                            <div className="change-photo-btn">
+                            <img src={userInfo.user.avatar} alt="agent-1" className="img-responsive" />
+                            {/* <div className="change-photo-btn">
                                 <div className="photoUpload">
                                     <span><i className="fa fa-upload" /> Upload Photo</span>
                                     <input type="file" className="upload" />
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
-                        <h3>John Doe</h3>
-                        <p>johndoe@gmail.com</p>
+                        <h3>{userInfo.user.fullname}</h3>
+                        <p>{userInfo.user.email}</p>
                         <ul className="social-list clearfix">
                             <li>
                                 <a href="true" className="facebook">

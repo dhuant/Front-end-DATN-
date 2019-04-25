@@ -7,11 +7,16 @@ const estates = (state = initialState, action) => {
     switch (action.type) {
         case Types.FETCH_ESTATES_AROUND_CURRENT_LOCATION:
             state = action.estates;
+            console.log(state)
             return [...state];
         case Types.GET_LIST_ESTATE_FROM_FORM_SEARCH:
             state = action.estates;
             console.log(state);
             return [...state];
+        case Types.GET_ESTATE_LIST_OF_USER:
+            state = action.estates
+            console.log(state)
+            return [...state]
         default: return [...state];
     }
 };

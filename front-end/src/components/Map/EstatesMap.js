@@ -31,7 +31,7 @@ const EstatesMap = withScriptjs(withGoogleMap((props) => {
         <InfoWindow
           onClose={onInfoWindowClose}
           position={{ lat: (props.currentLocation.lat), lng: props.currentLocation.lng }}
-          onCloseClick
+          // onCloseClick
         >
           <div>
             <span style={{ padding: 0, margin: 0 }}>Bạn đang ở đây</span>

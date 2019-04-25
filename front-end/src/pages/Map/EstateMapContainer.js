@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import EstatesMap from '../../components/Map/EstatesMap'
 import { connect } from 'react-redux';
 import * as actions from '../../actions/request';
-import Searching from './Searching'
+// import Searching from './Searching'
 
 class EstateMapContainer extends Component {
     constructor(props) {
@@ -49,8 +49,9 @@ class EstateMapContainer extends Component {
     }
     getSnapshotBeforeUpdate(prevProps, prevState) {
         if (prevState.currentLatLng.lat !== this.state.currentLatLng.lat) {
-            return this.state.currentLatLng;
+            return this.state.currentLatLng
         }
+        return null
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (snapshot) {

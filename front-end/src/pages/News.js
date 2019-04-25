@@ -2,7 +2,8 @@
 import React, { Component } from 'react'
 // import Info from '../components/Profile/Info'
 import Footer from '../components/Footer'
-import SingleProperty from '../components/Profile/SingleProperty'
+// import SingleProperty from '../components/Profile/SingleProperty'
+import SingleNews from '../components/News/SingleNews'
 // import { MY_PROPERTIES } from '../constants/Profile';
 import { Link } from 'react-router-dom'
 import MainHeader from '../components/MainHeader';
@@ -11,15 +12,19 @@ import { connect } from 'react-redux'
 import {NEWS} from '../constants/Navbar'
 
 const NewsType = [
-    { value: 'phong-thuy', label: 'Phong thủy' },
-    { value: 'noi-that-ngoai-that', label: 'Nội - Ngoại thất' },
-    { value: 'xay-dung-kien-truc', label: 'Xây dựng - Kiến trúc' },
+    { value: '1', label: 'Phong thủy' },
+    { value: '2', label: 'Nội thất' },
+    { value: '3', label: 'Ngoại thất' },
+    { value: '4', label: 'Xây dựng' },
+    { value: '5', label: 'Kiến trúc' },
+    { value: '6', label: 'Tài chính' },
+    { value: '7', label: 'Luật bất động sản' },
 ];
 export class News extends Component {
     constructor() {
         super();
         this.state = {
-            newsType: 'phong-thuy'
+            newsType: 1
         }
     }
 
@@ -28,12 +33,12 @@ export class News extends Component {
         this.setState({
             newsType: e.target.value
         });
-        this.props.actGetNewsByTypeRequest(e.target.value);
+        this.props.actGetNewsByTypeRequest(e.target.value, '1');
 
     }
 
     componentWillMount = () => {
-        this.props.actGetNewsByTypeRequest(this.state.newsType)
+        this.props.actGetNewsByTypeRequest(this.state.newsType, '1')
     }
 
     render() {
@@ -130,7 +135,7 @@ export class News extends Component {
             result = newss.map((news, index) => {
                 console.log(index)
                 return (
-                    <SingleProperty key={index} news={news} />
+                    <SingleNews key={index} news={news} />
 
                 );
             });
@@ -141,7 +146,7 @@ export class News extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actGetNewsByTypeRequest: (type) => dispatch(actions.actGetNewsByTypeRequest(type))
+        actGetNewsByTypeRequest: (type, page) => dispatch(actions.actGetNewsByTypeRequest(type, page))
     }
 }
 

@@ -1,17 +1,13 @@
 export function authHeader() {
     // return authorization header with jwt token
-    let user = JSON.parse(localStorage.getItem('user'));
-    // console.log(user.accessToken);
-    if (user && user.token){
+    let user = JSON.parse(localStorage.getItem('res'));
+    console.log(user.token);
+    if (user.token) {
         return {
             "Access-Control-Allow-Origin": "*",
             'authorization': 'Bearer ' + user.token 
         };
-    } else if (user && user.accessToken){
-        console.log('acv')
-        return {
-            "Access-Control-Allow-Origin": "*",
-            'authorization': 'Bearer ' + user.accessToken
-        };
+    } else {
+        return {};
     }
 }

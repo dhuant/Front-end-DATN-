@@ -5,7 +5,8 @@ import axios from 'axios'
 
 export const actFetchEstatesRequest = (info) => {
     return dispatch => {
-        return callApi('projects/getListInRadius', 'POST', info).then(res => {
+        return callApi('projects/home', 'POST', info).then(res => {
+            console.log(res)
             dispatch(Action.actFetchEstates(res.data.projects));
             console.log(res.data.projects);
         });
@@ -39,9 +40,9 @@ export const actGetInfoUser = (id) => {
     }
 }
 
-export const actGetNewsByTypeRequest = (type) => {
+export const actGetNewsByTypeRequest = (type, page) => {
     return dispatch => {
-        return callApi(`news/all/${type}`, 'GET', null).then(res => {
+        return callApi(`news/all/${type}/${page}`, 'GET', null).then(res => {
             dispatch(Action.actGetNewsByType(res.data.news));
             console.log(res.data.news);
         })
@@ -63,6 +64,15 @@ export const actGetCommentsByIdRequest = (id) => {
             dispatch(Action.actGetComments(res.data.comments));
             console.log(res.data.comments)
         })
+    }
+}
+
+export const actGetEstateListOfUserRequest = () => {
+    return dispatch => {
+        return axios.post(`http://localhost:3001/users/dansachproject`, {headers:authHeader()}).then(res => {
+            dispatch(Action.actGetEstateListOfUser(res.data.projects))
+            console.log(res);
+        });
     }
 }
         

@@ -5,9 +5,16 @@ import SingleProperty from '../components/Profile/SingleProperty'
 import { MY_PROPERTIES } from '../constants/Profile';
 import {Link} from 'react-router-dom'
 import MainHeader from '../components/MainHeader';
+import {connect} from 'react-redux'
+import * as actions from '../actions/request';
 
-export default class MyEstateList extends Component {
+class MyEstateList extends Component {
+    componentDidMount =() => {
+        this.props.onGetEstateListOfUser()
+    }
     render() {
+        let {estatesListOfUser} = this.props
+        console.log(estatesListOfUser)
         return (
             <div>
                 <MainHeader />
@@ -41,11 +48,7 @@ export default class MyEstateList extends Component {
                                 {/* table start */}
                                 <table className="manage-table responsive-table">
                                     <tbody>
-                                        <SingleProperty />
-                                        <SingleProperty />
-                                        <SingleProperty />
-                                        <SingleProperty />
-                                        <SingleProperty />
+                                        {this.onShowEstateListOfUser(estatesListOfUser)}
                                     </tbody>
                                 </table>
                                 {/* table end */}
@@ -58,4 +61,28 @@ export default class MyEstateList extends Component {
             </div>
         )
     }
+    onShowEstateListOfUser = (estates) => {
+        var result = null;
+        if (estates.length > 0) {
+            result = estates.map((estate, index) => {
+                return (
+                    <SingleProperty key={index} estateListOfUser={estate} />
+
+                );
+            });
+        }
+        return result;
+    }
 }
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onGetEstateListOfUser: () => dispatch(actions.actGetEstateListOfUserRequest())
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        estatesListOfUser: state.estates
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(MyEstateList)
