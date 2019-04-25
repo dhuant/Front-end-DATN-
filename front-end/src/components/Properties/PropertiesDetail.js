@@ -662,21 +662,21 @@ class PropertiesDetail extends Component {
             </div>
         );
     }
-}
-ShowComments = (comments) => {
-    var result = null;
-    if (comments.length > 0) {
-        result = comments.map((comment, index) => {
-            // console.log(index)
-            return (
-                <Comments key={index} comment={comment} />
 
-            );
-        });
+    ShowComments = (comments) => {
+        var result = null;
+        if (comments.length > 0) {
+            result = comments.map((comment, index) => {
+                // console.log(index)
+                return (
+                    <Comments key={index} comment={comment} />
+
+                );
+            });
+        }
+        return result;
     }
-    return result;
 }
-
 const mapDispathToProp = (dispatch) => {
     return {
         onGetCommentsById: (id) => dispatch(actions.actGetCommentsByIdRequest(id))

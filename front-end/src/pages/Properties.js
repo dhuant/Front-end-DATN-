@@ -48,7 +48,7 @@ class Properties extends Component {
                 <div className="content-area  properties-details-page">
                     <div className="container">
                         <div className="row">
-                            <PropertiesDetail info={info} id={this.props.match.params.id}/>
+                            {/* <PropertiesDetail info={info} id={this.props.match.params.id}/> */}
                             {detail}
                         </div>
                     </div>
