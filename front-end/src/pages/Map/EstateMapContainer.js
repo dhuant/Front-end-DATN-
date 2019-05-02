@@ -49,9 +49,8 @@ class EstateMapContainer extends Component {
     }
     getSnapshotBeforeUpdate(prevProps, prevState) {
         if (prevState.currentLatLng.lat !== this.state.currentLatLng.lat) {
-            return this.state.currentLatLng
+            return this.state.currentLatLng;
         }
-        return null
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (snapshot) {

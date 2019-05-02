@@ -23,7 +23,7 @@ export const actGetEstateRequest = (id) => {
 }
 export const actGetListEstatesFromFormSearch = (data) => {
     return dispatch => {
-        return callApi(`projects/search/${data.type}/${data.address}/${data.area}/${data.price}`, 'POST', data).then(res => {
+        return callApi(`projects/search`, 'POST', data).then(res => {
             dispatch(Action.actGetListEstateFromFromSearch(res.data.projects))
             console.log(res);
         });

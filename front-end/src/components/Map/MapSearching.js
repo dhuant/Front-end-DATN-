@@ -79,6 +79,7 @@ class MapSearching extends Component {
 		if (prevState.markerPosition.lat !== this.state.markerPosition.lat) {
 			return this.state.markerPosition;
 		}
+		else return null
 
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -291,7 +292,7 @@ class MapSearching extends Component {
 			map = <div>
 				<div className="main-title-2">
 					<h1>
-						<span>Location</span>
+						<span>Vị trí</span>
 					</h1>
 				</div>
 				<div className="row mb-30 ">
