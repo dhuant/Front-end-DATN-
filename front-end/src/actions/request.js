@@ -10,7 +10,7 @@ export const actFetchEstatesRequest = info => {
             dispatch(Action.actFetchEstates(res.data.projects));
       })
       .catch(error => {
-        console.log(error) ;
+        dispatch(Action.actFetchEstates([])) ;
       });
   };
 };
