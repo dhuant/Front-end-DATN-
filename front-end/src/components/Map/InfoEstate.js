@@ -4,11 +4,11 @@ class InfoEstate extends Component {
     
     render() {
         let { estate } = this.props;
-        console.log(estate)
+        // console.log(estate)
         let url = `/properties/${estate._id}`
 
         return (
-            <Link to = {url}>
+            <Link to = {url} target="_blank">
                 <div className="property map-properties-list clearfix">
                     <div className="col-lg-5 col-md-5 col-sm-5 col-xs-12 col-pad property-img height" href="true"> 
                         {/* <a href="true" className="property-img height"> */}

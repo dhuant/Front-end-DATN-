@@ -9,9 +9,13 @@ class EstateMapContainer extends Component {
         super(props);
         this.state = {
             activeMarker: null,
+            // currentLatLng: {
+            //     lat: 10.792502,
+            //     lng: 106.6137603
+            // },
             currentLatLng: {
-                lat: 10.792502,
-                lng: 106.6137603
+                lat: 15.0573022,
+                lng: 108.6411479
             },
             isMarkerShown: false,
             place: {}
@@ -80,7 +84,7 @@ class EstateMapContainer extends Component {
     //     }
     // }
 
-    render() {
+    render() { 
         const { estates } = this.props;
         // let {place} = this.state;
         // console.log(place.ge);
@@ -125,6 +129,7 @@ const mapDispathToProp = (dispatch) => {
     }
 }
 const mapStateToProp = (state) => {
+    console.log(state);
     return {
         estates: state.estates,
     }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Button, } from 'react-bootstrap';
 import {withRouter, Link} from 'react-router-dom'
+
 const EstateMapCard = (props) => {
     const { est } = props;
     const url = `/properties/${est._id}`;
@@ -13,7 +14,7 @@ const EstateMapCard = (props) => {
                 <Card.Text>
                     {est.address}
                 </Card.Text>
-                <Link to= {url}>
+                <Link to= {url} target="_blank">
                 <Button variant="primary">Go detail</Button>
                 </Link>
             </Card.Body>

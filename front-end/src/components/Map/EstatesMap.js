@@ -2,11 +2,11 @@ import React from "react";
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps";
 import { } from 'react-google-maps'
 import EstateMarker from "./EstateMarker";
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import compass from '../../marker/compass.png'
 
 const EstatesMap = withScriptjs(withGoogleMap((props) => {
-
+  
   const markers = props.estates.map(estate => <EstateMarker
     key={estate._id}
     uid={estate._id}
@@ -45,9 +45,11 @@ const EstatesMap = withScriptjs(withGoogleMap((props) => {
 ))
 
 
-const mapStateToProp = (state) => {
-  return {
-    estates: state.estates
-  }
-}
-export default connect(mapStateToProp, null)(EstatesMap);
+// const mapStateToProp = (state) => {
+//   return {
+//     estates: state.estates
+//   }
+// }
+// export default connect(mapStateToProp, null)(EstatesMap);
+export default EstatesMap;
+

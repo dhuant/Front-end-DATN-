@@ -56,8 +56,9 @@ class EstateListInMap extends Component {
 	render() {
 		const { selectedOptionState, selectedOptionStatus } = this.state;
 		let estates = this.props.estates;
-		let listEstates = null;
-		if (estates) {
+		
+		let listEstates = <h5>Không có bất động sản nào được tìm thấy</h5>;
+		if (estates.length > 0) {
 			listEstates = estates.map((estate, index) => {
 				return (
 					<InfoEstate
@@ -68,6 +69,7 @@ class EstateListInMap extends Component {
 			}
 			)
 		}
+		
 		console.log(estates);
 		console.log(this.props.estates);
 		return (
@@ -200,6 +202,7 @@ class EstateListInMap extends Component {
 						</div>
 						<div className="fetching-properties">
 							{listEstates}
+							
 						</div>
 					</div>
 				</div>
