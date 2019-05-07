@@ -7,10 +7,12 @@ export const actFetchEstatesRequest = info => {
   return dispatch => {
     return axios.post("http://localhost:3001/projects/home", info)
       .then(res => {
+            console.log("request")
             dispatch(Action.actFetchEstates(res.data.projects));
       })
       .catch(error => {
-        dispatch(Action.actFetchEstates([])) ;
+        dispatch(Action.actFetchEstates([]));
+        // console.log(error);
       });
   };
 };

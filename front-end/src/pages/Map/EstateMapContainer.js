@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import EstatesMap from '../../components/Map/EstatesMap'
-
 import { connect } from 'react-redux';
 import * as actions from '../../actions/request';
+import {} from 'react-google-maps'
 // import EstateMarker from '../../components/Map/EstateMarker'
 // import compass from '../../marker/compass.png'
 // import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps";
@@ -23,8 +23,12 @@ class EstateMapContainer extends Component {
             //     lng: 106.6137603
             // },
             currentLatLng: {
-                lat: 15.0573022,
-                lng: 108.6411479
+                lat: 10.792502,
+                lng: 106.6137603
+            },
+            center: {
+                lat: 10.792502,
+                lng: 106.6137603
             },
             isMarkerShown: false,
             place: {}
@@ -32,14 +36,17 @@ class EstateMapContainer extends Component {
         }
     }
     componentDidMount() {
-        this.showCurrentLocation();
+        console.log(" ----- Did mount");
         var info = {
             radius: 5,
             lat: this.state.currentLatLng.lat.toString(),
             long: this.state.currentLatLng.lng.toString(),
         };
         console.log(info);
-        this.props.actFetchEstatesRequest(info); 
+        console.log(this.state.center)
+        // this.props.actFetchEstatesRequest(info); 
+        this.showCurrentLocation();
+        console.log(" ----- End Did mount");
     }
   
     showPlaceDetails(place) {
@@ -54,37 +61,62 @@ class EstateMapContainer extends Component {
                             lat: position.coords.latitude,
                             lng: position.coords.longitude
                         },
+                        center: {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        },
                         isMarkerShown: true
-                    })
+                    });
+                    console.log("get current location");
+                    console.log(this.state.currentLatLng);
+                    console.log("----center");
+                    console.log(this.state.center);
+                    var info = {
+                        radius: 5,
+                        lat: this.state.currentLatLng.lat.toString(),
+                        long: this.state.currentLatLng.lng.toString(),
+                    };
+                    this.props.actFetchEstatesRequest(info); 
+                    console.log(" ----- End getCurrent location");
                 }
             )
+            
         } else {
             console.log('error')
         }
     }
-    getSnapshotBeforeUpdate(prevProps, prevState) {
-        if (prevState.currentLatLng.lat !== this.state.currentLatLng.lat) {
-            return this.state.currentLatLng
-        }
-        return null
-    }
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (snapshot) {
-            let info = {
-                radius: 5,
-                lat: this.state.currentLatLng.lat.toString(),
-                long: this.state.currentLatLng.lng.toString(),
-            }
-            console.log(info);
-            this.props.actFetchEstatesRequest(info);
-        }
-    }
+    // getSnapshotBeforeUpdate(prevProps, prevState) {
+    //     if (prevState.currentLatLng.lat !== this.state.currentLatLng.lat) {
+    //         console.log("different")
+    //         return this.state.currentLatLng
+    //     }
+    //     return null
+    // }
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     if (snapshot) {
+    //         let info = {
+    //             radius: 5,
+    //             lat: this.state.currentLatLng.lat.toString(),
+    //             long: this.state.currentLatLng.lng.toString(),
+    //         }
+    //         console.log(info);
+    //         this.props.actFetchEstatesRequest(info);
+    //     }
+    // }
     closeOtherMarkers = (uid) => {
 		this.setState({activeMarker: uid})
     }
     handleMapChanged=()=> {
         // this.getMapBounds()
         this.setMapCenterPoint()
+        var info = {
+            radius: 5,
+            lat: this.state.center.lat.toString(),
+            long: this.state.center.lng.toString(),
+        };
+        console.log("map");
+        console.log(this.state.center);
+        this.props.actFetchEstatesRequest(info)
     }
     
     handleMapMounted = (map) => {
@@ -99,12 +131,45 @@ class EstateMapContainer extends Component {
     }
     setMapCenterPoint =() => {
         this.setState({
-            currentLatLng: {
+            center: {
                 lat: this.map.getCenter().lat(),
                 lng: this.map.getCenter().lng()
             },
+            // isMarkerShown: false
         })
     }
+    insertButton = () => {
+        let controlDiv = document.createElement('div');
+        // let centerControl = this.CenterControl(controlDiv, this.map);
+        this.map.controls[this.google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
+    }
+    // CenterControl = (controlDiv, map) => {
+    //     // Set CSS for the control border.
+    //     var controlUI = document.createElement('div');
+    //     controlUI.style.backgroundColor = '#fff';
+    //     controlUI.style.border = '2px solid #fff';
+    //     controlUI.style.borderRadius = '3px';
+    //     controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+    //     controlUI.style.cursor = 'pointer';
+    //     controlUI.style.marginBottom = '22px';
+    //     controlUI.style.textAlign = 'center';
+    //     controlUI.title = 'Click to recenter the map';
+    //     controlDiv.appendChild(controlUI);
+
+    //     // Set CSS for the control interior.
+    //     var controlText = document.createElement('div');
+    //     controlText.style.color = 'rgb(25,25,25)';
+    //     controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+    //     controlText.style.fontSize = '16px';
+    //     controlText.style.lineHeight = '38px';
+    //     controlText.style.paddingLeft = '5px';
+    //     controlText.style.paddingRight = '5px';
+    //     controlText.innerHTML = 'Center Map';
+    //     controlUI.appendChild(controlText);
+
+    //     // Setup the click event listeners: simply set the map to Chicago.
+    //     controlUI.addEventListener('click', this.showCurrentLocation());
+    //   }
     // getMapBounds =()=> {
     //     var mapBounds = this.map.getBounds();
     //     console.log(mapBounds);
@@ -136,6 +201,10 @@ class EstateMapContainer extends Component {
     render() { 
         const {currentLatLng}  = this.state;
         const { estates } = this.props;
+        console.log(" ----- render")
+        console.log(estates);
+        console.log(this.state.isMarkerShown);
+        console.log(" ----- End render")
         
         // let {place} = this.state;
         // console.log(place.ge);
@@ -152,6 +221,7 @@ class EstateMapContainer extends Component {
                 {/* <Searching  onPlaceChanged = {this.showPlaceDetails.bind(this)}/> */}
                 <EstatesMap
                     isMarkerShown={this.state.isMarkerShown}
+                    center = {this.state.center}
                     currentLocation={currentLatLng}
                     estates={estates}
                     googleMapURL={`https://maps.googleapis.com/maps/api/js?key=AIzaSyCaznvdfOL3vMLdqR729vJEWauyZp9-Ud8&v=3.exp&libraries=geometry,drawing,places`}
@@ -163,7 +233,8 @@ class EstateMapContainer extends Component {
                     
                     onMapMounted={this.handleMapMounted}
                     handleMapChanged={this.handleMapChanged}
-                    handleMapFullyLoaded={this.handleMapFullyLoaded}
+                    button={this.insertButton}
+                    // handleMapFullyLoaded={this.handleMapFullyLoaded}
                     
                 />                
                 <div className="form-group">
@@ -185,7 +256,7 @@ const mapDispathToProp = (dispatch) => {
     }
 }
 const mapStateToProp = (state) => {
-    console.log(state);
+    // console.log(state);
     return {
         estates: state.estates,
     }

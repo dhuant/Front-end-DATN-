@@ -24,13 +24,14 @@ const EstatesMap = withScriptjs(withGoogleMap((props) => {
   // }
   return (
     <GoogleMap
-    ref={props.onMapMounted}
+      ref={props.onMapMounted}
       defaultZoom={14}
-      center={{ lat: props.currentLocation.lat, lng: props.currentLocation.lng }}
+      center={{ lat: props.center.lat, lng: props.center.lng }}
       // onCenterChanged={props.onCenterChanged}
-      onZoomChanged={props.handleMapChanged}
+      // onZoomChanged={props.handleMapChanged}
       onDragEnd={props.handleMapChanged}
-      onBoundsChanged={props.handleMapFullyLoaded}
+      // onBoundsChanged={props.handleMapFullyLoaded}
+      controls={props.button}
     >
       {markers}
       {props.isMarkerShown && <Marker
