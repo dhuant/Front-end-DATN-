@@ -68,7 +68,7 @@ export const actGetCommentsByIdRequest = (id) => {
 
 export const actGetEstateListOfUserRequest = () => {
     return dispatch => {
-        return axios.post(`http://localhost:3001/users/dansachproject`, {headers:authHeader()}).then(res => {
+        return axios.get(`http://localhost:3001/users/dansachproject`, {headers:authHeader()}).then(res => {
             dispatch(Action.actGetEstateListOfUser(res.data.projects))
             console.log(res);
         });

@@ -10,6 +10,8 @@ import { authHeader } from '../constants/authHeader';
 import MapSearching from '../components/Map/MapSearching'
 import { Button, Form } from 'react-bootstrap'
 import { toast } from 'react-toastify'
+import { message } from 'antd'
+import moment from 'moment'
 
 const Types = [
     { value: '1', label: 'Phong thủy' },
@@ -41,7 +43,9 @@ class SubmitProperty extends Component {
             imageURLs: [],
             investor: '',
             loading: false,
-            toastError: ''
+            toastError: '',
+            url: '',
+            publicId: ''
         };
     }
     // handleChange = (selectedOption) => {
@@ -52,14 +56,14 @@ class SubmitProperty extends Component {
         this.setState({ [event.target.name]: event.target.value });
     }
     onSubmit = () => {
-        if (this.state.name === '' 
-            || this.state.investor === '' 
-            || this.state.area === '' 
-            || this.state.price === '' 
+        if (this.state.name === ''
+            || this.state.investor === ''
+            || this.state.area === ''
+            || this.state.price === ''
             || this.state.description === '') {
             return null
         }
-        if(this.state.name.length > 32){
+        if (this.state.name.length > 32) {
             this.onCheckingError('Name')
             return null
         }
@@ -78,12 +82,19 @@ class SubmitProperty extends Component {
                 long: this.props.address.markerPosition.lng,
                 ownerid: ownerID,
                 statusProject: this.state.status,
-                urlImageList: { ...this.state.imageURLs },
+                createTime: moment().unix(),
+                updateTime: moment().unix(),
+                // urlImageList: { ...this.state.imageURLs },
+                url: this.state.url,
+                publicId: this.state.publicId
             };
             console.log(info);
             axios.post('http://localhost:3001/projects/', info, { headers: authHeader() })
                 .then(res => {
                     console.log(res);
+                    if (res.status === 201)
+                        return message.success('Add project successfully!');
+                    else return message.error('Failed to add project!');
                 });
         }
 
@@ -104,13 +115,30 @@ class SubmitProperty extends Component {
                 break;
         }
     }
-    getUrlList = (urlList) => {
+    getUrlList = (urlArray, publicIdArray) => {
+        console.log(urlArray)
+        console.log(publicIdArray)
+        console.log(urlArray.length)
+        let urlString = ' ' 
+        urlArray.forEach(url => {
+            urlString = urlString + url + ','
+        })
+        console.log(urlString)
+        let publicIdString = ' '
+        publicIdArray.forEach(publicId => {
+            console.log('b') 
+            publicIdString += (publicId + ',')
+        })
+        console.log(publicIdString)
         this.setState({
-            imageURLs: urlList
+            url: urlString,
+            publicId: publicIdString
         })
     }
     showWidget = () => {
         let urlList = []
+        let urlArray = []
+        let publicIdArray = []
         window.cloudinary.openUploadWidget({
             cloudName: "dne3aha8f",
             uploadPreset: "dels6a22",
@@ -123,23 +151,29 @@ class SubmitProperty extends Component {
             maxFileSize: 500000,
             theme: "white",
             showPoweredBy: false,
+            showCompletedButton: true
         },
-            (error, result) => { this.checkUploadResult(result, urlList) })
+            (error, result) => { this.checkUploadResult(result, urlArray, publicIdArray) })
     }
-    checkUploadResult = (resultEvent, urlList) => {
+    checkUploadResult = (resultEvent, urlArray, publicIdArray) => {
         if (resultEvent.event === 'success') {
             console.log(resultEvent)
-            urlList.push(resultEvent.info.secure_url)
+            urlArray.push(resultEvent.info.secure_url)
+            publicIdArray.push(resultEvent.info.public_id)
         }
-        if (resultEvent.event === 'queues-end')
-            this.getUrlList(urlList)
-        console.log(urlList)
+        this.getUrlList(urlArray, publicIdArray)
+        // else if (resultEvent.event === 'show-completed'){
+            // urlArray.push(resultEvent.info.secure_url)
+            // publicIdArray.push(resultEvent.info.public_id)
+            // this.getUrlList(urlArray, publicIdArray)
+        // }
+        // console.log(url)
     }
     render() {
         // const { selectedOption } = this.state;
         let { type } = this.state;
         console.log(this.props.address)
-        console.log(this.state.imageURLs)
+        console.log(this.state.url)
         return (
             <div>
 
