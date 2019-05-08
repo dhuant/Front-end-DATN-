@@ -3,6 +3,7 @@ import EstatesMap from '../../components/Map/EstatesMap'
 import { connect } from 'react-redux';
 import * as actions from '../../actions/request';
 import {} from 'react-google-maps'
+
 // import EstateMarker from '../../components/Map/EstateMarker'
 // import compass from '../../marker/compass.png'
 // import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps";
@@ -30,9 +31,9 @@ class EstateMapContainer extends Component {
                 lat: 10.792502,
                 lng: 106.6137603
             },
+            zoomChange: 13,
             isMarkerShown: false,
-            place: {}
-            
+            place: {},
         }
     }
     componentDidMount() {
@@ -48,10 +49,16 @@ class EstateMapContainer extends Component {
         this.showCurrentLocation();
         console.log(" ----- End Did mount");
     }
-  
+
+    handleChangeState = (selectedOption) => {
+		this.setState({ selectedOption });
+
+	}
+
     showPlaceDetails(place) {
         this.setState({ place });
     }
+
     showCurrentLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -123,6 +130,12 @@ class EstateMapContainer extends Component {
         this.map = map
     }
     
+    onZoomChanged = () =>{
+        this.setState({
+            zoomChange: this.map.getZoom()
+        })
+        
+    }
     handleMapFullyLoaded = () => {
         if (this.mapFullyLoaded)
           return
@@ -143,33 +156,7 @@ class EstateMapContainer extends Component {
         // let centerControl = this.CenterControl(controlDiv, this.map);
         this.map.controls[this.google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
     }
-    // CenterControl = (controlDiv, map) => {
-    //     // Set CSS for the control border.
-    //     var controlUI = document.createElement('div');
-    //     controlUI.style.backgroundColor = '#fff';
-    //     controlUI.style.border = '2px solid #fff';
-    //     controlUI.style.borderRadius = '3px';
-    //     controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-    //     controlUI.style.cursor = 'pointer';
-    //     controlUI.style.marginBottom = '22px';
-    //     controlUI.style.textAlign = 'center';
-    //     controlUI.title = 'Click to recenter the map';
-    //     controlDiv.appendChild(controlUI);
 
-    //     // Set CSS for the control interior.
-    //     var controlText = document.createElement('div');
-    //     controlText.style.color = 'rgb(25,25,25)';
-    //     controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-    //     controlText.style.fontSize = '16px';
-    //     controlText.style.lineHeight = '38px';
-    //     controlText.style.paddingLeft = '5px';
-    //     controlText.style.paddingRight = '5px';
-    //     controlText.innerHTML = 'Center Map';
-    //     controlUI.appendChild(controlText);
-
-    //     // Setup the click event listeners: simply set the map to Chicago.
-    //     controlUI.addEventListener('click', this.showCurrentLocation());
-    //   }
     // getMapBounds =()=> {
     //     var mapBounds = this.map.getBounds();
     //     console.log(mapBounds);
@@ -233,8 +220,8 @@ class EstateMapContainer extends Component {
                     
                     onMapMounted={this.handleMapMounted}
                     handleMapChanged={this.handleMapChanged}
-                    button={this.insertButton}
                     // handleMapFullyLoaded={this.handleMapFullyLoaded}
+                    onZoomChanged={this.onZoomChanged}
                     
                 />                
                 <div className="form-group">

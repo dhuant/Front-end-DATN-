@@ -1,5 +1,5 @@
 import React from "react";
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps";
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow, Circle } from "react-google-maps";
 import EstateMarker from "./EstateMarker";
 // import { connect } from 'react-redux';
 import compass from '../../marker/compass.png'
@@ -18,6 +18,7 @@ const EstatesMap = withScriptjs(withGoogleMap((props) => {
   const onInfoWindowClose = (event) => {
 
   };
+
   // const getEstates = (e) => {
   //   let center = getCenter();
   //   console.log(center);
@@ -27,12 +28,17 @@ const EstatesMap = withScriptjs(withGoogleMap((props) => {
       ref={props.onMapMounted}
       defaultZoom={14}
       center={{ lat: props.center.lat, lng: props.center.lng }}
-      // onCenterChanged={props.onCenterChanged}
-      // onZoomChanged={props.handleMapChanged}
+      // onCenterChanged={props.handleMapChanged}
       onDragEnd={props.handleMapChanged}
       // onBoundsChanged={props.handleMapFullyLoaded}
-      controls={props.button}
+      // onZoomChanged={props.onZoomChanged}
     >
+      <Circle
+      center={{ lat: props.center.lat, lng: props.center.lng }}
+      radius={5000}
+      options={{fillColor: "rgb(139, 139, 145)", fillOpacity: 0.3, strokeOpacity: 0.2}}
+      >
+      </Circle>
       {markers}
       {props.isMarkerShown && <Marker
         icon={compass}
