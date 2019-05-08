@@ -74,7 +74,7 @@ class EstateListInMap extends Component {
 		// console.log(this.props.estates);
 		return (
 			<div>
-				<div className="col-xs-12 col-sm-12 col-md-7 col-md-pull-5 col-lg-6 col-lg-pull-6 map-content-sidebar" style={{ overflow: 'scroll', height: '100vh' }}>
+				<div className="col-xs-12 col-sm-12 col-md-7 col-md-pull-5 col-lg-4 col-lg-pull-8 map-content-sidebar" style={{ overflow: 'scroll', height: '100vh' }}>
 					<div className="title-area">
 						<h2 className="pull-left">Search</h2>
 						{/* <a className="show-more-options pull-right" data-toggle="collapse" data-target="#options-content">

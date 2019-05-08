@@ -26,7 +26,7 @@ const EstatesMap = withScriptjs(withGoogleMap((props) => {
   return (
     <GoogleMap
       ref={props.onMapMounted}
-      defaultZoom={14}
+      defaultZoom={13}
       center={{ lat: props.center.lat, lng: props.center.lng }}
       // onCenterChanged={props.handleMapChanged}
       onDragEnd={props.handleMapChanged}

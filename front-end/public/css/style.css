@@ -1263,6 +1263,7 @@ input[type=checkbox]:checked + label:before {
 
 .property:hover {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.10), 0 3px 3px 0 rgba(0, 0, 0, 0.10);
+    background-color: #b1f2b1
 }
 
 .property-img {
@@ -7312,7 +7313,7 @@ table.manage-table .title-container .title span {
 
 /** List view inside Map **/
 .map-properties-list {
-    margin: 0px 15px 30px 15px;
+    margin: 0px 15px 15px 15px;
 }
 
 .img-inside-map {
