@@ -27,7 +27,7 @@ export default class Searching extends Component {
           <input
             ref={this.autocompleteInput}
             id="autocomplete"
-            placeholder="Enter your address"
+            placeholder="Nhập địa chỉ chi tiết ở đây..."
             type="text"
             style={{width: '100%', height: '40px', border: '2px solid #84ad1d', borderRadius: '5px'}}
           />

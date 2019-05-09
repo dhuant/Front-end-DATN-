@@ -17,8 +17,8 @@ import HomeMap from './pages/Map/HomeMap'
 import EstateListListView from './pages/EstateList_ListView'
 import News from './pages/News'
 import NewsDetail from './pages/NewsDetail' 
-import ImagesUpload from './components/ImageUploading/Main'
 import MapOfDetail from './components/Properties/MapOfDetailEstate'
+import ViewUI from './components/My Properties/ViewUI'
 
 class App extends Component {
   render() {
@@ -42,9 +42,9 @@ class App extends Component {
             <Route exact path="/news/:id" component={NewsDetail} />
             <Route exact path='/properties' component={Properties} />
             <Route exact path='/homemaps' component={HomeMap} />
-            <Route exact path='/imageupload' component={ImagesUpload}/>
             <Route exact path='/demo' component={MapOfDetail}/>
-            <Route  path='' component={NotFound} />
+            <Route exact path='/viewui' component={ViewUI}/>
+            <Route exact path='' component={NotFound} />
           </Switch>
         </div>
       </BrowserRouter>

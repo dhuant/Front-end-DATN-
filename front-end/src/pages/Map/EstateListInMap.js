@@ -19,14 +19,14 @@ class EstateListInMap extends Component {
 			radius: '',
 			error: '',
 			selectedOption: null,
-
+			
 		};
 	}
 	handleChangeState = (selectedOption) => {
 		this.setState({ selectedOption });
-
+		
 	}
-
+	
 	// findAround = (e) => {
 	// 	e.preventDefault();
 	// 	// var headers = {
@@ -206,12 +206,12 @@ class EstateListInMap extends Component {
 						</div>
 					</div>
 				</div>
-
+				
 			</div>
 		);
 	}
 }
-const mapDispatchToProp = (dispatch) => {
+const mapDispathToProp = (dispatch) => {
 	return {
 		actFetchEstatesRequest: (info) => dispatch(actions.actFetchEstatesRequest(info))
 	}
@@ -222,4 +222,4 @@ const mapStateToProp = (state) => {
 		location: state.location
 	}
 }
-export default connect(mapStateToProp, mapDispatchToProp)(EstateListInMap);
+export default connect(mapStateToProp, mapDispathToProp)(EstateListInMap);

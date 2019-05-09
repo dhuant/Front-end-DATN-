@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {MY_PROPERTIES, CHANGE_PASSWORD, SUBMIT_ESTATE, PROFILE} from '../../constants/Profile'
+import {MY_PROPERTIES, CHANGE_PASSWORD, SUBMIT_ESTATE} from '../../constants/Profile'
 
 class Info extends Component {
     onMyProperties = (e) => {
@@ -67,11 +67,11 @@ class Info extends Component {
                     </div>
                     <div className="content">
                         <ul>
-                            <li>
+                            {/* <li>
                                 <a href="true" onClick={this.onShowProfile} className={this.props.component === PROFILE ? "active" : ""}>
                                     <i className="flaticon-social" />Profile
                                 </a>
-                            </li>
+                            </li> */}
                             <li>
                                 <a href="true" onClick={this.onMyProperties} className={this.props.component === MY_PROPERTIES ? "active" : ""}>
                                     <i className="flaticon-apartment" />My Properties

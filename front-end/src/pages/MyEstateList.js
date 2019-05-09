@@ -82,7 +82,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        estatesListOfUser: state.estates
+        estatesListOfUser: state.estateListOfUser
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MyEstateList)

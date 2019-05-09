@@ -8,7 +8,7 @@ import * as actions from '../actions/request';
 // import { Select } from 'antd';
 import { connect } from 'react-redux';
 import {HOME} from '../constants/Navbar'
-
+import moment from 'moment'
 const Types = [
     { value: 'sell', label: 'Sell' },
     { value: 'sold', label: 'Sold' },
@@ -98,7 +98,7 @@ class Home extends Component {
         console.log(district);
         console.log(area);
         console.log(price);
-
+        console.log(moment().unix())
         return (
             <div>
 

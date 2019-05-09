@@ -18,6 +18,7 @@ export const actFetchEstatesRequest = info => {
 };
 
 //Hàm này sử dụng cho việc lấy detail của 1 estate
+
 export const actGetEstateRequest = id => {
   return dispatch => {
     return callApi(`projects/${id}`, "GET", null).then(res => {
@@ -78,6 +79,7 @@ export const actGetCommentsByIdRequest = id => {
 };
 
 export const actGetEstateListOfUserRequest = () => {
+
   return dispatch => {
     return axios
       .post(`http://localhost:3001/users/dansachproject`, {
@@ -89,3 +91,4 @@ export const actGetEstateListOfUserRequest = () => {
       });
   };
 };
+

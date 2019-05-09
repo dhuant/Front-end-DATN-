@@ -92,6 +92,7 @@ class EstateMapContainer extends Component {
             console.log('error')
         }
     }
+
     // getSnapshotBeforeUpdate(prevProps, prevState) {
     //     if (prevState.currentLatLng.lat !== this.state.currentLatLng.lat) {
     //         console.log("different")
@@ -110,6 +111,7 @@ class EstateMapContainer extends Component {
     //         this.props.actFetchEstatesRequest(info);
     //     }
     // }
+
     closeOtherMarkers = (uid) => {
 		this.setState({activeMarker: uid})
     }

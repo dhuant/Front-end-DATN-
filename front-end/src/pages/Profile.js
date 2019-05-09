@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Info from '../components/Profile/Info'
 import Footer from '../components/Footer';
 import MainHeader from '../components/MainHeader';
-import Detail from '../components/Profile/Detail'
 import { PROFILE } from '../constants/Profile';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -43,7 +42,7 @@ class Profile extends Component {
                                 <Info component={PROFILE} user={user}/>
                             </div>
                             <div className="col-lg-8 col-md-8 col-sm-12">
-                                <Detail user={user}/>
+                                
                             </div>
                         </div>
                     </div>

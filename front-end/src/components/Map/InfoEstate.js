@@ -80,6 +80,7 @@ class InfoEstate extends Component {
                             </p> */}
                             {/* Facilities List */}
                             {/* <ul className="facilities-list clearfix">
+
                             <li> <i className="flaticon-square-layouting-with-black-square-in-east-area" /> <span>2123 sq ft</span> </li>
                             <li> <i className="flaticon-bed" /> <span>5 Beds</span> </li>
                             <li> <i className="flaticon-monitor" /> <span>TV </span> </li>
