@@ -39,6 +39,7 @@ class EstateMarker extends Component {
             <Marker onClick={this.toggleOpen}
                 icon={houseIcon}
                 position={this.props.location}
+                zIndex={4}
             >
                 {this.state.isOpen && this.state.activeMarker ?
                     <InfoWindow maxWidth={800} defaultPosition={this.props.location} onCloseClick={this.props.onToggleOpen}>

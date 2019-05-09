@@ -1,12 +1,11 @@
 import React from "react";
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps";
-import { } from 'react-google-maps'
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow, Circle } from "react-google-maps";
 import EstateMarker from "./EstateMarker";
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import compass from '../../marker/compass.png'
 
 const EstatesMap = withScriptjs(withGoogleMap((props) => {
-
+  
   const markers = props.estates.map(estate => <EstateMarker
     key={estate._id}
     uid={estate._id}
@@ -14,15 +13,32 @@ const EstatesMap = withScriptjs(withGoogleMap((props) => {
     location={{ lat: estate.lat, lng: estate.long }}
     activeMarker={estate._id === props.activeMarker ? true : false}
     closeMarkers={props.closeOtherMarkers}
+
   />);
   const onInfoWindowClose = (event) => {
 
   };
+
+  // const getEstates = (e) => {
+  //   let center = getCenter();
+  //   console.log(center);
+  // }
   return (
     <GoogleMap
-      defaultZoom={14}
-      center={{ lat: props.currentLocation.lat, lng: props.currentLocation.lng }}
+      ref={props.onMapMounted}
+      defaultZoom={13}
+      center={{ lat: props.center.lat, lng: props.center.lng }}
+      // onCenterChanged={props.handleMapChanged}
+      onDragEnd={props.handleMapChanged}
+      // onBoundsChanged={props.handleMapFullyLoaded}
+      // onZoomChanged={props.onZoomChanged}
     >
+      <Circle
+      center={{ lat: props.center.lat, lng: props.center.lng }}
+      radius={5000}
+      options={{fillColor: "rgb(139, 139, 145)", fillOpacity: 0.3, strokeOpacity: 0.2}}
+      >
+      </Circle>
       {markers}
       {props.isMarkerShown && <Marker
         icon={compass}
@@ -45,9 +61,11 @@ const EstatesMap = withScriptjs(withGoogleMap((props) => {
 ))
 
 
-const mapStateToProp = (state) => {
-  return {
-    estates: state.estates
-  }
-}
-export default connect(mapStateToProp, null)(EstatesMap);
+// const mapStateToProp = (state) => {
+//   return {
+//     estates: state.estates
+//   }
+// }
+// export default connect(mapStateToProp, null)(EstatesMap);
+export default EstatesMap;
+

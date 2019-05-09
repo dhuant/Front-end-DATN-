@@ -48,7 +48,7 @@ class HomeMap extends Component {
             <div>
                 <MainHeader />
                 <div className="map-content content-area container-fluid" >
-                    <div className="col-xs-12 col-sm-12 col-md-5 col-md-push-7 col-lg-6 col-lg-push-6">
+                    <div className="col-xs-12 col-sm-12 col-md-5 col-md-push-7 col-lg-8 col-lg-push-4 ">
                         <div className="row">
                             <EstateMapContainer />
                         </div>
