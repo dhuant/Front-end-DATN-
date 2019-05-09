@@ -24,7 +24,7 @@ class Properties extends Component {
         let detail = '';
         if(info){
             console.log(info);
-            detail = <PropertiesDetail info={info}/>
+            detail = <PropertiesDetail info={info} id={this.props.match.params.id}/>
         }
         
         return (

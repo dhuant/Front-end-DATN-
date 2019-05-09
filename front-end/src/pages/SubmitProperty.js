@@ -12,15 +12,15 @@ import { Button, Form } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { message } from 'antd'
 import moment from 'moment'
+import { Upload, Icon, Modal } from 'antd';
 
 const Types = [
-    { value: '1', label: 'Phong thủy' },
-    { value: '2', label: 'Nội thất' },
-    { value: '3', label: 'Ngoại thất' },
-    { value: '4', label: 'Xây dựng' },
-    { value: '5', label: 'Kiến trúc' },
-    { value: '6', label: 'Tài chính' },
-    { value: '7', label: 'Luật bất động sản' },
+    { value: '1', label: 'Chung cư. căn hộ' },
+    { value: '2', label: 'Nhà phố' },
+    { value: '3', label: 'Biệt thự' },
+    { value: '4', label: 'Đất nền dự án' },
+    { value: '5', label: 'Văn phòng' },
+    { value: '6', label: 'Nhà kho' }
 ];
 
 const Status = [
@@ -44,14 +44,36 @@ class SubmitProperty extends Component {
             investor: '',
             loading: false,
             toastError: '',
-            url: '',
-            publicId: ''
+            url: [],
+            publicId: [],
+            previewVisible: false,
+            previewImage: '',
+            fileList: [{
+                uid: '-1',
+                name: 'xxx.png',
+                status: 'done',
+                url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+            }],
+            contactname: '',
+            contactphonenumber: '',
+            contactemail: ''
         };
     }
     // handleChange = (selectedOption) => {
     //     this.setState({ selectedOption });
     //     console.log(`Option selected:`, selectedOption);
     // }
+    handleCancel = () => this.setState({ previewVisible: false })
+
+    handlePreview = (file) => {
+        this.setState({
+            previewImage: file.url || file.thumbUrl,
+            previewVisible: true,
+        });
+    }
+
+    handleChangeImageList = ({ fileList }) => this.setState({ fileList })
+
     onHandleChange = (event) => {
         this.setState({ [event.target.name]: event.target.value });
     }
@@ -86,14 +108,20 @@ class SubmitProperty extends Component {
                 updateTime: moment().unix(),
                 // urlImageList: { ...this.state.imageURLs },
                 url: this.state.url,
-                publicId: this.state.publicId
+                publicId: this.state.publicId,
+                contactname: this.state.contactname,
+                contactphonenumber: this.state.contactphonenumber,
+                contactemail: this.state.contactemail,
             };
             console.log(info);
             axios.post('http://localhost:3001/projects/', info, { headers: authHeader() })
                 .then(res => {
                     console.log(res);
-                    if (res.status === 201)
+                    if (res.status === 201){
+                        this.props.history.goBack()
                         return message.success('Add project successfully!');
+                        
+                    }
                     else return message.error('Failed to add project!');
                 });
         }
@@ -119,20 +147,20 @@ class SubmitProperty extends Component {
         console.log(urlArray)
         console.log(publicIdArray)
         console.log(urlArray.length)
-        let urlString = ' ' 
+        let urlString = ' '
         urlArray.forEach(url => {
             urlString = urlString + url + ','
         })
         console.log(urlString)
         let publicIdString = ' '
         publicIdArray.forEach(publicId => {
-            console.log('b') 
+            console.log('b')
             publicIdString += (publicId + ',')
         })
         console.log(publicIdString)
         this.setState({
-            url: urlString,
-            publicId: publicIdString
+            url: urlArray,
+            publicId: publicIdArray
         })
     }
     showWidget = () => {
@@ -151,7 +179,8 @@ class SubmitProperty extends Component {
             maxFileSize: 500000,
             theme: "white",
             showPoweredBy: false,
-            showCompletedButton: true
+            // showCompletedButton: true
+            
         },
             (error, result) => { this.checkUploadResult(result, urlArray, publicIdArray) })
     }
@@ -163,17 +192,25 @@ class SubmitProperty extends Component {
         }
         this.getUrlList(urlArray, publicIdArray)
         // else if (resultEvent.event === 'show-completed'){
-            // urlArray.push(resultEvent.info.secure_url)
-            // publicIdArray.push(resultEvent.info.public_id)
-            // this.getUrlList(urlArray, publicIdArray)
+        // urlArray.push(resultEvent.info.secure_url)
+        // publicIdArray.push(resultEvent.info.public_id)
+        // this.getUrlList(urlArray, publicIdArray)
         // }
         // console.log(url)
     }
     render() {
         // const { selectedOption } = this.state;
+        const { previewVisible, previewImage, fileList } = this.state;
+        const uploadButton = (
+            <div>
+                <Icon type="plus" />
+                <div className="ant-upload-text" onClick={this.showWidget}>Upload</div>
+            </div>
+        );
         let { type } = this.state;
         console.log(this.props.address)
         console.log(this.state.url)
+        console.log(fileList)
         return (
             <div>
 
@@ -209,7 +246,7 @@ class SubmitProperty extends Component {
                                         <div className="main-title-2">
                                             <h1>
                                                 <span>Thông tin</span> cơ bản
-              </h1>
+                                            </h1>
                                         </div>
                                         <div className="search-contents-sidebar mb-30">
                                             <div className="row">
@@ -264,7 +301,7 @@ class SubmitProperty extends Component {
                                                             value={type}
                                                             onChange={this.onHandleChange}
                                                         >
-                                                            {Types.map((type, index) => <option key={index} value={type.value}>{type.label}</option>)}
+                                                            {Types.map((type, indexx) => <option key={indexx} value={type.value}>{type.label}</option>)}
 
                                                         </select>
                                                     </div>
@@ -329,10 +366,80 @@ class SubmitProperty extends Component {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="main-title-2">
+                                            <h1>
+                                                <span>Thông tin</span> liên hệ
+                                            </h1>
+                                        </div>
+                                        <div className="search-contents-sidebar mb-30">
+                                            <div className="row">
+                                                <div className="col-md-6 col-sm-6">
+                                                    <div className="form-group">
+                                                        <label>Tên người liên hệ</label>
+                                                        <input
+                                                            type="text"
+                                                            className="input-text"
+                                                            name="contactname"
+                                                            placeholder="Tên người liên hệ"
+                                                            onChange={this.onHandleChange}
+                                                            required
+                                                        />
 
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6 col-sm-6">
+                                                    <div className="form-group">
+                                                        <label>Số điện thoại</label>
+                                                        <input
+                                                            type="text"
+                                                            className="input-text"
+                                                            name="contactphonenumber"
+                                                            placeholder="Số điện thoại"
+                                                            onChange={this.onHandleChange}
+                                                            required
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="row">
+                                                <div className="col-md-6 col-sm-6">
+                                                    <div className="form-group">
+                                                        <label>Địa chỉ email</label>
+                                                        <input
+                                                            type="text"
+                                                            className="input-text"
+                                                            name="contactemail"
+                                                            placeholder="Email"
+                                                            onChange={this.onHandleChange}
+                                                            
+                                                        />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <Button variant="info" style={{ float: "right", fontSize: '12px', marginTop: "0px" }} onClick={this.showWidget}>Đăng hình kèm theo</Button>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="clearfix">
+                                                {/* <Upload
+                                                    // action={this.showWidget}
+                                                    listType="picture-card"
+                                                    fileList={fileList}
+                                                    onPreview={this.handlePreview}
+                                                    onChange={this.handleChangeImageList}
+                                                    
+                                                >
+                                                    {fileList.length >= 5 ? null : uploadButton}
+                                                </Upload>
+                                                
+                                                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                                                    <img alt="example" style={{ width: '100%', height: '100%' }} src={previewImage} />
+                                                </Modal> */}
                                             </div>
                                         </div>
 

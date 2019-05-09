@@ -60,7 +60,7 @@ export const actGetNewsByIdRequest = (id) => {
 export const actGetCommentsByIdRequest = (id) => {
     return dispatch => {
         return callApi(`comment/all/${id}`, 'GET', null).then(res => {
-            //dispatch(Action.actGetComments(res.data.comments));
+            dispatch(Action.actGetComments(res.data.comments));
             console.log(res)
         })
     }
@@ -68,7 +68,7 @@ export const actGetCommentsByIdRequest = (id) => {
 
 export const actGetEstateListOfUserRequest = () => {
     return dispatch => {
-        return axios.get(`http://localhost:3001/users/dansachproject`, {headers:authHeader()}).then(res => {
+        return axios.get(`http://localhost:3001/users/danhsachproject`, {headers:authHeader()}).then(res => {
             dispatch(Action.actGetEstateListOfUser(res.data.projects))
             console.log(res);
         });

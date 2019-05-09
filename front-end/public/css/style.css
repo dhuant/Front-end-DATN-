@@ -39,6 +39,7 @@ Version:    1.1.0
     30. Sub Footer / .sub-footer
 -------------------------------------------------------------------*/
 /** GLOBAL CLASSES **/
+/* @import "node_modules/react-image-gallery/styles/css/image-gallery.css"; */
 html, body {
     height: 100%;
 }

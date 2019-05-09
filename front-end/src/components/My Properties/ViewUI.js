@@ -1,30 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/request'
-import MapOfDetailEstate from "../Properties/MapOfDetailEstate";
+import MapOfDetailEstate from "../Properties/MapOfDetailEstate"
+// import {Image, Transformation} from 'cloudinary-react'
 
 class ViewUI extends Component {
-    OnSplitString = (string) => {
-        if (string === undefined)
-            return null
-        else {
-            var i = 0, j = 0
-            var length = string.length
-            var trim = string.trim()
-            let array = []
-            while (j < length) {
-                if (trim[j] === ',') {
-                    array.push(trim.substring(i, j))
-                    i = j + 1
-                }
-                j++
-            }
-            // array.push(trim.substr(i, length - 1))
-            return array
-        }
-    }
-    onShowImagesSmall = (images) => {
-        if (images === null) {
+    onShowImagesThumbnail = (images) => {
+        if (images.length === 0) {
             return null
         }
         var result = null;
@@ -32,39 +14,47 @@ class ViewUI extends Component {
             result = images.map((image, index) => {
                 // console.log(index)
                 return (
-                    <div className="item">
+                    <div className={index === 0 ? "item active" : "item"} key={index}>
                         <img
                             src={image}
                             className="thumb-preview"
-                            alt={index}
-                            style={{ width: "150px", height: "100px" }}
+                            style={{ width: "780%", height: "500px" }}
+                            alt="Chevrolet Impala"
                         />
+                        {/* <Image publicId={image}>
+                            <Transformation width="150px" height="100px"/>
+                        </Image> */}
                     </div>
                 );
             });
         }
         return result;
     }
-    onShowImagesThumbnail = (images) => {
-        if (images === null) {
+    onShowImagesSmall = (images) => {
+        if (images.length === 0) {
             var string = "Bài đăng này hiện không có hình nào!"
             return <span>{string}</span>
         }
         var result = null;
         if (images.length > 0) {
             result = images.map((image, index) => {
-                // console.log(index)
+                var percent = 100/(index + 1)
+                console.log(percent)
                 return (
                     <li
                         data-target="#carousel-custom"
                         data-slide-to={index}
-
+                        key={index}
                     >
                         <img
                             src={image}
                             alt={index}
-                            style={{ width: "750px", height: "500px" }}
+                            style={{ height: "100px", width: `100%` }}
+                            key={index}
                         />
+                        {/* <Image publicId={image}>
+                            <Transformation width="750px" height="500px"/>
+                        </Image> */}
                     </li>
                 );
             });
@@ -72,7 +62,7 @@ class ViewUI extends Component {
         return result;
     }
     onShowImageSlide = (images) => {
-        if (images === null)
+        if (images.length === 0)
             return null
         else return (
             <div>
@@ -109,12 +99,13 @@ class ViewUI extends Component {
     }
     render() {
         let { estateUserInfo } = this.props
-        let urlArray = []
-        let publicIdArray = []
-        console.log(JSON.stringify(estateUserInfo.url))
-        urlArray = this.OnSplitString(estateUserInfo.url)
+        console.log(estateUserInfo)
+        let urlArray = estateUserInfo.url
+        let publicIdArray = estateUserInfo.publicId
+        // console.log(JSON.stringify(estateUserInfo.url))
+        // urlArray = this.OnSplitString(estateUserInfo.url)
         // let urlArray = this.OnSplitString(estateUserInfo.url)
-        publicIdArray = this.OnSplitString(estateUserInfo.publicId)
+        // publicIdArray = this.OnSplitString(estateUserInfo.publicId)
         console.log(urlArray)
         console.log(publicIdArray)
         return (
@@ -149,7 +140,6 @@ class ViewUI extends Component {
                                     {/* Wrapper for slides */}
                                     <div className="carousel-inner">
                                         {this.onShowImagesThumbnail(urlArray)}
-                                        {/* <span>Không có hình nào!</span> */}
                                     </div>
                                     {/* Controls */}
                                     {this.onShowImageSlide(urlArray)}
@@ -157,86 +147,6 @@ class ViewUI extends Component {
                                 {/* Indicators */}
                                 <ol className="carousel-indicators thumbs visible-lg visible-md">
                                     {this.onShowImagesSmall(urlArray)}
-                                    {/* <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={0}
-
-                                    >
-                                        <img
-                                            src="/img/properties/properties-small-3.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li>
-                                    <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={1}
-
-                                    >
-                                        <img
-                                            src="/img/properties/properties-small-3.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li>
-                                    <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={2}
-
-                                    >
-                                        <img
-                                            src="/img/properties/properties-small-4.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li>
-                                    <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={3}
-
-                                    >
-                                        <img
-                                            src="/img/properties/properties-small-5.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li>
-                                    <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={4}
-
-                                    >
-                                        <img
-                                            src="/img/properties/properties-small-6.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li>
-                                    <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={5}
-
-                                    >
-                                        <img
-                                            src="/img/properties/properties-small-7.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li>
-                                    <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={6}
-
-                                    >
-                                        <img
-                                            src="/img/properties/properties-small-8.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li>
-                                    <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={7}
-
-                                    >
-                                        <img
-                                            src="/img/properties/properties-small-2.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li> */}
                                 </ol>
                             </div>
                         </div>

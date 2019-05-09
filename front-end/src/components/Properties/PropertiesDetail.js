@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Comments from './Comments'
 import * as actions from '../../actions/request'
 import MapOfDetailEstate from "./MapOfDetailEstate";
+import InfoBox from "react-google-maps/lib/components/addons/InfoBox";
 // const options = [
 //     { value: 'chocolate', label: 'Chocolate' },
 //     { value: 'strawberry', label: 'Strawberry' },
@@ -26,15 +27,110 @@ class PropertiesDetail extends Component {
         console.log(this.props.id)
         this.props.onGetCommentsById(this.props.id)
     }
+    onShowImagesThumbnail = (images) => {
+        if (images === undefined) {
+            return null
+        }
+        var result = null;
+        if (images.length > 0) {
+            result = images.map((image, index) => {
+                // console.log(index)
+                return (
+                    <div className={index === 0 ? "item active" : "item"} key={index}>
+                        <img
+                            src={image}
+                            className="thumb-preview"
+                            style={{ width: "780%", height: "500px" }}
+                            alt="Chevrolet Impala"
+                        />
+                        {/* <Image publicId={image}>
+                            <Transformation width="150px" height="100px"/>
+                        </Image> */}
+                    </div>
+                );
+            });
+        }
+        return result;
+    }
+    onShowImagesSmall = (images) => {
+        if (images === undefined) {
+            var string = "Bài đăng này hiện không có hình nào!"
+            return <span>{string}</span>
+        }
+        var result = null;
+        if (images.length > 0) {
+            result = images.map((image, index) => {
+                var percent = 100 / (index + 1)
+                console.log(percent)
+                return (
+                    <li
+                        data-target="#carousel-custom"
+                        data-slide-to={index}
+                        key={index}
+                    >
+                        <img
+                            src={image}
+                            alt={index}
+                            style={{ height: "100px", width: `100%` }}
+                            key={index}
+                        />
+                        {/* <Image publicId={image}>
+                            <Transformation width="750px" height="500px"/>
+                        </Image> */}
+                    </li>
+                );
+            });
+        }
+        return result;
+    }
+    onShowImageSlide = (images) => {
+        if (images === undefined)
+            return null
+        else return (
+            <div>
+                <a
+                    className="left carousel-control"
+                    href="#carousel-custom"
+                    role="button"
+                    data-slide="prev"
+                >
+                    <span
+                        className="slider-mover-left no-bg t-slider-r pojison"
+                        aria-hidden="true"
+                    >
+                        <i className="fa fa-angle-left" />
+                    </span>
+                    <span className="sr-only">Previous</span>
+                </a>
+                <a
+                    className="right carousel-control"
+                    href="#carousel-custom"
+                    role="button"
+                    data-slide="next"
+                >
+                    <span
+                        className="slider-mover-right no-bg t-slider-l pojison"
+                        aria-hidden="true"
+                    >
+                        <i className="fa fa-angle-right" />
+                    </span>
+                    <span className="sr-only">Next</span>
+                </a>
+            </div>
+        )
+    }
     render() {
         let { info, comments } = this.props;
         console.log(info);
+        let urlArray = info.url
+        let publicIdArray = info.publicId
         // console.log(info.url)
         // let map = '';
         // if(info){
         //   console.log(info);
         //   map = <MapOfDetailEstate info={info}/>
         // }
+        console.log(info.url, info.publicId)
         return (
             <div>
                 <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
@@ -54,9 +150,8 @@ class PropertiesDetail extends Component {
                             <h5>Per Manth</h5>
                         </div>
                     </div>
-                    {/* Properties details section start */}
+                    {/* Properties detail slider start */}
                     <div className="Properties-details-section sidebar-widget">
-                        {/* Properties detail slider start */}
                         <div className="properties-detail-slider simple-slider mb-40">
                             <div
                                 id="carousel-custom"
@@ -66,180 +161,14 @@ class PropertiesDetail extends Component {
                                 <div className="carousel-outer">
                                     {/* Wrapper for slides */}
                                     <div className="carousel-inner">
-                                        <div className="item">
-                                            {/* <img
-                                                src={"/img/properties/properties-1.jpg"}
-                                                className="thumb-preview"
-                                                alt="Chevrolet Impala"
-                                            /> */}
-                                            <iframe 
-                                                src="https://storage.googleapis.com/vrview/2.0/embed?image=./img/panorama.jpg&is_stereo=true"
-                                                className="thumb-preview">
-                                                
-                                            </iframe>
-                                        </div>
-                                        <div className="item">
-                                            <img
-                                                src="/img/properties/properties-3.jpg"
-                                                className="thumb-preview"
-                                                alt="Chevrolet Impala"
-                                            />
-                                        </div>
-                                        <div className="item">
-                                            <img
-                                                src="/img/properties/properties-4.jpg"
-                                                className="thumb-preview"
-                                                alt="Chevrolet Impala"
-                                            />
-                                        </div>
-                                        <div className="item">
-                                            <img
-                                                src="/img/properties/properties-5.jpg"
-                                                className="thumb-preview"
-                                                alt="Chevrolet Impala"
-                                            />
-                                        </div>
-                                        <div className="item">
-                                            <img
-                                                src="/img/properties/properties-6.jpg"
-                                                className="thumb-preview"
-                                                alt="Chevrolet Impala"
-                                            />
-                                        </div>
-                                        <div className="item">
-                                            <img
-                                                src="/img/properties/properties-7.jpg"
-                                                className="thumb-preview"
-                                                alt="Chevrolet Impala"
-                                            />
-                                        </div>
-                                        <div className="item">
-                                            <img
-                                                src="/img/properties/properties-8.jpg"
-                                                className="thumb-preview"
-                                                alt="Chevrolet Impala"
-                                            />
-                                        </div>
-                                        <div className="item active">
-                                            <img
-                                                src="/img/properties/properties-2.jpg"
-                                                className="thumb-preview"
-                                                alt="Chevrolet Impala"
-                                            />
-                                        </div>
+                                        {this.onShowImagesThumbnail(urlArray)}
                                     </div>
                                     {/* Controls */}
-                                    <a
-                                        className="left carousel-control"
-                                        href="#carousel-custom"
-                                        role="button"
-                                        data-slide="prev"
-                                    >
-                                        <span
-                                            className="slider-mover-left no-bg t-slider-r pojison"
-                                            aria-hidden="true"
-                                        >
-                                            <i className="fa fa-angle-left" />
-                                        </span>
-                                        <span className="sr-only">Previous</span>
-                                    </a>
-                                    <a
-                                        className="right carousel-control"
-                                        href="#carousel-custom"
-                                        role="button"
-                                        data-slide="next"
-                                    >
-                                        <span
-                                            className="slider-mover-right no-bg t-slider-l pojison"
-                                            aria-hidden="true"
-                                        >
-                                            <i className="fa fa-angle-right" />
-                                        </span>
-                                        <span className="sr-only">Next</span>
-                                    </a>
+                                    {this.onShowImageSlide(urlArray)}
                                 </div>
                                 {/* Indicators */}
                                 <ol className="carousel-indicators thumbs visible-lg visible-md">
-                                    <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={0}
-                                        className
-                                    >
-                                        <img
-                                            src="https://res.cloudinary.com/dne3aha8f/image/upload/v1556951928/lyh75wf37pfjk1hz7jq3.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li>
-                                    <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={1}
-                                        className
-                                    >
-                                        <img
-                                            src="/img/properties/properties-small-3.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li>
-                                    <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={2}
-                                        className
-                                    >
-                                        <img
-                                            src="/img/properties/properties-small-4.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li>
-                                    <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={3}
-                                        className
-                                    >
-                                        <img
-                                            src="/img/properties/properties-small-5.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li>
-                                    <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={4}
-                                        className
-                                    >
-                                        <img
-                                            src="/img/properties/properties-small-6.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li>
-                                    <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={5}
-                                        className
-                                    >
-                                        <img
-                                            src="/img/properties/properties-small-7.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li>
-                                    <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={6}
-                                        className
-                                    >
-                                        <img
-                                            src="/img/properties/properties-small-8.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li>
-                                    <li
-                                        data-target="#carousel-custom"
-                                        data-slide-to={7}
-                                        className
-                                    >
-                                        <img
-                                            src="/img/properties/properties-small-2.jpg"
-                                            alt="Chevrolet Impala"
-                                        />
-                                    </li>
+                                    {this.onShowImagesSmall(urlArray)}
                                 </ol>
                             </div>
                         </div>
@@ -601,7 +530,7 @@ class PropertiesDetail extends Component {
                     {/* Properties details section end */}
                 </div>
                 <Sidebar />
-            </div>
+            </div >
         );
     }
     ShowComments = (comments) => {
