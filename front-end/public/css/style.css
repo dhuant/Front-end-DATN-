@@ -7321,4 +7321,20 @@ table.manage-table .title-container .title span {
     height: 220px;
 }
 
+.row .clearfix .col-md-2 .imagepreview:hover {
+    opacity: 0.7;
+    border-color: #0dcdbd;
+    border-width: 2px
+}
+
+.remove i:hover{
+    color: red;
+    transition: .5s;
+    size: 20px
+}
+
+.view i:hover{
+    color: #07EBF6;
+    transition: .5s;
+}
 

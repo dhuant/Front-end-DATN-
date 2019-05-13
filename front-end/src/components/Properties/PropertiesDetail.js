@@ -4,31 +4,41 @@ import { connect } from "react-redux";
 import Comments from './Comments'
 import * as actions from '../../actions/request'
 import MapOfDetailEstate from "./MapOfDetailEstate";
-import InfoBox from "react-google-maps/lib/components/addons/InfoBox";
+import { Rate, message, Button } from 'antd'
+import moment from 'moment'
+import axios from 'axios'
+import {authHeader} from '../../constants/authHeader'
+
 // const options = [
 //     { value: 'chocolate', label: 'Chocolate' },
 //     { value: 'strawberry', label: 'Strawberry' },
 //     { value: 'vanilla', label: 'Vanilla' },
 // ];
+const desc = ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Tuyệt vời'];
 
 class PropertiesDetail extends Component {
     constructor() {
         super();
         this.state = {
-            selectedOption: null
+            selectedOption: null,
+            starValue: 0,
+            content: '',
         };
     }
     handleChange = selectedOption => {
         this.setState({ selectedOption });
         console.log(`Option selected:`, selectedOption);
     };
-
+    handleChangeRating = (starvalue) => {
+        this.setState({ starValue: starvalue })
+        // return document.getElementsByClassName("ratingStar").value
+    }
     componentDidMount = () => {
         console.log(this.props.id)
         this.props.onGetCommentsById(this.props.id)
     }
     onShowImagesThumbnail = (images) => {
-        if (images === undefined) {
+        if (images === undefined || images.length === 0) {
             return null
         }
         var result = null;
@@ -53,7 +63,7 @@ class PropertiesDetail extends Component {
         return result;
     }
     onShowImagesSmall = (images) => {
-        if (images === undefined) {
+        if (images === undefined || images.length === 0) {
             var string = "Bài đăng này hiện không có hình nào!"
             return <span>{string}</span>
         }
@@ -84,7 +94,7 @@ class PropertiesDetail extends Component {
         return result;
     }
     onShowImageSlide = (images) => {
-        if (images === undefined)
+        if (images === undefined || images.length === 0)
             return null
         else return (
             <div>
@@ -119,11 +129,47 @@ class PropertiesDetail extends Component {
             </div>
         )
     }
+
+    onPostingComments = (info) => {
+        // e.preventDefault()
+        if(this.state.starValue === 0){
+            message.error("Bạn chưa đánh giá mà phải hơm :D")
+            return null
+        }
+        var abc = document.getElementById("comment").value
+        console.log(abc)
+        var comment = {
+            projectid: info._id,
+            user: info.ownerid,
+            createTime: moment().unix(),
+            updateTime: moment().unix(),
+            content: abc,
+            star: this.state.starValue
+        }
+        axios.post(`http://localhost:3001/comment`, comment, { headers: authHeader() })
+                .then(res => {
+                    console.log(res);
+                    if (res.status === 201) {
+                        // this.props.history.goBack()
+                        return message.success('Your comment was added successfully!');
+
+                    }
+                    else return message.error('Failed to add your comment!');
+                });
+    }
+    onHandleChangeComment = () => {
+        // this.setState({[event.target.name]: event.target.value})
+        var comment = document.getElementById("comment").value
+        return comment 
+    }
     render() {
         let { info, comments } = this.props;
         console.log(info);
-        let urlArray = info.url
+        console.log(comments)
+        let urlArray = []
+        urlArray = info.url
         let publicIdArray = info.publicId
+        const { starValue } = this.state
         // console.log(info.url)
         // let map = '';
         // if(info){
@@ -161,14 +207,14 @@ class PropertiesDetail extends Component {
                                 <div className="carousel-outer">
                                     {/* Wrapper for slides */}
                                     <div className="carousel-inner">
-                                        {this.onShowImagesThumbnail(urlArray)}
+                                        {this.onShowImagesThumbnail(info.url)}
                                     </div>
                                     {/* Controls */}
-                                    {this.onShowImageSlide(urlArray)}
+                                    {this.onShowImageSlide(info.url)}
                                 </div>
                                 {/* Indicators */}
                                 <ol className="carousel-indicators thumbs visible-lg visible-md">
-                                    {this.onShowImagesSmall(urlArray)}
+                                    {this.onShowImagesSmall(info.url)}
                                 </ol>
                             </div>
                         </div>
@@ -451,74 +497,36 @@ class PropertiesDetail extends Component {
                                 {/* Main Title 2 */}
                                 <div className="main-title-2">
                                     <h1>
-                                        <span>Contact</span> with us
+                                        <span>Đăng</span> bình luận
                   </h1>
                                 </div>
-                                <form
-                                    id="contact_form"
-                                    action="http://themevessel-item.s3-website-us-east-1.amazonaws.com/nest/index.html"
-                                    method="GET"
-                                    encType="multipart/form-data"
-                                >
+                                <form>
                                     <div className="row">
-                                        <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                            <div className="form-group fullname">
-                                                <input
-                                                    type="text"
-                                                    name="full-name"
-                                                    className="input-text"
-                                                    placeholder="Full Name"
-                                                />
-                                            </div>
+                                        <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <span>
+                                                <Rate tooltips={desc} onChange={this.handleChangeRating} style={{color: "yellow"}} className="ratingStar"/>
+                                                {starValue ? <span className="ant-rate-text">{desc[starValue - 1]}</span> : ''}
+                                            </span>
                                         </div>
-                                        <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                            <div className="form-group enter-email">
-                                                <input
-                                                    type="email"
-                                                    name="email"
-                                                    className="input-text"
-                                                    placeholder="Enter email"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                            <div className="form-group subject">
-                                                <input
-                                                    type="text"
-                                                    name="subject"
-                                                    className="input-text"
-                                                    placeholder="Subject"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                            <div className="form-group number">
-                                                <input
-                                                    type="text"
-                                                    name="phone"
-                                                    className="input-text"
-                                                    placeholder="Phone Number"
-                                                />
-                                            </div>
-                                        </div>
+                                    </div>
+                                    <br></br>
+                                    <div className="row">
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div className="form-group message">
                                                 <textarea
                                                     className="input-text"
-                                                    name="message"
-                                                    placeholder="Write message"
+                                                    id="comment"
+                                                    name="content"
+                                                    placeholder="Nhập bình luận vào đây..."
                                                     defaultValue={""}
+                                                    onChange={this.onHandleChangeComment}
+                                                    required
                                                 />
                                             </div>
                                         </div>
                                         <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                             <div className="form-group send-btn mb-0">
-                                                <button
-                                                    type="submit"
-                                                    className="button-md button-theme"
-                                                >
-                                                    Send Message
-                                        </button>
+                                                <Button type="primary" onClick={() => {this.onPostingComments(info)}}>Đăng bình luận</Button>
                                             </div>
                                         </div>
                                     </div>
@@ -535,6 +543,8 @@ class PropertiesDetail extends Component {
     }
     ShowComments = (comments) => {
         var result = null;
+        if (comments.length === 0)
+            result = "Bài đăng này hiện chưa có bình luận nào!"
         if (comments.length > 0) {
             result = comments.map((comment, index) => {
                 // console.log(index)

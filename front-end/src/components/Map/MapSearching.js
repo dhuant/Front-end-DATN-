@@ -241,7 +241,7 @@ class MapSearching extends Component {
 
 
 	render() {
-
+		console.log("abc")
 		// let markerLength = this.state.markers.length
 		const AsyncMap = withScriptjs(
 			withGoogleMap(

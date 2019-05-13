@@ -18,7 +18,7 @@ import EstateListListView from './pages/EstateList_ListView'
 import News from './pages/News'
 import NewsDetail from './pages/NewsDetail' 
 import MapOfDetail from './components/Properties/MapOfDetailEstate'
-import ViewUI from './components/My Properties/ViewUI'
+import EditUI from './components/My Properties/EditUI'
 
 class App extends Component {
   render() {
@@ -43,7 +43,7 @@ class App extends Component {
             <Route exact path='/properties' component={Properties} />
             <Route exact path='/homemaps' component={HomeMap} />
             <Route exact path='/demo' component={MapOfDetail}/>
-            <Route exact path='/viewui' component={ViewUI}/>
+            <Route exact path='/myproperties/edit/:id' component={EditUI}/>
             <Route exact path='' component={NotFound} />
           </Switch>
         </div>

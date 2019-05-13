@@ -20,13 +20,13 @@ export default class Comments extends Component {
                 <div className="comment">
                     <div className="comment-author">
                         <a href="true">
-                            <img src="/img/avatar/avatar-5.png" alt="avatar-5" />
+                            <img src={comment.user.avatar} alt="avatar-5" />
                         </a>
                     </div>
                     <div className="comment-content">
                         <div className="comment-meta">
                             <div className="comment-meta-author">
-                                {comment.fullname}
+                                {comment.user.fullname}
                             </div>
                             <div className="comment-meta-reply">
                                 <a href="true">Reply</a>

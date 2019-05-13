@@ -3,17 +3,20 @@ import Info from '../components/Profile/Info'
 import Footer from '../components/Footer'
 import SingleProperty from '../components/Profile/SingleProperty'
 import { MY_PROPERTIES } from '../constants/Profile';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import MainHeader from '../components/MainHeader';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import * as actions from '../actions/request';
 
 class MyEstateList extends Component {
-    componentDidMount =() => {
+    componentDidMount = () => {
         this.props.onGetEstateListOfUser()
     }
     render() {
-        let {estatesListOfUser} = this.props
+        let { estatesListOfUser } = this.props
+        if (estatesListOfUser === undefined) {
+            localStorage.removeItem("res")
+        }
         console.log(estatesListOfUser)
         return (
             <div>
@@ -38,8 +41,8 @@ class MyEstateList extends Component {
                 <div className="content-area-7 my-properties">
                     <div className="container">
                         <div className="row">
-                                <div className="col-lg-4 col-md-4 col-sm-12">
-                                <Info component={MY_PROPERTIES}/>
+                            <div className="col-lg-4 col-md-4 col-sm-12">
+                                <Info component={MY_PROPERTIES} />
                             </div>
                             <div className="col-lg-8 col-md-8 col-sm-12">
                                 <div className="main-title-2">
@@ -70,6 +73,9 @@ class MyEstateList extends Component {
 
                 );
             });
+        }
+        else if(estates.length === 0 || estates === undefined){
+            result = <span>Hiện không có bài đăng nào!</span>
         }
         return result;
     }

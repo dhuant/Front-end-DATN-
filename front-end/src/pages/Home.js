@@ -41,6 +41,7 @@ class Home extends Component {
             area: Area[0].value,
             price: Price[0].value,
         };
+        this.handleOnChange = this.handleOnChange.bind(this)
     }
     handleProvinceChange = (e) => {
         let target = e.target;
@@ -54,7 +55,7 @@ class Home extends Component {
         });
 
     }
-    handleOnChange = (e) => {
+    handleOnChange(e){
         let target = e.target;
         let name = target.name;
         let value = target.value;
@@ -242,7 +243,7 @@ class Home extends Component {
                         <div className="container">
                             <div className="search-area-inner">
                                 <div className="search-contents ">
-                                    <form method="GET">
+                                    <form method="GET" onSubmit={this.onSearch}>
                                         <div className="row">
                                             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                                 <div className="form-group">

@@ -48,16 +48,13 @@ class SubmitProperty extends Component {
             publicId: [],
             previewVisible: false,
             previewImage: '',
-            fileList: [{
-                uid: '-1',
-                name: 'xxx.png',
-                status: 'done',
-                url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            }],
             contactname: '',
             contactphonenumber: '',
-            contactemail: ''
+            contactemail: '',
+            visible: false
         };
+
+        this.onHandleChange = this.onHandleChange.bind(this)
     }
     // handleChange = (selectedOption) => {
     //     this.setState({ selectedOption });
@@ -74,10 +71,14 @@ class SubmitProperty extends Component {
 
     handleChangeImageList = ({ fileList }) => this.setState({ fileList })
 
-    onHandleChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value });
+    onHandleChange(event) {
+        let target = event.target
+        let name = target.name
+        let value = target.value
+        this.setState({ [name]: value });
     }
-    onSubmit = () => {
+    onSubmit = (e) => {
+        e.preventDefault()
         if (this.state.name === ''
             || this.state.investor === ''
             || this.state.area === ''
@@ -109,20 +110,20 @@ class SubmitProperty extends Component {
                 // urlImageList: { ...this.state.imageURLs },
                 url: this.state.url,
                 publicId: this.state.publicId,
-                contactname: this.state.contactname,
-                contactphonenumber: this.state.contactphonenumber,
-                contactemail: this.state.contactemail,
+                fullname: this.state.contactname,
+                phone: this.state.contactphonenumber,
+                email: this.state.contactemail,
+                avatar: JSON.parse(localStorage.getItem('res')).user.avatar
             };
             console.log(info);
             axios.post('http://localhost:3001/projects/', info, { headers: authHeader() })
                 .then(res => {
                     console.log(res);
-                    if (res.status === 201){
+                    if (res.status === 201) {
+                        message.success('Add project successfully!');
                         this.props.history.goBack()
-                        return message.success('Add project successfully!');
-                        
                     }
-                    else return message.error('Failed to add project!');
+                    else message.error('Failed to add project!');
                 });
         }
 
@@ -180,7 +181,6 @@ class SubmitProperty extends Component {
             theme: "white",
             showPoweredBy: false,
             // showCompletedButton: true
-            
         },
             (error, result) => { this.checkUploadResult(result, urlArray, publicIdArray) })
     }
@@ -198,9 +198,26 @@ class SubmitProperty extends Component {
         // }
         // console.log(url)
     }
+    onShowMap = (visible) => {
+        if (visible) {
+            return (
+                <div style={{ paddingBottom: '80px' }}>
+                    <MapSearching
+                        google={this.props.google}
+                        center={{ lat: 10.7625626, lng: 106.6805316 }}
+                        height='300px'
+                        zoom={15}
+                    />
+                </div>
+            )
+        }
+    }
+    onHandleShowMap = () => {
+        this.setState({visible: !this.state.visible})
+    }
     render() {
         // const { selectedOption } = this.state;
-        const { previewVisible, previewImage, fileList } = this.state;
+        const { visible } = this.state;
         const uploadButton = (
             <div>
                 <Icon type="plus" />
@@ -208,9 +225,9 @@ class SubmitProperty extends Component {
             </div>
         );
         let { type } = this.state;
-        console.log(this.props.address)
-        console.log(this.state.url)
-        console.log(fileList)
+        // console.log(this.props.address)
+        // console.log(this.state.url)
+        // console.log(fileList)
         return (
             <div>
 
@@ -285,10 +302,10 @@ class SubmitProperty extends Component {
                                                         <label>Trạng thái</label>
                                                         <select className="form-control"
                                                             name="status"
-                                                            value={type}
+                                                            // value={type}
                                                             onChange={this.onHandleChange}
                                                         >
-                                                            {Status.map((type, index) => <option key={index} value={type.value}>{type.label}</option>)}
+                                                            {Status.map((status, index) => <option key={index} value={status.value}>{status.label}</option>)}
 
                                                         </select>
                                                     </div>
@@ -298,7 +315,7 @@ class SubmitProperty extends Component {
                                                         <label>Loại</label>
                                                         <select className="form-control"
                                                             name="type"
-                                                            value={type}
+                                                            // value={type}
                                                             onChange={this.onHandleChange}
                                                         >
                                                             {Types.map((type, indexx) => <option key={indexx} value={type.value}>{type.label}</option>)}
@@ -337,15 +354,10 @@ class SubmitProperty extends Component {
 
                                             </div>
                                         </div>
-                                        <div style={{ paddingBottom: '80px' }}>
-                                            <MapSearching
-                                                google={this.props.google}
-                                                center={{ lat: 10.7625626, lng: 106.6805316 }}
-                                                height='300px'
-                                                zoom={15}
-                                            />
+                                        <div className="row" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                            <Button variant="info" onClick={this.onHandleShowMap} style={{ padding: "5px 100px 5px 100px" }}>{visible ? "Hide Map" : "Show Map"}</Button>
                                         </div>
-
+                                        {this.onShowMap(visible)}
                                         <div className="main-title-2">
                                             <h1>
                                                 <span>Thông tin</span> chi tiết
@@ -412,7 +424,7 @@ class SubmitProperty extends Component {
                                                             name="contactemail"
                                                             placeholder="Email"
                                                             onChange={this.onHandleChange}
-                                                            
+
                                                         />
 
                                                     </div>
