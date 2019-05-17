@@ -45,81 +45,7 @@ class Login extends Component {
         }))
         
     }
-            // const token = r.headers.get('authorization');
-            // console.log(r);
-            // .then(res => res.json())
-            // .then(json => {
-            // console.log(json);
-    
-            // r.json().then(user => {
-            //     if (token) {
-            //         this.setState({ isAuthenticated: true, user, token })
-            //         // localStorage.setItem('user', r.json())
-                
-            //     }
-            // });
-        // })
-    
-    // fetch('http://localhost:3001/users/auth/google', options).then(r => {
-    //     const token = r.headers.get('authorization');
-    //     console.log(token);
-    //     // console.log(r.json())
-    //     localStorage.setItem('userResponse', token)
-    //     console.log(r)
-    //     console.log(JSON.stringify(r))
-    //     console.log(r.json())
-    //     localStorage.setItem('response', JSON.stringify(r))
-    //     r.clone().json().then(user => {
-    //         if (token) {
-    //             this.setState({isAuthenticated: true, user, token})
-    //         }
-    //     });
-    // })
-    // fetch('http://localhost:3001/users/auth/google', options)
-
-    //     .then(res =>{
-    //         localStorage.setItem(res.headers.get('authorization'))
-
-    //      })
-    //     .then(res => res.json())
-    //     .then(json => {
-    //         console.log(json);
-    //     })
-    // .then(user => {
-    //     if (token) {
-    //         this.setState({isAuthenticated: true, user, token})
-    //     }
-    // });
-    // if(response.Zi.accessToken !== null) {
-    // localStorage.setItem('user', JSON.stringify(response));
-    // console.log(response.accessToken);
-    // console.log(response.googleId);
-    // this.props.actGetInfoUser(response.googleId);
-    // this.props.actPostGoogleTokenRequest(response.accessToken);
-    // this.props.history.goBack();
-    // this.props.history.goBack();
-// }
-    //     else (
-    // this.setState({
-    //     error: 'Auth failed!!'
-    // })
-// )
-
-
-// console.log(response.googleId);   
-        
-//     };
-// onFailure = (error) => {
-//     alert(error);
-// }
-
-// componentDidMount() {
-//     if (JSON.parse(localStorage.getItem('user'))) {
-//         // console.log('logged');
-//         this.props.history.push('/');
-//     }
-// }
-
+            
 handleEmailChange = (e) => {
     // console.log(e.target.value);
     this.setState({
@@ -138,7 +64,6 @@ signIn = (e) => {
 
         "Access-Control-Allow-Origin": "*",
     }
-    //alert('Email address is ' + this.state.email + ' Password is ' + this.state.password);
     axios.post('http://localhost:3001/users/login', {
         email: this.state.email,
         password: this.state.password
@@ -164,20 +89,6 @@ signIn = (e) => {
         .catch((err) => {
             console.log("AXIOS ERROR: ", err);
         });
-    // var data = {
-    //     email:  'trantandat@gmail.com',
-    //     password: '1234',
-    //   }
-    //   var header = {
-    //     'Access-Control-Allow-Origin': '*',
-    //   }
-    //   axios.post('http://localhost:3001/users/login', data, header)
-    //   .then(response=>{
-    //     console.log(response);
-    //   })
-    //   .catch(err=>{
-    //     console.log(err);
-    //   })
 }
 render() {
     let content = !!this.state.isAuthenticated ?
@@ -204,10 +115,10 @@ render() {
                             onClick={renderProps.onClick}
                             type="submit"
                             className="button-google btn-block"
-                            style={{ border: "solid 1px black" }}
+                            // style={{ border: "solid 1px black" }}
                         >
                             <img src="/images/icons/icon-google.png" alt="GOOGLE" style={{ marginRight: "10px", width: "18px" }} />
-                            Login With Google
+                            Đăng nhập với Google
                             </button>
                     )}
                     onSuccess={this.googleResponse}
@@ -227,14 +138,11 @@ render() {
                                 {/* Main title */}
                                 <div className="main-title">
                                     <h1>
-                                        <span>Login</span>
+                                        <span>Đăng nhập</span>
                                     </h1>
                                 </div>
                                 {/* Form start */}
-                                <form
-                                    action="http://themevessel-item.s3-website-us-east-1.amazonaws.com/nest/index.html"
-                                    method="GET"
-                                >
+                                <form>
                                     {/* <div style={{ marginBottom: '10px' }}>
                                             <a className="btn-google m-b-20" href>
                                                 <img src="images/icons/icon-google.png" alt="GOOGLE" />
@@ -247,7 +155,8 @@ render() {
                                             type="email"
                                             name="email"
                                             className="input-text"
-                                            placeholder="Email Address"
+                                            placeholder="Nhập Email"
+                                            required
                                         />
                                     </div>
                                     <div className="form-group">
@@ -256,7 +165,8 @@ render() {
                                             type="password"
                                             name="Password"
                                             className="input-text"
-                                            placeholder="Password"
+                                            placeholder="Mật khẩu"
+                                            required
                                         />
                                     </div>
                                     <div className="checkbox">
@@ -280,7 +190,7 @@ render() {
                                             type="submit"
                                             className="button-md button-theme btn-block"
                                         >
-                                            login
+                                            Đăng nhập
                                             </button>
                                         <br />
                                         <div className="App">

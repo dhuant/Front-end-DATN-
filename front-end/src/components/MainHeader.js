@@ -50,12 +50,12 @@ class MainHeader extends Component {
             return (<React.Fragment>
                 <li>
                     <a href="true" onClick={this.onHandleProfile} className="button" style={{ marginRight: '5px' }}>
-                        <i className="fa fa-user" /> Account
+                        <i className="fa fa-user" /> Tài khoản
                     </a>
                 </li>
                 <li>
                     <a href="true" onClick={this.onSignOut} className="button-signout" style={{ marginRight: '5px', color: 'red', border: '1px solid red' }}>
-                        <i className="fa fa-sign-out" /> Sign Out
+                        <i className="fa fa-sign-out" /> Đăng xuất
                     </a>
                 </li>
             </React.Fragment>);
@@ -63,7 +63,7 @@ class MainHeader extends Component {
             return (
                 <li>
                     <a href="true" onClick={this.onLogin} className="button" style={{ marginRight: '5px' }}>
-                        <i className="fa fa-sign-in" /> Login
+                        <i className="fa fa-sign-in" /> Đăng nhập
                                                 </a>
                 </li>
 
@@ -368,7 +368,7 @@ class MainHeader extends Component {
                                 <ul className="nav navbar-nav navbar-right rightside-navbar">
                                     <li>
                                         <a href="true" onClick={this.onSubmitProperty} className="button" style={{ marginRight: '5px' }}>
-                                            Submit Property
+                                            Đăng bài
                                         </a>
                                     </li>
 

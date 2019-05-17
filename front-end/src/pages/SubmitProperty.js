@@ -12,7 +12,6 @@ import { Button, Form } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { message } from 'antd'
 import moment from 'moment'
-import { Upload, Icon, Modal } from 'antd';
 
 const Types = [
     { value: '1', label: 'Chung cư. căn hộ' },
@@ -79,42 +78,60 @@ class SubmitProperty extends Component {
     }
     onSubmit = (e) => {
         e.preventDefault()
-        if (this.state.name === ''
-            || this.state.investor === ''
-            || this.state.area === ''
-            || this.state.price === ''
-            || this.state.description === '') {
-            return null
-        }
-        if (this.state.name.length > 32) {
-            this.onCheckingError('Name')
-            return null
+        console.log(document.getElementById('name').value)
+        if (document.getElementById('name').value === undefined
+            || document.getElementById('investor').value === undefined
+            || document.getElementById('price').value === undefined
+            || document.getElementById('area').value === undefined
+            || document.getElementById('description').value === undefined) {
+            return message.error("Có trường thông tin nào đó bạn chưa nhập! Vui lòng kiểm tra lại!")
         }
         else {
             let ownerID = JSON.parse(localStorage.getItem('res')).user._id
+            // let info = {
+            //     name: this.state.name,
+            //     investor: this.state.investor,
+            //     price: this.state.price,
+            //     unit: 'triệu',
+            //     area: 800,
+            //     address: this.props.address.addressDetail,
+            //     type: this.state.type,
+            //     info: this.state.description,
+            //     lat: this.props.address.markerPosition.lat,
+            //     long: this.props.address.markerPosition.lng,
+            //     ownerid: ownerID,
+            //     statusProject: this.state.status,
+            //     createTime: moment().unix(),
+            //     updateTime: moment().unix(),
+            //     url: this.state.url,
+            //     publicId: this.state.publicId,
+            //     fullname: this.state.contactname,
+            //     phone: this.state.contactphonenumber,
+            //     email: this.state.contactemail,
+            //     avatar: JSON.parse(localStorage.getItem('res')).user.avatar
+            // };
             let info = {
-                name: this.state.name,
-                investor: this.state.investor,
-                price: this.state.price,
+                name: document.getElementById("name").value,
+                investor: document.getElementById('investor').value,
+                price: document.getElementById('price').value,
                 unit: 'triệu',
-                area: 800,
+                area: document.getElementById('area').value,
                 address: this.props.address.addressDetail,
-                type: this.state.type,
-                info: this.state.description,
+                type: document.getElementById('type').value,
+                info: document.getElementById('description').value,
                 lat: this.props.address.markerPosition.lat,
                 long: this.props.address.markerPosition.lng,
                 ownerid: ownerID,
-                statusProject: this.state.status,
+                statusProject: document.getElementById('status').value,
                 createTime: moment().unix(),
                 updateTime: moment().unix(),
-                // urlImageList: { ...this.state.imageURLs },
                 url: this.state.url,
                 publicId: this.state.publicId,
-                fullname: this.state.contactname,
-                phone: this.state.contactphonenumber,
-                email: this.state.contactemail,
+                fullname: document.getElementById('contactname').value,
+                phone:document.getElementById('contactphonenumber').value,
+                email: document.getElementById('contactemail').value,
                 avatar: JSON.parse(localStorage.getItem('res')).user.avatar
-            };
+            }
             console.log(info);
             axios.post('http://localhost:3001/projects/', info, { headers: authHeader() })
                 .then(res => {
@@ -145,33 +162,17 @@ class SubmitProperty extends Component {
         }
     }
     getUrlList = (urlArray, publicIdArray) => {
-        console.log(urlArray)
-        console.log(publicIdArray)
-        console.log(urlArray.length)
-        let urlString = ' '
-        urlArray.forEach(url => {
-            urlString = urlString + url + ','
-        })
-        console.log(urlString)
-        let publicIdString = ' '
-        publicIdArray.forEach(publicId => {
-            console.log('b')
-            publicIdString += (publicId + ',')
-        })
-        console.log(publicIdString)
         this.setState({
             url: urlArray,
             publicId: publicIdArray
         })
     }
     showWidget = () => {
-        let urlList = []
         let urlArray = []
         let publicIdArray = []
         window.cloudinary.openUploadWidget({
             cloudName: "dne3aha8f",
             uploadPreset: "dels6a22",
-            // sources: ['local', 'camera', 'url', ],
             googleApiKey: "AIzaSyC1xuTe6sMtQCoQZI0X3lkeRZHyyI7CReQ",
             searchBySites: ["all"],
             searchByRights: true,
@@ -180,7 +181,6 @@ class SubmitProperty extends Component {
             maxFileSize: 500000,
             theme: "white",
             showPoweredBy: false,
-            // showCompletedButton: true
         },
             (error, result) => { this.checkUploadResult(result, urlArray, publicIdArray) })
     }
@@ -191,12 +191,6 @@ class SubmitProperty extends Component {
             publicIdArray.push(resultEvent.info.public_id)
         }
         this.getUrlList(urlArray, publicIdArray)
-        // else if (resultEvent.event === 'show-completed'){
-        // urlArray.push(resultEvent.info.secure_url)
-        // publicIdArray.push(resultEvent.info.public_id)
-        // this.getUrlList(urlArray, publicIdArray)
-        // }
-        // console.log(url)
     }
     onShowMap = (visible) => {
         if (visible) {
@@ -216,18 +210,7 @@ class SubmitProperty extends Component {
         this.setState({visible: !this.state.visible})
     }
     render() {
-        // const { selectedOption } = this.state;
         const { visible } = this.state;
-        const uploadButton = (
-            <div>
-                <Icon type="plus" />
-                <div className="ant-upload-text" onClick={this.showWidget}>Upload</div>
-            </div>
-        );
-        let { type } = this.state;
-        // console.log(this.props.address)
-        // console.log(this.state.url)
-        // console.log(fileList)
         return (
             <div>
 
@@ -274,8 +257,9 @@ class SubmitProperty extends Component {
                                                             type="text"
                                                             className="input-text"
                                                             name="name"
+                                                            id="name"
                                                             placeholder="Tên bài đăng"
-                                                            onChange={this.onHandleChange}
+                                                            // onChange={this.onHandleChange}
                                                             required
                                                         />
                                                         {/* <Form.Control type="email" placeholder="Enter email" required=""/> */}
@@ -289,8 +273,9 @@ class SubmitProperty extends Component {
                                                             type="text"
                                                             className="input-text"
                                                             name="investor"
+                                                            id="investor"
                                                             placeholder="Nhà đầu tư"
-                                                            onChange={this.onHandleChange}
+                                                            // onChange={this.onHandleChange}
                                                             required
                                                         />
                                                     </div>
@@ -302,8 +287,9 @@ class SubmitProperty extends Component {
                                                         <label>Trạng thái</label>
                                                         <select className="form-control"
                                                             name="status"
+                                                            id="status"
                                                             // value={type}
-                                                            onChange={this.onHandleChange}
+                                                            // onChange={this.onHandleChange}
                                                         >
                                                             {Status.map((status, index) => <option key={index} value={status.value}>{status.label}</option>)}
 
@@ -315,8 +301,9 @@ class SubmitProperty extends Component {
                                                         <label>Loại</label>
                                                         <select className="form-control"
                                                             name="type"
+                                                            id="type"
                                                             // value={type}
-                                                            onChange={this.onHandleChange}
+                                                            // onChange={this.onHandleChange}
                                                         >
                                                             {Types.map((type, indexx) => <option key={indexx} value={type.value}>{type.label}</option>)}
 
@@ -332,8 +319,9 @@ class SubmitProperty extends Component {
                                                             type="text"
                                                             className="input-text"
                                                             name="price"
+                                                            id="price"
                                                             placeholder="USD"
-                                                            onChange={this.onHandleChange}
+                                                            // onChange={this.onHandleChange}
                                                             required
                                                         />
                                                     </div>
@@ -345,8 +333,9 @@ class SubmitProperty extends Component {
                                                             type="text"
                                                             className="input-text"
                                                             name="area"
+                                                            id="area"
                                                             placeholder="Diện tích"
-                                                            onChange={this.onHandleChange}
+                                                            // onChange={this.onHandleChange}
                                                             required
                                                         />
                                                     </div>
@@ -370,9 +359,10 @@ class SubmitProperty extends Component {
                                                     <textarea
                                                         className="input-text"
                                                         name="description"
+                                                        id="description"
                                                         placeholder="Nhập nội dung bài đăng ở đây..."
                                                         defaultValue={""}
-                                                        onChange={this.onHandleChange}
+                                                        // onChange={this.onHandleChange}
                                                         required
                                                     />
                                                 </div>
@@ -392,8 +382,9 @@ class SubmitProperty extends Component {
                                                             type="text"
                                                             className="input-text"
                                                             name="contactname"
+                                                            id="contactname"
                                                             placeholder="Tên người liên hệ"
-                                                            onChange={this.onHandleChange}
+                                                            // onChange={this.onHandleChange}
                                                             required
                                                         />
 
@@ -406,8 +397,9 @@ class SubmitProperty extends Component {
                                                             type="text"
                                                             className="input-text"
                                                             name="contactphonenumber"
+                                                            id="contactphonenumber"
                                                             placeholder="Số điện thoại"
-                                                            onChange={this.onHandleChange}
+                                                            // onChange={this.onHandleChange}
                                                             required
                                                         />
                                                     </div>
@@ -422,8 +414,9 @@ class SubmitProperty extends Component {
                                                             type="text"
                                                             className="input-text"
                                                             name="contactemail"
+                                                            id="contactemail"
                                                             placeholder="Email"
-                                                            onChange={this.onHandleChange}
+                                                            // onChange={this.onHandleChange}
 
                                                         />
 
@@ -456,7 +449,7 @@ class SubmitProperty extends Component {
                                         </div>
 
                                         <div className="row">
-                                            <div className="col-md-12">
+                                            {/* <div className="col-md-12">
                                                 <input
                                                     type="submit"
                                                     value="Đăng bài"
@@ -466,7 +459,10 @@ class SubmitProperty extends Component {
                                                     onClick={this.onSubmit}
                                                 >
                                                 </input>
-                                            </div>
+                                            </div> */}
+                                            <Button variant="success" style={{ fontSize: "16px", padding: "15px 30px 15px 30px" }} onClick={this.onSubmit} className="btn button-md button-theme">
+                                                Đăng bài 
+                                            </Button>
                                         </div>
                                     </form>
                                 </div>

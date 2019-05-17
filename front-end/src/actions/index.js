@@ -1,4 +1,5 @@
 import * as Types from './../constants/ActionTypes';
+import {SAVE_FOLLOW_PROJECTID, GET_FOLLOWING_LIST, UNFOLLOW_PROJECT, FOLLOW_PROJECT} from './../constants/Follow'
 
 //==================== Estates ==================== 
 export const actFetchEstates = (estates) => {
@@ -55,9 +56,55 @@ export const actGetComments = (comments) => {
     }
 }
 
-export const actGetEstateListOfUser = (estates) => {
+export const actGetEstateListOfUser = (estatesListOfUser) => {
     return {
         type: Types.GET_ESTATE_LIST_OF_USER,
-        estates: estates
+        estatesListOfUser: estatesListOfUser
+    }
+}
+
+export const actSaveFollowProject = (follow) => {
+    return {
+        type: SAVE_FOLLOW_PROJECTID,
+        follow: follow
+    }
+}
+
+export const actGetFollowingList = (follow) => {
+    return {
+        type: GET_FOLLOWING_LIST,
+        follow: follow
+    }
+}
+
+export const actUnfollowProject = (follow, data) => {
+    return {
+        type: UNFOLLOW_PROJECT,
+        follow: follow,
+        data: data
+    }
+}
+
+export const actFollowProject = (follow, project) => {
+    return {
+        type: FOLLOW_PROJECT,
+        follow: follow,
+        project: project,
+    }
+}
+
+export const actPostComment = (comments, user) => {
+    return {
+        type: Types.POST_COMMENT,
+        comments: comments,
+        user: user
+    }
+}
+
+export const actDeleteProject = (estatesListOfUser, data) => {
+    return {
+        type: Types.DELETE_PROJECT,
+        estatesListOfUser: estatesListOfUser,
+        data: data
     }
 }

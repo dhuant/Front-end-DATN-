@@ -2,6 +2,7 @@ import * as Action from "./index";
 import callApi from "./../utils/apiCaller";
 import { authHeader } from "../constants/authHeader";
 import axios from "axios";
+import { message } from 'antd'
 
 export const actFetchEstatesRequest = info => {
   return dispatch => {
@@ -52,7 +53,7 @@ export const actGetInfoUser = id => {
         console.log(res.data);
       })
       .catch(err => {
-        if(err.data.status === 401){
+        if (err.data.status === 401) {
           console.log(err)
           dispatch(Action.actSaveInfoUser(err.data))
         }
@@ -92,17 +93,85 @@ export const actGetCommentsByIdRequest = (id) => {
 
 export const actGetEstateListOfUserRequest = () => {
   return dispatch => {
-    return axios.get(`http://localhost:3001/users/dansachproject`, { headers: authHeader() }).then(res => {
+    return axios.get(`http://localhost:3001/users/danhsachproject`, { headers: authHeader() }).then(res => {
       if (res.data.status === 200)
         dispatch(Action.actGetEstateListOfUser(res.data.projects))
-      console.log(res);
+       console.log(res);
+      return message.success("Lấy danh sách bài viết của tài khoản thành công!")
     })
       .catch(err => {
-        if (err.data.status === 401) {
-          console.log(err)
-          dispatch(Action.actGetEstateListOfUser(err.data))
-        }
+        return message.error("Có lỗi xảy ra khi lấy danh sách bài viết!")
       })
   }
 }
 
+export const actGetFollowingListRequest = () => {
+  return dispatch => {
+    return axios.get(`http://localhost:3001/users/listSaved`, { headers: authHeader() }).then(res => {
+      if (res.data.status === 200)
+        dispatch(Action.actGetFollowingList(res.data.result.projects))
+
+      return message.success("Lấy danh sách theo dõi thành công!")
+    })
+      .catch(err => {
+        return message.error("Có lỗi xảy ra khi lấy danh sách theo dõi!")
+      })
+  }
+}
+
+export const actUnfollowProjectRequest = (data) => {
+  return dispatch => {
+    return axios.post(`http://localhost:3001/users/unfollow`, data, { headers: authHeader() }).then(res => {
+      if (res.data.status === 201 || res.status === 201) {
+        dispatch(Action.actUnfollowProject(res.data, data))
+        return message.success("Bỏ theo dõi thành công!")
+      }
+    })
+      .catch(err => { return message.error("Có lỗi xảy ra khi bỏ theo dõi bài đăng!") })
+  }
+}
+
+export const actFollowProjectRequest = (data, project) => {
+  console.log(project)
+  return dispatch => {
+    return axios.post(`http://localhost:3001/users/follow`, data, { headers: authHeader() }).then(res => {
+      if (res.data.status === 409)
+        return message.warning("Bạn đã từng theo dõi bài đăng này trước đó rồi!")
+      else if (res.data.status === 201) {
+        dispatch(Action.actFollowProject(res.data.result, project))
+        return message.success("Theo dõi thành công!")
+      }
+    })
+      .catch(err => { return message.error("Có lỗi xảy ra khi theo dõi bài đăng!") })
+  }
+}
+
+export const actPostingCommentRequest = (data, user) => {
+  console.log(user)
+  return dispatch => {
+    return axios.post(`http://localhost:3001/comment`, data, { headers: authHeader() }).then(res => {
+      if (res.data.status === 201 || res.status === 201) {
+        dispatch(Action.actPostComment(res.data.comment, user))
+        return message.success("Đăng bình luận thành công!")
+      }
+    })
+      .catch(err => { return message.error("Có lỗi xảy ra khi đăng bình luận!") })
+  }
+}
+
+export const actDeleteProjectRequest = (id, data) => {
+  return dispatch => {
+    axios.delete(`http://localhost:3001/projects/${id}`, { headers: authHeader() })
+      .then(res => {
+        console.log(res);
+        if (res.data.status === 200 && res) {
+          dispatch(Action.actDeleteProject(res.data, data))
+          message.success('Xóa bài đăng thành công!');
+        }
+        else return message.error('Có lỗi xảy ra!');
+      })
+      .catch(err => {
+        return message.error('Có lỗi xảy ra khi xóa bài đăng!')
+      })
+  }
+}

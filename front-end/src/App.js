@@ -19,6 +19,9 @@ import News from './pages/News'
 import NewsDetail from './pages/NewsDetail' 
 import MapOfDetail from './components/Properties/MapOfDetailEstate'
 import EditUI from './components/My Properties/EditUI'
+import MyFollowing from './pages/MyFollowing'
+import MyTransaction from './pages/MyTransaction'
+import TransHistory from './pages/TransHistory'
 
 class App extends Component {
   render() {
@@ -44,6 +47,9 @@ class App extends Component {
             <Route exact path='/homemaps' component={HomeMap} />
             <Route exact path='/demo' component={MapOfDetail}/>
             <Route exact path='/myproperties/edit/:id' component={EditUI}/>
+            <Route exact path='/myfollowing' component={MyFollowing}/>
+            <Route exact path='/mytransactions' component={MyTransaction}/>
+            <Route exact path='/transhistory' component={TransHistory}/>
             <Route exact path='' component={NotFound} />
           </Switch>
         </div>

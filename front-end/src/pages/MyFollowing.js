@@ -1,23 +1,23 @@
 import React, { Component } from 'react'
-import Info from '../components/Profile/Info'
+import * as actions from './../actions/request'
+import MainHeader from '../components/MainHeader'
 import Footer from '../components/Footer'
-import SingleProperty from '../components/Profile/SingleProperty'
-import { MY_PROPERTIES } from '../constants/Profile';
+import Info from '../components/Profile/Info'
+import { MY_FOLLOWING } from '../constants/Profile'
+import FollowingProject from '../components/My Properties/FollowingProject'
 import { Link } from 'react-router-dom'
-import MainHeader from '../components/MainHeader';
 import { connect } from 'react-redux'
-import * as actions from '../actions/request';
 
-class MyEstateList extends Component {
+class MyFollowing extends Component {
     componentDidMount = () => {
-        this.props.onGetEstateListOfUser()
+        this.props.onGetFollowingList()
+    }
+    onUnfollowProject = (data) => {
+        this.props.onUnfollowProject(data)
     }
     render() {
-        let { estatesListOfUser } = this.props
-        if (estatesListOfUser === undefined) {
-            localStorage.removeItem("res")
-        }
-        console.log(estatesListOfUser)
+        let { follow } = this.props
+        console.log(follow)
         return (
             <div>
                 <MainHeader />
@@ -26,10 +26,10 @@ class MyEstateList extends Component {
                     <div className="overlay">
                         <div className="container">
                             <div className="breadcrumb-area">
-                                <h1>My Properties</h1>
+                                <h1>My Following</h1>
                                 <ul className="breadcrumbs">
                                     <li><Link to="/">Home</Link></li>
-                                    <li className="active">My Properties</li>
+                                    <li className="active">My Following</li>
                                 </ul>
                             </div>
                         </div>
@@ -42,16 +42,16 @@ class MyEstateList extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-4 col-md-4 col-sm-12">
-                                <Info component={MY_PROPERTIES} />
+                                <Info component={MY_FOLLOWING} />
                             </div>
                             <div className="col-lg-8 col-md-8 col-sm-12">
                                 <div className="main-title-2">
-                                    <h1><span>My</span> Properties</h1>
+                                    <h1><span>My</span> Following</h1>
                                 </div>
                                 {/* table start */}
                                 <table className="manage-table responsive-table">
                                     <tbody>
-                                        {this.onShowEstateListOfUser(estatesListOfUser)}
+                                        {this.ShowFollowingList(follow)}
                                     </tbody>
                                 </table>
                                 {/* table end */}
@@ -64,31 +64,34 @@ class MyEstateList extends Component {
             </div>
         )
     }
-    onShowEstateListOfUser = (estates) => {
-        var result = null;
-        if (estates.length > 0) {
-            result = estates.map((estate, index) => {
-                return (
-                    <SingleProperty key={index} estateListOfUser={estate} />
 
-                );
+    ShowFollowingList = (follow) => {
+        var result = null;
+        if (follow.length > 0) {
+            result = follow.map((single, index) => {
+                console.log(single)
+                if (single.project !== null)
+                    return (
+                        <FollowingProject key={index} followSingle={single} onUnfollowProject={this.onUnfollowProject} />
+
+                    );
             });
         }
-        else if(estates.length === 0 || estates === undefined){
-            result = (<span>Hiện không có bài đăng nào!</span>)
+        else if (follow.length === 0 || follow === undefined) {
+            result = (<tr><td>Hiện bạn chưa theo dõi bài đăng nào!</td></tr>)
         }
         return result;
     }
 }
-const mapDispatchToProps = (dispatch) => {
+const mapDispathToProp = (dispatch) => {
     return {
-        onGetEstateListOfUser: () => dispatch(actions.actGetEstateListOfUserRequest())
+        onGetFollowingList: () => dispatch(actions.actGetFollowingListRequest()),
+        onUnfollowProject: (data) => dispatch(actions.actUnfollowProjectRequest(data))
     }
 }
-
-const mapStateToProps = (state) => {
+const mapStateToProp = (state) => {
     return {
-        estatesListOfUser: state.estatesListOfUser
+        follow: state.follow
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(MyEstateList)
+export default connect(mapStateToProp, mapDispathToProp)(MyFollowing)

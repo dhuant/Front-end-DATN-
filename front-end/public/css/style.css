@@ -287,11 +287,12 @@ input[type=checkbox]:checked + label:before {
     background: transparent;
     transition: .5s;
     border-radius: 2px;
-    border: none;
+    border: 1px solid black;
 }
 
 .button-google:hover {
-    background-color: #e6e6e6;
+    /* background-color: #e6e6e6; */
+    border: 1px solid #95c41f
 }
 .button-lg {
     cursor: pointer;

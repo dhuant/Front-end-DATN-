@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {MY_PROPERTIES, CHANGE_PASSWORD, SUBMIT_ESTATE} from '../../constants/Profile'
+import {MY_PROPERTIES, MY_FOLLOWING, SUBMIT_ESTATE, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY} from '../../constants/Profile'
 
 class Info extends Component {
     onMyProperties = (e) => {
@@ -18,6 +18,18 @@ class Info extends Component {
     onShowProfile = (e) => {
         e.preventDefault();
         this.props.history.push('/profile');
+    }
+    onShowMyFollowing = (e) => {
+        e.preventDefault()
+        this.props.history.push('/myfollowing')
+    }
+    onShowMyTransactions = (e) => {
+        e.preventDefault()
+        this.props.history.push('/mytransactions')
+    }
+    onShowTransactionHistory = (e) => {
+        e.preventDefault()
+        this.props.history.push('/transhistory')
     }
     
     render() {
@@ -67,29 +79,39 @@ class Info extends Component {
                     </div>
                     <div className="content">
                         <ul>
-                            {/* <li>
+                            <li>
                                 <a href="true" onClick={this.onShowProfile} className={this.props.component === PROFILE ? "active" : ""}>
-                                    <i className="flaticon-social" />Profile
+                                    <i className="flaticon-social" />Thông tin cơ bản
                                 </a>
-                            </li> */}
+                            </li>
                             <li>
                                 <a href="true" onClick={this.onMyProperties} className={this.props.component === MY_PROPERTIES ? "active" : ""}>
-                                    <i className="flaticon-apartment" />My Properties
+                                    <i className="flaticon-apartment" />Danh sách bài đăng
+                                </a>
+                            </li>
+                            <li>
+                                <a href="true" onClick={this.onShowMyFollowing} className={this.props.component === MY_FOLLOWING ? "active" : ""}>
+                                    <i className="flaticon-shape" />Danh sách yêu thích
+                                </a>
+                            </li>
+                            <li>
+                                <a href="true" onClick={this.onShowMyTransactions} className={this.props.component === MY_TRANSACTION ? "active" : ""}>
+                                    <i className="flaticon-monitor" />Giao dịch hiện hành
+                                </a>
+                            </li>
+                            <li>
+                                <a href="true" onClick={this.onShowTransactionHistory} className={this.props.component === MY_TRANSACTION_HISTORY ? "active" : ""}>
+                                    <i className="flaticon-internet" />Lịch sử giao dịch
                                 </a>
                             </li>
                             <li>
                                 <a href="true" onClick={this.onSubmitProperty} className={this.props.component === SUBMIT_ESTATE ? "active" : ""}>
-                                    <i className="fa fa-plus" />Submit New Property
-                                </a>
-                            </li>
-                            <li>
-                                <a href="true" onClick={this.onChangePassword} className={this.props.component === CHANGE_PASSWORD ? "active" : ""}>
-                                    <i className="flaticon-security" />Change Password
+                                    <i className="fa fa-plus" />Đăng bài
                                 </a>
                             </li>
                             <li>
                                 <a href="true">
-                                    <i className="flaticon-sign-out-option" />Log Out
+                                    <i className="flaticon-sign-out-option" />Đăng xuất
                                 </a>
                             </li>
                         </ul>

@@ -6,23 +6,77 @@ import * as actions from '../../actions/request'
 import MapOfDetailEstate from "./MapOfDetailEstate";
 import { Rate, message, Button } from 'antd'
 import moment from 'moment'
-import axios from 'axios'
-import {authHeader} from '../../constants/authHeader'
+import Chart from 'react-apexcharts'
 
-// const options = [
-//     { value: 'chocolate', label: 'Chocolate' },
-//     { value: 'strawberry', label: 'Strawberry' },
-//     { value: 'vanilla', label: 'Vanilla' },
-// ];
 const desc = ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Tuyệt vời'];
 
 class PropertiesDetail extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             selectedOption: null,
             starValue: 0,
             content: '',
+            isFollow: false,
+            options: {
+                annotations: {
+                    position: 'front'
+                },
+                chart: {
+                    fontFamily: 'sans-serif',
+                    offsetX: 30,
+                    offsetY: 30,
+                    type: 'donut'
+                },
+                plotOptions: {
+                    pie: {
+                        expandOnClick: true,
+                        donut: {
+                            size: '50%',
+                            labels: {
+                                show: true,
+                                name: {
+                                    fontSize: '15px',
+                                    fontFamily: 'sans-serif',
+                                    offsetY: -10
+                                },
+                                value: {
+                                    show: true,
+                                    fontSize: '20px',
+                                    fontFamily: 'sans-serif',
+                                    offsetY: 10,
+                                    formatter: function (val) {
+                                      return val
+                                    }
+                                  },
+                                total: {
+                                    label: 'Tổng cộng',
+                                    color: '#373d3f',
+                                    formatter: function (w) {
+                                        return w.globals.seriesTotals.reduce((a, b) => {
+                                            return a + b
+                                        }, 0)
+                                    }
+                                },
+                            }
+                        },
+                    },
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }],
+                labels: desc
+            },
+            series: [44, 55, 41, 17, 15],
+
         };
     }
     handleChange = selectedOption => {
@@ -33,9 +87,32 @@ class PropertiesDetail extends Component {
         this.setState({ starValue: starvalue })
         // return document.getElementsByClassName("ratingStar").value
     }
+    // getSnapshotBeforeUpdate(prevProps) {
+    //     if (prevProps.comments !== this.props.comments) {
+    //         console.log("different")
+    //         return this.props.comments
+    //     }
+    //     return null
+    // }
+    // componentDidUpdate(snapshot) {
+    //     if (snapshot) {
+    //         this.props.onGetCommentsById(this.props.comments);
+    //     }
+    // }
     componentDidMount = () => {
         console.log(this.props.id)
         this.props.onGetCommentsById(this.props.id)
+        this.props.onGetFollowingList()
+        
+    }
+    isFollowHandle = (follow) => {
+        if(follow && follow.length > 0){
+            for(var i = 0; i< follow.length; i++){
+                if(follow[i].project && follow[i].project._id === this.props.id){
+                    this.setState({isFollow: true})
+                }
+            }
+        }
     }
     onShowImagesThumbnail = (images) => {
         if (images === undefined || images.length === 0) {
@@ -132,13 +209,13 @@ class PropertiesDetail extends Component {
 
     onPostingComments = (info) => {
         // e.preventDefault()
-        if(this.state.starValue === 0){
+        if (this.state.starValue === 0) {
             message.error("Bạn chưa đánh giá mà phải hơm :D")
             return null
         }
         var abc = document.getElementById("comment").value
         console.log(abc)
-        var comment = {
+        var commentInfoToPost = {
             projectid: info._id,
             user: info.ownerid,
             createTime: moment().unix(),
@@ -146,36 +223,43 @@ class PropertiesDetail extends Component {
             content: abc,
             star: this.state.starValue
         }
-        axios.post(`http://localhost:3001/comment`, comment, { headers: authHeader() })
-                .then(res => {
-                    console.log(res);
-                    if (res.status === 201) {
-                        // this.props.history.goBack()
-                        return message.success('Your comment was added successfully!');
-
-                    }
-                    else return message.error('Failed to add your comment!');
-                });
+        var user = {
+            avatar: JSON.parse(localStorage.getItem('res')).user.avatar,
+            email: JSON.parse(localStorage.getItem('res')).user.email,
+            fullname: JSON.parse(localStorage.getItem('res')).user.fullname,
+            id: JSON.parse(localStorage.getItem('res')).user._id
+        }
+        this.props.onPostComment(commentInfoToPost, user)
     }
     onHandleChangeComment = () => {
         // this.setState({[event.target.name]: event.target.value})
         var comment = document.getElementById("comment").value
-        return comment 
+        return comment
+    }
+
+    onHandleFollowing = (estateInfo) => {
+        var followInfo = {
+            projectid: estateInfo._id,
+            createTime: moment().unix(),
+            id: estateInfo.ownerid,
+            fullname: JSON.parse(localStorage.getItem('res')).user.fullname,
+        }
+        if (this.state.isFollow === false) {
+            this.props.onFollowProject(followInfo, estateInfo)
+            console.log(this.props.follow)
+        }
+        else if(this.props.isFollow === true){
+            this.props.onUnfollowProject(estateInfo._id)
+            console.log(this.props.follow)
+        }
+        else return null
+
     }
     render() {
-        let { info, comments } = this.props;
-        console.log(info);
+        let { info, comments, follow } = this.props;
+        console.log(follow)
         console.log(comments)
-        let urlArray = []
-        urlArray = info.url
-        let publicIdArray = info.publicId
-        const { starValue } = this.state
-        // console.log(info.url)
-        // let map = '';
-        // if(info){
-        //   console.log(info);
-        //   map = <MapOfDetailEstate info={info}/>
-        // }
+        const { starValue, isFollow } = this.state
         console.log(info.url, info.publicId)
         return (
             <div>
@@ -193,7 +277,7 @@ class PropertiesDetail extends Component {
                             <h3>
                                 <span>{info.price}</span>
                             </h3>
-                            <h5>Per Manth</h5>
+                            <h5>Tỷ</h5>
                         </div>
                     </div>
                     {/* Properties detail slider start */}
@@ -225,8 +309,8 @@ class PropertiesDetail extends Component {
                             <ul className="nav nav-tabs">
                                 <li className="active">
                                     <a href="#tab1default" data-toggle="tab" aria-expanded="true">
-                                        Description
-                  </a>
+                                        Mô tả chi tiết
+                                    </a>
                                 </li>
                                 <li className>
                                     <a
@@ -234,8 +318,8 @@ class PropertiesDetail extends Component {
                                         data-toggle="tab"
                                         aria-expanded="false"
                                     >
-                                        Condition
-                  </a>
+                                        Thông tin liên hệ
+                                    </a>
                                 </li>
                                 <li className>
                                     <a
@@ -244,16 +328,7 @@ class PropertiesDetail extends Component {
                                         aria-expanded="false"
                                     >
                                         Amenities
-                  </a>
-                                </li>
-                                <li className>
-                                    <a
-                                        href="#tab4default"
-                                        data-toggle="tab"
-                                        aria-expanded="false"
-                                    >
-                                        Floor Plans
-                  </a>
+                                    </a>
                                 </li>
                                 <li className>
                                     <a
@@ -262,7 +337,12 @@ class PropertiesDetail extends Component {
                                         aria-expanded="false"
                                     >
                                         Video
-                  </a>
+                                    </a>
+                                </li>
+                                <li className style={{ top: "4px", left: "20px" }}>
+                                    <Button type="danger" onClick={() => this.onHandleFollowing(info)}>
+                                        {isFollow ? " Bỏ theo dõi" : "Theo dõi"}
+                                    </Button>
                                 </li>
                             </ul>
                             <div className="panel with-nav-tabs panel-default">
@@ -271,7 +351,7 @@ class PropertiesDetail extends Component {
                                         <div className="tab-pane fade active in" id="tab1default">
                                             <div className="main-title-2">
                                                 <h1>
-                                                    <span>Description</span>
+                                                    <span>Mô tả chi tiết</span>
                                                 </h1>
                                             </div>
                                             <p>{info.info}</p>
@@ -282,42 +362,43 @@ class PropertiesDetail extends Component {
                                             <div className="properties-condition">
                                                 <div className="main-title-2">
                                                     <h1>
-                                                        <span>Condition</span>
+                                                        <span>Thông tin liên hệ</span>
                                                     </h1>
                                                 </div>
                                                 <div className="row">
-                                                    <div className="col-md-4 col-sm-4 col-xs-12">
+                                                    <div className="col-md-3 col-sm-3 col-xs-12">
                                                         <ul className="condition">
                                                             <li>
-                                                                <i className="fa fa-check-square" />3 Beds
-                              </li>
+                                                                <i className="fa fa-user" />Tên người liên hệ:
+                                                            </li>
                                                             <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Bathroom
-                              </li>
+                                                                <i className="fa fa-phone" />
+                                                                Số điện thoại:
+                                                            </li>
+                                                            <li>
+                                                                <i className="fa fa-envelope" />
+                                                                Email:
+                                                            </li>
+                                                            <li>
+                                                                <i className="fa fa-address-card" />
+                                                                Địa chỉ:
+                                                            </li>
                                                         </ul>
                                                     </div>
-                                                    <div className="col-md-4 col-sm-4 col-xs-12">
-                                                        <ul className="condition">
+                                                    <div className="col-md-9 col-sm-9 col-xs-12">
+                                                        <ul className="condition" style={{ fontWeight: "bold" }}>
                                                             <li>
-                                                                <i className="fa fa-check-square" />
-                                                                4800 sq ft
-                              </li>
+                                                                {info.fullname === null ? 'Không có' : info.fullname}
+                                                            </li>
                                                             <li>
-                                                                <i className="fa fa-check-square" />
-                                                                TV
-                              </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div className="col-md-4 col-sm-4 col-xs-12">
-                                                        <ul className="condition">
+                                                                {info.phone === null ? 'Không có ' : info.phone}
+                                                            </li>
                                                             <li>
-                                                                <i className="fa fa-check-square" />1 Garage
-                              </li>
+                                                                {info.email === null ? 'Không có ' : info.email}
+                                                            </li>
                                                             <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Balcony
-                              </li>
+                                                                {info.address === null ? 'Không có ' : info.address}
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -481,8 +562,16 @@ class PropertiesDetail extends Component {
                                 {/* Main Title 2 */}
                                 <div className="main-title-2">
                                     <h1>
-                                        <span>Comments </span> Section
-                  </h1>
+                                        <span>Bình luận và</span> đánh giá
+                                    </h1>
+                                </div>
+                                <div className="row" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                    <Chart options={this.state.options} series={this.state.series} type="donut" width="400" />
+                                </div>
+                                <div className="main-title-2">
+                                    <h1>
+                                        <span>Chi tiết</span> bình luận
+                                    </h1>
                                 </div>
                                 <ul className="comments">
                                     {this.ShowComments(comments)}
@@ -498,13 +587,13 @@ class PropertiesDetail extends Component {
                                 <div className="main-title-2">
                                     <h1>
                                         <span>Đăng</span> bình luận
-                  </h1>
+                                    </h1>
                                 </div>
                                 <form>
                                     <div className="row">
                                         <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                             <span>
-                                                <Rate tooltips={desc} onChange={this.handleChangeRating} style={{color: "yellow"}} className="ratingStar"/>
+                                                <Rate tooltips={desc} onChange={this.handleChangeRating} style={{ color: "yellow" }} className="ratingStar" />
                                                 {starValue ? <span className="ant-rate-text">{desc[starValue - 1]}</span> : ''}
                                             </span>
                                         </div>
@@ -526,7 +615,7 @@ class PropertiesDetail extends Component {
                                         </div>
                                         <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                             <div className="form-group send-btn mb-0">
-                                                <Button type="primary" onClick={() => {this.onPostingComments(info)}}>Đăng bình luận</Button>
+                                                <Button type="primary" onClick={() => { this.onPostingComments(info) }}>Đăng bình luận</Button>
                                             </div>
                                         </div>
                                     </div>
@@ -558,12 +647,17 @@ class PropertiesDetail extends Component {
 }
 const mapDispathToProp = (dispatch) => {
     return {
-        onGetCommentsById: (id) => dispatch(actions.actGetCommentsByIdRequest(id))
+        onGetCommentsById: (id) => dispatch(actions.actGetCommentsByIdRequest(id)),
+        onPostComment: (data, user) => dispatch(actions.actPostingCommentRequest(data, user)),
+        onFollowProject: (data, project) => dispatch(actions.actFollowProjectRequest(data, project)),
+        onGetFollowingList: () => dispatch(actions.actGetFollowingListRequest()),
+        onUnfollowProject: (data) => dispatch(actions.actUnfollowProjectRequest(data))
     }
 }
 const mapStateToProp = (state) => {
     return {
-        comments: state.comments
+        comments: state.comments,
+        follow: state.follow
     }
 }
 export default connect(mapStateToProp, mapDispathToProp)(PropertiesDetail);

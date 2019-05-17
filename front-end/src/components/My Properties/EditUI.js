@@ -5,16 +5,12 @@ import axios from 'axios'
 import { authHeader } from '../../constants/authHeader';
 // import Button from 'react-bootstrap/Button'
 import { Image, Button } from 'react-bootstrap'
-import { toast } from 'react-toastify'
 import { message, Modal } from 'antd'
 import moment from 'moment'
 import MapSearching from '../Map/MapSearching'
 import MainHeader from '../MainHeader'
 import Footer from '../Footer'
 import { Link } from 'react-router-dom'
-import address from '../../reducers/address';
-
-const confirm = Modal.confirm
 
 const Types = [
     { value: '1', label: 'Chung cư. căn hộ' },
@@ -500,7 +496,7 @@ class EditUI extends Component {
                                             </div>
                                         </div>
                                         <Modal visible={previewImage} footer={null} onCancel={this.onHandleCancelImage} width="800px" style={{ height: "500px" }}>
-                                            <img alt="example" style={{ width: '100%' }} src={previewUrl} style={{ width: "750px", height: "500px" }} />
+                                            <img alt="example" src={previewUrl} style={{ width: "750px", height: "500px" }} />
                                         </Modal>
                                         <Modal
                                             title="Delete Confirm"

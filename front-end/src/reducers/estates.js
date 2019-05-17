@@ -13,10 +13,6 @@ const estates = (state = initialState, action) => {
             state = action.estates;
             console.log(state);
             return [...state];
-        case Types.GET_ESTATE_LIST_OF_USER:
-            state = action.estates
-            console.log(state)
-            return [...state]
         default: return [...state];
     }
 };

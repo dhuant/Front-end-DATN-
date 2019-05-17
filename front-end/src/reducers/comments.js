@@ -8,6 +8,17 @@ const comments = (state = initialState, action) => {
             state = action.comments;
             console.log(state);
             return [...state];
+        case Types.POST_COMMENT:
+            var comments = action.comments
+            state.push({content: comments.content, 
+                        createTime: comments.createTime, 
+                        projectid: comments.projectid, 
+                        star: comments.star, 
+                        updateTime: comments.updateTime, 
+                        user: action.user,
+                        _id: comments._id })
+            console.log(state, action)
+            return [ ...state ]
         default: return [...state];
     }
 

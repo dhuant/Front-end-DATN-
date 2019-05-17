@@ -7,7 +7,8 @@ import estateInfo from './InfoEstate';
 import location from './Map/location'
 import address from './address'
 import comments from './comments'
-import estateListOfUser from './estateListOfUser'
+import estatesListOfUser from './estatesListOfUser'
+import follow from './follow'
 
 const appReducers = combineReducers({
     user,
@@ -18,7 +19,8 @@ const appReducers = combineReducers({
     location,
     address,
     comments,
-    estateListOfUser
+    estatesListOfUser,
+    follow
 });
 
 export default appReducers;

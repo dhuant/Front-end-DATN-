@@ -1,3 +1,4 @@
+/* global google */
 import React, { Component } from 'react';
 import EstatesMap from '../../components/Map/EstatesMap'
 import { connect } from 'react-redux';
@@ -7,7 +8,7 @@ import {} from 'react-google-maps'
 // import EstateMarker from '../../components/Map/EstateMarker'
 // import compass from '../../marker/compass.png'
 // import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps";
-// import Searching from './Searching'
+import Searching from './Searching'
 
 class EstateMapContainer extends Component {
     constructor(props) {
@@ -207,7 +208,7 @@ class EstateMapContainer extends Component {
         // console.log(JSON.stringify(place.geometry, null, 2));
         return (
             <div>
-                {/* <Searching  onPlaceChanged = {this.showPlaceDetails.bind(this)}/> */}
+                <Searching  onPlaceChanged = {this.showPlaceDetails.bind(this)}/>
                 <EstatesMap
                     isMarkerShown={this.state.isMarkerShown}
                     center = {this.state.center}
@@ -225,7 +226,7 @@ class EstateMapContainer extends Component {
                     // handleMapFullyLoaded={this.handleMapFullyLoaded}
                     onZoomChanged={this.onZoomChanged}
                     
-                />                
+                ></EstatesMap>                
                 <div className="form-group">
                     <button
                         onClick={this.showCurrentLocation}

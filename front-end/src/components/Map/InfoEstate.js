@@ -7,16 +7,16 @@ const h6Style = {
     lineHeight: 'unset',
     fontSize: '13.5px',
 };
-const pStyle = {
-    fontFamily: 'cursive',
-    fontSize: '12px',
-    margin: '0',
-    textDecoration: 'none',
-    marginBlockStart: '1em',
-    marginBlockEnd: '1em',
-    marginInlineStart: '0px',
-    marginInlineEnd: '0px',
-}
+// const pStyle = {
+//     fontFamily: 'cursive',
+//     fontSize: '12px',
+//     margin: '0',
+//     textDecoration: 'none',
+//     marginBlockStart: '1em',
+//     marginBlockEnd: '1em',
+//     marginInlineStart: '0px',
+//     marginInlineEnd: '0px',
+// }
 class InfoEstate extends Component {
 
     render() {
