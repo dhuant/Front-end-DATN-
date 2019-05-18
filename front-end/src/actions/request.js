@@ -122,7 +122,7 @@ export const actGetFollowingListRequest = () => {
 export const actUnfollowProjectRequest = (data) => {
   return dispatch => {
     return axios.post(`http://localhost:3001/users/unfollow`, data, { headers: authHeader() }).then(res => {
-      if (res.data.status === 201 || res.status === 201) {
+      if (res.data.status === 201 || res.status === 201 || res.follow.status === 201) {
         dispatch(Action.actUnfollowProject(res.data, data))
         return message.success("Bỏ theo dõi thành công!")
       }
