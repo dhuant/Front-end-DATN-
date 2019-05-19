@@ -651,7 +651,7 @@
 }
 
 .map-content .form-control {
-    padding-left: 15px !important;
+    padding-left: 5px !important;
 }
 
 .listing-properties-map  .detail .facilities-list li i {
@@ -684,7 +684,7 @@
 }
 
 .properties-map-search {
-    margin: 0 15px 0 15px;
+    /* margin: 0 15px 0 15px; */
 }
 
 .map-content-sidebar .title-area {

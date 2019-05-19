@@ -29,7 +29,7 @@ export default class Searching extends Component {
             id="autocomplete"
             placeholder="Nhập địa chỉ chi tiết ở đây..."
             type="text"
-            style={{width: '100%', height: '40px', border: '2px solid #84ad1d', borderRadius: '5px'}}
+            style={{width: '100%', height: '34px', border: '2px solid #84ad1d', borderRadius: '5px', fontSize:'12px'}}
           />
         );
       }

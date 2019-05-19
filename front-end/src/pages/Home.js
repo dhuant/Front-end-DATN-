@@ -42,6 +42,7 @@ class Home extends Component {
             price: Price[0].value,
         };
         this.handleOnChange = this.handleOnChange.bind(this)
+        
     }
     handleProvinceChange = (e) => {
         let target = e.target;

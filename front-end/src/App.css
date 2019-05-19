@@ -25,6 +25,16 @@
   color: #61dafb;
 }
 
+.my-location:hover{
+  background-color: #fff;
+  color: rgb(98, 230, 208);
+}
+.my-location{
+  background-color: rgb(207, 243, 229);
+  width: 40px;
+  height: 40px;
+  border: none;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

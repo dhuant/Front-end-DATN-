@@ -18,37 +18,12 @@ class HomeMap extends Component {
             location: "",
         }
     }
-    // setPosition = (position) => {
-    //     this.setState({
-    //         currentLatLng: {
-    //             lat: position.coords.latitude,
-    //             lng: position.coords.longitude
-
-    //         },
-    //     });
-    //     this.props.actFetchEstatesRequest(this.state.currentLatLng);
-    // };
-
-    // getLocation() {
-    //     if (navigator.geolocation) {
-    //         navigator.geolocation.getCurrentPosition(this.setPosition);
-    //     } else {
-    //         alert("Geolocation is not supported by this browser. Enter an address.")
-    //     }
-    // }
-    // componentDidMount(){
-    //     this.props.actFetchEstatesRequest({
-    //         radius: 5,
-	// 		lat: '10.792502',
-	// 		long: '106.6137603',
-    //     })
-    // }
     render() {
         return (
             <div>
                 <MainHeader />
                 <div className="map-content content-area container-fluid" >
-                    <div className="col-xs-12 col-sm-12 col-md-5 col-md-push-7 col-lg-8 col-lg-push-4 ">
+                    <div className="col-xs-12 col-sm-12 col-md-7 col-md-push-5 col-lg-9 col-lg-push-3 ">
                         <div className="row">
                             <EstateMapContainer />
                         </div>

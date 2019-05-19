@@ -74,7 +74,7 @@ class EstateListInMap extends Component {
 		// console.log(this.props.estates);
 		return (
 			<div>
-				<div className="col-xs-12 col-sm-12 col-md-7 col-md-pull-5 col-lg-4 col-lg-pull-8 map-content-sidebar" style={{ overflow: 'scroll', height: '100vh' }}>
+				<div className="col-xs-12 col-sm-12 col-md-5 col-md-pull-7 col-lg-3 col-lg-pull-9 map-content-sidebar" >
 					<div className="title-area">
 						<h2 className="pull-left">Search</h2>
 						{/* <a className="show-more-options pull-right" data-toggle="collapse" data-target="#options-content">
@@ -82,7 +82,7 @@ class EstateListInMap extends Component {
           					</a> */}
 						<div className="clearfix" />
 					</div>
-					<div className="properties-map-search">
+					<div className="properties-map-search" style={{ overflow: 'scroll', height: '100vh' }}>
 						<div className="properties-map-search-content">
 							<div className="row">
 								<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
