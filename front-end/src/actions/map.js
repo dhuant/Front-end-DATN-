@@ -12,3 +12,10 @@ export const actGetListEstatesAroundCurrentLocationSuccess = (estates) => {
         estates: estates
     }
 }
+
+export const actSearchMap = (estates) => {
+    return{
+        type: types.SEARCH_MAP,
+        estates: estates
+    }
+}

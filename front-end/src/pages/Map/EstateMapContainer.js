@@ -5,28 +5,23 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/request';
 import { } from 'react-google-maps'
 import Searching from './Searching'
+import { timeout } from 'q';
 
 const colStyle = {
-    paddingRight: '0px',
-    paddingLeft: '10px'
+    paddingRight: '10px',
+    paddingLeft: '10px',
+    marginLeft: '10px',
+    marginRight: '10px'
 }
 const optionStyle = {
     fontSize: '12px'
 }
+const fomrGroupStyle = {
+    marginBottom: '10px'
+}
 const Deal = [
     { value: '1', label: 'Bất động sản bán' },
     { value: '3', label: 'Bất động sản cho thuê' }];
-const Price = {
-    1: [
-        { value: '0', label: 'Chọn giá' },
-        { value: '0-500', label: '<500 triệu' },
-        { value: '500-1000', label: '500triệu - 1 tỷ' }
-    ],
-    3: [
-        { value: '0-3', label: '< 3triệu/tháng' },
-        { value: '3-5', label: '3-5 triệu' }
-    ],
-};
 const Types = [
     { value: '0', label: 'Loại bất động sản' },
     { value: '1', label: 'Căn hộ/Chung cư' },
@@ -34,21 +29,55 @@ const Types = [
     { value: '3', label: 'Đất' },
     { value: '4', label: 'Văn phòng/mặt bằng kinh doanh' }
 ];
+const Area = [
+    { value: '0', label: 'Diện tích' },
+    { value: '30-50', label: '30 - 50 m2' },
+    { value: '50-70', label: '50 - 70 m2' },
+    { value: '70-110', label: '70 - 110 m2' },
+    { value: '150-200', label: '150 - 200 m2' },
+    { value: '200-250', label: '200 - 250 m2' },
+    { value: '250-300', label: '250 - 300 m2' },
+    { value: '300-500', label: '300 - 500 m2' },
+    { value: '500-10000', label: '>500 m2' },
 
+];
+const Price = {
+    1: [
+        { value: '0', label: 'Chọn giá' },
+        { value: '1-500', label: '<500 triệu' },
+        { value: '500-1000', label: '500triệu - 1 tỷ' },
+        { value: '1000-2000', label: '1 - 2tỷ' },
+        { value: '2000-3000', label: '2 - 3tỷ' },
+        { value: '3000-5000', label: '3 - 5tỷ' },
+        { value: '5000-7000', label: '5 - 7tỷ' },
+        { value: '7000-10000', label: '7 - 10tỷ' },
+        { value: '10000-20000', label: '10 - 20tỷ' },
+        { value: '20000-30000', label: '20 - 30tỷ' },
+        { value: '30000-999999', label: '>30tỷ' }
+
+    ],
+    3: [
+        { value: '0', label: 'Chọn giá' },
+        { value: '1-3', label: '< 3triệu/tháng' },
+        { value: '3-5', label: '3-5 triệu' }
+    ],
+};
 class EstateMapContainer extends Component {
     constructor(props) {
         super(props);
 
         this.xMapBounds = { min: null, max: null }
         this.yMapBounds = { min: null, max: null }
-
         this.mapFullyLoaded = false
         this.state = {
+            Estates: this.props.estates,
             type: Types[0].value,
-            province: Deal[0].label,
+            deal: Deal[0].value,
             price: Price[Deal[0].value][0].value,
             prices: Price[Deal[0].value],
+            area: Area[0].value,
             activeMarker: null,
+
             // currentLatLng: {
             //     lat: 10.792502,
             //     lng: 106.6137603
@@ -61,8 +90,13 @@ class EstateMapContainer extends Component {
                 lat: 10.792502,
                 lng: 106.6137603
             },
+            searchLatLng: {
+                lat: 10.792502,
+                lng: 106.6137603
+            },
             zoomChange: 13,
-            isMarkerShown: false,
+            isMarkerCurrentLocationShown: false,
+            isMarkerCenterShown: false,
             place: {},
         }
         console.log(this.state.prices);
@@ -73,7 +107,7 @@ class EstateMapContainer extends Component {
         let target = e.target;
         let name = target.name;
         let value = target.value;
-        const result = Deal.find(city => city.label === value);
+        const result = Deal.find(deal => deal.value === value);
         this.setState({
             [name]: value,
             prices: Price[result.value],
@@ -108,10 +142,6 @@ class EstateMapContainer extends Component {
 
     }
 
-    showPlaceDetails(place) {
-        this.setState({ place });
-    }
-
     showCurrentLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -125,7 +155,12 @@ class EstateMapContainer extends Component {
                             lat: position.coords.latitude,
                             lng: position.coords.longitude
                         },
-                        isMarkerShown: true
+                        searchLatLng:{
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        },
+                        isMarkerCurrentLocationShown: true,
+                        isMarkerCenterShown: false,
                     });
                     console.log("get current location");
                     console.log(this.state.currentLatLng);
@@ -135,8 +170,12 @@ class EstateMapContainer extends Component {
                         radius: 5,
                         lat: this.state.currentLatLng.lat.toString(),
                         long: this.state.currentLatLng.lng.toString(),
+                        statusProject: this.state.deal,
+                        type: this.state.type,
+                        area: this.state.area,
+                        price: this.state.price,
                     };
-                    this.props.actFetchEstatesRequest(info);
+                    this.props.actSearchMapRequest(info);
                     console.log(" ----- End getCurrent location");
                 }
             )
@@ -175,22 +214,41 @@ class EstateMapContainer extends Component {
             radius: 5,
             lat: this.state.center.lat.toString(),
             long: this.state.center.lng.toString(),
+            statusProject: this.state.deal,
+            type: this.state.type,
+            area: this.state.area,
+            price: this.state.price,
         };
         console.log("map");
         console.log(this.state.center);
-        this.props.actFetchEstatesRequest(info)
+        this.props.actSearchMapRequest(info)
     }
 
     handleMapMounted = (map) => {
-        this.map = map
+        this.map = map;
+        // let estates = this.state.Estates;
+        // let center = this.state.center;
+        // console.log("Zoom to markers");
+        // const bounds = new window.google.maps.LatLngBounds();
+        // if(estates.length >0){
+        //     estates.forEach(estate => {
+        //         bounds.extend(new window.google.maps.LatLng(estate.props.lat, estate.props.long))
+        //     });
+        // }
+        // else{
+        //     bounds.extend(new window.google.maps.LatLng(center.lat, center.lng))
+        // }
+        // console.log(bounds);
+        // this.map.fitBounds(bounds);
+
     }
 
-    onZoomChanged = () => {
-        this.setState({
-            zoomChange: this.map.getZoom()
-        })
-
+    onZoomChange = () => {
+        // if(this.map.getZoom()>14){
+        //     this.map.setZoom(14);
+        // }
     }
+
     handleMapFullyLoaded = () => {
         if (this.mapFullyLoaded)
             return
@@ -203,13 +261,13 @@ class EstateMapContainer extends Component {
                 lat: this.map.getCenter().lat(),
                 lng: this.map.getCenter().lng()
             },
-            // isMarkerShown: false
+            searchLatLng: {
+                lat: this.map.getCenter().lat(),
+                lng: this.map.getCenter().lng()
+            },
+            isMarkerCenterShown: true,
+            // isMarkerCurrentLocationShown: false
         })
-    }
-    insertButton = () => {
-        let controlDiv = document.createElement('div');
-        // let centerControl = this.CenterControl(controlDiv, this.map);
-        this.map.controls[this.google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
     }
 
     // getMapBounds =()=> {
@@ -239,16 +297,49 @@ class EstateMapContainer extends Component {
     //         console.log(JSON.stringify(info));
     //     }
     // }
+    onPlaceSelected = (place) => {
+        console.log('plc', place);
+        const latValue = place.geometry.location.lat(),
+            lngValue = place.geometry.location.lng();
+        // Set these values in the state.
+        this.setState({
+            searchLatLng: {
+                lat: latValue,
+                lng: lngValue
+            },
 
+        })
+    };
+    onSearchMap = () => {
+        this.setState({
+            center: {
+                lat: this.state.searchLatLng.lat,
+                lng: this.state.searchLatLng.lng
+            },
+            isMarkerCenterShown: true
+        });
+        let info = {
+            lat: this.state.searchLatLng.lat,
+            long: this.state.searchLatLng.lng,
+            radius: 5,
+            statusProject: this.state.deal,
+            type: this.state.type,
+            area: this.state.area,
+            price: this.state.price,
+        }
+        this.props.actSearchMapRequest(info);
+        console.log(info);
+    }
     render() {
-        let { currentLatLng, type, province, prices, price, } = this.state;
+        let { currentLatLng, type, deal, prices, price, area } = this.state;
         const { estates } = this.props;
         console.log(" ----- render")
         console.log(estates);
-        console.log(this.state.isMarkerShown);
+        console.log(this.state.isMarkerCurrentLocationShown);
         console.log(" ----- End render")
         console.log(type);
         console.log(price);
+        console.log(this.state.center);
 
         // let {place} = this.state;
         // console.log(place.ge);
@@ -262,32 +353,32 @@ class EstateMapContainer extends Component {
         // console.log(JSON.stringify(place.geometry, null, 2));
         return (
             <div>
-                <div className="properties-map-search" style={{ backgroundColor: '#f4f4f2' }}>
+                <div className="properties-map-search" style={{ backgroundColor: '#5d1070' }}>
                     <div className="properties-map-search-content" style={{ paddingTop: '5px' }}>
                         <div className="row">
-                            <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12" style={{ paddingLeft: '15px' }}>
-                                <div className="form-group" style={{ paddingLeft: '3px' }}>
-                                    <Searching onPlaceChanged={this.showPlaceDetails.bind(this)} style={optionStyle} />
+                            <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12" style={{ paddingLeft: '15px', paddingRight: '0px' }}>
+                                <div className="form-group" style={{ paddingLeft: '5px', paddingRight: '5px', marginLeft: '5px', marginRight: '10px', marginBottom: '10px' }}>
+                                    <Searching onPlaceChanged={this.onPlaceSelected} style={optionStyle} />
                                 </div>
 
                             </div>
 
-                            <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2" style={colStyle}>
-                                <div className="form-group">
+                            <div className="col-lg-2 col-md-3 col-sm-3 col-xs-3" style={colStyle}>
+                                <div className="form-group" style={fomrGroupStyle}>
                                     <select className="form-control"
-                                        name="province"
-                                        value={province}
+                                        name="deal"
+                                        value={deal}
                                         onChange={this.handleProvinceChange}
                                         id="sel1"
                                         style={optionStyle}
                                     >
-                                        {Deal.map((province, index) => <option key={index} value={province.label}>{province.label}</option>)}
+                                        {Deal.map((deal, index) => <option key={index} value={deal.value}>{deal.label}</option>)}
 
                                     </select>
                                 </div>
                             </div>
-                            <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2" style={colStyle}>
-                                <div className="form-group">
+                            <div className="col-lg-2 col-md-3 col-sm-3 col-xs-3" style={colStyle}>
+                                <div className="form-group" style={fomrGroupStyle}>
                                     <select className="form-control"
                                         name="type"
                                         value={type}
@@ -299,8 +390,21 @@ class EstateMapContainer extends Component {
                                     </select>
                                 </div>
                             </div>
-                            <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2" style={colStyle}>
-                                <div className="form-group">
+                            <div className="col-lg-2 col-md-3 col-sm-3 col-xs-3" style={colStyle}>
+                                <div className="form-group" style={fomrGroupStyle}>
+                                    <select className="form-control"
+                                        name="area"
+                                        value={area}
+                                        onChange={this.handleOnChange}
+                                        id="area"
+                                        style={optionStyle} >
+                                        {Area.map((area, index) => <option key={index} value={area.value}>{area.label}</option>)}
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="col-lg-2 col-md-2 col-sm-3 col-xs-2" style={colStyle}>
+                                <div className="form-group" style={fomrGroupStyle}>
                                     <select className="form-control"
                                         name="price"
                                         value={price}
@@ -312,15 +416,28 @@ class EstateMapContainer extends Component {
                                     </select>
                                 </div>
                             </div>
+                        </div>
 
+
+
+                        <div className='row'>
+                            <div style={{ float: "right", paddingRight: '15px', margin: '0px 10px 10px 20px' }}>
+                                <button
+                                    onClick={this.onSearchMap}
+                                    type="button" class="btn btn-success"
+                                // style={{float:'right'}}
+                                >
+                                    Tìm kiếm</button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div>
                     <div style={{ zIndex: '1', position: 'relative' }}>
                         <EstatesMap
-                            isMarkerShown={this.state.isMarkerShown}
+                            isMarkerCurrentLocationShown={this.state.isMarkerCurrentLocationShown}
                             center={this.state.center}
+                            isMarkerCenterShown={this.state.isMarkerCenterShown}
                             currentLocation={currentLatLng}
                             estates={estates}
                             googleMapURL={`https://maps.googleapis.com/maps/api/js?key=AIzaSyCaznvdfOL3vMLdqR729vJEWauyZp9-Ud8&v=3.exp&libraries=geometry,drawing,places`}
@@ -329,13 +446,13 @@ class EstateMapContainer extends Component {
                             mapElement={<div style={{ height: `100%` }} />}
                             activeMarker={this.state.activeMarker}
                             closeOtherMarkers={this.closeOtherMarkers}
-
                             onMapMounted={this.handleMapMounted}
                             handleMapChanged={this.handleMapChanged}
-                            // handleMapFullyLoaded={this.handleMapFullyLoaded}
-                            onZoomChanged={this.onZoomChanged}
+                        // onZoomChange={this.onZoomChange}
+                        // handleMapFullyLoaded={this.handleMapFullyLoaded}
+                        >
 
-                        ></EstatesMap>
+                        </EstatesMap>
                     </div>
 
                     <div className="button-location"
@@ -347,7 +464,7 @@ class EstateMapContainer extends Component {
                             float: "right",
                             margin: '-65px 65px 15px 0',
                             boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
-                            borderRadius: '4px',                           
+                            borderRadius: '4px',
                             outline: 'none',
                             cursor: 'pointer',
                         }} >
@@ -367,7 +484,8 @@ class EstateMapContainer extends Component {
 }
 const mapDispathToProp = (dispatch) => {
     return {
-        actFetchEstatesRequest: (info) => dispatch(actions.actFetchEstatesRequest(info))
+        actFetchEstatesRequest: (info) => dispatch(actions.actFetchEstatesRequest(info)),
+        actSearchMapRequest: (info) => dispatch(actions.actSearchMapRequest(info)),
     }
 }
 const mapStateToProp = (state) => {

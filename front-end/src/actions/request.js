@@ -1,4 +1,5 @@
 import * as Action from "./index";
+import * as actMap from "./map"
 import callApi from "./../utils/apiCaller";
 import { authHeader } from "../constants/authHeader";
 import axios from "axios";
@@ -15,10 +16,24 @@ export const actFetchEstatesRequest = info => {
         dispatch(Action.actFetchEstates([]));
         // console.log(error);
       })
-      .catch(err => { console.log(err) })
   };
 };
 
+//--------- SearchMap
+export const actSearchMapRequest = info =>  {
+  return dispatch => {
+    return axios.post("http://localhost:3001/projects/searchmap",info)
+    .then(res => {
+      console.log('search');
+      dispatch(actMap.actSearchMap(res.data.projects));
+    })
+    .catch(error => {
+      dispatch(actMap.actSearchMap([]));
+      console.log("Khong co du lieu");
+    })
+  }
+}
+//---------
 //Hàm này sử dụng cho việc lấy detail của 1 estate
 
 export const actGetEstateRequest = id => {
