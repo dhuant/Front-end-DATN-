@@ -1306,7 +1306,7 @@ input[type=checkbox]:checked + label:before {
     color: white;
     border: none;
     background-color: rgba(0, 0, 0, 0.5);
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     letter-spacing: 1px;
     display: inline-block;
     z-index: 20;

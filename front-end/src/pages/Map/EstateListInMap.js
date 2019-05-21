@@ -1,67 +1,62 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
 import * as actions from '../../actions/request';
 import { connect } from 'react-redux';
 import InfoEstate from '../../components/Map/InfoEstate'
-const options = [
-	{ value: 'chocolate', label: 'Chocolate' },
-	{ value: 'strawberry', label: 'Strawberry' },
-	{ value: 'vanilla', label: 'Vanilla' },
-	{ value: 'chocolate', label: 'Chocolate' },
-	{ value: 'strawberry', label: 'Strawberry' },
-	{ value: 'vanilla', label: 'Vanilla' },
+const Options = [
+	{ value: '0', label: 'Thông thường' },
+	{ value: '1', label: 'Giá thấp nhất' },
+	{ value: '2', label: 'Giá cao nhất' },
+	{ value: '3', label: 'Diện tích nhỏ nhất' },
+	{ value: '4', label: 'Diện tích lớn nhất' }
 ];
 
 class EstateListInMap extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 			radius: '',
 			error: '',
-			selectedOption: null,
-			
+			option: Options[0].value,
+			Estates: []
 		};
 	}
-	handleChangeState = (selectedOption) => {
-		this.setState({ selectedOption });
-		
+	handleOnChange = (e) => {
+		let target = e.target;
+		let name = target.name;
+		let value = target.value;
+		this.setState({
+			[name]: value,
+		});
 	}
-	
-	// findAround = (e) => {
-	// 	e.preventDefault();
-	// 	// var headers = {
-
-	// 	//     "Access-Control-Allow-Origin": "*",
-	// 	// }
-	// 	var info = {
-	// 		radius: 5,
-	// 		lat: '10.792502',
-	// 		long: '106.6137603',
-	// 	}
-	// 	// axios.post('http://localhost:3001/projects/getListInRadius', info)
-	// 	// 	.then(res => {
-	// 	// 		if (res.data.status === 200) {
-	// 	// 			console.log(res.data);
-	// 	// 			console.log(res.data.projects);
-	// 	// 			//this.props.saveProfile(res.data.projects);
-	// 	// 			// this.props.history.push('/');
-	// 	// 		} else {
-	// 	// 			this.setState({
-	// 	// 				error: 'Error'
-	// 	// 			});
-	// 	// 		}
-	// 	// 	});
-	// 	this.props.actFetchEstatesRequest(info);
-	// }
+	componentDidMount() {
+		this.setState({
+			Estates: this.props.estates
+		})
+	}
 	render() {
-		const { selectedOptionState, selectedOptionStatus } = this.state;
+		let { option } = this.state;
+		console.log(option)
 		let estates = this.props.estates;
-		
-		let listEstates = <h5>Không có bất động sản nào được tìm thấy</h5>;
+		let des = 'Mời bạn tìm vị trí khác'
+		let listEstates = <h5 style={{marginLeft:'15px'}}>Không có bất động sản nào được tìm thấy</h5>;
 		if (estates.length > 0) {
+			if (option === '1') {
+				estates = estates.sort((a, b) => (a.price - b.price))
+			}
+			else if(option === '2'){
+				estates = estates.sort((a, b) => (b.price - a.price))
+			}
+			else if(option === '3') {
+				estates = estates.sort((a, b) => (a.area - b.area))
+			}
+			else if(option === '4') {
+				estates = estates.sort((a, b) => (b.area - a.area))
+			}
+			des = `Có ${estates.length} bất động sản được tìm thấy`
 			listEstates = estates.map((estate, index) => {
 				return (
 					<InfoEstate
+					style ={{paddingLeft:'3px'}}
 						key={index}
 						estate={estate}
 					/>
@@ -69,78 +64,54 @@ class EstateListInMap extends Component {
 			}
 			)
 		}
-		
 		// console.log(estates);
 		// console.log(this.props.estates);
 		return (
 			<div>
 				<div className="col-xs-12 col-sm-12 col-md-5 col-md-pull-7 col-lg-3 col-lg-pull-9 map-content-sidebar" >
 					<div className="title-area">
-						<h2 className="pull-left">Search</h2>
-						{/* <a className="show-more-options pull-right" data-toggle="collapse" data-target="#options-content">
-								<i className="fa fa-plus-circle" /> Show More Options
-          					</a> */}
+						<h2 className="pull-left">{des} </h2>
+
 						<div className="clearfix" />
 					</div>
 					<div className="properties-map-search" style={{ overflow: 'scroll', height: '100vh' }}>
 						<div className="properties-map-search-content">
 							<div className="row">
-								<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+								{/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<div className="form-group">
-										<input className="form-control search-fields" placeholder="Enter address e.g. street, city" />
+										<input className="keyword"
+											style={{
+												minHeight: '40px',
+												width: '95%',
+												margin: '0px 3px 0px 10px',
+												padding: '3px 5px 3px 5px ',
+												border: '1px solid #e0e0e0',
+												background: '#fff',
+												borderRadius: '3px',
+											}}
+											placeholder="Nhập tên bất động sản" />
 									</div>
+								</div> */}
+								<div className="col-lg-5 col-md-5 col-sm-12 col-xs-12" style={{ paddingRight: '5px' }}>
+									<p style={{ marginLeft: '5px', marginTop: '3px', textAlign:'center', fontSize: '12px', fontWeight: 'bold' }}>Sắp xếp theo: </p>
 								</div>
-								<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-									<div className="form-group">
-										<Select
-											placeholder="All Status"
-											value={selectedOptionState}
-											onChange={this.handleChangeState}
-											options={options}
-											menuPosition="fixed"
-										/>
-										<br />
+								<div className="col-lg-7 col-md-7 col-sm-12 col-xs-12" style={{ paddingLeft: '5px' }}>
+									<div className="form-group" >
+										<select className="form-control"
+											name="option"
+											value={option}
+											onChange={this.handleOnChange}
+											id="opt"
+											style={{ fontSize: '12px' }}
+										>
+											{Options.map((option, index) => <option key={index} value={option.value}>{option.label}</option>)}
+
+										</select>
 									</div>
 								</div>
 
-								<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-									<div className="form-group">
-										<Select
-											placeholder="All State"
-											value={selectedOptionStatus}
-											onChange={this.handleChangeStatus}
-											options={options}
-											menuPosition="fixed"
-										/>
-									</div>
-								</div>
-								<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-									<div className="form-group">
-										<Select
-											placeholder="All Type"
-											// value={selectedOption}
-											onChange={this.handleChange}
-											options={options}
-											menuPosition="fixed"
-										/>
-									</div>
-								</div>
-								{/* <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-										<div className="range-slider">
-											<label>Area</label>
-											<div data-min={0} data-max={10000} data-unit="Sq ft" data-min-name="min_area" data-max-name="max_area" className="range-slider-ui ui-slider" aria-disabled="false" />
-											<div className="clearfix" />
-										</div>
-									</div>
-									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-										<div className="range-slider">
-											<label>Price</label>
-											<div data-min={0} data-max={150000} data-unit="USD" data-min-name="min_price" data-max-name="max_price" className="range-slider-ui ui-slider" aria-disabled="false" />
-											<div className="clearfix" />
-										</div>
-									</div> */}
 							</div>
-							<div id="options-content" className="collapse">
+							{/* <div id="options-content" className="collapse">
 								<div className="row" >
 									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 										<div className="form-group">
@@ -190,7 +161,7 @@ class EstateListInMap extends Component {
 									</div>
 								</div>
 
-							</div>
+							</div> */}
 						</div>
 
 						<div className="map-content-separater" />
@@ -200,13 +171,13 @@ class EstateListInMap extends Component {
 							<br />
 							<div className="clearfix" />
 						</div>
-						<div className="fetching-properties">
+						<div className="fetching-properties" >
 							{listEstates}
-							
+
 						</div>
 					</div>
 				</div>
-				
+
 			</div>
 		);
 	}

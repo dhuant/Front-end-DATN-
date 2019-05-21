@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/request';
 import { } from 'react-google-maps'
 import Searching from './Searching'
-import { timeout } from 'q';
+// import { timeout } from 'q';
 
 const colStyle = {
-    paddingRight: '10px',
-    paddingLeft: '10px',
+    paddingRight: '5px',
+    paddingLeft: '5px',
     marginLeft: '10px',
     marginRight: '10px'
 }
@@ -17,7 +17,7 @@ const optionStyle = {
     fontSize: '12px'
 }
 const fomrGroupStyle = {
-    marginBottom: '10px'
+    paddingRight: '13px', marginLeft: '3px', marginRight: '7px', marginBottom: '10px'
 }
 const Deal = [
     { value: '1', label: 'Bất động sản bán' },
@@ -78,10 +78,6 @@ class EstateMapContainer extends Component {
             area: Area[0].value,
             activeMarker: null,
 
-            // currentLatLng: {
-            //     lat: 10.792502,
-            //     lng: 106.6137603
-            // },
             currentLatLng: {
                 lat: 10.792502,
                 lng: 106.6137603
@@ -155,7 +151,7 @@ class EstateMapContainer extends Component {
                             lat: position.coords.latitude,
                             lng: position.coords.longitude
                         },
-                        searchLatLng:{
+                        searchLatLng: {
                             lat: position.coords.latitude,
                             lng: position.coords.longitude
                         },
@@ -243,18 +239,13 @@ class EstateMapContainer extends Component {
 
     }
 
-    onZoomChange = () => {
-        // if(this.map.getZoom()>14){
-        //     this.map.setZoom(14);
-        // }
-    }
-
     handleMapFullyLoaded = () => {
         if (this.mapFullyLoaded)
             return
         this.mapFullyLoaded = true
         this.handleMapChanged()
     }
+
     setMapCenterPoint = () => {
         this.setState({
             center: {
@@ -356,14 +347,14 @@ class EstateMapContainer extends Component {
                 <div className="properties-map-search" style={{ backgroundColor: '#5d1070' }}>
                     <div className="properties-map-search-content" style={{ paddingTop: '5px' }}>
                         <div className="row">
-                            <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12" style={{ paddingLeft: '15px', paddingRight: '0px' }}>
+                            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12" style={{ paddingLeft: '15px', paddingRight: '0px' }}>
                                 <div className="form-group" style={{ paddingLeft: '5px', paddingRight: '5px', marginLeft: '5px', marginRight: '10px', marginBottom: '10px' }}>
                                     <Searching onPlaceChanged={this.onPlaceSelected} style={optionStyle} />
                                 </div>
 
                             </div>
 
-                            <div className="col-lg-2 col-md-3 col-sm-3 col-xs-3" style={colStyle}>
+                            <div className="col-lg-2 col-md-3 col-sm-6 col-xs-12" style={colStyle}>
                                 <div className="form-group" style={fomrGroupStyle}>
                                     <select className="form-control"
                                         name="deal"
@@ -377,20 +368,21 @@ class EstateMapContainer extends Component {
                                     </select>
                                 </div>
                             </div>
-                            <div className="col-lg-2 col-md-3 col-sm-3 col-xs-3" style={colStyle}>
+                            <div className="col-lg-2 col-md-3 col-sm-6 col-xs-12" style={colStyle}>
                                 <div className="form-group" style={fomrGroupStyle}>
                                     <select className="form-control"
                                         name="type"
                                         value={type}
                                         onChange={this.handleOnChange}
                                         id="sel2"
-                                        style={optionStyle} >
+                                        style={optionStyle}
+                                    >
                                         {Types.map((type, index) => <option key={index} value={type.value}>{type.label}</option>)}
 
                                     </select>
                                 </div>
                             </div>
-                            <div className="col-lg-2 col-md-3 col-sm-3 col-xs-3" style={colStyle}>
+                            <div className="col-lg-2 col-md-3 col-sm-6 col-xs-12" style={colStyle}>
                                 <div className="form-group" style={fomrGroupStyle}>
                                     <select className="form-control"
                                         name="area"
@@ -403,7 +395,7 @@ class EstateMapContainer extends Component {
                                     </select>
                                 </div>
                             </div>
-                            <div className="col-lg-2 col-md-2 col-sm-3 col-xs-2" style={colStyle}>
+                            <div className="col-lg-2 col-md-2 col-sm-6 col-xs-12" style={colStyle}>
                                 <div className="form-group" style={fomrGroupStyle}>
                                     <select className="form-control"
                                         name="price"
@@ -421,11 +413,12 @@ class EstateMapContainer extends Component {
 
 
                         <div className='row'>
-                            <div style={{ float: "right", paddingRight: '15px', margin: '0px 10px 10px 20px' }}>
+                            {/* < style={{ float: "right", paddingRight: '15px', margin: '0px 10px 10px 20px' }}> */}
+                            <div clasName="col-lg-12 col-md-6 col-sm-6 col-xs-12" style={{ float: "right", paddingRight: '28px' }}>
                                 <button
                                     onClick={this.onSearchMap}
                                     type="button" class="btn btn-success"
-                                // style={{float:'right'}}
+                                    style={{ margin: '0px 10px 10px 25px' }}
                                 >
                                     Tìm kiếm</button>
                             </div>
@@ -442,7 +435,7 @@ class EstateMapContainer extends Component {
                             estates={estates}
                             googleMapURL={`https://maps.googleapis.com/maps/api/js?key=AIzaSyCaznvdfOL3vMLdqR729vJEWauyZp9-Ud8&v=3.exp&libraries=geometry,drawing,places`}
                             loadingElement={<div style={{ height: `100%` }} />}
-                            containerElement={<div style={{ height: `95vh`, width: `100%`, }} />}
+                            containerElement={<div style={{ height: `100vh`, width: `100%`, }} />}
                             mapElement={<div style={{ height: `100%` }} />}
                             activeMarker={this.state.activeMarker}
                             closeOtherMarkers={this.closeOtherMarkers}
