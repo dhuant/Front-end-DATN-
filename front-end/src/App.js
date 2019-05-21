@@ -22,6 +22,7 @@ import EditUI from './components/My Properties/EditUI'
 import MyFollowing from './pages/MyFollowing'
 import MyTransaction from './pages/MyTransaction'
 import TransHistory from './pages/TransHistory'
+import VerticalLinearStepper from '../src/components/Profile/VerticalLinearStepper'
 
 class App extends Component {
   render() {
@@ -50,7 +51,9 @@ class App extends Component {
             <Route exact path='/myfollowing' component={MyFollowing}/>
             <Route exact path='/mytransactions' component={MyTransaction}/>
             <Route exact path='/transhistory' component={TransHistory}/>
+            <Route exact path='/progress' component={VerticalLinearStepper}/>
             <Route exact path='' component={NotFound} />
+            
           </Switch>
         </div>
       </BrowserRouter>

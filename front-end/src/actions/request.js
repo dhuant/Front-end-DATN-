@@ -96,7 +96,7 @@ export const actGetEstateListOfUserRequest = () => {
     return axios.get(`http://localhost:3001/users/danhsachproject`, { headers: authHeader() }).then(res => {
       if (res.data.status === 200)
         dispatch(Action.actGetEstateListOfUser(res.data.projects))
-       console.log(res);
+      console.log(res);
       return message.success("Lấy danh sách bài viết của tài khoản thành công!")
     })
       .catch(err => {
@@ -106,17 +106,20 @@ export const actGetEstateListOfUserRequest = () => {
 }
 
 export const actGetFollowingListRequest = () => {
-  return dispatch => {
-    return axios.get(`http://localhost:3001/users/listSaved`, { headers: authHeader() }).then(res => {
-      if (res.data.status === 200)
-        dispatch(Action.actGetFollowingList(res.data.result.projects))
+  if (authHeader !== null)
+    return dispatch => {
+      return axios.get(`http://localhost:3001/users/listSaved`, { headers: authHeader() }).then(res => {
 
-      return message.success("Lấy danh sách theo dõi thành công!")
-    })
-      .catch(err => {
-        return message.error("Có lỗi xảy ra khi lấy danh sách theo dõi!")
+        if (res.data.status === 200)
+          dispatch(Action.actGetFollowingList(res.data.result.projects))
+
+        return message.success("Lấy danh sách theo dõi thành công!")
       })
-  }
+        .catch(err => {
+          return message.error("Có lỗi xảy ra khi lấy danh sách theo dõi!")
+        })
+    }
+  else return null
 }
 
 export const actUnfollowProjectRequest = (data) => {
