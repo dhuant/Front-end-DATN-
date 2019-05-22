@@ -410,8 +410,6 @@ class EstateMapContainer extends Component {
                             </div>
                         </div>
 
-
-
                         <div className='row'>
                             {/* < style={{ float: "right", paddingRight: '15px', margin: '0px 10px 10px 20px' }}> */}
                             <div clasName="col-lg-12 col-md-6 col-sm-6 col-xs-12" style={{ float: "right", paddingRight: '28px' }}>
@@ -444,7 +442,6 @@ class EstateMapContainer extends Component {
                         // onZoomChange={this.onZoomChange}
                         // handleMapFullyLoaded={this.handleMapFullyLoaded}
                         >
-
                         </EstatesMap>
                     </div>
 

@@ -4,6 +4,10 @@
 /* eslint-disable jsx-a11y/no-redundant-roles */
 import React, { Component } from 'react';
 import Select from 'react-select'
+import moment from 'moment'
+import { connect } from 'react-redux'
+import * as actions from '../../actions/request'
+
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
   { value: 'strawberry', label: 'Strawberry' },
@@ -17,11 +21,42 @@ class Sidebar extends Component {
       selectedOption: null,
     };
   }
+  // componentDidMount = () => {
+  //   this.props.actFetchEstatesRequest
+  // }
   handleChange = (selectedOption) => {
     this.setState({ selectedOption });
     console.log(`Option selected:`, selectedOption);
   }
+  ShowRelatedEstate = (estates, selectedEstate) => {
+    var result = null;
+    if (estates.length > 0) {
+      result = estates.map((estate, index) => {
+        if (estate._id !== selectedEstate._id)
+          return (
+            <div className="media">
+              <div className="media-left">
+                <img className="media-object" src={estate.url[0] ? estate.url[0] : "/img/properties/small-properties-1.jpg"} alt="small-properties-1" />
+              </div>
+              <div className="media-body">
+                <h3 className="media-heading">
+                  <a href="properties-details.html">{estate.name}</a>
+                </h3>
+                <p>{moment.unix(estate.updateTime).format('DD/MM/YYYY, h:mm a')}</p>
+                <div className="price">
+                  {estate.price} tỉ
+                </div>
+              </div>
+            </div>
+          );
+      });
+    }
+    return result;
+  }
   render() {
+    let { estates, info } = this.props
+    console.log(info)
+    console.log(estates)
     return (
       <div>
         <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
@@ -30,172 +65,17 @@ class Sidebar extends Component {
             {/* Search contents sidebar start */}
             <div className="sidebar-widget hidden-xs hidden-sm">
               <div className="main-title-2">
-                <h1><span>Advanced</span> Search</h1>
+                <h1><span>Tình hình</span> giao dịch</h1>
               </div>
-              <form method="GET">
-                <div className="form-group">
-                  <Select
-                    defaultValue={options[0].label}
-                    // value={selectedOption}
-                    onChange={this.handleChange}
-                    options={options}
-                    isClearable
-                    placeholder="Properties Status"
-                    className="Properties Status"
-                  />
-                </div>
-                <div className="form-group">
-                  <Select
-                    defaultValue={options[0].label}
-                    // value={selectedOption}
-                    onChange={this.handleChange}
-                    options={options}
-                    isClearable
-                    placeholder="Location"
-                    className="Location"
-                  />
-                </div>
-                <div className="form-group">
-                  <Select
-                    defaultValue={options[0].label}
-                    // value={selectedOption}
-                    onChange={this.handleChange}
-                    options={options}
-                    isClearable
-                    placeholder="Properties Types"
-                    className="Properties Types"
-                  />
-                </div>
-                <div className="form-group">
-                  <Select
-                    defaultValue={options[0].label}
-                    // value={selectedOption}
-                    onChange={this.handleChange}
-                    options={options}
-                    isClearable
-                    placeholder="Area Form"
-                    className="Area Form"
-                  />
-                </div>
-                <div className="row">
-                  <div className="col-lg-6 col-md-6 col-sm-6">
-                    <div className="form-group">
-                      <Select
-                        defaultValue={options[0].label}
-                        // value={selectedOption}
-                        onChange={this.handleChange}
-                        options={options}
-                        isClearable
-                        placeholder="Bedrooms"
-                        className="Bedrooms"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6">
-                    <div className="form-group">
-                      <Select
-                        defaultValue={options[0].label}
-                        // value={selectedOption}
-                        onChange={this.handleChange}
-                        options={options}
-                        isClearable
-                        placeholder="Bathrooms"
-                        className="Bathrooms"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-lg-6 col-md-6 col-sm-6">
-                    <div className="form-group">
-                      <Select
-                        defaultValue={options[0].label}
-                        // value={selectedOption}
-                        onChange={this.handleChange}
-                        options={options}
-                        isClearable
-                        placeholder="Balcony"
-                        className="Balcony"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-6">
-                    <div className="form-group">
-                      <Select
-                        defaultValue={options[0].label}
-                        // value={selectedOption}
-                        onChange={this.handleChange}
-                        options={options}
-                        isClearable
-                        placeholder="Garage"
-                        className="Garage"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="range-slider">
-                  <label>Area</label>
-                  <div data-min={0} data-max={10000} data-unit="Sq ft" data-min-name="min_area" data-max-name="max_area" className="range-slider-ui ui-slider" aria-disabled="false" ></div>
-                  <div className="clearfix" />
-                </div>
-                <div className="range-slider">
-                  <label>Price</label>
-                  <div data-min={0} data-max={150000} data-unit="USD" data-min-name="min_price" data-max-name="max_price" className="range-slider-ui ui-slider" aria-disabled="false" />
-                  <div className="clearfix" />
-                </div>
-                <div className="form-group mb-0">
-                  <button className="search-button">Search</button>
-                </div>
-              </form>
+              
             </div>
             {/* Search contents sidebar end */}
             {/* Popular posts start */}
             <div className="sidebar-widget popular-posts">
               <div className="main-title-2">
-                <h1><span>Recently</span> Properties</h1>
+                <h1><span>Bất động sản </span> liên quan</h1>
               </div>
-              <div className="media">
-                <div className="media-left">
-                  <img className="media-object" src="/img/properties/small-properties-1.jpg" alt="small-properties-1" />
-                </div>
-                <div className="media-body">
-                  <h3 className="media-heading">
-                    <a href="properties-details.html">Sweet Family Home</a>
-                  </h3>
-                  <p>February 27, 2018</p>
-                  <div className="price">
-                    $734,000
-        </div>
-                </div>
-              </div>
-              <div className="media">
-                <div className="media-left">
-                  <img className="media-object" src="/img/properties/small-properties-2.jpg" alt="small-properties-2" />
-                </div>
-                <div className="media-body">
-                  <h3 className="media-heading">
-                    <a href="properties-details.html">Modern Family Home</a>
-                  </h3>
-                  <p>February 27, 2018</p>
-                  <div className="price">
-                    $734,000
-        </div>
-                </div>
-              </div>
-              <div className="media">
-                <div className="media-left">
-                  <img className="media-object" src="/img/properties/small-properties-3.jpg" alt="small-properties-3" />
-                </div>
-                <div className="media-body">
-                  <h3 className="media-heading">
-                    <a href="properties-details.html">Beautiful Single Home</a>
-                  </h3>
-                  <p>February 27, 2018</p>
-                  <div className="price">
-                    $734,000
-        </div>
-                </div>
-              </div>
+              {this.ShowRelatedEstate(estates, info)}
             </div>
             {/* Category posts start */}
             <div className="sidebar-widget category-posts">
@@ -276,4 +156,15 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+const mapStateToProps = (state) => {
+  return {
+    estates: state.estates
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actFetchEstatesRequest: (info) => dispatch(actions.actFetchEstatesRequest(info))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

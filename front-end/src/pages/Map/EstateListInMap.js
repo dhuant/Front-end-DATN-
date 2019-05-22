@@ -74,7 +74,7 @@ class EstateListInMap extends Component {
 
 						<div className="clearfix" />
 					</div>
-					<div className="properties-map-search" style={{ overflow: 'scroll', height: '100vh' }}>
+					<div className="properties-map-search" style={{height: "85vh", overflow: "scroll"}}>
 						<div className="properties-map-search-content">
 							<div className="row">
 								{/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">

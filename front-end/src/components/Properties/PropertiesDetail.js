@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Comments from './Comments'
 import * as actions from '../../actions/request'
 import MapOfDetailEstate from "./MapOfDetailEstate";
-import { Rate, message, Button } from 'antd'
+import { Rate, message, Button, Pagination } from 'antd'
 import moment from 'moment'
 import Chart from 'react-apexcharts'
 
@@ -46,9 +46,9 @@ class PropertiesDetail extends Component {
                                     fontFamily: 'sans-serif',
                                     offsetY: 10,
                                     formatter: function (val) {
-                                      return val
+                                        return val
                                     }
-                                  },
+                                },
                                 total: {
                                     label: 'Tổng cộng',
                                     color: '#373d3f',
@@ -87,33 +87,35 @@ class PropertiesDetail extends Component {
         this.setState({ starValue: starvalue })
         // return document.getElementsByClassName("ratingStar").value
     }
-    // getSnapshotBeforeUpdate(prevProps) {
-    //     if (prevProps.comments !== this.props.comments) {
-    //         console.log("different")
-    //         return this.props.comments
-    //     }
-    //     return null
-    // }
-    // componentDidUpdate(snapshot) {
-    //     if (snapshot) {
-    //         this.props.onGetCommentsById(this.props.comments);
-    //     }
-    // }
     componentDidMount = () => {
         console.log(this.props.id)
         this.props.onGetCommentsById(this.props.id)
         this.props.onGetFollowingList()
-        
+        console.log(this.props.follow, "indidmount")
     }
-    isFollowHandle = (follow) => {
-        if(follow && follow.length > 0){
-            for(var i = 0; i< follow.length; i++){
-                if(follow[i].project && follow[i].project._id === this.props.id){
-                    this.setState({isFollow: true})
-                }
-            }
-        }
-    }
+    // getSnapshotBeforeUpdate = (prevProps) => {
+    //     if (prevProps.follow !== this.props.follow)
+    //         return this.props.follow
+    //     return null
+    // }
+    // componentDidUpdate = (snapshot) => {
+    //     if (snapshot) {
+    //         for (var i = 0; i < this.props.follow.length; i++) {
+    //             if (this.props.follow[i].project !== null && this.props.follow[i].project._id === this.props.info._id) {
+    //                 this.setState({ isFollow: true })
+    //             }
+    //         }
+    //     }
+    // }
+    // isFollowHandle = (follow) => {
+    //     if (follow && follow.length > 0) {
+    //         for (var i = 0; i < follow.length; i++) {
+    //             if (follow[i].project && follow[i].project._id === this.props.id) {
+    //                 this.setState({ isFollow: true })
+    //             }
+    //         }
+    //     }
+    // }
     onShowImagesThumbnail = (images) => {
         if (images === undefined || images.length === 0) {
             return null
@@ -237,19 +239,22 @@ class PropertiesDetail extends Component {
         return comment
     }
 
-    onHandleFollowing = (estateInfo) => {
+    onHandleFollowing = (estateInfo, check) => {
         var followInfo = {
             projectid: estateInfo._id,
             createTime: moment().unix(),
             id: estateInfo.ownerid,
             fullname: JSON.parse(localStorage.getItem('res')).user.fullname,
         }
-        if (this.state.isFollow === false) {
+        var unfollowInfo = {
+            projectid: estateInfo._id
+        }
+        if (check === false) {
             this.props.onFollowProject(followInfo, estateInfo)
             console.log(this.props.follow)
         }
-        else if(this.props.isFollow === true){
-            this.props.onUnfollowProject(estateInfo._id)
+        else if (check === true) {
+            this.props.onUnfollowProject(unfollowInfo)
             console.log(this.props.follow)
         }
         else return null
@@ -257,6 +262,14 @@ class PropertiesDetail extends Component {
     }
     render() {
         let { info, comments, follow } = this.props;
+        let check = false
+        if (follow && follow.length > 0 && info) {
+            for (var i = 0; i < follow.length; i++) {
+                if (follow[i].project && follow[i].project._id === this.props.id) {
+                    check = true
+                }
+            }
+        }
         console.log(follow)
         console.log(comments)
         const { starValue, isFollow } = this.state
@@ -323,15 +336,6 @@ class PropertiesDetail extends Component {
                                 </li>
                                 <li className>
                                     <a
-                                        href="#tab3default"
-                                        data-toggle="tab"
-                                        aria-expanded="false"
-                                    >
-                                        Amenities
-                                    </a>
-                                </li>
-                                <li className>
-                                    <a
                                         href="#tab5default"
                                         data-toggle="tab"
                                         aria-expanded="false"
@@ -340,8 +344,8 @@ class PropertiesDetail extends Component {
                                     </a>
                                 </li>
                                 <li className style={{ top: "4px", left: "20px" }}>
-                                    <Button type="danger" onClick={() => this.onHandleFollowing(info)}>
-                                        {isFollow ? " Bỏ theo dõi" : "Theo dõi"}
+                                    <Button type="danger" onClick={() => this.onHandleFollowing(info, check)}>
+                                        {check === true ? " Bỏ theo dõi" : "Theo dõi"}
                                     </Button>
                                 </li>
                             </ul>
@@ -405,83 +409,7 @@ class PropertiesDetail extends Component {
                                             </div>
                                             {/* Properties condition end */}
                                         </div>
-                                        <div className="tab-pane fade technical" id="tab3default">
-                                            {/* Properties amenities start */}
-                                            <div className="properties-amenities">
-                                                <div className="main-title-2">
-                                                    <h1>
-                                                        <span>Amenities</span>
-                                                    </h1>
-                                                </div>
-                                                <div className="row">
-                                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                        <ul className="amenities">
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Air conditioning
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Balcony
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Pool
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                TV
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Gym
-                              </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                        <ul className="amenities">
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Wifi
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Parking
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Double Bed
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Iron
-                              </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                        <ul className="amenities">
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Telephone
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Jacuzzi
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Alarm
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Garage
-                              </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/* Properties amenities end */}
-                                        </div>
+
                                         <div className="tab-pane fade" id="tab4default">
                                             {/* Floor Plans start */}
                                             <div className="floor-plans">
@@ -569,9 +497,15 @@ class PropertiesDetail extends Component {
                                     <Chart options={this.state.options} series={this.state.series} type="donut" width="400" />
                                 </div>
                                 <div className="main-title-2">
-                                    <h1>
-                                        <span>Chi tiết</span> bình luận
+                                    <div className="pull-left">
+                                        <h1>
+                                            <span>Chi tiết</span> bình luận
                                     </h1>
+                                    </div>
+                                    <div className="pull-right">
+                                        <Pagination size="small" total={50} current="1" total={comments.length} />
+                                    </div>
+                                    <br></br>
                                 </div>
                                 <ul className="comments">
                                     {this.ShowComments(comments)}
@@ -626,7 +560,7 @@ class PropertiesDetail extends Component {
                     </div>
                     {/* Properties details section end */}
                 </div>
-                <Sidebar />
+                <Sidebar info={info} />
             </div >
         );
     }

@@ -7,6 +7,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
+    "@material-ui/core": "^3.9.3",
     "aframe": "^0.9.2",
     "aframe-react": "^4.4.0",
     "antd": "^3.17.0",
