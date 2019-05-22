@@ -100,6 +100,8 @@ export const actGetEstateListOfUserRequest = () => {
       return message.success("Lấy danh sách bài viết của tài khoản thành công!")
     })
       .catch(err => {
+        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
+          return message.warning("Bạn cần phải đăng nhập trước!")
         return message.error("Có lỗi xảy ra khi lấy danh sách bài viết!")
       })
   }
@@ -109,13 +111,14 @@ export const actGetFollowingListRequest = () => {
   if (authHeader !== null)
     return dispatch => {
       return axios.get(`http://localhost:3001/users/listSaved`, { headers: authHeader() }).then(res => {
-
         if (res.data.status === 200)
           dispatch(Action.actGetFollowingList(res.data.result.projects))
 
         return message.success("Lấy danh sách theo dõi thành công!")
       })
         .catch(err => {
+          if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
+          return message.warning("Bạn cần phải đăng nhập trước!")
           return message.error("Có lỗi xảy ra khi lấy danh sách theo dõi!")
         })
     }
@@ -130,7 +133,11 @@ export const actUnfollowProjectRequest = (data) => {
         return message.success("Bỏ theo dõi thành công!")
       }
     })
-      .catch(err => { return message.error("Có lỗi xảy ra khi bỏ theo dõi bài đăng!") })
+      .catch(err => { 
+        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
+          return message.warning("Bạn cần phải đăng nhập trước!")
+        return message.error("Có lỗi xảy ra khi bỏ theo dõi bài đăng!") 
+      })
   }
 }
 
@@ -145,7 +152,11 @@ export const actFollowProjectRequest = (data, project) => {
         return message.success("Theo dõi thành công!")
       }
     })
-      .catch(err => { return message.error("Có lỗi xảy ra khi theo dõi bài đăng!") })
+      .catch(err => { 
+        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
+          return message.warning("Bạn cần phải đăng nhập trước!")
+        return message.error("Có lỗi xảy ra khi theo dõi bài đăng!") 
+      })
   }
 }
 
@@ -158,7 +169,11 @@ export const actPostingCommentRequest = (data, user) => {
         return message.success("Đăng bình luận thành công!")
       }
     })
-      .catch(err => { return message.error("Có lỗi xảy ra khi đăng bình luận!") })
+      .catch(err => { 
+        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
+          return message.warning("Bạn cần phải đăng nhập trước!")
+        return message.error("Có lỗi xảy ra khi đăng bình luận!")
+       })
   }
 }
 
@@ -174,6 +189,8 @@ export const actDeleteProjectRequest = (id, data) => {
         else return message.error('Có lỗi xảy ra!');
       })
       .catch(err => {
+        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
+          return message.warning("Bạn cần phải đăng nhập trước!")
         return message.error('Có lỗi xảy ra khi xóa bài đăng!')
       })
   }

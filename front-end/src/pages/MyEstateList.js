@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import MainHeader from '../components/MainHeader';
 import { connect } from 'react-redux'
 import * as actions from '../actions/request';
+import Login from '../pages/Login'
 
 class MyEstateList extends Component {
     componentDidMount = () => {
@@ -18,6 +19,7 @@ class MyEstateList extends Component {
             localStorage.removeItem("res")
         }
         console.log(estatesListOfUser)
+        if(JSON.parse(localStorage.getItem('res')))
         return (
             <div>
                 <MainHeader />
@@ -63,6 +65,7 @@ class MyEstateList extends Component {
                 <Footer />
             </div>
         )
+        else return <Login />
     }
     onShowEstateListOfUser = (estates) => {
         var result = null;

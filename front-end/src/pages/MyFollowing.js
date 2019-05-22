@@ -7,6 +7,7 @@ import { MY_FOLLOWING } from '../constants/Profile'
 import FollowingProject from '../components/My Properties/FollowingProject'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import Login from '../pages/Login'
 
 class MyFollowing extends Component {
     componentDidMount = () => {
@@ -18,6 +19,7 @@ class MyFollowing extends Component {
     render() {
         let { follow } = this.props
         console.log(follow)
+        if(localStorage.getItem('res'))
         return (
             <div>
                 <MainHeader />
@@ -63,6 +65,7 @@ class MyFollowing extends Component {
                 <Footer />
             </div>
         )
+        else return <Login />
     }
 
     ShowFollowingList = (follow) => {

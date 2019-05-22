@@ -12,6 +12,7 @@ import { Button, Form } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { message } from 'antd'
 import moment from 'moment'
+import LoginModal from '../components/LoginModal'
 
 const Types = [
     { value: '1', label: 'Chung cư. căn hộ' },
@@ -77,6 +78,11 @@ class SubmitProperty extends Component {
         this.setState({ [name]: value });
     }
     onSubmit = (e) => {
+        if(localStorage.getItem('res') === undefined || localStorage.getItem('res') === null){
+            message.warning("Bạn cần phải đăng nhập trước khi đăng bài!")
+            return <LoginModal visible={true} />
+        }
+         
         e.preventDefault()
         console.log(document.getElementById('name').value)
         if (document.getElementById('name').value === undefined
@@ -213,7 +219,6 @@ class SubmitProperty extends Component {
         const { visible } = this.state;
         return (
             <div>
-
                 <MainHeader />
                 {
                     /* Sub banner start */
