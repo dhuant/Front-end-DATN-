@@ -5,7 +5,7 @@ import EstateMarker from "./EstateMarker";
 import compass from '../../marker/compass.png'
 
 const EstatesMap = withScriptjs(withGoogleMap((props) => {
-  
+
   const markers = props.estates.map(estate => <EstateMarker
     key={estate._id}
     uid={estate._id}
@@ -30,31 +30,33 @@ const EstatesMap = withScriptjs(withGoogleMap((props) => {
       center={{ lat: props.center.lat, lng: props.center.lng }}
       // onCenterChanged={props.handleMapChanged}
       onDragEnd={props.handleMapChanged}
-      // onBoundsChanged={props.handleMapFullyLoaded}
+    // onBoundsChanged={props.handleMapFullyLoaded}
       // onZoomChanged={props.onZoomChanged}
     >
       <Circle
-      center={{ lat: props.center.lat, lng: props.center.lng }}
-      radius={5000}
-      options={{fillColor: "rgb(139, 139, 145)", fillOpacity: 0.3, strokeOpacity: 0.2}}
+        center={{ lat: props.center.lat, lng: props.center.lng }}
+        radius={5000}
+        options={{ fillColor: "rgb(139, 139, 145)", fillOpacity: 0.3, strokeOpacity: 0.2 }}
       >
       </Circle>
       {markers}
-      {props.isMarkerShown && <Marker
+      {props.isMarkerCurrentLocationShown && <Marker
         icon={compass}
         position={{ lat: props.currentLocation.lat, lng: props.currentLocation.lng }}
       >
         <InfoWindow
           onClose={onInfoWindowClose}
           position={{ lat: (props.currentLocation.lat), lng: props.currentLocation.lng }}
-          // onCloseClick
+        // onCloseClick
         >
           <div>
             <span style={{ padding: 0, margin: 0 }}>Bạn đang ở đây</span>
           </div>
         </InfoWindow>
       </Marker>}
-
+      {props.isMarkerCenterShown && <Marker
+          position={{ lat: props.center.lat, lng: props.center.lng }}
+        ></Marker>}
     </GoogleMap>
   );
 }

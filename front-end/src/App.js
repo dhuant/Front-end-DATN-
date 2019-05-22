@@ -16,7 +16,7 @@ import test from './pages/test'
 import HomeMap from './pages/Map/HomeMap'
 import EstateListListView from './pages/EstateList_ListView'
 import News from './pages/News'
-import NewsDetail from './pages/NewsDetail' 
+import NewsDetail from './pages/NewsDetail'
 import MapOfDetail from './components/Properties/MapOfDetailEstate'
 import EditUI from './components/My Properties/EditUI'
 import MyFollowing from './pages/MyFollowing'
@@ -24,6 +24,9 @@ import MyTransaction from './pages/MyTransaction'
 import TransHistory from './pages/TransHistory'
 import VerticalLinearStepper from '../src/components/Profile/VerticalLinearStepper'
 
+//=====import component cho company
+import LoginCompany from './pages/Company/LoginCompany'
+import ProfileAdmin from './pages/Company/ProfileAdmin'
 class App extends Component {
   render() {
     return (
@@ -46,14 +49,21 @@ class App extends Component {
             <Route exact path="/news/:id" component={NewsDetail} />
             <Route exact path='/properties' component={Properties} />
             <Route exact path='/homemaps' component={HomeMap} />
-            <Route exact path='/demo' component={MapOfDetail}/>
-            <Route exact path='/myproperties/edit/:id' component={EditUI}/>
-            <Route exact path='/myfollowing' component={MyFollowing}/>
-            <Route exact path='/mytransactions' component={MyTransaction}/>
-            <Route exact path='/transhistory' component={TransHistory}/>
-            <Route exact path='/progress' component={VerticalLinearStepper}/>
+            <Route exact path='/demo' component={MapOfDetail} />
+            <Route exact path='/myproperties/edit/:id' component={EditUI} />
+            <Route exact path='/myfollowing' component={MyFollowing} />
+            <Route exact path='/mytransactions' component={MyTransaction} />
+            <Route exact path='/transhistory' component={TransHistory} />
+            <Route exact path='/progress' component={VerticalLinearStepper} />
+
+            {/* Route cho company */}
+
+            <Route exact path='/company/login' component={LoginCompany} />
+            <Route exact path='/company/profile-admin' component={ProfileAdmin} />
+
+            {/* End route cho company */}
             <Route exact path='' component={NotFound} />
-            
+
           </Switch>
         </div>
       </BrowserRouter>

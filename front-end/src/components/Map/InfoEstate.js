@@ -21,15 +21,18 @@ class InfoEstate extends Component {
 
     render() {
         let { estate } = this.props;
-        // console.log(estate)
+        console.log(estate)
         let url = `/properties/${estate._id}`
-
+        let status = 'Bán'
+        if(estate.statusProject === 3){
+            status = "Thuê"
+        }
         return (
             <Link to={url} target="_blank">
                 <div className="row">
 
-                    <div className="property map-properties-list clearfix" style={{ padding: '3px 5px 5px 5px' }}>
-                        <div style={{ margin: '2px 4px 4px 4px' }}>
+                    <div className="property map-properties-list clearfix" style={{ padding: '3px 3px 5px 5px' }}>
+                        <div style={{ margin: '2px 0px 4px 4px' }}>
                             <h6 style={{
                                 fontFamily: 'cursive',
                                 marginTop: '2px',
@@ -43,10 +46,10 @@ class InfoEstate extends Component {
 
                         <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 col-pad property-img height" href="true">
                             {/* <a href="true" className="property-img height"> */}
-                            {/* <div className="property-tag button alt featured">Featured</div>
-                        <div className="property-tag button sale">Sale</div>
+                            <div className="property-tag button alt featured" style={{marginTop:'0px', left: '0px'}}>{status}</div>
+                        {/* <div className="property-tag button sale">Sale</div>
                         <div className="property-price">$2505.11</div>  */}
-                            <img src="/img/properties/properties-1.jpg" style={{ height: '110px' }} alt="properties" className="img-responsive img-inside-map" />
+                            <img src={estate.url[0]} style={{ height: '110px' }} alt="properties" className="img-responsive img-inside-map" />
                             {/* </a>  */}
                         </div>
                         <div className="col-lg-8 col-md-8 col-sm-8 col-xs-12 property-content ">
