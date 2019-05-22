@@ -9,6 +9,9 @@ import address from './address'
 import comments from './comments'
 import estatesListOfUser from './estatesListOfUser'
 import follow from './follow'
+//=====company
+import userCompany from './Company/userCompany'
+//=====
 
 const appReducers = combineReducers({
     user,
@@ -20,7 +23,8 @@ const appReducers = combineReducers({
     address,
     comments,
     estatesListOfUser,
-    follow
+    follow,
+    userCompany
 });
 
 export default appReducers;

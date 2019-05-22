@@ -23,6 +23,9 @@ import MyFollowing from './pages/MyFollowing'
 import MyTransaction from './pages/MyTransaction'
 import TransHistory from './pages/TransHistory'
 
+//=====import component cho company
+import LoginCompany from './pages/Company/LoginCompany'
+import ProfileAdmin from './pages/Company/ProfileAdmin'
 class App extends Component {
   render() {
     return (
@@ -50,6 +53,12 @@ class App extends Component {
             <Route exact path='/myfollowing' component={MyFollowing}/>
             <Route exact path='/mytransactions' component={MyTransaction}/>
             <Route exact path='/transhistory' component={TransHistory}/>
+
+            {/* Route cho company */}
+            <Route exact path='/company/login' component={LoginCompany}/>
+            <Route exact path='/company/profile-admin' component={ProfileAdmin}/>
+
+            {/* End route cho company */}
             <Route exact path='' component={NotFound} />
           </Switch>
         </div>

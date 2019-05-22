@@ -24,7 +24,7 @@ class InfoEstate extends Component {
         console.log(estate)
         let url = `/properties/${estate._id}`
         let status = 'Bán'
-        if(estate.status === '3'){
+        if(estate.statusProject === 3){
             status = "Thuê"
         }
         return (
