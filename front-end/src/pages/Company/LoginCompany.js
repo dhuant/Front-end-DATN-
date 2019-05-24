@@ -60,7 +60,7 @@ class Login extends Component {
                     message.success("Đăng nhập thành công");
                     console.log(res);
                     localStorage.setItem('company', JSON.stringify(res.data));
-                    this.props.actGetInfoUserCompany(res.data.id)
+                    this.props.actGetInfoUserCompany()
                     this.props.history.push(`/company/profile-admin`);
                     // delete res.data.status;
                     // localStorage.setItem('user', JSON.stringify(res.data));
@@ -96,7 +96,7 @@ class Login extends Component {
                                         </h1>
                                     </div>
                                     {/* Form start */}
-                                    <form>
+                                    <form onSubmit={this.signIn}>
                                         {/* <div style={{ marginBottom: '10px' }}>
                                             <a className="btn-google m-b-20" href>
                                                 <img src="images/icons/icon-google.png" alt="GOOGLE" />
@@ -140,7 +140,7 @@ class Login extends Component {
                                         </div>
                                         <div className="form-group">
                                             <button
-                                                onClick={this.signIn}
+                                                // onClick={this.signIn}
                                                 type="submit"
                                                 className="button-md button-theme btn-block"
                                             >
@@ -166,7 +166,7 @@ class Login extends Component {
 
 const mapDispathToProp = (dispatch) => {
     return {
-        actGetInfoUserCompany: (id) => dispatch(actions.actGetInfoUserCompany(id)),
+        actGetInfoUserCompany: () => dispatch(actions.actGetInfoUserCompany()),
     }
 }
 const mapStateToProp = (state) => {
