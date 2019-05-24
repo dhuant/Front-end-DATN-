@@ -14,6 +14,7 @@ import DetailCompany from '../../components/Company/ProfileCompany/DetailCompany
 class ProfileAdmin extends Component {
     render() {
         let { userCompany } = this.props;
+        console.log(userCompany)
         if (JSON.parse(localStorage.getItem('company')))
             return (
                 <div>
@@ -23,17 +24,22 @@ class ProfileAdmin extends Component {
                         <div className="overlay">
                             <div className="container">
                                 <div className="breadcrumb-area">
-                                    <h1>My Profile</h1>
+                                    <h1>Bảng điều khiển</h1>
                                     <ul className="breadcrumbs">
                                         <li><Link to="/">Home</Link></li>
-                                        <li className="active">My Profile</li>
+                                        <li className="active">Bảng điều khiển</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                     {/* Sub Banner end */}
-                    <div className="content-area my-profile">
+                    <div 
+                    className="content-area my-profile" 
+                    style={{
+                        paddingTop: '20px'
+                    }}
+                    >
                         <div className="container">
                             <div className="row">
                                 <div className="col-lg-4 col-md-4 col-sm-12">

@@ -38,8 +38,8 @@ class HeaderCompany extends Component {
     }
     onSignOut = (e) => {
         e.preventDefault();
-        this.props.history.push('/login');
         localStorage.removeItem('company');
+        this.props.history.push('/login');
     }
 
 

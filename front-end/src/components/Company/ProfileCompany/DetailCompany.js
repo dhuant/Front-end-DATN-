@@ -6,30 +6,30 @@ class DetailCompany extends Component {
         console.log(user);
         return (
             <div>
-                <div className="my-address">
+                <div className="my-address" style ={{padding: '0px 30px'}}>
                     <div className="main-title-2">
-                        <h1><span>Advanced</span> Search</h1>
+                        <h1><span>Thông tin tài khoản</span></h1>
                     </div>
-                    <form action="http://themevessel-item.s3-website-us-east-1.amazonaws.com/nest/index.html" method="GET">
+                    <form >
                         <div className="form-group">
-                            <label>Your Name</label>
-                            <input type="text" className="input-text" name="your name" placeholder="John Antony" value={user.fullname}/>
+                            <label><b>Tên công ty</b></label>
+                            <input type="text" className="input-text" name="your name" placeholder="John Antony" value={user.companyname}/>
                         </div>
                         <div className="form-group">
-                            <label>Your Title</label>
-                            <input type="text" className="input-text" name="agent" placeholder="Your title" />
+                            <label><b>Địa chỉ</b></label>
+                            <input type="text" className="input-text" name="agent" placeholder="Địa chỉ của công ty" value={user.address}  />
                         </div>
                         <div className="form-group">
-                            <label>Phone</label>
-                            <input type="text" className="input-text" name="phone" placeholder="+55 4XX-634-7071" />
+                            <label><b>Số điện thoại</b></label>
+                            <input type="text" className="input-text" name="phone" placeholder="Nhập số điện thoại của công ty bạn" value={user.phone}/>
                         </div>
                         <div className="form-group">
-                            <label>Email</label>
-                            <input type="email" className="input-text" name="email" placeholder="johndoe@gmail.com" />
+                            <label><b>Email</b></label>
+                            <input type="email" className="input-text" name="email" placeholder="Email của công ty" value={user.email}/>
                         </div>
                         <div className="form-group">
-                            <label>About Me</label>
-                            <textarea className="input-text" name="message" placeholder="Etiam luctus malesuada quam eu aliquet. Donec eget mollis tortor. Donec pellentesque eros a nisl euismod, ut congue orci ultricies. Fusce aliquet metus non arcu varius ullamcorper a sit amet nunc. Donec in lacus neque. Vivamus ullamcorper sed ligula vitae " defaultValue={""} />
+                            <label><b>Mô tả</b></label>
+                            <textarea className="input-text" name="message" placeholder="Nhập mô tả về công ty của bạn" value={user.description}/>
                         </div>
                         <a href="true" className="btn button-md button-theme">Save Changes</a>
                     </form>
