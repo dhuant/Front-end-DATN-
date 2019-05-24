@@ -20,17 +20,17 @@ export const actFetchEstatesRequest = info => {
 };
 
 //--------- SearchMap
-export const actSearchMapRequest = info =>  {
+export const actSearchMapRequest = info => {
   return dispatch => {
-    return axios.post("http://localhost:3001/projects/searchmap",info)
-    .then(res => {
-      console.log('search');
-      dispatch(actMap.actSearchMap(res.data.projects));
-    })
-    .catch(error => {
-      dispatch(actMap.actSearchMap([]));
-      console.log("Khong co du lieu");
-    })
+    return axios.post("http://localhost:3001/projects/searchmap", info)
+      .then(res => {
+        console.log('search');
+        dispatch(actMap.actSearchMap(res.data.projects));
+      })
+      .catch(error => {
+        dispatch(actMap.actSearchMap([]));
+        console.log("Khong co du lieu");
+      })
   }
 }
 //---------
@@ -59,19 +59,16 @@ export const actGetListEstatesFromFormSearch = data => {
   };
 };
 
-export const actGetInfoUser = id => {
+export const actGetUserInfoRequest = () => {
   return dispatch => {
     return axios
-      .get(`http://localhost:3001/users/info/${id}`, { headers: authHeader() })
+      .get(`http://localhost:3001/users/info/`, { headers: authHeader() })
       .then(res => {
-        dispatch(Action.actSaveInfoUser(res.data));
+        dispatch(Action.actGetUserInfo(res.data));
         console.log(res.data);
       })
       .catch(err => {
-        if (err.data.status === 401) {
-          console.log(err)
-          dispatch(Action.actSaveInfoUser(err.data))
-        }
+        message.error("Lấy thông tin tài khoản không thành công!")
       })
   };
 };
@@ -133,7 +130,7 @@ export const actGetFollowingListRequest = () => {
       })
         .catch(err => {
           if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
-          return message.warning("Bạn cần phải đăng nhập trước!")
+            return message.warning("Bạn cần phải đăng nhập trước!")
           return message.error("Có lỗi xảy ra khi lấy danh sách theo dõi!")
         })
     }
@@ -148,10 +145,10 @@ export const actUnfollowProjectRequest = (data) => {
         return message.success("Bỏ theo dõi thành công!")
       }
     })
-      .catch(err => { 
+      .catch(err => {
         if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
           return message.warning("Bạn cần phải đăng nhập trước!")
-        return message.error("Có lỗi xảy ra khi bỏ theo dõi bài đăng!") 
+        return message.error("Có lỗi xảy ra khi bỏ theo dõi bài đăng!")
       })
   }
 }
@@ -167,10 +164,10 @@ export const actFollowProjectRequest = (data, project) => {
         return message.success("Theo dõi thành công!")
       }
     })
-      .catch(err => { 
+      .catch(err => {
         if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
           return message.warning("Bạn cần phải đăng nhập trước!")
-        return message.error("Có lỗi xảy ra khi theo dõi bài đăng!") 
+        return message.error("Có lỗi xảy ra khi theo dõi bài đăng!")
       })
   }
 }
@@ -184,11 +181,11 @@ export const actPostingCommentRequest = (data, user) => {
         return message.success("Đăng bình luận thành công!")
       }
     })
-      .catch(err => { 
+      .catch(err => {
         if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
           return message.warning("Bạn cần phải đăng nhập trước!")
         return message.error("Có lỗi xảy ra khi đăng bình luận!")
-       })
+      })
   }
 }
 
@@ -208,5 +205,40 @@ export const actDeleteProjectRequest = (id, data) => {
           return message.warning("Bạn cần phải đăng nhập trước!")
         return message.error('Có lỗi xảy ra khi xóa bài đăng!')
       })
+  }
+}
+
+export const actEditUserInfoRequest = (data) => {
+  return dispatch => {
+    axios.post(`http://localhost:3001/users/edit`, data, { headers: authHeader() })
+      .then(res => {
+        console.log(res)
+        if (res.data.status === 200 && res) {
+          dispatch(Action.actEditUserInfo(res.data.user))
+          message.success("Cập nhật thông tin thành công!")
+        }
+        else return message.error("Có lỗi xảy ra khi cập nhật thông tin!")
+      })
+      .catch(err => {
+        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
+          return message.warning("Bạn cần phải đăng nhập trước!")
+        return message.error('Có lỗi xảy ra khi cập nhật thông tin!')
+      })
+  }
+}
+
+export const actEditCommentRequest = (id, data) => {
+  return dispatch => {
+    axios.post(`http://localhost:3001/comment/edit/${id}`, data, {headers: authHeader()})
+    .then(res => {
+      if(res.data.status === 200 && res){
+        dispatch(Action.actEditComment(res.data.comment))
+        message.success("Chỉnh sửa thành công!")
+      }
+      else return message.error("Chỉnh sửa bình luận thất bại!")
+    })
+    .catch(err => {
+      message.error("Có lỗi xảy ra!")
+    })
   }
 }

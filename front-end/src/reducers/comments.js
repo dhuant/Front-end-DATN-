@@ -1,4 +1,5 @@
 import * as Types from '../constants/ActionTypes';
+import {EDIT_COMMENT, DELETE_COMMENT} from '../constants/Comment'
 
 var initialState = [];
 
@@ -19,6 +20,10 @@ const comments = (state = initialState, action) => {
                         _id: comments._id })
             console.log(state, action)
             return [ ...state ]
+        case EDIT_COMMENT:
+            state = action.comments
+            console.log(action)
+            return [...state]
         default: return [...state];
     }
 

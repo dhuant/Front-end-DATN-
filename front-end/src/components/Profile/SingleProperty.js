@@ -83,27 +83,45 @@ export class SingleProperty extends Component {
         <table className="manage-table responsive-table">
           <tbody>
             <tr>
-              <td className="title-container">
+              <td className="title-container" style={{ width: "500px" }}>
                 <img src={estateListOfUser.url[0]} alt="my-properties-1" className="img-responsive hidden-xs" />
                 <div className="title">
-                  <h4><a href="true">{estateListOfUser.name}</a></h4>
-                  <span>{estateListOfUser.investor}</span>
-                  <span><i className="fa fa-map-marker" /> {estateListOfUser.address} </span>
-                  <span className="table-property-price">{estateListOfUser.price}</span>
+                  <h4 style={{color: "#84ad1d", fontSize: "20px"}}>{estateListOfUser.name}</h4>
+                  <span><i className="fa fa-user-circle-o" />{estateListOfUser.investor}</span>
+                  <span><i className="fa fa-map-marker" style={{ width: "10px", marginLeft: "2px" }} /> {estateListOfUser.address} </span>
+                  {/* <span className="table-property-price"><i className="fa fa-money" />{estateListOfUser.price}</span> */}
+                  <span className="hidden-xs"><i className="fa fa-calendar-check-o" />{moment.unix(estateListOfUser.updateTime).format('DD/MM/YYYY, h:mm a')}</span>
                 </div>
               </td>
-              <td className="expire-date hidden-xs">{moment.unix(estateListOfUser.updateTime).format('DD/MM/YYYY, h:mm a')}</td>
-              <td className="action">
+              <td style={{ width: "200px" }}>
+                <div className="properties-meta-date" style={{ marginLeft: "0px" }}>
+                  <span className="hidden-xs">{estateListOfUser.price} {estateListOfUser.unit}</span>
+                </div>
+              </td>
+              <td className="action" style={{ width: "200px" }}>
                 <div style={{ marginBottom: "5px" }} className="view">
-                  <i className="fa fa-eye fa-2x" style={{ cursor: "pointer", width: "30px", height: "30px" }} onClick={() => this.setState({ visibleView: true, visibleEdit: false })} />
+                  <i className="fa fa-eye" 
+                      style={{ cursor: "pointer", width: "20px", height: "20px" }} 
+                      onClick={() => this.setState({ visibleView: true, visibleEdit: false })} 
+                  >
+                    <span style={{ marginLeft: "5px" }}>Xem</span>
+                  </i>
                 </div>
 
                 <Link to={`myproperties/edit/${estateListOfUser._id}`}>
-                  <i className="fa fa-pencil fa-2x" style={{ cursor: "pointer", width: "30px", height: "30px" }} />
+                  <i className="fa fa-pencil" style={{ cursor: "pointer", width: "20px", height: "20px" }} >
+                    <span style={{ marginLeft: "5px" }}>Sửa</span>
+                  </i>
                 </Link>
 
-                <div style={{ marginTop: "40px" }} className="remove">
-                  <i className="fa fa-remove fa-2x" style={{ cursor: "pointer", width: "30px", height: "30px" }} onClick={() => this.showDeleteConfirm(estateListOfUser)} id={estateListOfUser._id} />
+                <div style={{ marginTop: "25px" }} className="remove">
+                  <i className="fa fa-remove" 
+                      style={{ cursor: "pointer", width: "20px", height: "20px" }} 
+                      onClick={() => this.showDeleteConfirm(estateListOfUser)} 
+                      id={estateListOfUser._id}
+                  >
+                    <span style={{ marginLeft: "5px" }}>Xóa</span>
+                  </i>
                 </div>
               </td>
             </tr>
@@ -138,7 +156,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onDeleteProject : (id, data) => dispatch(actions.actDeleteProjectRequest(id, data))
+    onDeleteProject: (id, data) => dispatch(actions.actDeleteProjectRequest(id, data))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProperty);

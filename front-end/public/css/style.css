@@ -4422,9 +4422,20 @@ a:hover {
     padding: 4px 8px;
 }
 
+.comment-meta-reply a:hover {
+    border-radius: 2px;
+    color: black;
+    padding: 4px 8px;
+}
+
 .comment-meta-date {
     float: right;
     font-size: .9em;
+}
+
+.properties-meta-date {
+    float: left;
+    font-size: 20px;
 }
 
 .comment-body {
@@ -4442,6 +4453,13 @@ a:hover {
     list-style: none;
     margin: 0 0 0 80px;
     padding: 0;
+}
+
+.properties-meta-date span {
+    background-color: #84ad1d;
+    border-radius: 3px;
+    color: #fff;
+    padding: 4px 8px;
 }
 
 .comment-meta-date span {
@@ -5559,6 +5577,7 @@ table.manage-table .title-container img {
     width: 20% !important;
     flex: 1.1;
     margin-right: 26px;
+    margin-top: 26px
 }
 
 table.manage-table .title-container {

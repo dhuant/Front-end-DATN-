@@ -24,6 +24,7 @@
     "react-bootstrap": "^1.0.0-beta.8",
     "react-bootstrap-select": "^0.14.0",
     "react-dom": "^16.8.6",
+    "react-dropzone": "^10.1.5",
     "react-geocode": "^0.1.2",
     "react-google-autocomplete": "^1.0.18",
     "react-google-login": "^5.0.2",
@@ -36,7 +37,8 @@
     "react-select": "^2.4.2",
     "react-toastify": "^5.1.0",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "superagent": "^5.0.5"
   },
   "scripts": {
     "start": "react-scripts start",

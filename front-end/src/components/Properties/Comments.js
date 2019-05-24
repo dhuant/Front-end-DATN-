@@ -1,19 +1,41 @@
 import React, { Component } from 'react'
 import moment from 'moment'
+import { connect } from 'react-redux'
+import * as actions from '../../actions/request'
+import { Modal, Button } from 'antd'
 
-export default class Comments extends Component {
+class Comments extends Component {
     onHandleStars = (starsNumber) => {
         var result = []
-        for(var i = 0; i< starsNumber; i++){
+        for (var i = 0; i < starsNumber; i++) {
             result.push(<i key={i} className="fa fa-star" />)
         }
-        for(var j = 0;j <5 - starsNumber; j++){
+        for (var j = 0; j < 5 - starsNumber; j++) {
             result.push(<i key={i + j} className="fa fa-star-o" />)
         }
         return result
     }
+
+    onEditingComment = (id) => {
+
+    }
+    onShowCommentHandle = (comment) => {
+        if (comment.user.id === JSON.parse(localStorage.getItem('res')).user._id) {
+            return (
+                <React.Fragment>
+                    <div className="comment-meta-reply">
+                        <a href="true">Sửa</a>
+                    </div>
+                    <div className="comment-meta-reply">
+                        <a href="true" style={{ backgroundColor: "red" }}>Xóa</a>
+                    </div>
+                </React.Fragment>
+            )
+        }
+        else return null
+    }
     render() {
-        let {comment} = this.props
+        let { comment } = this.props
         console.log(comment)
         return (
             <li>
@@ -28,9 +50,7 @@ export default class Comments extends Component {
                             <div className="comment-meta-author">
                                 {comment.user.fullname}
                             </div>
-                            <div className="comment-meta-reply">
-                                <a href="true">Reply</a>
-                            </div>
+                            {this.onShowCommentHandle(comment)}
                             <div className="comment-meta-date">
                                 <span className="hidden-xs">{moment.unix(comment.createTime).format('DD/MM/YYYY, h:mm a')}</span>
                             </div>
@@ -44,42 +64,41 @@ export default class Comments extends Component {
                         </div>
                     </div>
                 </div>
-                {/* <ul>
-                    <li>
-                        <div className="comment">
-                            <div className="comment-author">
-                                <a href="true">
-                                    <img src="/img/avatar/avatar-5.png" alt="avatar-5" />
-                                </a>
-                            </div>
-                            <div className="comment-content">
-                                <div className="comment-meta">
-                                    <div className="comment-meta-author">
-                                        Jane Doe
-                                    </div>
-                                    <div className="comment-meta-reply">
-                                        <a href="true">Reply</a>
-                                    </div>
-                                    <div className="comment-meta-date">
-                                        <span className="hidden-xs">8:42 PM 3/3/2017</span>
-                                    </div>
-                                </div>
-                                <div className="clearfix" />
-                                <div className="comment-body">
-                                    <div className="comment-rating">
-                                        <i className="fa fa-star" />
-                                        <i className="fa fa-star" />
-                                        <i className="fa fa-star" />
-                                        <i className="fa fa-star-half-o" />
-                                        <i className="fa fa-star-o" />
-                                    </div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros. Maecenas eros enim, tincidunt vel turpis vel, dapibus tempus nulla. Donec vel nulla dui.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul> */}
+
+                {/* <Modal
+                    visible={visible}
+                    title="Title"
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                    footer={[
+                        <Button key="back" onClick={this.handleCancel}>
+                            Return
+                        </Button>,
+                        <Button key="submit" type="primary" loading={loading} onClick={this.handleOk}>
+                            Submit
+                        </Button>,
+                    ]}
+                >
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                </Modal> */}
             </li>
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        comments: state.comments
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onEditingComment: (id, data) => dispatch(actions.actEditCommentRequest(id, data))
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Comments)

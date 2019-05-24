@@ -1,8 +1,49 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {MY_PROPERTIES, MY_FOLLOWING, SUBMIT_ESTATE, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY} from '../../constants/Profile'
+import { MY_PROPERTIES, MY_FOLLOWING, SUBMIT_ESTATE, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY } from '../../constants/Profile'
+import Dropzone from 'react-dropzone'
+import request from 'superagent'
+import {connect} from 'react-redux'
+import * as actions from '../../actions/request'
+import { Button } from 'react-bootstrap';
+
+const CLOUDINARY_UPLOAD_PRESET = 'nn6imhmo';
+const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dne3aha8f/image/upload';
 
 class Info extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            uploadedFile: null,
+            uploadedFileCloudinaryUrl: ''
+        }
+    }
+
+    onImageSelect(files) {
+        this.setState({
+            uploadedFile: files[0]
+        });
+
+        this.handleImageUpload(files[0]);
+    }
+    handleImageUpload(file) {
+        let upload = request.post(CLOUDINARY_UPLOAD_URL)
+            .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+            .field('file', file);
+
+        upload.end((err, response) => {
+            if (err) {
+                console.error(err);
+            }
+
+            if (response.body.secure_url !== '') {
+                this.setState({
+                    uploadedFileCloudinaryUrl: response.body.secure_url
+                });
+            }
+        });
+    }
     onMyProperties = (e) => {
         e.preventDefault();
         this.props.history.push('/myproperties');
@@ -31,23 +72,44 @@ class Info extends Component {
         e.preventDefault()
         this.props.history.push('/transhistory')
     }
-    
+    componentDidMount =() => {
+        this.props.onGetUserInfo()
+    }
     render() {
         let userInfo = JSON.parse(localStorage.getItem('res'))
+        var { uploadedFileCloudinaryUrl } = this.state
+        let {user} = this.props
+        console.log(uploadedFileCloudinaryUrl)
+        if (uploadedFileCloudinaryUrl !== '') localStorage.setItem('avatar', uploadedFileCloudinaryUrl)
         return (
             <div>
                 <div className="user-account-box">
                     <div className="header clearfix">
                         <div className="edit-profile-photo">
-                            <img src={userInfo.user.avatar} alt="agent-1" className="img-responsive" />
-                            {/* <div className="change-photo-btn">
+                            <img src={user.avatar !== '' ? user.avatar : userInfo.user.avatar} alt="agent-1" className="img-responsive" style={{ width: "150px", height: "150px" }} />
+                            <div className="change-photo-btn">
                                 <div className="photoUpload">
-                                    <span><i className="fa fa-upload" /> Upload Photo</span>
-                                    <input type="file" className="upload" />
+                                    <Dropzone
+                                        onDrop={this.onImageSelect.bind(this)}
+                                        multiple={false}
+                                        accept="image/*">
+                                        {({ getRootProps, getInputProps }) => {
+                                            return (
+                                                <div
+                                                    {...getRootProps()}
+                                                >
+                                                    <input {...getInputProps()} />
+                                                    {
+                                                        <span><i className="fa fa-upload" /> Đổi ảnh đại diện</span>
+                                                    }
+                                                </div>
+                                            )
+                                        }}
+                                    </Dropzone>
                                 </div>
-                            </div> */}
+                            </div>
                         </div>
-                        <h3>{userInfo.user.fullname}</h3>
+                        <h3>{user.fullname !== '' ? user.fullname : userInfo.user.fullname}</h3>
                         <p>{userInfo.user.email}</p>
                         <ul className="social-list clearfix">
                             <li>
@@ -122,4 +184,15 @@ class Info extends Component {
     }
 }
 
-export default (withRouter(Info));
+const mapStateToProps =(state) => {
+    return {
+        user: state.user
+    }
+}
+
+const mapDispatchToProps =(dispatch) => {
+    return {
+        onGetUserInfo : () => dispatch(actions.actGetUserInfoRequest())
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Info));

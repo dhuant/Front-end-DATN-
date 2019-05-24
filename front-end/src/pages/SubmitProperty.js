@@ -29,6 +29,12 @@ const Status = [
     { value: '3', label: 'Sold' },
     { value: '4', label: 'Rent' },
 ];
+
+const Unit = [
+    {value: '1', label: 'Triệu'},
+    {value: '2', label: 'Tỉ'},
+];
+
 class SubmitProperty extends Component {
     constructor() {
         super();
@@ -78,11 +84,11 @@ class SubmitProperty extends Component {
         this.setState({ [name]: value });
     }
     onSubmit = (e) => {
-        if(localStorage.getItem('res') === undefined || localStorage.getItem('res') === null){
+        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null) {
             message.warning("Bạn cần phải đăng nhập trước khi đăng bài!")
             return <LoginModal visible={true} />
         }
-         
+
         e.preventDefault()
         console.log(document.getElementById('name').value)
         if (document.getElementById('name').value === undefined
@@ -120,13 +126,13 @@ class SubmitProperty extends Component {
                 name: document.getElementById("name").value,
                 investor: document.getElementById('investor').value,
                 price: document.getElementById('price').value,
-                unit: 'triệu',
+                unit: document.getElementById('unit').value,
                 area: document.getElementById('area').value,
-                address: this.props.address.addressDetail,
+                address: this.props.address.addressDetail === '' ? localStorage.getItem('defaultAddress') : this.props.address.addressDetail,
                 type: document.getElementById('type').value,
                 info: document.getElementById('description').value,
-                lat: this.props.address.markerPosition.lat,
-                long: this.props.address.markerPosition.lng,
+                lat: this.props.address.markerPosition === undefined ? 10.7625626 : this.props.address.markerPosition.lat,
+                long: this.props.address.markerPosition === undefined ? 106.6805316 : this.props.address.markerPosition.long,
                 ownerid: ownerID,
                 statusProject: document.getElementById('status').value,
                 createTime: moment().unix(),
@@ -134,7 +140,7 @@ class SubmitProperty extends Component {
                 url: this.state.url,
                 publicId: this.state.publicId,
                 fullname: document.getElementById('contactname').value,
-                phone:document.getElementById('contactphonenumber').value,
+                phone: document.getElementById('contactphonenumber').value,
                 email: document.getElementById('contactemail').value,
                 avatar: JSON.parse(localStorage.getItem('res')).user.avatar
             }
@@ -198,23 +204,23 @@ class SubmitProperty extends Component {
         }
         this.getUrlList(urlArray, publicIdArray)
     }
-    onShowMap = (visible) => {
-        if (visible) {
-            return (
-                <div style={{ paddingBottom: '80px' }}>
-                    <MapSearching
-                        google={this.props.google}
-                        center={{ lat: 10.7625626, lng: 106.6805316 }}
-                        height='300px'
-                        zoom={15}
-                    />
-                </div>
-            )
-        }
-    }
-    onHandleShowMap = () => {
-        this.setState({visible: !this.state.visible})
-    }
+    // onShowMap = (visible) => {
+    //     if (visible) {
+    //         return (
+    //             <div style={{ paddingBottom: '80px' }}>
+    //                 <MapSearching
+    //                     google={this.props.google}
+    //                     center={{ lat: 10.7625626, lng: 106.6805316 }}
+    //                     height='300px'
+    //                     zoom={15}
+    //                 />
+    //             </div>
+    //         )
+    //     }
+    // }
+    // onHandleShowMap = () => {
+    //     this.setState({ visible: !this.state.visible })
+    // }
     render() {
         const { visible } = this.state;
         return (
@@ -293,8 +299,8 @@ class SubmitProperty extends Component {
                                                         <select className="form-control"
                                                             name="status"
                                                             id="status"
-                                                            // value={type}
-                                                            // onChange={this.onHandleChange}
+                                                        // value={type}
+                                                        // onChange={this.onHandleChange}
                                                         >
                                                             {Status.map((status, index) => <option key={index} value={status.value}>{status.label}</option>)}
 
@@ -307,8 +313,8 @@ class SubmitProperty extends Component {
                                                         <select className="form-control"
                                                             name="type"
                                                             id="type"
-                                                            // value={type}
-                                                            // onChange={this.onHandleChange}
+                                                        // value={type}
+                                                        // onChange={this.onHandleChange}
                                                         >
                                                             {Types.map((type, indexx) => <option key={indexx} value={type.value}>{type.label}</option>)}
 
@@ -317,7 +323,7 @@ class SubmitProperty extends Component {
                                                 </div>
 
 
-                                                <div className="col-md-3 col-sm-6">
+                                                <div className="col-md-2 col-sm-6">
                                                     <div className="form-group">
                                                         <label>Giá</label>
                                                         <input
@@ -331,9 +337,21 @@ class SubmitProperty extends Component {
                                                         />
                                                     </div>
                                                 </div>
-                                                <div className="col-md-3 col-sm-6">
+                                                <div className="col-md-2 col-sm-6">
                                                     <div className="form-group">
-                                                        <label>Diện tích</label>
+                                                        <label>Đơn vị</label>
+                                                        <select className="form-control"
+                                                            name="unit"
+                                                            id="unit"
+                                                        >
+                                                            {Unit.map((single, indexx) => <option key={indexx} value={single.label}>{single.label}</option>)}
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-2 col-sm-6">
+                                                    <div className="form-group">
+                                                        <label>Diện tích (m2)</label>
                                                         <input
                                                             type="text"
                                                             className="input-text"
@@ -345,13 +363,20 @@ class SubmitProperty extends Component {
                                                         />
                                                     </div>
                                                 </div>
-
+                                                
                                             </div>
                                         </div>
-                                        <div className="row" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                        {/* <div className="row" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                             <Button variant="info" onClick={this.onHandleShowMap} style={{ padding: "5px 100px 5px 100px" }}>{visible ? "Hide Map" : "Show Map"}</Button>
+                                        </div> */}
+                                        <div style={{ paddingBottom: '80px' }}>
+                                            <MapSearching
+                                                google={this.props.google}
+                                                center={{ lat: 10.7625626, lng: 106.6805316 }}
+                                                height='300px'
+                                                zoom={15}
+                                            />
                                         </div>
-                                        {this.onShowMap(visible)}
                                         <div className="main-title-2">
                                             <h1>
                                                 <span>Thông tin</span> chi tiết
@@ -421,7 +446,7 @@ class SubmitProperty extends Component {
                                                             name="contactemail"
                                                             id="contactemail"
                                                             placeholder="Email"
-                                                            // onChange={this.onHandleChange}
+                                                        // onChange={this.onHandleChange}
 
                                                         />
 
@@ -466,7 +491,7 @@ class SubmitProperty extends Component {
                                                 </input>
                                             </div> */}
                                             <Button variant="success" style={{ fontSize: "16px", padding: "15px 30px 15px 30px" }} onClick={this.onSubmit} className="btn button-md button-theme">
-                                                Đăng bài 
+                                                Đăng bài
                                             </Button>
                                         </div>
                                     </form>

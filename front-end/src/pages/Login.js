@@ -230,7 +230,7 @@ render() {
 
 const mapDispathToProp = (dispatch) => {
     return {
-        actGetInfoUser: (id) => dispatch(actions.actGetInfoUser(id)),
+        actGetInfoUser: () => dispatch(actions.actGetUserInfoRequest()),
     }
 }
 const mapStateToProp = (state) => {

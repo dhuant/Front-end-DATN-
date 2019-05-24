@@ -41,8 +41,8 @@ class MapSearching extends Component {
 					area = this.getArea(addressArray),
 					state = this.getState(addressArray);
 
-				console.log('city', city, area, state, this.state.markerPosition, addressArray);
-
+				console.log('city', city, area, state, this.state.markerPosition, addressArray, address);
+				localStorage.setItem('defaultAddress', address)
 				this.setState({
 					address: (address) ? address : '',
 					area: (area) ? area : '',
@@ -175,7 +175,7 @@ class MapSearching extends Component {
 		let newLat = event.latLng.lat(),
 			newLng = event.latLng.lng();
 
-		console.log(newLat, newLng)
+		// console.log(newLat, newLng)
 		Geocode.fromLatLng(newLat, newLng).then(
 			response => {
 				const address = response.results[0].formatted_address,
@@ -183,7 +183,6 @@ class MapSearching extends Component {
 					city = this.getCity(addressArray),
 					area = this.getArea(addressArray),
 					state = this.getState(addressArray);
-				console.log()
 				this.setState({
 					address: (address) ? address : '',
 					area: (area) ? area : '',
@@ -200,14 +199,6 @@ class MapSearching extends Component {
 				console.log('error');
 			}
 		);
-		// let { city, state, address } = this.state;
-		// const location = {
-		// 	province: city,
-		// 	district: state,
-		// 	addressDetail: address
-		// }
-		// this.props.onSaveLocationInfo(location)
-		// console.log(location)
 	};
 	/**
 	 * When the user types an address in the search box

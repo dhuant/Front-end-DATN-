@@ -28,10 +28,10 @@ class Profile extends Component {
                         <div className="overlay">
                             <div className="container">
                                 <div className="breadcrumb-area">
-                                    <h1>My Profile</h1>
+                                    <h1>Hồ sơ cá nhân của tôi</h1>
                                     <ul className="breadcrumbs">
-                                        <li><Link to="/">Home</Link></li>
-                                        <li className="active">My Profile</li>
+                                        <li><Link to="/">Trang chủ</Link></li>
+                                        <li className="active">Hồ sơ cá nhân của tôi</li>
                                     </ul>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@ class Profile extends Component {
 
 const mapDispathToProp = (dispatch) => {
     return {
-        actGetInfoUser: (id) => dispatch(actions.actGetInfoUser(id))
+        actGetInfoUser: () => dispatch(actions.actGetUserInfoRequest())
     }
 }
 const mapStateToProp = (state) => {

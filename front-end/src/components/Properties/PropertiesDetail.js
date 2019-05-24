@@ -7,6 +7,7 @@ import MapOfDetailEstate from "./MapOfDetailEstate";
 import { Rate, message, Button, Pagination } from 'antd'
 import moment from 'moment'
 import Chart from 'react-apexcharts'
+import Login from '../../pages/Login'
 
 const desc = ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Tuyệt vời'];
 
@@ -211,10 +212,17 @@ class PropertiesDetail extends Component {
 
     onPostingComments = (info) => {
         // e.preventDefault()
+        if(localStorage.getItem('res') === undefined || localStorage.getItem('res') === null){
+            message.warning("Bạn phải đăng nhập trước để bình luận!")
+            return (
+                <Login />
+            )
+        }
         if (this.state.starValue === 0) {
             message.error("Bạn chưa đánh giá mà phải hơm :D")
             return null
         }
+        
         var abc = document.getElementById("comment").value
         console.log(abc)
         var commentInfoToPost = {

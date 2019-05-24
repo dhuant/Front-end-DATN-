@@ -28,10 +28,10 @@ class MyFollowing extends Component {
                     <div className="overlay">
                         <div className="container">
                             <div className="breadcrumb-area">
-                                <h1>My Following</h1>
+                                <h1>Danh sách theo dõi</h1>
                                 <ul className="breadcrumbs">
-                                    <li><Link to="/">Home</Link></li>
-                                    <li className="active">My Following</li>
+                                    <li><Link to="/">Trang chủ</Link></li>
+                                    <li className="active">Danh sách theo dõi</li>
                                 </ul>
                             </div>
                         </div>
@@ -48,7 +48,7 @@ class MyFollowing extends Component {
                             </div>
                             <div className="col-lg-8 col-md-8 col-sm-12">
                                 <div className="main-title-2">
-                                    <h1><span>My</span> Following</h1>
+                                    <h1><span>Danh sách</span> theo dõi</h1>
                                 </div>
                                 {/* table start */}
                                 <table className="manage-table responsive-table">
