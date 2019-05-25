@@ -232,10 +232,26 @@ export const actEditCommentRequest = (id, data) => {
     axios.post(`http://localhost:3001/comment/edit/${id}`, data, {headers: authHeader()})
     .then(res => {
       if(res.data.status === 200 && res){
-        dispatch(Action.actEditComment(res.data.comment))
+        dispatch(Action.actEditComment(res.data.comment, data))
         message.success("Chỉnh sửa thành công!")
       }
       else return message.error("Chỉnh sửa bình luận thất bại!")
+    })
+    .catch(err => {
+      message.error("Có lỗi xảy ra!")
+    })
+  }
+}
+
+export const actDeleteCommentRequest = (id, data) => {
+  return dispatch => {
+    axios.delete(`http://localhost:3001/comment/${id}`, {headers: authHeader()})
+    .then(res => {
+      if(res.data.status === 200){
+        dispatch(Action.actDeleteComment(id, data))
+        message.success("Xóa bình luận thành công!")
+      }
+      else return message.error("Xóa bình luận thất bại!")
     })
     .catch(err => {
       message.error("Có lỗi xảy ra!")

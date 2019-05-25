@@ -125,16 +125,18 @@ export const actGetUserInfo = (user) => {
     }
 }
 
-export const actEditComment = (comment) => {
+export const actEditComment = (comment, data) => {
     return {
         type: EDIT_COMMENT,
-        comment: comment
+        comment: comment,
+        data: data
     }
 }
 
-export const actDeleteComment = (comment) => {
+export const actDeleteComment = (comment, data) => {
     return {
         type: DELETE_COMMENT,
-        comment: comment
+        comment: comment,
+        data: data
     }
 }
