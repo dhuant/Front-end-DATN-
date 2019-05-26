@@ -13,7 +13,7 @@ class DetailCompany extends Component {
                     <form >
                         <div className="form-group">
                             <label><b>Tên công ty</b></label>
-                            <input type="text" className="input-text" name="your name" placeholder="John Antony" value={user.companyname}/>
+                            <input type="text" className="input-text" name="your name" placeholder="Tên công ty" value={user.companyname}/>
                         </div>
                         <div className="form-group">
                             <label><b>Địa chỉ</b></label>

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {MY_PROPERTIES, MY_FOLLOWING, SUBMIT_ESTATE, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY} from '../../../constants/Company/profileCompany'
+import {ADD_ACCOUNT, MY_FOLLOWING, SUBMIT_ESTATE, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY} from '../../../constants/Company/profileCompany'
 
 
 class InfoCompany extends Component {
-    onMyProperties = (e) => {
+    onAddAccountEmployee = (e) => {
         e.preventDefault();
-        this.props.history.push('/company/myproperties');
+        this.props.history.push('/company/add-account-employee');
     }
     onSubmitProperty = (e) => {
         e.preventDefault();
@@ -18,7 +18,7 @@ class InfoCompany extends Component {
     }
     onShowProfile = (e) => {
         e.preventDefault();
-        this.props.history.push('/company/profile');
+        this.props.history.push('/company/profile-admin');
     }
     onShowMyFollowing = (e) => {
         e.preventDefault()
@@ -86,8 +86,8 @@ class InfoCompany extends Component {
                                 </a>
                             </li>
                             <li>
-                                <a href="true" onClick={this.onMyProperties} className={this.props.component === MY_PROPERTIES ? "active" : ""}>
-                                    <i className="flaticon-apartment" />Danh sách bài đăng
+                                <a href="true" onClick={this.onAddAccountEmployee} className={this.props.component === ADD_ACCOUNT ? "active" : ""}>
+                                    <i className="flaticon-apartment" />Thêm tài khoản nhân viên
                                 </a>
                             </li>
                             <li>

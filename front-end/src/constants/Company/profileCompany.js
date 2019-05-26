@@ -1,4 +1,4 @@
-export const MY_PROPERTIES = 'MY_PROPERTIES';
+export const ADD_ACCOUNT = 'ADD_ACCOUNT';
 export const SUBMIT_ESTATE = 'SUBMIT_ESTATE';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 export const PROFILE = 'PROFILE';

@@ -12,6 +12,9 @@ import DetailCompany from '../../components/Company/ProfileCompany/DetailCompany
 
 
 class ProfileAdmin extends Component {
+    componentDidMount(){
+        this.props.actGetInfoUserCompany();
+    }
     render() {
         let { userCompany } = this.props;
         console.log(userCompany)
@@ -62,7 +65,7 @@ class ProfileAdmin extends Component {
 
 const mapDispathToProp = (dispatch) => {
     return {
-        actGetInfoUserCompany: (id) => dispatch(actions.actGetInfoUserCompany(id))
+        actGetInfoUserCompany: () => dispatch(actions.actGetInfoUserCompany())
     }
 }
 const mapStateToProp = (state) => {
