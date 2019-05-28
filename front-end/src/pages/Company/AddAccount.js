@@ -6,9 +6,10 @@ import HeaderCompany from '../../components/Company/HeaderCompany'
 import { Link } from 'react-router-dom'
 import {message} from 'antd'
 import { connect } from 'react-redux';
-import * as actions from '../../actions/Company/requestCompany';
+// import * as actions from '../../actions/Company/requestCompany';
 import {withRouter} from 'react-router-dom'
 import  {adminService} from '../../actions/Company/admin.service'
+import moment from 'moment'
 class AddAccount extends Component {
     constructor() {
         super();
@@ -18,6 +19,7 @@ class AddAccount extends Component {
             phoneNumber:'',
             description:'',
             address: ''
+
         };
     }
     handleOnChange = (e) => {
@@ -28,7 +30,10 @@ class AddAccount extends Component {
             [name]: value,
         });
     }
-    
+    onQuit =(e) =>{
+        e.preventDefault();
+        this.props.history.push('/company/profile-admin')
+    }
     onRegister=(e)=>{
         e.preventDefault();
         let account ={
@@ -36,7 +41,9 @@ class AddAccount extends Component {
             email: this.state.email,
             phone: this.state.phoneNumber,
             description: this.state.description,
-            address: this.state.address
+            address: this.state.address,
+            createTime: moment.unix(),
+            updateTime: moment.unix(),
         }
         message.loading('Add project in process', 1)
         .then(()=>{
@@ -159,7 +166,7 @@ class AddAccount extends Component {
                                     <div className="form-group" style={{textAlign:'center'}}>
                                     {/* <button type="submit" className="btn btn-primary btn-block">Đăng kí</button> */}
                                     <button style={{marginRight:'5px'}} type="submit" className="btn btn-success">Tạo tài khoản</button>
-                                    <button type="button" class="btn btn-primary">Hủy</button>
+                                    <button onClick={this.onQuit} type="button" class="btn btn-primary">Hủy</button>
 
                                     </div>
                                 </form>

@@ -62,13 +62,6 @@ class Login extends Component {
                     localStorage.setItem('company', JSON.stringify(res.data));
                     this.props.actGetInfoUserCompany()
                     this.props.history.push(`/company/profile-admin`);
-                    // delete res.data.status;
-                    // localStorage.setItem('user', JSON.stringify(res.data));
-                    // this.props.actGetInfoUser(res.data.id);
-
-                    // // console.log(res.data.result);
-                    // //this.props.history.push(`/profile/${res.data.id}`);
-                    // this.props.history.goBack();
                 }
 
             })

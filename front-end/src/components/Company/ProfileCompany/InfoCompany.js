@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {ADD_ACCOUNT, MY_FOLLOWING, SUBMIT_ESTATE, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY} from '../../../constants/Company/profileCompany'
+import {ADD_ACCOUNT, LIST_EMPLOYEES, SUBMIT_ESTATE, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY} from '../../../constants/Company/profileCompany'
 
 
 class InfoCompany extends Component {
@@ -20,9 +20,9 @@ class InfoCompany extends Component {
         e.preventDefault();
         this.props.history.push('/company/profile-admin');
     }
-    onShowMyFollowing = (e) => {
+    onShowListEmployees = (e) => {
         e.preventDefault()
-        this.props.history.push('/company/myfollowing')
+        this.props.history.push('/company/list-employees')
     }
     onShowMyTransactions = (e) => {
         e.preventDefault()
@@ -91,8 +91,8 @@ class InfoCompany extends Component {
                                 </a>
                             </li>
                             <li>
-                                <a href="true" onClick={this.onShowMyFollowing} className={this.props.component === MY_FOLLOWING ? "active" : ""}>
-                                    <i className="flaticon-shape" />Danh sách yêu thích
+                                <a href="true" onClick={this.onShowListEmployees} className={this.props.component === LIST_EMPLOYEES ? "active" : ""}>
+                                    <i className="flaticon-shape" />Danh sách nhân viên
                                 </a>
                             </li>
                             <li>

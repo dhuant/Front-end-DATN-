@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, } from 'react-router-dom';
 import Login from './pages/Login';
 import Login2 from './pages/Login2';
 import Home from './pages/Home';
@@ -27,7 +27,7 @@ import VerticalLinearStepper from '../src/components/Profile/VerticalLinearStepp
 //=====import component cho company
 import LoginCompany from './pages/Company/LoginCompany'
 import ProfileAdmin from './pages/Company/ProfileAdmin'
-
+import ListEmployees from './pages/Company/ListEmployees'
 import AddAccount from './pages/Company/AddAccount'
 class App extends Component {
   render() {
@@ -63,7 +63,7 @@ class App extends Component {
             <Route exact path='/company/login' component={LoginCompany} />
             <Route exact path='/company/profile-admin' component={ProfileAdmin} />
             <Route exact path='/company/add-account-employee' component={AddAccount}/>
-
+            <Route exact path='/company/list-employees' component={ListEmployees}/>
             {/* End route cho company */}
             <Route exact path='' component={NotFound} />
 
