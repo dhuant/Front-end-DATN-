@@ -67,7 +67,6 @@ class ListEmployees extends Component {
         let dataSource = [];
         let isLoading = true;
         let userCompany = this.props.userCompany;
-        let
         dataSource = userCompany.employees;
         return (
             <div>
