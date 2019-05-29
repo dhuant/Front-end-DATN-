@@ -24,6 +24,9 @@ import MyTransaction from './pages/MyTransaction'
 import TransHistory from './pages/TransHistory'
 import VerticalLinearStepper from '../src/components/Profile/VerticalLinearStepper'
 
+import VerifyEmployee from './pages/Verify/VerifyEmployee'
+import VerifyCompany from './pages/Verify/VerifyCompany'
+
 //=====import component cho company
 import LoginCompany from './pages/Company/LoginCompany'
 import ProfileAdmin from './pages/Company/ProfileAdmin'
@@ -57,6 +60,10 @@ class App extends Component {
             <Route exact path='/mytransactions' component={MyTransaction} />
             <Route exact path='/transhistory' component={TransHistory} />
             <Route exact path='/progress' component={VerticalLinearStepper} />
+
+            <Route exact path='/verifyemployee/:idc/:ide/:hash'component={VerifyEmployee}/>
+            <Route exact path='/verifycompany/:id/:hash'component={VerifyCompany}/>
+
 
             {/* Route cho company */}
 

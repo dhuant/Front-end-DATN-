@@ -77,9 +77,9 @@ class Home extends Component {
         this.props.history.push('/estatelistview');
     }
     componentDidMount() {
-        // if (JSON.parse(localStorage.getItem('user'))) {
-        //     this.props.history.push('/')
-        // }
+        if(localStorage.getItem('company')){
+            this.props.history.push('/company/profile-admin')
+        }
     }
     onGoToMap = (e) => {
         e.preventDefault();
