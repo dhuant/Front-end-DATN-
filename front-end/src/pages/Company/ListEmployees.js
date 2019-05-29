@@ -15,13 +15,12 @@ class ListEmployees extends Component {
         // this.props.actGetInfoUserCompany();
         this.state = {
             page: 1,
-            isLoading: true,
-        };  
-      }
-    componentDidMount(){
+        };
+    }
+    componentDidMount() {
         this.props.actGetInfoUserCompany();
 
-    }  
+    }
     render() {
         const columns = [
             {
@@ -40,21 +39,35 @@ class ListEmployees extends Component {
                 title: 'Số tin',
                 dataIndex: 'employee.totalProject',
                 key: 'employee.totalProject',
+                sorter: (a, b) => a.employee.totalProject > b.employee.totalProject,
                 render: tag => <Tag color={'green'} key={tag}>{tag}</Tag>
             },
             {
                 title: 'Tình trạng tài khoản',
-                dataIndex: 'employee.lock',
-                key: 'employee.lock',
-                render: lock => {
-                    let  color = lock === false ? 'red' : 'geekblue'
-                    return <Tag color={color} key={lock}>{lock === false ? 'Đã kích hoạt' : 'Chưa kích hoạt'}</Tag>
+                dataIndex: 'employee.verify',
+                filters: [
+                    {
+                        text: 'Đã kích hoạt',
+                        value: true,
+                    },
+                    {
+                        text: 'Chưa kích hoạt',
+                        value: false,
+                    },
+                ],
+                filterMultiple: false,
+                onFilter: (value, record) => record.employee.verify === value,
+                key: 'employee.verify',
+                render: verify => {
+                    let color = verify === true ? 'red' : 'geekblue'
+                    return <Tag color={color} key={verify}>{verify === true ? 'Đã kích hoạt' : 'Chưa kích hoạt'}</Tag>
                 }
             },
         ]
         let dataSource = [];
         let isLoading = true;
         let userCompany = this.props.userCompany;
+        let
         dataSource = userCompany.employees;
         return (
             <div>
@@ -88,7 +101,8 @@ class ListEmployees extends Component {
                                 </div>
                                 {/* table start */}
                                 <table className="manage-table responsive-table">
-                                <Table dataSource={dataSource} columns={columns} />
+                                    <Table dataSource={dataSource} columns={columns} />
+                                    
                                 </table>
                                 {/* table end */}
                             </div>
