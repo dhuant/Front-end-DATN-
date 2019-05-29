@@ -24,15 +24,17 @@ class Info extends Component {
         this.setState({
             uploadedFile: files[0]
         });
-
+        console.log(files)
         this.handleImageUpload(files[0]);
     }
     handleImageUpload(file) {
+        console.log(file)
         let upload = request.post(CLOUDINARY_UPLOAD_URL)
             .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
             .field('file', file);
 
         upload.end((err, response) => {
+            console.log(response)
             if (err) {
                 console.error(err);
             }
@@ -79,6 +81,7 @@ class Info extends Component {
         let userInfo = JSON.parse(localStorage.getItem('res'))
         var { uploadedFileCloudinaryUrl } = this.state
         let {user} = this.props
+        console.log(user)
         console.log(uploadedFileCloudinaryUrl)
         if (uploadedFileCloudinaryUrl !== '') localStorage.setItem('avatar', uploadedFileCloudinaryUrl)
         return (
@@ -86,7 +89,7 @@ class Info extends Component {
                 <div className="user-account-box">
                     <div className="header clearfix">
                         <div className="edit-profile-photo">
-                            <img src={user.avatar !== '' ? user.avatar : userInfo.user.avatar} alt="agent-1" className="img-responsive" style={{ width: "150px", height: "150px" }} />
+                            <img src={localStorage.getItem('avatar') !== '' ? localStorage.getItem('avatar') : user.avatar} alt="agent-1" className="img-responsive" style={{ width: "150px", height: "150px" }} />
                             <div className="change-photo-btn">
                                 <div className="photoUpload">
                                     <Dropzone

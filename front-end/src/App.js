@@ -23,6 +23,7 @@ import MyFollowing from './pages/MyFollowing'
 import MyTransaction from './pages/MyTransaction'
 import TransHistory from './pages/TransHistory'
 import VerticalLinearStepper from '../src/components/Profile/VerticalLinearStepper'
+import Stepper from '../src/components/Profile/Stepper'
 
 //=====import component cho company
 import LoginCompany from './pages/Company/LoginCompany'
@@ -54,7 +55,7 @@ class App extends Component {
             <Route exact path='/myfollowing' component={MyFollowing} />
             <Route exact path='/mytransactions' component={MyTransaction} />
             <Route exact path='/transhistory' component={TransHistory} />
-            <Route exact path='/progress' component={VerticalLinearStepper} />
+            <Route exact path='/progress' component={Stepper} />
 
             {/* Route cho company */}
 

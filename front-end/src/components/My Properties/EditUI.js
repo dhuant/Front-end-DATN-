@@ -28,6 +28,11 @@ const Status = [
     { value: '4', label: 'Rent' },
 ];
 
+const Unit = [
+    {value: '1', label: 'Triệu'},
+    {value: '2', label: 'Tỉ'},
+];
+
 class EditUI extends Component {
     constructor(props) {
         super(props);
@@ -59,7 +64,10 @@ class EditUI extends Component {
             previewImage: false,
             previewUrl: '',
             currentIndexDeleteImage: null,
-            test: null
+            test: null,
+            avatar: '',
+            _id: '',
+            unit: ''
         };
     }
     onHandleChange = (event) => {
@@ -133,41 +141,32 @@ class EditUI extends Component {
 
         else {
             console.log("inside2")
-            let projectId = localStorage.getItem("projectid")
-            // let ownerID = this.props.estateUserInfo._id
             let info = {
                 name: this.state.name,
                 investor: this.state.investor,
                 price: this.state.price,
-                unit: 'triệu',
+                unit: this.state.unit,
                 area: this.state.area,
-                address: this.state.visible ? this.props.address.addressDetail : this.state.address,
+                address: this.props.address.addressDetail ? this.props.address.addressDetail : this.state.address,
                 type: this.state.type,
                 info: this.state.description,
-                lat: this.state.visible ? this.props.address.markerPosition.lat : this.state.lat,
-                long: this.state.visible ? this.props.address.markerPosition.lng : this.state.long,
+                lat: this.props.address.markerPosition ? this.props.address.markerPosition.lat : this.state.lat,
+                long: this.props.address.markerPosition ? this.props.address.markerPosition.lng : this.state.long,
                 ownerid: JSON.parse(localStorage.getItem('res')).user._id,
                 statusProject: this.state.status,
                 updateTime: moment().unix(),
                 url: this.state.url,
                 publicId: this.state.publicId,
-                fullname: this.state.contactname,
-                phone: this.state.contactphonenumber,
-                email: this.state.contactemail,
+                fullname: this.state.fullname,
+                phone: this.state.phone,
+                email: this.state.email,
+                avatar: this.state.avatar,
+                _id: this.state._id
             };
             console.log(info);
-            axios.post(`http://localhost:3001/projects/edit/${projectId}`, info, { headers: authHeader() })
-                .then(res => {
-                    console.log(res);
-                    if (res.status === 200) {
-                        return message.success('Update project successfully!');
-
-                    }
-                    else return message.error('Failed to update project!');
-                });
+            this.props.onUpdateUserProject(info, info._id)
+            this.props.history.goBack()
         }
-        this.props.history.goBack()
-
     }
     getUrlList = (urlArray, publicIdArray) => {
         // let temp1 = this.state.url
@@ -247,7 +246,10 @@ class EditUI extends Component {
                 estateInfo: estateUserInfo,
                 lat: estateUserInfo.lat,
                 long: estateUserInfo.long,
-                address: estateUserInfo.address
+                address: estateUserInfo.address,
+                avatar: estateUserInfo.avatar,
+                _id: estateUserInfo._id,
+                unit: estateUserInfo.unit
             })
         }
     }
@@ -256,9 +258,7 @@ class EditUI extends Component {
         let { estateUserInfo } = this.props
         localStorage.setItem("projectid", estateUserInfo._id)
         let { visible, estateInfo, previewImage, url, previewUrl, publicId, loading, currentIndexDeleteImage, test } = this.state
-        console.log(url)
-        console.log(currentIndexDeleteImage, test)
-        console.log(estateUserInfo.url)
+        console.log(this.props.updatedProject)
         return (
             <div>
                 <MainHeader />
@@ -357,14 +357,14 @@ class EditUI extends Component {
                                                         />
                                                     </div>
                                                 </div>
-                                                <div className="col-md-3 col-sm-3">
+                                                <div className="col-md-2 col-sm-6">
                                                     <div className="form-group">
                                                         <label>Giá</label>
                                                         <input
-                                                            type="text"
+                                                            type="number"
                                                             className="input-text"
                                                             name="price"
-                                                            placeholder="USD"
+                                                            placeholder="Giá"
                                                             onChange={this.onHandleChange}
                                                             defaultValue={this.state.price}
                                                             required
@@ -372,11 +372,26 @@ class EditUI extends Component {
                                                         />
                                                     </div>
                                                 </div>
-                                                <div className="col-md-3 col-sm-3">
+                                                <div className="col-md-2 col-sm-6">
+                                                    <div className="form-group">
+                                                        <label>Đơn vị</label>
+                                                        <select className="form-control"
+                                                            name="unit"
+                                                            id="unit"
+                                                            defaultValue={this.state.unit}
+                                                            onChange={this.onHandleChange}
+                                                            required
+                                                        >
+                                                            {Unit.map((single, indexx) => <option key={indexx} value={single.label}>{single.label}</option>)}
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-2 col-sm-6">
                                                     <div className="form-group">
                                                         <label>Diện tích</label>
                                                         <input
-                                                            type="text"
+                                                            type="number"
                                                             className="input-text"
                                                             name="area"
                                                             placeholder="Diện tích"
@@ -484,7 +499,6 @@ class EditUI extends Component {
                                         <div className="row">
                                             <div className="clearfix">
                                                 {(url && url.length > 0) ? this.onShowPreviewImage(url, publicId) : null}
-                                                <Button variant="light" onClick={() => this.onShowPreviewImage(estateUserInfo.url, estateUserInfo.publicId)}>Khôi phục</Button>
                                             </div>
                                             <div className="col-md-11">
                                                 
@@ -542,14 +556,16 @@ class EditUI extends Component {
 }
 const mapDispathToProp = (dispatch) => {
     return {
-        actGetEstateRequest: (info) => dispatch(actions.actGetEstateRequest(info))
+        actGetEstateRequest: (info) => dispatch(actions.actGetEstateRequest(info)),
+        onUpdateUserProject: (data, id) => dispatch(actions.actEditUserProjectRequest(data, id))
     }
 }
 const mapStateToProp = (state) => {
     return {
         user: state.user,
         address: state.address,
-        estateUserInfo: state.estateInfo
+        estateUserInfo: state.estateInfo,
+        updatedProject: state.estateUserInfo
     }
 }
 export default connect(mapStateToProp, mapDispathToProp)(EditUI);

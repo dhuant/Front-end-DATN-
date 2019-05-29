@@ -125,7 +125,7 @@ class Comments extends Component {
                 <div className="comment">
                     <div className="comment-author">
                         <a href="true">
-                            <img src={comment.user.avatar} alt="avatar-5" />
+                            <img src={localStorage.getItem('avatar') ? localStorage.getItem('avatar') : comment.user.avatar} alt="avatar-5" />
                         </a>
                     </div>
                     <div className="comment-content">

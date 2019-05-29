@@ -1,6 +1,6 @@
 import * as Types from './../constants/ActionTypes';
 import { SAVE_FOLLOW_PROJECTID, GET_FOLLOWING_LIST, UNFOLLOW_PROJECT, FOLLOW_PROJECT } from './../constants/Follow'
-import { EDIT_USER_INFO, GET_USER_INFO } from '../constants/Profile'
+import { EDIT_USER_INFO, GET_USER_INFO, EDIT_USER_PROJECT } from '../constants/Profile'
 import {EDIT_COMMENT, DELETE_COMMENT} from '../constants/Comment'
 
 //==================== Estates ==================== 
@@ -138,5 +138,13 @@ export const actDeleteComment = (comment, data) => {
         type: DELETE_COMMENT,
         comment: comment,
         data: data
+    }
+}
+
+export const actEditUserProject = (data, estatesListOfUser) => {
+    return {
+        type: EDIT_USER_PROJECT,
+        data: data,
+        estatesListOfUser: estatesListOfUser
     }
 }

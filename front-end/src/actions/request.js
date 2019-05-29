@@ -140,7 +140,8 @@ export const actGetFollowingListRequest = () => {
 export const actUnfollowProjectRequest = (data) => {
   return dispatch => {
     return axios.post(`http://localhost:3001/users/unfollow`, data, { headers: authHeader() }).then(res => {
-      if (res.data.status === 201 || res.status === 201 || res.follow.status === 201) {
+      console.log(res.data.status)
+      if (res.data.status === 201) {
         dispatch(Action.actUnfollowProject(res.data, data))
         return message.success("Bỏ theo dõi thành công!")
       }
@@ -148,7 +149,7 @@ export const actUnfollowProjectRequest = (data) => {
       .catch(err => {
         if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
           return message.warning("Bạn cần phải đăng nhập trước!")
-        return message.error("Có lỗi xảy ra khi bỏ theo dõi bài đăng!")
+        else return message.error("Có lỗi xảy ra khi bỏ theo dõi bài đăng!")
       })
   }
 }
@@ -208,6 +209,21 @@ export const actDeleteProjectRequest = (id, data) => {
   }
 }
 
+export const actEditUserProjectRequest = (data, id) => {
+  return dispatch => {
+    axios.post(`http://localhost:3001/projects/edit/${id}`, data, { headers: authHeader() })
+      .then(res => {
+        console.log(res);
+        if (res.status === 200 || res.data.status === 200) {
+          message.success('Cập nhật bài đăng thành công!');
+          dispatch(Action.actEditUserProject(data, res.data.project))
+        }
+        else return message.error('Cập nhật bài đăng thất bại');
+      })
+      .catch(err => { return message.error("Có lỗi xảy ra!") })
+  }
+}
+
 export const actEditUserInfoRequest = (data) => {
   return dispatch => {
     axios.post(`http://localhost:3001/users/edit`, data, { headers: authHeader() })
@@ -229,32 +245,32 @@ export const actEditUserInfoRequest = (data) => {
 
 export const actEditCommentRequest = (id, data) => {
   return dispatch => {
-    axios.post(`http://localhost:3001/comment/edit/${id}`, data, {headers: authHeader()})
-    .then(res => {
-      if(res.data.status === 200 && res){
-        dispatch(Action.actEditComment(res.data.comment, data))
-        message.success("Chỉnh sửa thành công!")
-      }
-      else return message.error("Chỉnh sửa bình luận thất bại!")
-    })
-    .catch(err => {
-      message.error("Có lỗi xảy ra!")
-    })
+    axios.post(`http://localhost:3001/comment/edit/${id}`, data, { headers: authHeader() })
+      .then(res => {
+        if (res.data.status === 200 && res) {
+          dispatch(Action.actEditComment(res.data.comment, data))
+          message.success("Chỉnh sửa thành công!")
+        }
+        else return message.error("Chỉnh sửa bình luận thất bại!")
+      })
+      .catch(err => {
+        message.error("Có lỗi xảy ra!")
+      })
   }
 }
 
 export const actDeleteCommentRequest = (id, data) => {
   return dispatch => {
-    axios.delete(`http://localhost:3001/comment/${id}`, {headers: authHeader()})
-    .then(res => {
-      if(res.data.status === 200){
-        dispatch(Action.actDeleteComment(id, data))
-        message.success("Xóa bình luận thành công!")
-      }
-      else return message.error("Xóa bình luận thất bại!")
-    })
-    .catch(err => {
-      message.error("Có lỗi xảy ra!")
-    })
+    axios.delete(`http://localhost:3001/comment/${id}`, { headers: authHeader() })
+      .then(res => {
+        if (res.data.status === 200) {
+          dispatch(Action.actDeleteComment(id, data))
+          message.success("Xóa bình luận thành công!")
+        }
+        else return message.error("Xóa bình luận thất bại!")
+      })
+      .catch(err => {
+        message.error("Có lỗi xảy ra!")
+      })
   }
 }

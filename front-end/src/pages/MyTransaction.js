@@ -43,6 +43,7 @@ class MyTransaction extends Component {
                                 <table className="manage-table responsive-table">
                                     <tbody>
                                         {/* {this.ShowFollowingList(follow)} */}
+                                        <SingleCurrTransaction />
                                     </tbody>
                                 </table>
                                 {/* table end */}

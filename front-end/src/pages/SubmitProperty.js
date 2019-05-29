@@ -132,7 +132,7 @@ class SubmitProperty extends Component {
                 type: document.getElementById('type').value,
                 info: document.getElementById('description').value,
                 lat: this.props.address.markerPosition === undefined ? 10.7625626 : this.props.address.markerPosition.lat,
-                long: this.props.address.markerPosition === undefined ? 106.6805316 : this.props.address.markerPosition.long,
+                long: this.props.address.markerPosition === undefined ? 106.6805316 : this.props.address.markerPosition.lng,
                 ownerid: ownerID,
                 statusProject: document.getElementById('status').value,
                 createTime: moment().unix(),

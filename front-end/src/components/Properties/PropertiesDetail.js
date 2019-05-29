@@ -94,29 +94,6 @@ class PropertiesDetail extends Component {
         this.props.onGetFollowingList()
         console.log(this.props.follow, "indidmount")
     }
-    // getSnapshotBeforeUpdate = (prevProps) => {
-    //     if (prevProps.follow !== this.props.follow)
-    //         return this.props.follow
-    //     return null
-    // }
-    // componentDidUpdate = (snapshot) => {
-    //     if (snapshot) {
-    //         for (var i = 0; i < this.props.follow.length; i++) {
-    //             if (this.props.follow[i].project !== null && this.props.follow[i].project._id === this.props.info._id) {
-    //                 this.setState({ isFollow: true })
-    //             }
-    //         }
-    //     }
-    // }
-    // isFollowHandle = (follow) => {
-    //     if (follow && follow.length > 0) {
-    //         for (var i = 0; i < follow.length; i++) {
-    //             if (follow[i].project && follow[i].project._id === this.props.id) {
-    //                 this.setState({ isFollow: true })
-    //             }
-    //         }
-    //     }
-    // }
     onShowImagesThumbnail = (images) => {
         if (images === undefined || images.length === 0) {
             return null
@@ -133,9 +110,6 @@ class PropertiesDetail extends Component {
                             style={{ width: "780%", height: "500px" }}
                             alt="Chevrolet Impala"
                         />
-                        {/* <Image publicId={image}>
-                            <Transformation width="150px" height="100px"/>
-                        </Image> */}
                     </div>
                 );
             });
@@ -278,10 +252,7 @@ class PropertiesDetail extends Component {
                 }
             }
         }
-        console.log(follow)
-        console.log(comments)
         const { starValue, isFollow } = this.state
-        console.log(info.url, info.publicId)
         return (
             <div>
                 <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
