@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {ADD_ACCOUNT, LIST_EMPLOYEES, SUBMIT_ESTATE, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY} from '../../../constants/Company/profileCompany'
+import {ADD_ACCOUNT, CHANGE_PASSWORD,LIST_EMPLOYEES, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY} from '../../../constants/Company/profileCompany'
 
 
 class InfoCompany extends Component {
     onAddAccountEmployee = (e) => {
         e.preventDefault();
         this.props.history.push('/company/add-account-employee');
-    }
-    onSubmitProperty = (e) => {
-        e.preventDefault();
-        this.props.history.push('/company/submitproperty');
     }
     onChangePassword = (e) => {
         e.preventDefault();
@@ -86,6 +82,11 @@ class InfoCompany extends Component {
                                 </a>
                             </li>
                             <li>
+                                <a href="true" onClick={this.onChangePassword} className={this.props.component === CHANGE_PASSWORD ? "active" : ""}>
+                                    <i className="fa fa-plus" />Đổi mật khẩu
+                                </a>
+                            </li>
+                            <li>
                                 <a href="true" onClick={this.onAddAccountEmployee} className={this.props.component === ADD_ACCOUNT ? "active" : ""}>
                                     <i className="flaticon-apartment" />Thêm tài khoản nhân viên
                                 </a>
@@ -105,11 +106,7 @@ class InfoCompany extends Component {
                                     <i className="flaticon-internet" />Lịch sử giao dịch
                                 </a>
                             </li>
-                            <li>
-                                <a href="true" onClick={this.onSubmitProperty} className={this.props.component === SUBMIT_ESTATE ? "active" : ""}>
-                                    <i className="fa fa-plus" />Đăng bài
-                                </a>
-                            </li>
+                            
                             <li>
                                 <a href="true">
                                     <i className="flaticon-sign-out-option" />Đăng xuất

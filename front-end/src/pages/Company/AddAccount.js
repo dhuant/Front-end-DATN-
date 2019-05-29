@@ -45,7 +45,7 @@ class AddAccount extends Component {
             createTime: moment.unix(),
             updateTime: moment.unix(),
         }
-        message.loading('Add project in process', 1)
+        message.loading('Đang thêm tài khoản', 2)
         .then(()=>{
             adminService.addAccount(account)
             .then(res => {
@@ -55,7 +55,7 @@ class AddAccount extends Component {
                 this.props.history.push('/company/profile-admin')
             })
             .catch(err => {
-                message.error('Add Error, please try again')
+                message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
             })
         });
         

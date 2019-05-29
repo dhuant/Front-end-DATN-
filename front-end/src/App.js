@@ -32,6 +32,7 @@ import LoginCompany from './pages/Company/LoginCompany'
 import ProfileAdmin from './pages/Company/ProfileAdmin'
 import ListEmployees from './pages/Company/ListEmployees'
 import AddAccount from './pages/Company/AddAccount'
+import ChangePasswordCompany from './pages/Company/ChangePasswordCompany'
 class App extends Component {
   render() {
     return (
@@ -71,6 +72,7 @@ class App extends Component {
             <Route exact path='/company/profile-admin' component={ProfileAdmin} />
             <Route exact path='/company/add-account-employee' component={AddAccount}/>
             <Route exact path='/company/list-employees' component={ListEmployees}/>
+            <Route exact path='/company/changepassword' component={ChangePasswordCompany}/>
             {/* End route cho company */}
             <Route exact path='' component={NotFound} />
 
