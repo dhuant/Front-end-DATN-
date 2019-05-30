@@ -4422,9 +4422,20 @@ a:hover {
     padding: 4px 8px;
 }
 
+.comment-meta-reply a:hover {
+    border-radius: 2px;
+    color: black;
+    padding: 4px 8px;
+}
+
 .comment-meta-date {
     float: right;
     font-size: .9em;
+}
+
+.properties-meta-date {
+    float: left;
+    font-size: 20px;
 }
 
 .comment-body {
@@ -4442,6 +4453,13 @@ a:hover {
     list-style: none;
     margin: 0 0 0 80px;
     padding: 0;
+}
+
+.properties-meta-date span {
+    background-color: #84ad1d;
+    border-radius: 3px;
+    color: #fff;
+    padding: 4px 8px;
 }
 
 .comment-meta-date span {
@@ -5559,6 +5577,7 @@ table.manage-table .title-container img {
     width: 20% !important;
     flex: 1.1;
     margin-right: 26px;
+    margin-top: 26px
 }
 
 table.manage-table .title-container {
@@ -7328,6 +7347,12 @@ table.manage-table .title-container .title span {
     border-width: 2px
 }
 
+.row .clearfix .col-md-3 .imagepreview:hover {
+    opacity: 0.7;
+    border-color: #0dcdbd;
+    border-width: 2px
+}
+
 .remove i:hover{
     color: red;
     transition: .5s;
@@ -7339,3 +7364,28 @@ table.manage-table .title-container .title span {
     transition: .5s;
 }
 
+.pull-left .h3 .FollowButton:hover{
+    color: "white";
+    background-color: "red"
+}
+
+.transaction-button {
+    cursor: pointer;
+    padding: 7px 20px;
+    letter-spacing: 1px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #FFF;
+    transition: .5s;
+    border-radius: 2px;
+    border: none;
+    width: 100%;
+    background: #95c41f;
+    float: right
+}
+.responsive-table tbody:hover{
+    background-color: #F7FBFB;
+    transition: .5s;
+    cursor: pointer;
+}

@@ -1,37 +1,54 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux'
+import * as actions from '../../actions/request'
 
 class Detail extends Component {
+    componentDidMount =() => {
+        this.props.onGetEstateListOfUser()
+        this.props.onGetUserInfo()
+    }
+    onSubmit = (e) => {
+        e.preventDefault()
+        var updateInfo = {
+            fullname: document.getElementById('fullname').value,
+            address: document.getElementById('address').value,
+            phone: document.getElementById('phone').value,
+            description: document.getElementById('description').value,
+            avatar: localStorage.getItem('avatar') ? localStorage.getItem('avatar') : JSON.parse(localStorage.getItem('res')).user.avatar,
+            statusAccount: 2,
+            totalProject: this.props.estatesListOfUser.length
+        }
+        this.props.onEditUserInfo(updateInfo)
+    }
+
     render() {
-        let {user} = this.props;
+        let { user, userUpdated } = this.props;
         console.log(user);
+        console.log(userUpdated)
         return (
             <div>
                 <div className="my-address">
                     <div className="main-title-2">
-                        <h1><span>Advanced</span> Search</h1>
+                        <h1><span>Thông tin</span> cơ bản</h1>
                     </div>
-                    <form action="http://themevessel-item.s3-website-us-east-1.amazonaws.com/nest/index.html" method="GET">
+                    <form action="http://themevessel-item.s3-website-us-east-1.amazonaws.com/nest/index.html" method="POST">
                         <div className="form-group">
-                            <label>Your Name</label>
-                            <input type="text" className="input-text" name="your name" placeholder="John Antony" value={user.fullname}/>
+                            <label>Tên đầy đủ</label>
+                            <input type="text" className="input-text" name="fullname" id="fullname" placeholder="Nhập tên của bạn..." defaultValue={userUpdated.fullname !== '' ? userUpdated.fullname : JSON.parse(localStorage.getItem('res')).user.fullname} />
                         </div>
                         <div className="form-group">
-                            <label>Your Title</label>
-                            <input type="text" className="input-text" name="agent" placeholder="Your title" />
+                            <label>Địa chỉ</label>
+                            <input type="text" className="input-text" name="address" id="address" placeholder="Nhập địa chỉ của bạn..." defaultValue={userUpdated.address !== '' ? userUpdated.address : ' '} required/>
                         </div>
                         <div className="form-group">
-                            <label>Phone</label>
-                            <input type="text" className="input-text" name="phone" placeholder="+55 4XX-634-7071" />
+                            <label>Số điện thoại</label>
+                            <input type="text" className="input-text" name="phone" id="phone" placeholder="+55 4XX-634-7071" defaultValue={userUpdated.phone === '' ? ' ' : userUpdated.phone} required/>
                         </div>
                         <div className="form-group">
-                            <label>Email</label>
-                            <input type="email" className="input-text" name="email" placeholder="johndoe@gmail.com" />
+                            <label>Giới thiệu bản thân</label>
+                            <textarea className="input-text" name="description" id="description" placeholder="Viết thêm gì đó về bạn..." >{userUpdated.description === '' ? ' ' : userUpdated.description}</textarea>
                         </div>
-                        <div className="form-group">
-                            <label>About Me</label>
-                            <textarea className="input-text" name="message" placeholder="Etiam luctus malesuada quam eu aliquet. Donec eget mollis tortor. Donec pellentesque eros a nisl euismod, ut congue orci ultricies. Fusce aliquet metus non arcu varius ullamcorper a sit amet nunc. Donec in lacus neque. Vivamus ullamcorper sed ligula vitae " defaultValue={""} />
-                        </div>
-                        <a href="true" className="btn button-md button-theme">Save Changes</a>
+                        <a href="true" className="btn button-md button-theme" onClick={this.onSubmit}>Lưu thay đổi</a>
                     </form>
                 </div>
             </div>
@@ -39,4 +56,17 @@ class Detail extends Component {
     }
 }
 
-export default Detail;
+const mapDispathToProp = (dispatch) => {
+    return {
+        onGetEstateListOfUser: () => dispatch(actions.actGetEstateListOfUserRequest()),
+        onEditUserInfo: (data) => dispatch(actions.actEditUserInfoRequest(data)),
+        onGetUserInfo: () => dispatch(actions.actGetUserInfoRequest())
+    }
+}
+const mapStateToProp = (state) => {
+    return {
+        estatesListOfUser: state.estatesListOfUser,
+        userUpdated: state.user
+    }
+}
+export default connect(mapStateToProp, mapDispathToProp)(Detail)

@@ -13,11 +13,18 @@ import StepConnector from '@material-ui/core/StepConnector';
 const styles = theme => ({
     root: {
         width: '90%',
-        fontSize: '18px'
+        fontSize: '15px',
+        
     },
     button: {
         marginTop: theme.spacing.unit,
         marginRight: theme.spacing.unit,
+        border: 0,
+        borderRadius: 3,
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        color: 'black',
+        height: 48,
+        // padding: '0 10px',
     },
     actionsContainer: {
         marginBottom: theme.spacing.unit * 2,
@@ -46,15 +53,22 @@ const styles = theme => ({
 });
 
 function getSteps() {
-    return ['Bước 1', 'Bước 2', 'Bước 3'];
+    return ['Bước 1: Thỏa thuận mua ban đầu', 
+            'Bước 2: Kiểm tra tính pháp lý của bất động sản', 
+            'Bước 3: Đặt cọc', 
+            'Bước 4: Ký hợp đồng', 
+            'Bước 5: Công chứng hợp đồng',
+            'Bước 6: Đóng thuế',
+            'Bước 7: Giao bất động sản'
+            ];
 }
 
 function getStepContent(step) {
     switch (step) {
         case 0:
-            return `For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.`;
+            return (
+                <input type="text" placeholder="Input something here"></input>
+            )
         case 1:
             return 'An ad group contains one or more ads which target a shared set of keywords.';
         case 2:
@@ -105,8 +119,8 @@ class VerticalLinearStepper extends React.Component {
             />
         );
         return (
-            <div className={classes.root}>
-                <Stepper activeStep={activeStep} orientation="vertical" connector={connector}>
+            <div className={classes.root} >
+                <Stepper activeStep={activeStep} orientation="vertical" connector={connector} style={{fontSize: "25px"}}>
                     {steps.map((label, index) => (
                         <Step key={label}>
                             <StepLabel>{label}</StepLabel>
@@ -126,6 +140,7 @@ class VerticalLinearStepper extends React.Component {
                                             color="primary"
                                             onClick={this.handleNext}
                                             className={classes.button}
+                                            style={{background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)', fontSize: "10px"}}
                                         >
                                             {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                                         </Button>

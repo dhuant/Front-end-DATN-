@@ -1,4 +1,5 @@
 import * as Types from '../constants/ActionTypes';
+import {EDIT_USER_PROJECT} from '../constants/Profile'
 
 var initialState = [];
 const estatesListOfUser = (state = initialState, action) => {
@@ -7,6 +8,9 @@ const estatesListOfUser = (state = initialState, action) => {
         case Types.GET_ESTATE_LIST_OF_USER:
             state = action.estatesListOfUser
             console.log(state)
+            return [...state]
+        case EDIT_USER_PROJECT:
+            console.log(action, state)
             return [...state]
         case Types.DELETE_PROJECT:
             index = state.findIndex(project => {return project._id === action.data._id})

@@ -1,16 +1,18 @@
 import * as Types from './../constants/ActionTypes';
-import {SAVE_FOLLOW_PROJECTID, GET_FOLLOWING_LIST, UNFOLLOW_PROJECT, FOLLOW_PROJECT} from './../constants/Follow'
+import { SAVE_FOLLOW_PROJECTID, GET_FOLLOWING_LIST, UNFOLLOW_PROJECT, FOLLOW_PROJECT } from './../constants/Follow'
+import { EDIT_USER_INFO, GET_USER_INFO, EDIT_USER_PROJECT } from '../constants/Profile'
+import {EDIT_COMMENT, DELETE_COMMENT} from '../constants/Comment'
 
 //==================== Estates ==================== 
 export const actFetchEstates = (estates) => {
     return {
-        type : Types.FETCH_ESTATES_AROUND_CURRENT_LOCATION,
+        type: Types.FETCH_ESTATES_AROUND_CURRENT_LOCATION,
         estates: estates
     }
 }
 export const actGetEstate = (info) => {
     return {
-        type : Types.GET_INFO_ESTATE,
+        type: Types.GET_INFO_ESTATE,
         info: info
     }
 }
@@ -106,5 +108,43 @@ export const actDeleteProject = (estatesListOfUser, data) => {
         type: Types.DELETE_PROJECT,
         estatesListOfUser: estatesListOfUser,
         data: data
+    }
+}
+
+export const actEditUserInfo = (estatesListOfUser) => {
+    return {
+        type: EDIT_USER_INFO,
+        estatesListOfUser: estatesListOfUser,
+    }
+}
+
+export const actGetUserInfo = (user) => {
+    return {
+        type: GET_USER_INFO,
+        user: user
+    }
+}
+
+export const actEditComment = (comment, data) => {
+    return {
+        type: EDIT_COMMENT,
+        comment: comment,
+        data: data
+    }
+}
+
+export const actDeleteComment = (comment, data) => {
+    return {
+        type: DELETE_COMMENT,
+        comment: comment,
+        data: data
+    }
+}
+
+export const actEditUserProject = (data, estatesListOfUser) => {
+    return {
+        type: EDIT_USER_PROJECT,
+        data: data,
+        estatesListOfUser: estatesListOfUser
     }
 }

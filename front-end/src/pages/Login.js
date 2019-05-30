@@ -53,34 +53,23 @@ class Login extends Component {
         
     }
             
-handleEmailChange = (e) => {
-    // console.log(e.target.value);
-    this.setState({
-        email: e.target.value
-    })
-}
-handlePasswordChange = (e) => {
-    // console.log(e.target.value);
-    this.setState({
-        password: e.target.value
-    })
-}
 signIn = (e) => {
     e.preventDefault();
     var headers = {
 
         "Access-Control-Allow-Origin": "*",
     }
+    console.log(document.getElementById("email").value)
     axios.post('http://localhost:3001/users/login', {
-        email: this.state.email,
-        password: this.state.password
-    }, headers)
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+    })
         .then(res => {
             // console.log(res.data);
             if (res.data.status === 200) {
                 console.log(res.data);
-                delete res.data.status;
-                localStorage.setItem('user', JSON.stringify(res.data));
+                // delete res.data.status;
+                localStorage.setItem('res', JSON.stringify(res.data));
                 this.props.actGetInfoUser(res.data.id);
 
                 // console.log(res.data.result);
@@ -158,8 +147,9 @@ render() {
                                         </div> */}
                                     <div className="form-group">
                                         <input
-                                            onChange={this.handleEmailChange}
+                                            // onChange={this.handleEmailChange}
                                             type="email"
+                                            id="email"
                                             name="email"
                                             className="input-text"
                                             placeholder="Nhập Email"
@@ -168,8 +158,9 @@ render() {
                                     </div>
                                     <div className="form-group">
                                         <input
-                                            onChange={this.handlePasswordChange}
+                                            // onChange={this.handlePasswordChange}
                                             type="password"
+                                            id="password"
                                             name="Password"
                                             className="input-text"
                                             placeholder="Mật khẩu"
@@ -234,7 +225,7 @@ render() {
 
 const mapDispathToProp = (dispatch) => {
     return {
-        actGetInfoUser: (id) => dispatch(actions.actGetInfoUser(id)),
+        actGetInfoUser: () => dispatch(actions.actGetUserInfoRequest()),
     }
 }
 const mapStateToProp = (state) => {

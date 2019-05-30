@@ -5,9 +5,10 @@ import Info from '../components/Profile/Info'
 import {MY_TRANSACTION} from '../constants/Profile'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import SingleCurrTransaction from '../components/Profile/SingleCurrTransaction'
+// import SingleCurrTransaction from '../components/Profile/SingleCurrTransaction'
+import Stepper from '../components/Profile/Stepper'
 
-class MyTransaction extends Component {
+class TransactionDetail extends Component {
   render() {
     return (
       <div>
@@ -43,7 +44,7 @@ class MyTransaction extends Component {
                                 <table className="manage-table responsive-table">
                                     <tbody>
                                         {/* {this.ShowFollowingList(follow)} */}
-                                        <SingleCurrTransaction />
+                                        <Stepper />
                                     </tbody>
                                 </table>
                                 {/* table end */}
@@ -56,23 +57,23 @@ class MyTransaction extends Component {
       </div>
     )
   }
-  ShowTransactionList = (transaction) => {
-    var result = null;
-    if (transaction.length > 0) {
-      result = transaction.map((single, index) => {
-        console.log(single)
-        if (single.transaction !== null)
-          return (
-            <SingleCurrTransaction key={index} transactionSingle={single} />
+//   ShowTransactionList = (transaction) => {
+//     var result = null;
+//     if (transaction.length > 0) {
+//       result = transaction.map((single, index) => {
+//         console.log(single)
+//         if (single.transaction !== null)
+//           return (
+//             <SingleCurrTransaction key={index} transactionSingle={single} />
 
-          );
-      });
-    }
-    else if (transaction.length === 0 || transaction === undefined) {
-      result = (<tr><td>Hiện bạn chưa có giao dịch nào!</td></tr>)
-    }
-    return result;
-  }
+//           );
+//       });
+//     }
+//     else if (transaction.length === 0 || transaction === undefined) {
+//       result = (<tr><td>Hiện bạn chưa có giao dịch nào!</td></tr>)
+//     }
+//     return result;
+//   }
 }
 
 const mapStateToProps = (state) => {
@@ -83,4 +84,4 @@ const mapDispatchToProps = (dispatch) => {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyTransaction)
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionDetail)

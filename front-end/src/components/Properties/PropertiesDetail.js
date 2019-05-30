@@ -7,6 +7,7 @@ import MapOfDetailEstate from "./MapOfDetailEstate";
 import { Rate, message, Button, Pagination } from 'antd'
 import moment from 'moment'
 import Chart from 'react-apexcharts'
+import Login from '../../pages/Login'
 
 const desc = ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Tuyệt vời'];
 
@@ -93,29 +94,6 @@ class PropertiesDetail extends Component {
         this.props.onGetFollowingList()
         console.log(this.props.follow, "indidmount")
     }
-    // getSnapshotBeforeUpdate = (prevProps) => {
-    //     if (prevProps.follow !== this.props.follow)
-    //         return this.props.follow
-    //     return null
-    // }
-    // componentDidUpdate = (snapshot) => {
-    //     if (snapshot) {
-    //         for (var i = 0; i < this.props.follow.length; i++) {
-    //             if (this.props.follow[i].project !== null && this.props.follow[i].project._id === this.props.info._id) {
-    //                 this.setState({ isFollow: true })
-    //             }
-    //         }
-    //     }
-    // }
-    // isFollowHandle = (follow) => {
-    //     if (follow && follow.length > 0) {
-    //         for (var i = 0; i < follow.length; i++) {
-    //             if (follow[i].project && follow[i].project._id === this.props.id) {
-    //                 this.setState({ isFollow: true })
-    //             }
-    //         }
-    //     }
-    // }
     onShowImagesThumbnail = (images) => {
         if (images === undefined || images.length === 0) {
             return null
@@ -132,9 +110,6 @@ class PropertiesDetail extends Component {
                             style={{ width: "780%", height: "500px" }}
                             alt="Chevrolet Impala"
                         />
-                        {/* <Image publicId={image}>
-                            <Transformation width="150px" height="100px"/>
-                        </Image> */}
                     </div>
                 );
             });
@@ -211,10 +186,17 @@ class PropertiesDetail extends Component {
 
     onPostingComments = (info) => {
         // e.preventDefault()
+        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null) {
+            message.warning("Bạn phải đăng nhập trước để bình luận!")
+            return (
+                <Login />
+            )
+        }
         if (this.state.starValue === 0) {
             message.error("Bạn chưa đánh giá mà phải hơm :D")
             return null
         }
+
         var abc = document.getElementById("comment").value
         console.log(abc)
         var commentInfoToPost = {
@@ -270,17 +252,19 @@ class PropertiesDetail extends Component {
                 }
             }
         }
-        console.log(follow)
-        console.log(comments)
         const { starValue, isFollow } = this.state
-        console.log(info.url, info.publicId)
         return (
             <div>
                 <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                     {/* Header */}
                     <div className="heading-properties clearfix sidebar-widget">
                         <div className="pull-left">
-                            <h3>{info.name}</h3>
+                            <h3>
+                                {info.name}
+                                <Button type="danger" onClick={() => this.onHandleFollowing(info, check)} style={{ top: "-0.2em", marginLeft: "10px" }} className="FollowButton">
+                                    <span>{check === true ? " Bỏ theo dõi" : "Theo dõi"}</span>
+                                </Button>
+                            </h3>
                             <p>
                                 <i className="fa fa-map-marker" />
                                 {info.address}
@@ -344,9 +328,9 @@ class PropertiesDetail extends Component {
                                     </a>
                                 </li>
                                 <li className style={{ top: "4px", left: "20px" }}>
-                                    <Button type="danger" onClick={() => this.onHandleFollowing(info, check)}>
-                                        {check === true ? " Bỏ theo dõi" : "Theo dõi"}
-                                    </Button>
+                                    <div className="form-group mb-0">
+                                        <button className="transaction-button">Tiến hành giao dịch<i className="fa fa-bitcoin" style={{marginLeft: "5px"}}></i></button>
+                                    </div>
                                 </li>
                             </ul>
                             <div className="panel with-nav-tabs panel-default">

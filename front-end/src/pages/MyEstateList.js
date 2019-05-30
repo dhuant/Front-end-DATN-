@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import MainHeader from '../components/MainHeader';
 import { connect } from 'react-redux'
 import * as actions from '../actions/request';
+import Login from '../pages/Login'
 
 class MyEstateList extends Component {
     componentDidMount = () => {
@@ -18,6 +19,7 @@ class MyEstateList extends Component {
             localStorage.removeItem("res")
         }
         console.log(estatesListOfUser)
+        if(JSON.parse(localStorage.getItem('res')))
         return (
             <div>
                 <MainHeader />
@@ -26,10 +28,10 @@ class MyEstateList extends Component {
                     <div className="overlay">
                         <div className="container">
                             <div className="breadcrumb-area">
-                                <h1>My Properties</h1>
+                                <h1>Bài đăng của tôi</h1>
                                 <ul className="breadcrumbs">
-                                    <li><Link to="/">Home</Link></li>
-                                    <li className="active">My Properties</li>
+                                    <li><Link to="/">Trang chủ</Link></li>
+                                    <li className="active">Bài đăng của tôi</li>
                                 </ul>
                             </div>
                         </div>
@@ -46,7 +48,7 @@ class MyEstateList extends Component {
                             </div>
                             <div className="col-lg-8 col-md-8 col-sm-12">
                                 <div className="main-title-2">
-                                    <h1><span>My</span> Properties</h1>
+                                    <h1><span>Bài đăng</span> của tôi</h1>
                                 </div>
                                 {/* table start */}
                                 <table className="manage-table responsive-table">
@@ -63,6 +65,7 @@ class MyEstateList extends Component {
                 <Footer />
             </div>
         )
+        else return <Login />
     }
     onShowEstateListOfUser = (estates) => {
         var result = null;

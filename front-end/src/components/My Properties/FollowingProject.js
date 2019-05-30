@@ -58,7 +58,7 @@ class FollowingProject extends Component {
     });
   }
   render() {
-    let { followSingle} = this.props
+    let { followSingle } = this.props
     let projectInfo = followSingle.project
     console.log(projectInfo)
     // console.log(projectInfo.url)
@@ -66,23 +66,36 @@ class FollowingProject extends Component {
     return (
       <div>
         <tr>
-          <td className="title-container">
+          <td className="title-container" style={{ width: "500px" }}>
             <img src='/images/Home.png' alt="my-properties-1" className="img-responsive hidden-xs" />
             <div className="title">
-              <h4><a href="true">{projectInfo.name}</a></h4>
-              <span>{projectInfo.investor}</span>
-              <span><i className="fa fa-map-marker" /> {projectInfo.address} </span>
-              <span className="table-property-price">{projectInfo.price}</span>
+              <h4 style={{ color: "#84ad1d", fontSize: "20px" }}>{projectInfo.name}
+                <i className="fa fa-heartbeat"
+                  style={{ cursor: "pointer", marginLeft: "10px", color: "red"}}
+                  onClick={this.showUnfollowConfirm} id={projectInfo._id}
+                >
+                  
+                </i>
+              </h4>
+              <span><i className="fa fa-user-circle-o" />{projectInfo.investor}</span>
+              <span><i className="fa fa-map-marker" style={{ width: "10px", marginLeft: "2px" }} /> {projectInfo.address} </span>
+              {/* <span className="table-property-price"><i className="fa fa-money" />{projectInfo.price}</span> */}
+              <span className="hidden-xs"><i className="fa fa-calendar-check-o" />{moment.unix(projectInfo.updateTime).format('DD/MM/YYYY, h:mm a')}</span>
             </div>
           </td>
-          <td className="expire-date hidden-xs">{moment.unix(projectInfo.updateTime).format('DD/MM/YYYY, h:mm a')}</td>
-          <td className="action">
-            <div style={{ marginBottom: "5px" }} className="view">
-              <i className="fa fa-eye fa-2x" style={{ cursor: "pointer", width: "30px", height: "30px" }} onClick={() => this.setState({ visibleViewFollow: true, visibleUnfollow: false })} />
+          <td style={{ width: "300px" }}>
+            <div className="properties-meta-date">
+              <span className="hidden-xs">{projectInfo.price} {projectInfo.unit}</span>
             </div>
-
-            <div style={{ marginTop: "40px" }} className="remove">
-              <i className="fa fa-heartbeat fa-2x" style={{ cursor: "pointer", width: "30px", height: "30px" }} onClick={this.showUnfollowConfirm} id={projectInfo._id}></i>
+          </td>
+          <td className="action" style={{ width: "200px" }}>
+            <div style={{ marginBottom: "5px" }} className="view">
+              <i className="fa fa-eye"
+                style={{ cursor: "pointer", width: "30px", height: "30px" }}
+                onClick={() => this.setState({ visibleViewFollow: true, visibleUnfollow: false })}
+              >
+                <span style={{ marginLeft: "5px" }}>Xem</span>
+              </i>
             </div>
           </td>
         </tr>

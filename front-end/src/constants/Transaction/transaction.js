@@ -1,0 +1,13 @@
+export const CREATE_TRANSACTION = 'CREATE_TRANSACTION'
+export const CHANGE_STATUS = 'CHANGE_STATUS'
+export const TRANSACTION_HISTORY = 'TRANSACTION_HISTORY'
+export const TRANSACTION_DETAIL = 'TRANSACTION_DETAIL'
+//Chi tiết các bước trong giao dịch
+export const DEAL = 'DEAL'
+export const LEGALITY = 'LEGALITY'
+export const DEPOSIT = 'DEPOSIT'
+export const CONTRACT = 'CONTRACT'
+export const CONFIRMATION = 'CONFIRMATION'
+export const TAX = 'TAX'
+export const DELIVERY = 'DELIVERY'
+export const TRANSFER = 'TRANSFER'
