@@ -21,6 +21,10 @@ class Login extends Component {
             token: ''
         };
     }
+    onResetPassword = (e) => {
+        e.preventDefault();
+        this.props.history.push('/forgotpassword');
+    }
     onLoginCompany =() =>{
         this.props.history.push(`/company/login`)
     }
@@ -176,14 +180,14 @@ render() {
                                         <div className="ez-checkbox pull-left">
                                             <label>
                                                 <input type="checkbox" className="ez-hide" />
-                                                Remember me
+                                                Nhớ tài khoản
                                             </label>
                                         </div>
                                         <a
-                                            href="forgot-password.html"
+                                            onClick={this.onResetPassword}
                                             className="link-not-important pull-right"
                                         >
-                                            Forgot Password
+                                            Quên mật khẩu
                                             </a>
                                         <div className="clearfix" />
                                     </div>

@@ -42,6 +42,7 @@ class AddAccount extends Component {
             phone: this.state.phoneNumber,
             description: this.state.description,
             address: this.state.address,
+            avatar: 'https://res.cloudinary.com/dne3aha8f/image/upload/v1559203321/ddtyciszy3oiwdjasrjh.png?fbclid=IwAR3RFWWiOrMw-sMiNigCXJMFEGdpYw_FUBa4PxZYZLTtHvjLaa1JjBpNGy0',
             createTime: moment.unix(),
             updateTime: moment.unix(),
         }
