@@ -186,7 +186,7 @@ class PropertiesDetail extends Component {
 
     onPostingComments = (info) => {
         // e.preventDefault()
-        if(localStorage.getItem('res') === undefined || localStorage.getItem('res') === null){
+        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null) {
             message.warning("Bạn phải đăng nhập trước để bình luận!")
             return (
                 <Login />
@@ -196,7 +196,7 @@ class PropertiesDetail extends Component {
             message.error("Bạn chưa đánh giá mà phải hơm :D")
             return null
         }
-        
+
         var abc = document.getElementById("comment").value
         console.log(abc)
         var commentInfoToPost = {
@@ -259,7 +259,12 @@ class PropertiesDetail extends Component {
                     {/* Header */}
                     <div className="heading-properties clearfix sidebar-widget">
                         <div className="pull-left">
-                            <h3>{info.name}</h3>
+                            <h3>
+                                {info.name}
+                                <Button type="danger" onClick={() => this.onHandleFollowing(info, check)} style={{ top: "-0.2em", marginLeft: "10px" }} className="FollowButton">
+                                    <span>{check === true ? " Bỏ theo dõi" : "Theo dõi"}</span>
+                                </Button>
+                            </h3>
                             <p>
                                 <i className="fa fa-map-marker" />
                                 {info.address}
@@ -323,9 +328,9 @@ class PropertiesDetail extends Component {
                                     </a>
                                 </li>
                                 <li className style={{ top: "4px", left: "20px" }}>
-                                    <Button type="danger" onClick={() => this.onHandleFollowing(info, check)}>
-                                        {check === true ? " Bỏ theo dõi" : "Theo dõi"}
-                                    </Button>
+                                    <div className="form-group mb-0">
+                                        <button className="transaction-button">Tiến hành giao dịch<i className="fa fa-bitcoin" style={{marginLeft: "5px"}}></i></button>
+                                    </div>
                                 </li>
                             </ul>
                             <div className="panel with-nav-tabs panel-default">

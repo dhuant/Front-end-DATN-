@@ -11,9 +11,14 @@ class Deal extends Component {
         return Object.keys(fieldsError).some(field => fieldsError[field]);
     }
 
-    handleSubmit = () => {
-
-    }
+    handleSubmit = e => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
+            }
+        });
+    };
     render() {
         const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
 
@@ -87,7 +92,7 @@ class Deal extends Component {
                     <div className="row">
                         <div className="col-md-8 col-lg-8 col-xs-12">
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" disabled={() => this.hasErrors(getFieldsError)} style={{ background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)', fontSize: "10px", float: "right" }}>
+                                <Button type="primary" htmlType="submit" style={{ fontSize: "10px", float: "right" }}>
                                     Xác nhận
                                 </Button>
                             </Form.Item>

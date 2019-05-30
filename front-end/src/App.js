@@ -54,6 +54,7 @@ class App extends Component {
             <Route exact path='/myproperties/edit/:id' component={EditUI} />
             <Route exact path='/myfollowing' component={MyFollowing} />
             <Route exact path='/mytransactions' component={MyTransaction} />
+            <Route />
             <Route exact path='/transhistory' component={TransHistory} />
             <Route exact path='/progress' component={Stepper} />
 

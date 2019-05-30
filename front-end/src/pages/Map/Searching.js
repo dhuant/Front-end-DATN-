@@ -12,7 +12,7 @@ export default class Searching extends Component {
       componentDidMount() {
         this.autocomplete = new google.maps.places.Autocomplete(
           this.autocompleteInput.current,
-          { types: ["geocode"] }
+          
         );
         this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
       }

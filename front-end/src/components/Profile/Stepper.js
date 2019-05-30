@@ -4,6 +4,11 @@ import React from 'react'
 import request from 'superagent'
 import Deal from './Deal'
 import Legality from './Legality'
+import Deposit from './Deposit'
+import Contract from './Contract'
+import Confirmation from './Confirmation'
+import Tax from './Tax'
+import Delivery from './Delivery'
 
 const Step = Steps.Step;
 const Option = Select.Option;
@@ -104,23 +109,23 @@ class Stepper extends React.Component {
             },
             {
                 title: 'Đặt cọc',
-                content: 'Last-content',
+                content: <Deposit />,
             },
             {
                 title: 'Ký hợp đồng',
-                content: 'Last-content',
+                content: <Contract />,
             },
             {
                 title: 'Công chứng hợp đồng',
-                content: 'Last-content',
+                content: <Confirmation />,
             },
             {
                 title: 'Đóng thuế',
-                content: 'Last-content',
+                content: <Tax />,
             },
             {
                 title: 'Giao bất động sản',
-                content: 'Last-content',
+                content: <Delivery />,
             },
         ];
         return (
@@ -128,27 +133,29 @@ class Stepper extends React.Component {
                 <div className="row">
                     <div className="col-lg-8 col-md-8 col-sm-12">
                         <Progress percent={this.state.percent} />
-                        <br></br>
-                        <Steps current={current} direction="vertical">
+                        <hr></hr>
+                        <Steps current={current} direction="vertical" size="small">
                             {steps.map(item => (
                                 <Step key={item.title} title={item.title} />
                             ))}
                         </Steps>
+                        <hr></hr>
                         <div className="steps-content">{steps[current].content}</div>
+                        <hr></hr>
                         <div className="steps-action">
                             {current > 0 && (
-                                <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
-                                    Previous
+                                <Button style={{ }} onClick={() => this.prev()}>
+                                    <i className="fa fa-arrow-left" style={{marginRight: "3px"}}></i>Bước trước
                                 </Button>
                             )}
                             {current < steps.length - 1 && (
-                                <Button type="primary" onClick={() => this.next()}>
-                                    Next
+                                <Button style={{marginLeft: "10px"}} type="primary" onClick={() => this.next()}>
+                                    <i className="fa fa-arrow-right" style={{marginRight: "3px"}}></i> Bước tiếp
                                 </Button>
                             )}
                             {current === steps.length - 1 && (
-                                <Button type="primary" onClick={this.handleSubmit}>
-                                    Done
+                                <Button style={{marginLeft: "10px"}} type="primary" onClick={this.handleSubmit}>
+                                   <i className="fa fa-check" style={{marginRight: "3px"}}></i> Hoàn tất
                                 </Button>
                             )}
 

@@ -15,15 +15,7 @@ class Legality extends Component {
 
         this.state = {
             uploadedFile: null,
-            governmentObj: {},
-            certificateUrl: '',
-            contractUrl: '',
-            governmentArray: [
-                {
-                    id: "ebf71hksx9vgjad10d8b", 
-                    url: "https://res.cloudinary.com/dne3aha8f/image/upload/v1559047249/ebf71hksx9vgjad10d8b.png"
-                }
-            ],
+            governmentArray: [],
             certificateArray: [],
             contractArray: [],
             currentDeleteImgIndex: null,
@@ -50,9 +42,6 @@ class Legality extends Component {
 
     handleGovernmentUpload(files) {
         console.log(files)
-        // this.setState({
-        //     uploadedFile: files[0]
-        // });
         files.map(file => {
             let upload = request.post(CLOUDINARY_UPLOAD_URL)
                 .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
@@ -66,60 +55,57 @@ class Legality extends Component {
 
                 if (response.body.secure_url !== '') {
                     this.setState({
-                        governmentObj: {url: response.body.secure_url, id: response.body.public_id},
-                        governmentArray: this.state.governmentArray.concat(this.state.governmentObj)
+                        governmentArray: this.state.governmentArray.concat({url: response.body.secure_url, id: response.body.public_id})
                     });
                 }
             });
         })
     }
     handleContractUpload(files) {
-        this.setState({
-            uploadedFile: files[0]
-        });
-        let upload = request.post(CLOUDINARY_UPLOAD_URL)
-            .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-            .field('file', files[0]);
+        files.map(file => {
+            let upload = request.post(CLOUDINARY_UPLOAD_URL)
+                .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+                .field('file', file);
 
-        upload.end((err, response) => {
-            if (err) {
-                console.error(err);
-            }
+            upload.end((err, response) => {
+                console.log(response)
+                if (err) {
+                    console.error(err);
+                }
 
-            if (response.body.secure_url !== '') {
-                this.setState({
-                    contractUrl: response.body.secure_url,
-                    contractArray: this.state.contractArray.push({ url: response.body.secure_url, id: response.body.public_id })
-                });
-            }
-        });
+                if (response.body.secure_url !== '') {
+                    this.setState({
+                        contractArray: this.state.contractArray.concat({url: response.body.secure_url, id: response.body.public_id})
+                    });
+                }
+            });
+        })
     }
     handleCertificateUpload(files) {
-        this.setState({
-            uploadedFile: files[0]
-        });
-        let upload = request.post(CLOUDINARY_UPLOAD_URL)
-            .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-            .field('file', files[0]);
+        files.map(file => {
+            let upload = request.post(CLOUDINARY_UPLOAD_URL)
+                .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+                .field('file', file);
 
-        upload.end((err, response) => {
-            if (err) {
-                console.error(err);
-            }
+            upload.end((err, response) => {
+                console.log(response)
+                if (err) {
+                    console.error(err);
+                }
 
-            if (response.body.secure_url !== '') {
-                this.setState({
-                    certificateUrl: response.body.secure_url,
-                    certificateArray: this.state.certificateArray.push({ url: response.body.secure_url, id: response.body.public_id })
-                });
-            }
-        });
+                if (response.body.secure_url !== '') {
+                    this.setState({
+                        certificateArray: this.state.certificateArray.concat({url: response.body.secure_url, id: response.body.public_id})
+                    });
+                }
+            });
+        })
     }
     onShowContractPreviewImage = (array) => {
         let result = []
         if (array && array.length > 0) {
             for (var i = 0; i < array.length; i++) {
-                result.push(<div className="col-md-2" key={i}>
+                result.push(<div className="col-md-3" key={i}>
                     <Image
                         className="imagepreview"
                         src={array[i].url}
@@ -128,7 +114,12 @@ class Legality extends Component {
                         onClick={this.onHandlePreviewImage}
                     >
                     </Image>
-                    <button type="button" className="close" aria-label="Close" style={{ left: "-20px", position: "relative", color: "#0A10C8" }} onClick={() => this.showContractDeleteConfirm(i)} name={array[i].id}>
+                    <button 
+                        type="button" 
+                        className="close" 
+                        aria-label="Close" 
+                        style={{top: "-100px", left: "-5px", position: "relative", color: "#0A10C8" }} 
+                        onClick={this.showContractDeleteConfirm} name={array[i].id} value={i}>
                         x
                     </button>
                 </div>)
@@ -151,7 +142,12 @@ class Legality extends Component {
                         onClick={this.onHandlePreviewImage}
                     >
                     </Image>
-                    <button type="button" className="close" aria-label="Close" style={{top: "-100px", left: "-5px", position: "relative", color: "#0A10C8" }} onClick={() => this.showCertificateDeleteConfirm(i)} name={array[i].id}>
+                    <button 
+                        type="button" 
+                        className="close" 
+                        aria-label="Close" 
+                        style={{top: "-100px", left: "-5px", position: "relative", color: "#0A10C8" }} 
+                        onClick={this.showCertificateDeleteConfirm} name={array[i].id} value={i}>
                         x
                     </button>
                 </div>)
@@ -162,6 +158,7 @@ class Legality extends Component {
     }
 
     onShowGovernmentPreviewImage = (array) => {
+        console.log(array.length)
         let result = []
         if (array && array.length > 0) {
             for (var i = 0; i < array.length; i++) {
@@ -174,7 +171,12 @@ class Legality extends Component {
                         onClick={this.onHandlePreviewImage}
                     >
                     </Image>
-                    <button type="button" className="close" aria-label="Close" style={{top: "-100px", left: "-5px", position: "relative", color: "#0A10C8" }} onClick={this.showGovernmentDeleteConfirm} name={array[i].id} value={i}>
+                    <button 
+                        type="button" 
+                        className="close" 
+                        aria-label="Close" 
+                        style={{top: "-100px", left: "-5px", position: "relative", color: "#0A10C8" }} 
+                        onClick={this.showGovernmentDeleteConfirm} name={array[i].id} value={i}>
                         x
                     </button>
                 </div>)
@@ -184,7 +186,8 @@ class Legality extends Component {
         return result
     }
 
-    showCertificateDeleteConfirm = (e) => {
+    showCertificateDeleteConfirm = (event) => {
+        var index = event.target.value
         confirm({
             title: 'Bạn muốn xóa hình này không?',
             okText: 'Có',
@@ -192,7 +195,7 @@ class Legality extends Component {
             cancelText: 'Trở lại',
             onOk: () => {
                 console.log('OK');
-                this.state.certificateArray.splice(e.target.value, 1)
+                this.state.certificateArray.splice(index, 1)
                 this.setState({
                     certificateArray: this.state.certificateArray
                 })
@@ -203,8 +206,8 @@ class Legality extends Component {
         });
     }
 
-    showGovernmentDeleteConfirm = (e) => {
-        console.log(e)
+    showGovernmentDeleteConfirm = (event) => {
+        var index = event.target.value
         confirm({
             title: 'Bạn muốn xóa hình này không?',
             okText: 'Có',
@@ -212,7 +215,7 @@ class Legality extends Component {
             cancelText: 'Trở lại',
             onOk: () => {
                 console.log('OK');
-                this.state.governmentArray.splice(e.target.value, 1)
+                this.state.governmentArray.splice(index, 1)
                 this.setState({
                     governmentArray: this.state.governmentArray
                 })
@@ -223,7 +226,8 @@ class Legality extends Component {
         });
     }
 
-    showContractDeleteConfirm = (currentDeleteImgIndex) => {
+    showContractDeleteConfirm = (event) => {
+        var index = event.target.value
         confirm({
             title: 'Bạn muốn xóa hình này không?',
             okText: 'Có',
@@ -231,7 +235,7 @@ class Legality extends Component {
             cancelText: 'Trở lại',
             onOk: () => {
                 console.log('OK');
-                this.state.contractArray.splice(currentDeleteImgIndex, 1)
+                this.state.contractArray.splice(index, 1)
                 this.setState({
                     contractArray: this.state.contractArray
                 })
@@ -313,6 +317,13 @@ class Legality extends Component {
                                 </div>
                             </div>
                         </Form.Item>
+                        <div className="col-md-8 col-lag-8 col-xs-12">
+                            <div className="row">
+                                <div className="clearfix">
+                                    {(contractArray && contractArray.length > 0) ? this.onShowContractPreviewImage(contractArray) : null}
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -342,6 +353,13 @@ class Legality extends Component {
                                 </div>
                             </div>
                         </Form.Item>
+                        <div className="col-md-8 col-lag-8 col-xs-12">
+                            <div className="row">
+                                <div className="clearfix">
+                                    {(certificateArray && certificateArray.length > 0) ? this.onShowCertificatePreviewImage(certificateArray) : null}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <Modal visible={previewImage} footer={null} onCancel={this.onHandleCancelImage} width="800px" style={{ height: "500px" }}>

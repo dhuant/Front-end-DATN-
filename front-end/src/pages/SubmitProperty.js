@@ -142,7 +142,7 @@ class SubmitProperty extends Component {
                 fullname: document.getElementById('contactname').value,
                 phone: document.getElementById('contactphonenumber').value,
                 email: document.getElementById('contactemail').value,
-                avatar: JSON.parse(localStorage.getItem('res')).user.avatar
+                avatar: JSON.parse(localStorage.getItem('res')).user.avatar === undefined ? localStorage.getItem('avatar') : JSON.parse(localStorage.getItem('res')).user.avatar
             }
             console.log(info);
             axios.post('http://localhost:3001/projects/', info, { headers: authHeader() })
@@ -204,23 +204,7 @@ class SubmitProperty extends Component {
         }
         this.getUrlList(urlArray, publicIdArray)
     }
-    // onShowMap = (visible) => {
-    //     if (visible) {
-    //         return (
-    //             <div style={{ paddingBottom: '80px' }}>
-    //                 <MapSearching
-    //                     google={this.props.google}
-    //                     center={{ lat: 10.7625626, lng: 106.6805316 }}
-    //                     height='300px'
-    //                     zoom={15}
-    //                 />
-    //             </div>
-    //         )
-    //     }
-    // }
-    // onHandleShowMap = () => {
-    //     this.setState({ visible: !this.state.visible })
-    // }
+
     render() {
         const { visible } = this.state;
         return (
