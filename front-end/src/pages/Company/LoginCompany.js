@@ -29,7 +29,10 @@ class Login extends Component {
             token: '', user: null
         })
     };
-
+    onResetPassword = (e) => {
+        e.preventDefault();
+        this.props.history.push('/company/forgotpassword');
+    }
 
     handleEmailChange = (e) => {
         // console.log(e.target.value);
@@ -85,7 +88,7 @@ class Login extends Component {
                                     {/* Main title */}
                                     <div className="main-title">
                                         <h1>
-                                            <span>Đăng nhập</span>
+                                            <span>Đăng nhập công ty</span>
                                         </h1>
                                     </div>
                                     {/* Form start */}
@@ -120,14 +123,14 @@ class Login extends Component {
                                             <div className="ez-checkbox pull-left">
                                                 <label>
                                                     <input type="checkbox" className="ez-hide" />
-                                                    Remember me
+                                                    Ghi nhớ đăng nhập
                                             </label>
                                             </div>
                                             <a
-                                                href="forgot-password.html"
+                                                onClick={this.onResetPassword}
                                                 className="link-not-important pull-right"
                                             >
-                                                Forgot Password
+                                                Quên mật khẩu?
                                             </a>
                                             <div className="clearfix" />
                                         </div>

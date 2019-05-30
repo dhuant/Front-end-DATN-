@@ -68,6 +68,7 @@ class ListEmployees extends Component {
         let isLoading = true;
         let userCompany = this.props.userCompany;
         dataSource = userCompany.employees;
+        
         return (
             <div>
                 <HeaderCompany />
@@ -101,7 +102,6 @@ class ListEmployees extends Component {
                                 {/* table start */}
                                 <table className="manage-table responsive-table">
                                     <Table dataSource={dataSource} columns={columns} />
-                                    
                                 </table>
                                 {/* table end */}
                             </div>

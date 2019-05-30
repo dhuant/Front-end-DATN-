@@ -26,13 +26,14 @@ import VerticalLinearStepper from '../src/components/Profile/VerticalLinearStepp
 
 import VerifyEmployee from './pages/Verify/VerifyEmployee'
 import VerifyCompany from './pages/Verify/VerifyCompany'
-
+import ForgotPasswordEmployee from './pages/Employee/ForgotPasswordEmployee'
 //=====import component cho company
 import LoginCompany from './pages/Company/LoginCompany'
 import ProfileAdmin from './pages/Company/ProfileAdmin'
 import ListEmployees from './pages/Company/ListEmployees'
 import AddAccount from './pages/Company/AddAccount'
 import ChangePasswordCompany from './pages/Company/ChangePasswordCompany'
+import ForgotPasswordCompany from './pages/Company/ForgotPasswordCompany'
 class App extends Component {
   render() {
     return (
@@ -65,7 +66,7 @@ class App extends Component {
             <Route exact path='/verifyemployee/:idc/:ide/:hash'component={VerifyEmployee}/>
             <Route exact path='/verifycompany/:id/:hash'component={VerifyCompany}/>
 
-
+            <Route exact path='/forgotpassword' component={ForgotPasswordEmployee}/>
             {/* Route cho company */}
 
             <Route exact path='/company/login' component={LoginCompany} />
@@ -73,6 +74,7 @@ class App extends Component {
             <Route exact path='/company/add-account-employee' component={AddAccount}/>
             <Route exact path='/company/list-employees' component={ListEmployees}/>
             <Route exact path='/company/changepassword' component={ChangePasswordCompany}/>
+            <Route exact path='/company/forgotpassword' component={ForgotPasswordCompany}/>
             {/* End route cho company */}
             <Route exact path='' component={NotFound} />
 
