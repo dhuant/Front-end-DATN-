@@ -24,6 +24,10 @@ class MainHeader extends Component {
         e.preventDefault();
         this.props.history.push('/news')
     }
+    onContactAgent = (e) => {
+        e.preventDefault();
+        this.props.history.push('/agents')
+    }
     onLogin = (e) => {
         e.preventDefault();
         this.props.history.push('/login');
@@ -280,88 +284,18 @@ class MainHeader extends Component {
                                             data-submenu
                                             aria-expanded="false"
                                         >
-                                            Blog<span className="caret" />
+                                            Danh bạ <span className="caret" />
                                         </a>
                                         <ul className="dropdown-menu">
-                                            <li className="dropdown-submenu">
-                                                <a href="true" tabIndex={0}>Classic</a>
-                                                <ul className="dropdown-menu">
-                                                    <li>
-                                                        <a
-                                                            className="dropdown-item"
-                                                            href="blog-classic-sidebar-right.html"
-                                                        >
-                                                            Right Sidebar
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            className="dropdown-item"
-                                                            href="blog-classic-sidebar-left.html"
-                                                        >
-                                                            Left Sidebar
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            className="dropdown-item"
-                                                            href="blog-classic-fullwidth.html"
-                                                        >
-                                                            FullWidth
-                                                        </a>
-                                                    </li>
-                                                </ul>
+                                            <li >
+                                                <a onClick={this.onContactAgent} href="true" tabIndex={0}>Nhà môi giới</a>
+                                                
                                             </li>
-                                            <li className="dropdown-submenu">
-                                                <a href="true" tabIndex={0}>Columns</a>
-                                                <ul className="dropdown-menu">
-                                                    <li>
-                                                        <a
-                                                            className="dropdown-item"
-                                                            href="blog-columns-2col.html"
-                                                        >
-                                                            2 Columns
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            className="dropdown-item"
-                                                            href="blog-columns-3col.html"
-                                                        >
-                                                            3 Columns
-                                                        </a>
-                                                    </li>
-                                                </ul>
+                                            <li >
+                                                <a href="true" tabIndex={0}>Công ty</a>
+                                                
                                             </li>
-                                            <li className="dropdown-submenu">
-                                                <a href="true" tabIndex={0}>Blog Details</a>
-                                                <ul className="dropdown-menu">
-                                                    <li>
-                                                        <a
-                                                            className="dropdown-item"
-                                                            href="blog-single-sidebar-right.html"
-                                                        >
-                                                            Right Sidebar
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            className="dropdown-item"
-                                                            href="blog-single-sidebar-left.html"
-                                                        >
-                                                            Left Sidebar
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            className="dropdown-item"
-                                                            href="blog-single-fullwidth.html"
-                                                        >
-                                                            Fullwidth
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
+                                            
                                         </ul>
                                     </li>
                                 </ul>
