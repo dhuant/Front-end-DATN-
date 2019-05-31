@@ -32,6 +32,8 @@ import ForgotPasswordEmployee from './pages/Employee/ForgotPasswordEmployee'
 //import component agent
 import ListAgents from './pages/Contact/ListAgents'
 import ListCompaies from './pages/Contact/ListCompanies'
+import AgentDetail from './pages/Contact/AgentDetail'
+import CompanyDetail from './pages/Contact/CompanyDetail'
 //==============
 //=====import component cho company
 import LoginCompany from './pages/Company/LoginCompany'
@@ -77,6 +79,8 @@ class App extends Component {
             {/* Agent */}
             <Route exact path='/agents' component={ListAgents}/>
             <Route exact path='/companies' component={ListCompaies}/>
+            <Route exact path='/agentdetail' component={AgentDetail}/>
+            <Route exact path='/companydetail' component={CompanyDetail}/>
 
             {/* ---------- */}
             {/* Route cho company */}
