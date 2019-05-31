@@ -28,6 +28,10 @@ class MainHeader extends Component {
         e.preventDefault();
         this.props.history.push('/agents')
     }
+    onContactCompany = (e) => {
+        e.preventDefault();
+        this.props.history.push('/companies')
+    }
     onLogin = (e) => {
         e.preventDefault();
         this.props.history.push('/login');
@@ -292,7 +296,7 @@ class MainHeader extends Component {
                                                 
                                             </li>
                                             <li >
-                                                <a href="true" tabIndex={0}>Công ty</a>
+                                                <a onClick={this.onContactCompany} href="true" tabIndex={0}>Công ty</a>
                                                 
                                             </li>
                                             
