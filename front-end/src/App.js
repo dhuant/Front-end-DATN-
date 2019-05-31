@@ -28,6 +28,10 @@ import Stepper from '../src/components/Profile/Stepper'
 import VerifyEmployee from './pages/Verify/VerifyEmployee'
 import VerifyCompany from './pages/Verify/VerifyCompany'
 import ForgotPasswordEmployee from './pages/Employee/ForgotPasswordEmployee'
+
+//import component agent
+import ListAgents from './pages/Contact/ListAgents'
+//==============
 //=====import component cho company
 import LoginCompany from './pages/Company/LoginCompany'
 import ProfileAdmin from './pages/Company/ProfileAdmin'
@@ -69,6 +73,9 @@ class App extends Component {
             <Route exact path='/verifycompany/:id/:hash'component={VerifyCompany}/>
 
             <Route exact path='/forgotpassword' component={ForgotPasswordEmployee}/>
+            {/* Agent */}
+            <Route exact path='/agents' component={ListAgents}/>
+            {/* ---------- */}
             {/* Route cho company */}
 
             <Route exact path='/company/login' component={LoginCompany} />
