@@ -102,7 +102,9 @@ class Comments extends Component {
     }
 
     onShowCommentHandle = (comment) => {
-        if (comment.user.id === JSON.parse(localStorage.getItem('res')).user._id) {
+        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
+            return null
+        else if (localStorage.getItem('res') !== null && comment.user.id === JSON.parse(localStorage.getItem('res')).user._id) {
             return (
                 <React.Fragment>
                     <div className="comment-meta-reply">
@@ -114,7 +116,6 @@ class Comments extends Component {
                 </React.Fragment>
             )
         }
-        else return null
     }
 
     render() {

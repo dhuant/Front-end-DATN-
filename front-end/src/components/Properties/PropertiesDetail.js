@@ -222,6 +222,10 @@ class PropertiesDetail extends Component {
     }
 
     onHandleFollowing = (estateInfo, check) => {
+        if(localStorage.getItem('res') === null){
+            message.warning('Bạn cần đăng nhập trước!')
+            return <Login />
+        }
         var followInfo = {
             projectid: estateInfo._id,
             createTime: moment().unix(),
@@ -533,7 +537,7 @@ class PropertiesDetail extends Component {
                                         </div>
                                         <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                             <div className="form-group send-btn mb-0">
-                                                <Button type="primary" onClick={() => { this.onPostingComments(info) }}>Đăng bình luận</Button>
+                                                <Button type="primary" onClick={() => this.onPostingComments(info) }>Đăng bình luận</Button>
                                             </div>
                                         </div>
                                     </div>
