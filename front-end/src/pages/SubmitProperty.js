@@ -16,18 +16,16 @@ import LoginModal from '../components/LoginModal'
 
 const Types = [
     { value: '1', label: 'Chung cư. căn hộ' },
-    { value: '2', label: 'Nhà phố' },
-    { value: '3', label: 'Biệt thự' },
-    { value: '4', label: 'Đất nền dự án' },
-    { value: '5', label: 'Văn phòng' },
-    { value: '6', label: 'Nhà kho' }
+    { value: '2', label: 'Nhà ở' },
+    { value: '3', label: 'Đất' },
+    { value: '4', label: 'Văn phòng, mặt bằng kinh doanh' },
+
 ];
 
 const Status = [
-    { value: '1', label: 'Sell' },
-    { value: '2', label: 'Rented' },
-    { value: '3', label: 'Sold' },
-    { value: '4', label: 'Rent' },
+    { value: '1', label: 'Bất động sản bán' },
+    { value: '3', label: 'Bất động sản thuê' },
+   
 ];
 
 const Unit = [
@@ -315,7 +313,7 @@ class SubmitProperty extends Component {
                                                             className="input-text"
                                                             name="price"
                                                             id="price"
-                                                            placeholder="USD"
+                                                            placeholder="Nhập giá bán"
                                                             // onChange={this.onHandleChange}
                                                             required
                                                         />
