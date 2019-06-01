@@ -109,7 +109,7 @@ export const actGetEstateListOfUserRequest = () => {
       if (res.data.status === 200)
         dispatch(Action.actGetEstateListOfUser(res.data.projects))
       console.log(res);
-      return message.success("Lấy danh sách bài viết của tài khoản thành công!")
+      // return message.success("Lấy danh sách bài viết của tài khoản thành công!")
     })
       .catch(err => {
         if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)

@@ -3,8 +3,9 @@ import Sidebar from "./Sidebar";
 import { connect } from "react-redux";
 import Comments from './Comments'
 import * as actions from '../../actions/request'
+import * as transAction from '../../actions/transactionRequest'
 import MapOfDetailEstate from "./MapOfDetailEstate";
-import { Rate, message, Button, Pagination } from 'antd'
+import { Rate, message, Button, Pagination, Modal, Form, InputNumber, Input, Icon } from 'antd'
 import moment from 'moment'
 import Chart from 'react-apexcharts'
 import Login from '../../pages/Login'
@@ -19,6 +20,7 @@ class PropertiesDetail extends Component {
             starValue: 0,
             content: '',
             isFollow: false,
+            requestVisible: false,
             options: {
                 annotations: {
                     position: 'front'
@@ -222,7 +224,7 @@ class PropertiesDetail extends Component {
     }
 
     onHandleFollowing = (estateInfo, check) => {
-        if(localStorage.getItem('res') === null){
+        if (localStorage.getItem('res') === null) {
             message.warning('Bạn cần đăng nhập trước!')
             return <Login />
         }
@@ -246,7 +248,31 @@ class PropertiesDetail extends Component {
         else return null
 
     }
+
+    onShowRequestModal = () => {
+        if (localStorage.getItem("res") === null)
+            return message.warning("Vui lòng đăng nhập trước!")
+        this.setState({ requestVisible: true })
+    }
+
+    onHandleCancelRequestModal = () => {
+        this.setState({ requestVisible: false })
+    }
+
+    onSendingRequest = (projectid) => {
+        var waitingInfo = {
+            projectid: projectid,
+            createTime: moment().unix(),
+            money: document.getElementById("offerPrice").value,
+            description: document.getElementById("moreRequest").value
+        }
+        console.log(waitingInfo)
+        this.props.onSendingRequest(waitingInfo)
+        this.onHandleCancelRequestModal()
+    }
+
     render() {
+        const { getFieldDecorator } = this.props.form
         let { info, comments, follow } = this.props;
         let check = false
         if (follow && follow.length > 0 && info) {
@@ -333,7 +359,7 @@ class PropertiesDetail extends Component {
                                 </li>
                                 <li className style={{ top: "4px", left: "20px" }}>
                                     <div className="form-group mb-0">
-                                        <button className="transaction-button">Tiến hành giao dịch<i className="fa fa-bitcoin" style={{marginLeft: "5px"}}></i></button>
+                                        <button className="transaction-button" onClickCapture={this.onShowRequestModal}>Tiến hành giao dịch<i className="fa fa-bitcoin" style={{ marginLeft: "5px" }}></i></button>
                                     </div>
                                 </li>
                             </ul>
@@ -537,7 +563,7 @@ class PropertiesDetail extends Component {
                                         </div>
                                         <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                             <div className="form-group send-btn mb-0">
-                                                <Button type="primary" onClick={() => this.onPostingComments(info) }>Đăng bình luận</Button>
+                                                <Button type="primary" onClick={() => this.onPostingComments(info)}>Đăng bình luận</Button>
                                             </div>
                                         </div>
                                     </div>
@@ -549,8 +575,48 @@ class PropertiesDetail extends Component {
                     {/* Properties details section end */}
                 </div>
                 <Sidebar info={info} />
+                <Modal
+                    title="Gửi yêu cầu giao dịch"
+                    style={{ top: 20 }}
+                    visible={this.state.requestVisible}
+                    onOk={() => this.onSendingRequest(info._id)}
+                    onCancel={this.onHandleCancelRequestModal}
+                >
+                    <Form>
+                        <div className="row">
+                            <div className="col-md-12 col-lg-12 col-xs-12">
+                                <Form.Item label="Nhập mức giá mong muốn: ">
+                                    {getFieldDecorator('offerPrice', {
+                                        rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
+                                    })(
+                                        <InputNumber
+                                            id="offerPrice"
+                                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                            style={{ width: "100%" }}
+                                        />,
+                                    )}
+                                </Form.Item>
+                            </div>
+                        </div>
+                        <br></br>
+                        <div className="row">
+                            <div className="col-md-12 col-lg-12 col-xs-12">
+                                <Form.Item label="Yêu cầu thêm (nếu có): ">
+                                    <Input.TextArea
+                                        id="moreRequest"
+                                        style={{ width: "100%" }}
+                                        placeholder="Thông tin thêm..."
+                                        autosize={{ minRows: 2, maxRows: 6 }}
+                                    >
+
+                                    </Input.TextArea>
+                                </Form.Item>
+                            </div>
+                        </div>
+                    </Form>
+                </Modal>
             </div >
-        );
+        )
     }
     ShowComments = (comments) => {
         var result = null;
@@ -573,13 +639,17 @@ const mapDispathToProp = (dispatch) => {
         onPostComment: (data, user) => dispatch(actions.actPostingCommentRequest(data, user)),
         onFollowProject: (data, project) => dispatch(actions.actFollowProjectRequest(data, project)),
         onGetFollowingList: () => dispatch(actions.actGetFollowingListRequest()),
-        onUnfollowProject: (data) => dispatch(actions.actUnfollowProjectRequest(data))
+        onUnfollowProject: (data) => dispatch(actions.actUnfollowProjectRequest(data)),
+        onSendingRequest: (data) => dispatch(transAction.actAddingWaitingRequest(data))
     }
 }
 const mapStateToProp = (state) => {
     return {
         comments: state.comments,
-        follow: state.follow
+        follow: state.follow,
+        waiting: state.waiting
     }
 }
-export default connect(mapStateToProp, mapDispathToProp)(PropertiesDetail);
+
+const WrappedFormPropertiesDetail = Form.create()(PropertiesDetail)
+export default connect(mapStateToProp, mapDispathToProp)(WrappedFormPropertiesDetail);

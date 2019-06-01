@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { MY_PROPERTIES, MY_FOLLOWING, SUBMIT_ESTATE, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY } from '../../constants/Profile'
+import { MY_PROPERTIES, MY_FOLLOWING, SUBMIT_ESTATE, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY, WAITING_REQUEST } from '../../constants/Profile'
 import Dropzone from 'react-dropzone'
 import request from 'superagent'
 import {connect} from 'react-redux'
@@ -73,6 +73,10 @@ class Info extends Component {
     onShowTransactionHistory = (e) => {
         e.preventDefault()
         this.props.history.push('/transhistory')
+    }
+    onShowWaitingRequest = (e) => {
+        e.preventDefault()
+        this.props.history.push('/waiting')
     }
     componentDidMount =() => {
         this.props.onGetUserInfo()
@@ -167,6 +171,11 @@ class Info extends Component {
                             <li>
                                 <a href="true" onClick={this.onShowTransactionHistory} className={this.props.component === MY_TRANSACTION_HISTORY ? "active" : ""}>
                                     <i className="flaticon-internet" />Lịch sử giao dịch
+                                </a>
+                            </li>
+                            <li>
+                                <a href="true" onClick={this.onShowWaitingRequest} className={this.props.component === WAITING_REQUEST ? "active" : ""}>
+                                    <i className="fa fa-location-arrow" />Danh sách yêu cầu
                                 </a>
                             </li>
                             <li>

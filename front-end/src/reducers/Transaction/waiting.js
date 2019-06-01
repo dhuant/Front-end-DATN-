@@ -6,6 +6,7 @@ const waiting = (state = initialState, action) => {
     switch (action.type) {
         case Types.GET_REQUEST_LIST:
             console.log(action, state)
+            state = action.waiting
             return {...state}
         case Types.ADD_WAITING_REQUEST:
             console.log(action, state)

@@ -149,10 +149,12 @@ export const actPostingTransferRequest = (transferInfo) => {
     }
 }
 
-export const actGettingWaitingListRequest = (requestData) => {
+export const actGettingWaitingListRequest = (id) => {
+    console.log(id)
     return dispatch => {
-        return axios.get("http://localhost:3001/transaction/listrequest", requestData, { headers: authHeader() })
+        return axios.get(`http://localhost:3001/transaction/listrequest/${id}`,{ headers: authHeader() })
             .then(res => {
+                // console.log(res)
                 dispatch(Action.actGettingRequestList(res.data.result))
             })
             .catch(error => {
@@ -165,6 +167,7 @@ export const actAddingWaitingRequest = (waitingData) => {
     return dispatch => {
         return axios.post("http://localhost:3001/transaction/addwaitingrequest", waitingData, { headers: authHeader() })
             .then(res => {
+                console.log(res)
                 if (res.data.status === 201) {
                     dispatch(Action.actAddingWaitingRequest(res.data.result))
                 }
@@ -172,6 +175,8 @@ export const actAddingWaitingRequest = (waitingData) => {
                     message.warning('Bất động sản này đang trong quá trình giao dịch!')
                 else if (res.data.status === 204)
                     message.warning('Bất động sản này đã đạt yêu cầu tối đa! Vui lòng quay lại sau!')
+                else if (res.data.status === 206)
+                    message.warning('Bạn đã gửi yêu cầu giao dịch trước đó rồi!')
             })
             .catch(error => {
                 message.error(`Có lỗi xảy ra: ${error}`)
