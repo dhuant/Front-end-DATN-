@@ -35,7 +35,7 @@ class ListAgents extends Component {
 			// else if(option === '4') {
 			// 	agents = agents.sort((a, b) => (b.area - a.area))
 			// }
-			des = `Có ${agents.length} nhà môi giới`
+			des = `Hiện đang có ${agents.length} nhà môi giới đang hoạt động trên hệ thống`
 			listAgents = agents.map((agent, index) => {
 				return (
 					<Agent
@@ -78,6 +78,7 @@ class ListAgents extends Component {
                         </div>
                         {/* option bar end */}
                         <div class="clearfix"></div>
+                        <div><h4>{des}</h4></div>
                         <div className="row">
                             {listAgents}
                         </div>
