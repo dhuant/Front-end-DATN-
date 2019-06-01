@@ -2,9 +2,61 @@ import React, { Component } from 'react';
 import MainHeader from '../../components/MainHeader'
 import SidebarAgentDetail from '../../components/ContactDetail/SidebarAgentDetail';
 import InfoEstateOfAgent from '../../components/ContactDetail/InfoEstateOfAgent';
-
+import * as actions from '../../actions/Contact/requestContact';
+import { connect } from 'react-redux';
 class AgentDetail extends Component {
+    constructor(props) {
+        super(props);
+        this.state={
+            page: 1,
+        }
+    }
+    componentDidMount(){
+        this.props.reqGetInfoAgent(this.props.match.params.id, this.state.page);
+    }
     render() {
+        let {info, projects} = this.props;
+        console.log(info);
+        console.log(projects);
+        let des = 'Hiện chưa có bài đăng'
+        let listProjects = ''
+        if (projects.length > 0) {
+			// if (option === '1') {
+			// 	agents = agents.sort((a, b) => (a.price - b.price))
+			// }
+			// else if(option === '2'){
+			// 	agents = agents.sort((a, b) => (b.price - a.price))
+			// }
+			// else if(option === '3') {
+			// 	agents = agents.sort((a, b) => (a.area - b.area))
+			// }
+			// else if(option === '4') {
+			// 	agents = agents.sort((a, b) => (b.area - a.area))
+			// }
+			des = `Hiện đang có ${projects.length} bài đăng`
+			listProjects = projects.map((project, index) => {
+				return (
+					<InfoEstateOfAgent
+						key={index}
+						project={project}
+					/>
+				)
+			}
+			)
+        }
+        let company = 'Môi giới tự do'
+        if (info.company !== "0") {
+            company = info.company
+        }
+        let mobile = 'Đang cập nhật'
+        if(info.phone !==''){
+            mobile = info.phone
+        }
+        let address = 'Đang cập nhật'
+            
+        if (info.address !== '') {
+            address = info.address
+        }
         return (
             <div>
                 <MainHeader />
@@ -30,75 +82,68 @@ class AgentDetail extends Component {
                         <div className="row">
                             <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                                 {/* Agent detail start */}
-                                <div className="agent-detail clearfix">
+                                <div className="agent-detail clearfix" style={{height:'285px'}}>
                                     <div className="col-lg-5 col-md-6 col-sm-5 agent-theme">
-                                        <img src="img/agent-1.jpg" alt="agent-1" className="img-responsive" />
+                                        <img src={info.avatar} style={{height:'280px',width:'290px'}} alt="agent-1" className="img-responsive" />
                                     </div>
                                     <div className="col-lg-7 col-md-6 col-sm-7 agent-content clearfix">
                                         {/* <h5>Creative Director</h5> */}
                                         <h3>
-                                            John Antony
+                                            {info.fullname}
                                         </h3>
                                         {/* Address list */}
                                         <ul className="address-list">
-                                            <li>
+                                            {/* <li>
                                                 <span>
                                                     <i className="fa fa-tag" />Title:
                                                 </span>
                                                 John Antony
-                                            </li>
+                                            </li> */}
                                             <li>
                                                 <span>
                                                     <i className="fa fa-envelope" />Email:
                                                 </span>
-                                                info@themevessel.com
+                                                {info.email}
                                             </li>
                                             <li>
                                                 <span>
-                                                    <i className="fa fa-phone" />Office:
+                                                    <i className="fa fa-phone" />Công ty:
                                                 </span>
-                                                +55 4XX-634-7071
+                                                {company}
                                             </li>
                                             <li>
                                                 <span>
-                                                    <i className="fa fa-mobile" />Mobile:
+                                                    <i className="fa fa-mobile" />Điện thoại:
                                                 </span>
-                                                +55 4XX-634-7071
+                                                {mobile}
                                             </li>
                                             <li>
                                                 <span>
-                                                    <i className="fa fa-skype" />Skype:
+                                                <i class="fa fa-map-marker"/>Điện thoại:
                                                 </span>
-                                                john.antony
+                                                {address}
                                             </li>
+                                            
                                         </ul>
-                                        <div className="social-media">
-                                            {/* Social list */}
-                                            <ul className="social-list">
-                                                <li><a href="true" className="facebook-bg"><i className="fa fa-facebook" /></a></li>
-                                                <li><a href="true" className="twitter-bg"><i className="fa fa-twitter" /></a></li>
-                                                <li><a href="true" className="linkedin-bg"><i className="fa fa-linkedin" /></a></li>
-                                                <li><a href="true" className="google-bg"><i className="fa fa-google-plus" /></a></li>
-                                                <li><a href="true" className="rss-bg"><i className="fa fa-rss" /></a></li>
-                                            </ul>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 {/* Agent detail end */}
                                 <div className="sidebar-widget clearfix biography">
                                     {/* Main Title 2 */}
                                     <div className="main-title-2">
-                                        <h1><span>Mô tả</span></h1>
+                                        <h1><span>Giới thiệu</span></h1>
                                     </div>
-                                    <p>
-                                        Mô tả thông tin ở đây
-                                    </p>
+                                    {<div dangerouslySetInnerHTML={{__html: info.description}} ></div>}
+                                    {/* <p>
+                                        {info.description}
+                                    </p> */}
 
                                     <br />
                                     <div className="panel-box">
                                         <ul className="nav nav-tabs">
-                                            <li className="active"><a href="#tab1default" data-toggle="tab" aria-expanded="true">Additional Details</a></li>
-                                            <li className><a href="#tab2default" data-toggle="tab" aria-expanded="false">Attachments</a></li>
+                                            <li className="active"><a href="#tab1default" data-toggle="tab" aria-expanded="true">Thông tin thêm</a></li>
+                                            <li className><a href="#tab2default" data-toggle="tab" aria-expanded="false">Bằng cấp</a></li>
                                         </ul>
                                         <div className="panel with-nav-tabs panel-default">
                                             <div className="panel-body">
@@ -141,7 +186,7 @@ class AgentDetail extends Component {
                                 <div className="recently-properties">
                                     {/* Main title */}
                                     <div className="main-title-2">
-                                        <h1><span>Danh sách bài đăng</span> </h1>
+                                        <h4><span>{des}</span> </h4>
                                     </div>
                                     {/* Option bar start */}
                                     <div className="option-bar">
@@ -151,7 +196,7 @@ class AgentDetail extends Component {
                                                     <span className="heading-icon">
                                                         <i className="fa fa-th-list" />
                                                     </span>
-                                                    <span className="hidden-xs">Properties List</span>
+                                                    <span className="hidden-xs">Danh sách bài đăng</span>
                                                 </h4>
                                             </div>
                                             <div className="col-lg-6 col-md-7 col-sm-7 col-xs-10 cod-pad">
@@ -170,9 +215,7 @@ class AgentDetail extends Component {
                                     {/* Option bar end */}
                                     <div className="clearfix" />
                                     <div className="row">
-                                        <InfoEstateOfAgent />
-                                        <InfoEstateOfAgent />
-                                        <InfoEstateOfAgent />
+                                        {listProjects}
                                     </div>
                                 </div>
                                 {/* Partners block end */}
@@ -189,4 +232,15 @@ class AgentDetail extends Component {
     }
 }
 
-export default AgentDetail;
+const mapDispathToProp = (dispatch) => {
+    return {
+        reqGetInfoAgent: (id, page) => dispatch(actions.reqGetInfoAgent(id,page))
+    }
+}
+const mapStateToProp = (state) => {
+    return {
+        info: state.infoAgent,
+        projects: state.projectsOfAgent
+    }
+}
+export default connect(mapStateToProp, mapDispathToProp)(AgentDetail);
