@@ -38,30 +38,37 @@ const Area = [
     { value: '200-250', label: '200 - 250 m2' },
     { value: '250-300', label: '250 - 300 m2' },
     { value: '300-500', label: '300 - 500 m2' },
-    { value: '500-10000', label: '>500 m2' },
+    { value: '500-10000', label: '> 500 m2' },
 
 ];
 const Price = {
     1: [
         { value: '0', label: 'Chọn giá' },
-        { value: '1-500', label: '<500 triệu' },
-        { value: '500-1000', label: '500triệu - 1 tỷ' },
-        { value: '1000-2000', label: '1 - 2tỷ' },
-        { value: '2000-3000', label: '2 - 3tỷ' },
-        { value: '3000-5000', label: '3 - 5tỷ' },
-        { value: '5000-7000', label: '5 - 7tỷ' },
-        { value: '7000-10000', label: '7 - 10tỷ' },
-        { value: '10000-20000', label: '10 - 20tỷ' },
-        { value: '20000-30000', label: '20 - 30tỷ' },
-        { value: '30000-999999', label: '>30tỷ' }
+        { value: '1-500', label: '< 500 triệu' },
+        { value: '500-1000', label: '500 triệu - 1 tỷ' },
+        { value: '1000-2000', label: '1 - 2 tỷ' },
+        { value: '2000-3000', label: '2 - 3 tỷ' },
+        { value: '3000-5000', label: '3 - 5 tỷ' },
+        { value: '5000-7000', label: '5 - 7 tỷ' },
+        { value: '7000-10000', label: '7 - 10 tỷ' },
+        { value: '10000-20000', label: '10 - 20 tỷ' },
+        { value: '20000-30000', label: '20 - 30 tỷ' },
+        { value: '30000-999999', label: '>30 tỷ' }
 
     ],
     3: [
         { value: '0', label: 'Chọn giá' },
-        { value: '1-3', label: '< 3triệu/tháng' },
+        { value: '1-3', label: '< 3 triệu/tháng' },
         { value: '3-5', label: '3-5 triệu' }
     ],
 };
+const Radius = [
+    { value: '2', label: 'Bán kính 2km' },
+    { value: '3', label: 'Bán kính 3km' },
+    { value: '5', label: 'Bán kính 5km' },
+    { value: '10', label: 'Bán kính 10km' },
+];
+
 class EstateMapContainer extends Component {
     constructor(props) {
         super(props);
@@ -77,6 +84,7 @@ class EstateMapContainer extends Component {
             prices: Price[Deal[0].value],
             area: Area[0].value,
             activeMarker: null,
+            radius: Radius[2].value,
 
             currentLatLng: {
                 lat: 10.792502,
@@ -122,7 +130,7 @@ class EstateMapContainer extends Component {
     componentDidMount() {
         console.log(" ----- Did mount");
         var info = {
-            radius: 5,
+            radius: this.state.radius,
             lat: this.state.currentLatLng.lat.toString(),
             long: this.state.currentLatLng.lng.toString(),
         };
@@ -163,7 +171,7 @@ class EstateMapContainer extends Component {
                     console.log("----center");
                     console.log(this.state.center);
                     var info = {
-                        radius: 5,
+                        radius: this.state.radius,
                         lat: this.state.currentLatLng.lat.toString(),
                         long: this.state.currentLatLng.lng.toString(),
                         statusProject: this.state.deal,
@@ -207,7 +215,7 @@ class EstateMapContainer extends Component {
         // this.getMapBounds()
         this.setMapCenterPoint()
         var info = {
-            radius: 5,
+            radius: this.state.radius,
             lat: this.state.center.lat.toString(),
             long: this.state.center.lng.toString(),
             statusProject: this.state.deal,
@@ -312,7 +320,7 @@ class EstateMapContainer extends Component {
         let info = {
             lat: this.state.searchLatLng.lat,
             long: this.state.searchLatLng.lng,
-            radius: 5,
+            radius: this.state.radius,
             statusProject: this.state.deal,
             type: this.state.type,
             area: this.state.area,
@@ -322,7 +330,7 @@ class EstateMapContainer extends Component {
         console.log(info);
     }
     render() {
-        let { currentLatLng, type, deal, prices, price, area } = this.state;
+        let { currentLatLng, type, deal, prices, price, area, radius } = this.state;
         const { estates } = this.props;
         console.log(" ----- render")
         console.log(estates);
@@ -347,71 +355,115 @@ class EstateMapContainer extends Component {
                 <div className="properties-map-search" style={{ backgroundColor: '#5d1070' }}>
                     <div className="properties-map-search-content" style={{ paddingTop: '5px' }}>
                         <div className="row">
-                            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12" style={{ paddingLeft: '15px', paddingRight: '0px' }}>
-                                <div className="form-group" style={{ paddingLeft: '5px', paddingRight: '5px', marginLeft: '5px', marginRight: '10px', marginBottom: '10px' }}>
-                                    <Searching onPlaceChanged={this.onPlaceSelected} style={optionStyle} />
+                            <div className="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                                {/* <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12" style={{ paddingLeft: '15px', paddingRight: '0px' }}> */}
+                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12" >
+                                {/* style={{ paddingLeft: '5px', paddingRight: '5px', marginLeft: '5px', marginRight: '10px', marginBottom: '10px' }} */}
+                                    <div className="form-group" > 
+                                        <Searching onPlaceChanged={this.onPlaceSelected} style={optionStyle} />
+                                    </div>
+
                                 </div>
 
-                            </div>
+                                {/* <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" style={colStyle}>
+                                    <div className="form-group" style={fomrGroupStyle}> */}
+                                <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" >
+                                    <div className="form-group" >
+                                        <select className="form-control"
+                                            name="deal"
+                                            value={deal}
+                                            onChange={this.handleProvinceChange}
+                                            id="sel1"
+                                            style={optionStyle}
+                                        >
+                                            {Deal.map((deal, index) => <option key={index} value={deal.value}>{deal.label}</option>)}
 
-                            <div className="col-lg-2 col-md-3 col-sm-6 col-xs-12" style={colStyle}>
-                                <div className="form-group" style={fomrGroupStyle}>
-                                    <select className="form-control"
-                                        name="deal"
-                                        value={deal}
-                                        onChange={this.handleProvinceChange}
-                                        id="sel1"
-                                        style={optionStyle}
-                                    >
-                                        {Deal.map((deal, index) => <option key={index} value={deal.value}>{deal.label}</option>)}
+                                        </select>
+                                    </div>
+                                </div>
+                                {/* <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" style={colStyle}>
+                                    <div className="form-group" style={fomrGroupStyle}> */}
+                                <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" >
+                                    <div className="form-group" >
+                                        <select className="form-control"
+                                            name="type"
+                                            value={type}
+                                            onChange={this.handleOnChange}
+                                            id="sel2"
+                                            style={optionStyle}
+                                        >
+                                            {Types.map((type, index) => <option key={index} value={type.value}>{type.label}</option>)}
 
-                                    </select>
+                                        </select>
+                                    </div>
+                                </div>
+                                {/* <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12" style={colStyle}>
+                                    <div className="form-group" style={fomrGroupStyle}> */}
+                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div className="form-group" >
+                                        <select className="form-control"
+                                            name="area"
+                                            value={area}
+                                            onChange={this.handleOnChange}
+                                            id="area"
+                                            style={optionStyle} >
+                                            {Area.map((area, index) => <option key={index} value={area.value}>{area.label}</option>)}
+
+                                        </select>
+                                    </div>
+                                </div>
+                                {/* <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" style={colStyle}>
+                                    <div className="form-group" style={fomrGroupStyle}> */}
+                                <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" >
+                                    <div className="form-group" >
+                                        <select className="form-control"
+                                            name="price"
+                                            value={price}
+                                            onChange={this.handleOnChange}
+                                            id="sel3"
+                                            style={optionStyle} >
+                                            {prices.map((price, index) => <option key={index} value={price.value}>{price.label}</option>)}
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" >
+                                    <div className="form-group" >
+                                        <select className="form-control"
+                                            name="radius"
+                                            value={radius}
+                                            onChange={this.handleOnChange}
+                                            id="sel4"
+                                            style={optionStyle} >
+                                            {Radius.map((radius, index) => <option key={index} value={radius.value}>{radius.label}</option>)}
+
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="col-lg-2 col-md-3 col-sm-6 col-xs-12" style={colStyle}>
-                                <div className="form-group" style={fomrGroupStyle}>
-                                    <select className="form-control"
-                                        name="type"
-                                        value={type}
-                                        onChange={this.handleOnChange}
-                                        id="sel2"
-                                        style={optionStyle}
-                                    >
-                                        {Types.map((type, index) => <option key={index} value={type.value}>{type.label}</option>)}
-
-                                    </select>
+                            <div 
+                            className="col-lg-2 col-md-2 col-sm-12  col-xs-12" 
+                            style={{ height: '90px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                position:'relative'}}>
+                                    
+                                <div>
+                                <button
+                                    onClick={this.onSearchMap}
+                                    type="button" class="btn btn-success"
+                                    style={{width:'100px'}}
+                                >
+                                    Tìm kiếm
+                                    </button>
                                 </div>
+                                
                             </div>
-                            <div className="col-lg-2 col-md-3 col-sm-6 col-xs-12" style={colStyle}>
-                                <div className="form-group" style={fomrGroupStyle}>
-                                    <select className="form-control"
-                                        name="area"
-                                        value={area}
-                                        onChange={this.handleOnChange}
-                                        id="area"
-                                        style={optionStyle} >
-                                        {Area.map((area, index) => <option key={index} value={area.value}>{area.label}</option>)}
 
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-2 col-sm-6 col-xs-12" style={colStyle}>
-                                <div className="form-group" style={fomrGroupStyle}>
-                                    <select className="form-control"
-                                        name="price"
-                                        value={price}
-                                        onChange={this.handleOnChange}
-                                        id="sel3"
-                                        style={optionStyle} >
-                                        {prices.map((price, index) => <option key={index} value={price.value}>{price.label}</option>)}
-
-                                    </select>
-                                </div>
-                            </div>
                         </div>
 
-                        <div className='row'>
-                            {/* < style={{ float: "right", paddingRight: '15px', margin: '0px 10px 10px 20px' }}> */}
+                        {/* <div className='row'>
                             <div clasName="col-lg-12 col-md-6 col-sm-6 col-xs-12" style={{ float: "right", paddingRight: '28px' }}>
                                 <button
                                     onClick={this.onSearchMap}
@@ -420,7 +472,7 @@ class EstateMapContainer extends Component {
                                 >
                                     Tìm kiếm</button>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div>
@@ -439,6 +491,7 @@ class EstateMapContainer extends Component {
                             closeOtherMarkers={this.closeOtherMarkers}
                             onMapMounted={this.handleMapMounted}
                             handleMapChanged={this.handleMapChanged}
+                            radius={radius}
                         // onZoomChange={this.onZoomChange}
                         // handleMapFullyLoaded={this.handleMapFullyLoaded}
                         >

@@ -35,7 +35,7 @@ const EstatesMap = withScriptjs(withGoogleMap((props) => {
     >
       <Circle
         center={{ lat: props.center.lat, lng: props.center.lng }}
-        radius={5000}
+        radius={props.radius * 1000}
         options={{ fillColor: "rgb(139, 139, 145)", fillOpacity: 0.3, strokeOpacity: 0.2 }}
       >
       </Circle>
