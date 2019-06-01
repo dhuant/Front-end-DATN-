@@ -1,9 +1,51 @@
 import React, { Component } from 'react';
 import MainHeader from '../../components/MainHeader'
 import Agent from '../../components/Contact/Agent'
+import Footer from '../../components/Footer'
+import * as actions from '../../actions/Contact/requestContact';
+import { connect } from 'react-redux';
 
 class ListAgents extends Component {
+    constructor(props) {
+        super(props);
+        this.state ={
+            page: 1,
+        }
+        this.props.reqGetListAgents(this.state.page);
+
+    }
+    componentDidMount(){
+        this.props.reqGetListAgents(this.state.page);
+    }
     render() {
+        let {agents} = this.props;
+        console.log(agents);
+        let des =''
+        let listAgents = <h5 style={{marginLeft:'15px'}}>Không có nhà môi giới nào</h5>;
+		if (agents.length > 0) {
+			// if (option === '1') {
+			// 	agents = agents.sort((a, b) => (a.price - b.price))
+			// }
+			// else if(option === '2'){
+			// 	agents = agents.sort((a, b) => (b.price - a.price))
+			// }
+			// else if(option === '3') {
+			// 	agents = agents.sort((a, b) => (a.area - b.area))
+			// }
+			// else if(option === '4') {
+			// 	agents = agents.sort((a, b) => (b.area - a.area))
+			// }
+			des = `Có ${agents.length} nhà môi giới`
+			listAgents = agents.map((agent, index) => {
+				return (
+					<Agent
+						key={index}
+						agent={agent}
+					/>
+				)
+			}
+			)
+		}
         return (
             <div>
                 <MainHeader />
@@ -37,15 +79,27 @@ class ListAgents extends Component {
                         {/* option bar end */}
                         <div class="clearfix"></div>
                         <div className="row">
-                            <Agent/>
-                            <Agent/>
+                            {listAgents}
                         </div>
                     </div>
                 </div>
                 {/* Agent section end */}
+                <Footer/>
             </div>
         );
     }
 }
 
-export default ListAgents;
+
+const mapDispathToProp = (dispatch) => {
+    return {
+        reqGetListAgents: (page) => dispatch(actions.reqGetListAgents(page))
+    }
+}
+const mapStateToProp = (state) => {
+    return {
+        agents: state.agents
+    }
+}
+
+export default connect(mapStateToProp, mapDispathToProp)(ListAgents);

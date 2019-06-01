@@ -15,7 +15,8 @@ import userCompany from './Company/userCompany'
 import transaction from './Transaction/transaction'
 import transactionDetail from './Transaction/transactionDetail'
 import waiting from './Transaction/waiting'
-
+import agents from './Contact/agent'
+import companies from './Contact/company'
 const appReducers = combineReducers({
     user,
     estates,
@@ -30,7 +31,9 @@ const appReducers = combineReducers({
     userCompany,
     transaction,
     transactionDetail,
-    waiting
+    waiting,
+    agents,
+    companies
 });
 
 export default appReducers;
