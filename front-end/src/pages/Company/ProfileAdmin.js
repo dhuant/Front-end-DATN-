@@ -13,12 +13,17 @@ import DetailCompany from '../../components/Company/ProfileCompany/DetailCompany
 
 class ProfileAdmin extends Component {
     componentDidMount(){
-        this.props.actGetInfoUserCompany();
+        let company = JSON.parse(localStorage.getItem('company'));
+        this.props.actGetInfoUserCompany(company.id);
     }
     render() {
         let { userCompany } = this.props;
-        console.log(userCompany)
-        if (JSON.parse(localStorage.getItem('company')))
+        console.log(userCompany.company);
+        let detail = null
+        if (userCompany.company ){
+            detail =  <DetailCompany company={userCompany.company} />
+        }
+
             return (
                 <div>
                     <HeaderCompany />
@@ -49,7 +54,7 @@ class ProfileAdmin extends Component {
                                     <InfoCompany component={PROFILE} user={userCompany} />
                                 </div>
                                 <div className="col-lg-8 col-md-8 col-sm-12">
-                                    <DetailCompany user={userCompany} />
+                                   {detail}
                                 </div>
                             </div>
                         </div>
@@ -57,15 +62,15 @@ class ProfileAdmin extends Component {
                     <Footer />
                 </div>
             );
-        else return (
-            <Login />
-        )
+        // else return (
+        //     <Login />
+        // )
     }
 }
 
 const mapDispathToProp = (dispatch) => {
     return {
-        actGetInfoUserCompany: () => dispatch(actions.actGetInfoUserCompany())
+        actGetInfoUserCompany: (id) => dispatch(actions.actGetInfoUserCompany(id))
     }
 }
 const mapStateToProp = (state) => {

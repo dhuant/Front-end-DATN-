@@ -149,7 +149,7 @@ class AddAccount extends Component {
                                         <label htmlFor="phoneNumber" className="col-sm-3 control-label">Số điện thoại* </label>
                                         <div className="col-sm-9">
                                             <input 
-                                            type="phoneNumber" 
+                                            type="number" 
                                             id="phoneNumber" 
                                             name="phoneNumber" 
                                             placeholder="Nhập số điện thoại của nhân viên" 

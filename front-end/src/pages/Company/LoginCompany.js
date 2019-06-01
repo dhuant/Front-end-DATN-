@@ -23,6 +23,11 @@ class Login extends Component {
             token: ''
         };
     }
+    componentDidMount(){
+        if(localStorage.getItem('company')){
+            this.props.history.push('/company/profile-admin')
+        }
+    }
     logout = () => {
         this.setState({
             isAuthenticated: false,
