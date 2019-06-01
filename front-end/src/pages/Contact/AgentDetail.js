@@ -107,9 +107,9 @@ class AgentDetail extends Component {
                                                         <div className="row">
                                                             <div className="col-md-6 col-sm-6">
                                                                 <ul className="additional-details-list">
-                                                                    <li><span>Agent Since:</span>2017</li>
-                                                                    <li><span>Last Sold Property:</span>3 day ago</li>
-                                                                    <li><span>Properties Sold:</span>20</li>
+                                                                    <li><span>Ngày tham gia:</span>2017</li>
+                                                                    <li><span>Tổng số nhân viên:</span>100</li>
+                                                                    <li><span>Tổng số bài đăng:</span>20</li>
                                                                 </ul>
                                                             </div>
                                                             <div className="col-md-6 col-sm-6">
@@ -162,8 +162,7 @@ class AgentDetail extends Component {
                                                         <option>Properties (High To Low)</option>
                                                         <option>Properties (Low To High)</option>
                                                     </select>
-                                                    <a href="properties-list-rightside.html" className="change-view-btn active-view-btn"><i className="fa fa-th-list" /></a>
-                                                    <a href="properties-grid-rightside.html" className="change-view-btn"><i className="fa fa-th-large" /></a>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -171,9 +170,9 @@ class AgentDetail extends Component {
                                     {/* Option bar end */}
                                     <div className="clearfix" />
                                     <div className="row">
-                                        <InfoEstateOfAgent/>
-                                        <InfoEstateOfAgent/>
-                                        <InfoEstateOfAgent/>
+                                        <InfoEstateOfAgent />
+                                        <InfoEstateOfAgent />
+                                        <InfoEstateOfAgent />
                                     </div>
                                 </div>
                                 {/* Partners block end */}

@@ -13,7 +13,7 @@ class InfoEstateOfAgent extends Component {
                             <div className="property-price">$150,000</div>
                             <img src="img/properties/properties-list-1.jpg" alt="fp-list" className="img-responsive hp-1" />
                             <div className="property-overlay">
-                                <a href="properties-details.html" className="overlay-link">
+                                <a href="true" className="overlay-link">
                                     <i className="fa fa-link" />
                                 </a>
 
@@ -29,41 +29,17 @@ class InfoEstateOfAgent extends Component {
                     <div className="col-lg-7 col-md-7 col-sm-7 col-xs-12 property-content ">
                         {/* title */}
                         <h1 className="title">
-                            <a href="properties-details.html">Beautiful Single Home</a>
+                            <a href="true">Beautiful Single Home</a>
                         </h1>
+                        <p>Mô tả</p>
                         {/* Property address */}
-                        <h3 className="property-address">
-                            <a href="properties-details.html">
-                                <i className="fa fa-map-marker" />123 Kathal St. Tampa City,
-                                                    </a>
-                        </h3>
-                        {/* Facilities List */}
-                        <ul className="facilities-list clearfix">
-                            <li>
-                                <i className="flaticon-square-layouting-with-black-square-in-east-area" />
-                                <span>4800 sq ft</span>
-                            </li>
-                            <li>
-                                <i className="flaticon-bed" />
-                                <span>3 Beds</span>
-                            </li>
-                            <li>
-                                <i className="flaticon-monitor" />
-                                <span>TV </span>
-                            </li>
-                            <li>
-                                <i className="flaticon-holidays" />
-                                <span> 2 Baths</span>
-                            </li>
-                            <li>
-                                <i className="flaticon-vehicle" />
-                                <span>1 Garage</span>
-                            </li>
-                            <li>
-                                <i className="flaticon-building" />
-                                <span> 3 Balcony</span>
-                            </li>
-                        </ul>
+                        <h6 style={{fontSize:'13px'}}>
+                            <b>Địa chỉ:</b> Hồ Chí Minh
+                        </h6>
+                        <h6 style={{fontSize:'13px'}}>
+                            <b>Diện tích:</b> 30m2
+                        </h6>
+                        
                         {/* Property footer */}
                         <div className="property-footer">
                             <span className="left">
