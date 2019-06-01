@@ -1,0 +1,1 @@
+export const GET_LIST_COMPANIES = 'GET_LIST_COMPANIES'

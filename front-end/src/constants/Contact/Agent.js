@@ -1,0 +1,1 @@
+export const GET_LIST_AGENTS = 'GET_LIST_AGENTS'

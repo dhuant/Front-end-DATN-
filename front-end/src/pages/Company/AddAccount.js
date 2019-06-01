@@ -43,9 +43,10 @@ class AddAccount extends Component {
             description: this.state.description,
             address: this.state.address,
             avatar: 'https://res.cloudinary.com/dne3aha8f/image/upload/v1559203321/ddtyciszy3oiwdjasrjh.png?fbclid=IwAR3RFWWiOrMw-sMiNigCXJMFEGdpYw_FUBa4PxZYZLTtHvjLaa1JjBpNGy0',
-            createTime: moment.unix(),
-            updateTime: moment.unix(),
+            createTime: moment().unix(),
+            updateTime: moment().unix(),
         }
+        console.log(account.createTime);
         message.loading('Đang thêm tài khoản', 2)
         .then(()=>{
             adminService.addAccount(account)
@@ -148,7 +149,7 @@ class AddAccount extends Component {
                                         <label htmlFor="phoneNumber" className="col-sm-3 control-label">Số điện thoại* </label>
                                         <div className="col-sm-9">
                                             <input 
-                                            type="phoneNumber" 
+                                            type="number" 
                                             id="phoneNumber" 
                                             name="phoneNumber" 
                                             placeholder="Nhập số điện thoại của nhân viên" 
