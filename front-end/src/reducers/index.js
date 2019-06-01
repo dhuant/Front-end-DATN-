@@ -13,6 +13,8 @@ import follow from './follow'
 import userCompany from './Company/userCompany'
 //=====
 import transaction from './Transaction/transaction'
+import transactionDetail from './Transaction/transactionDetail'
+import waiting from './Transaction/waiting'
 
 const appReducers = combineReducers({
     user,
@@ -26,7 +28,9 @@ const appReducers = combineReducers({
     estatesListOfUser,
     follow,
     userCompany,
-    transaction
+    transaction,
+    transactionDetail,
+    waiting
 });
 
 export default appReducers;

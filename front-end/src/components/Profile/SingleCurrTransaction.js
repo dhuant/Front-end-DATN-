@@ -8,8 +8,8 @@ export default class SingleCurrTransaction extends Component {
     return (
       <div>
         <table className="manage-table responsive-table">
-          {/* <Link to={}> */}
-            <tbody>
+          <Link to={`/mytransactions/123`}>
+            <tbody className="transactionSingle">
               <tr>
                 <td className="title-container" style={{ width: "500px" }}>
                   <img src='/images/Home.png' alt="my-properties-1" className="img-responsive hidden-xs" />
@@ -35,7 +35,7 @@ export default class SingleCurrTransaction extends Component {
                 </td>
               </tr>
             </tbody>
-          {/* </Link> */}
+          </Link>
         </table>
       </div>
     )

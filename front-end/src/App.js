@@ -24,6 +24,7 @@ import MyTransaction from './pages/MyTransaction'
 import TransHistory from './pages/TransHistory'
 import VerticalLinearStepper from '../src/components/Profile/VerticalLinearStepper'
 import Stepper from '../src/components/Profile/Stepper'
+import TransactionDetail from './pages/TransactionDetail'
 
 import VerifyEmployee from './pages/Verify/VerifyEmployee'
 import VerifyCompany from './pages/Verify/VerifyCompany'
@@ -68,7 +69,7 @@ class App extends Component {
             <Route exact path='/myproperties/edit/:id' component={EditUI} />
             <Route exact path='/myfollowing' component={MyFollowing} />
             <Route exact path='/mytransactions' component={MyTransaction} />
-         
+            <Route exact path='/mytransactions/123' component={TransactionDetail} />
             <Route exact path='/transhistory' component={TransHistory} />
             <Route exact path='/progress' component={Stepper} />
 

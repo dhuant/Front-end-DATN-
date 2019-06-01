@@ -1,14 +1,23 @@
 import * as Types from '../../constants/Transaction/transaction'
 
-var initialState = {
-    
-};
+var initialState = {};
+
 const transaction = (state = initialState, action) => {
     switch (action.type) {
         case Types.CREATE_TRANSACTION:
             console.log(action, state)
-            
-        default: return {...state};
+            return { ...state }
+        case Types.CHANGE_STATUS:
+            console.log(action, state)
+            return { ...state }
+        case Types.TRANSACTION_DETAIL:
+            console.log(action, state)
+            return { ...state }
+        case Types.TRANSACTION_HISTORY:
+            console.log(action, state)
+            return { ...state }
+
+        default: return { ...state };
     }
 
 }

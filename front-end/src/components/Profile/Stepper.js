@@ -132,7 +132,10 @@ class Stepper extends React.Component {
             <div className="container">
                 <div className="row">
                     <div className="col-lg-8 col-md-8 col-sm-12">
-                        <Progress percent={this.state.percent} />
+                        <Progress percent={this.state.percent} status="active" strokeColor={{
+                            '0%': '#108ee9',
+                            '100%': '#87d068',
+                        }} />
                         <hr></hr>
                         <Steps current={current} direction="vertical" size="small">
                             {steps.map(item => (
@@ -144,18 +147,18 @@ class Stepper extends React.Component {
                         <hr></hr>
                         <div className="steps-action">
                             {current > 0 && (
-                                <Button style={{ }} onClick={() => this.prev()}>
-                                    <i className="fa fa-arrow-left" style={{marginRight: "3px"}}></i>Bước trước
+                                <Button style={{}} onClick={() => this.prev()}>
+                                    <i className="fa fa-arrow-left" style={{ marginRight: "3px" }}></i>Bước trước
                                 </Button>
                             )}
                             {current < steps.length - 1 && (
-                                <Button style={{marginLeft: "10px"}} type="primary" onClick={() => this.next()}>
-                                    <i className="fa fa-arrow-right" style={{marginRight: "3px"}}></i> Bước tiếp
+                                <Button style={{ marginLeft: "10px" }} type="primary" onClick={() => this.next()}>
+                                    <i className="fa fa-arrow-right" style={{ marginRight: "3px" }}></i> Bước tiếp
                                 </Button>
                             )}
                             {current === steps.length - 1 && (
-                                <Button style={{marginLeft: "10px"}} type="primary" onClick={this.handleSubmit}>
-                                   <i className="fa fa-check" style={{marginRight: "3px"}}></i> Hoàn tất
+                                <Button style={{ marginLeft: "10px" }} type="primary" onClick={this.handleSubmit}>
+                                    <i className="fa fa-check" style={{ marginRight: "3px" }}></i> Hoàn tất
                                 </Button>
                             )}
 
