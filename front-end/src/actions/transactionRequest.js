@@ -8,7 +8,8 @@ export const actCreatingTransactionRequest = infoToCreate => {
         return axios.post("http://localhost:3001/transaction/create", infoToCreate, { headers: authHeader() })
             .then(res => {
                 if (res.data.status === 201)
-                    dispatch(Action.actCreateTransaction(res.data.transaction));
+                    dispatch(Action.actCreateTransaction(res.data.transaction))
+                    message.success('Tạo giao dịch thành công!')
             })
             .catch(error => {
                 message.error(`Có lỗi xảy ra: ${error}`)
@@ -16,10 +17,12 @@ export const actCreatingTransactionRequest = infoToCreate => {
     };
 };
 
-export const actGettingTransactionHistoryRequest = (transactionHistory) => {
+export const actGettingTransactionHistoryRequest = (page) => {
+    console.log("a")
     return dispatch => {
-        return axios.get("http://localhost:3001/transaction/history", transactionHistory, { headers: authHeader() })
+        return axios.get(`http://localhost:3001/transaction/history/${page}`, { headers: authHeader() })
             .then(res => {
+                console.log(res)
                 dispatch(Action.actGetTransactionHistory(res.data.history))
             })
             .catch(error => {
@@ -28,9 +31,9 @@ export const actGettingTransactionHistoryRequest = (transactionHistory) => {
     }
 }
 
-export const actGettingTransactionDetailRequest = (transactionId) => {
+export const actGettingTransactionDetailRequest = (transactionId, transactionType) => {
     return dispatch => {
-        return axios.get(`http://locahost:3001/transaction/detail/${transactionId}`, null, { headers: authHeader() })
+        return axios.get(`http://locahost:3001/transaction/detail/${transactionId}/${transactionType}`, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actGetTransactionDetail(res.data.transaction))
             })

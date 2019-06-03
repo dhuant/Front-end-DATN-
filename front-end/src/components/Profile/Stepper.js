@@ -1,7 +1,5 @@
 import { Steps, Button, message, Form, Icon, Input, Checkbox, Progress, InputNumber, Select, DatePicker } from 'antd';
-import Dropzone from 'react-dropzone'
 import React from 'react'
-import request from 'superagent'
 import Deal from './Deal'
 import Legality from './Legality'
 import Deposit from './Deposit'
@@ -9,13 +7,12 @@ import Contract from './Contract'
 import Confirmation from './Confirmation'
 import Tax from './Tax'
 import Delivery from './Delivery'
+import * as transAction from '../../actions/transactionRequest'
+import {connect} from 'react-redux'
 
 const Step = Steps.Step;
 const Option = Select.Option;
 const { TextArea } = Input
-
-const CLOUDINARY_UPLOAD_PRESET = 'nn6imhmo';
-const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dne3aha8f/image/upload';
 
 class Stepper extends React.Component {
     constructor(props) {
@@ -58,32 +55,6 @@ class Stepper extends React.Component {
 
     onHandleChange = () => {
 
-    }
-
-    onImageSelect(files) {
-        this.setState({
-            uploadedFile: files[0]
-        });
-
-        this.handleImageUpload(files[0]);
-    }
-
-    handleImageUpload(file) {
-        let upload = request.post(CLOUDINARY_UPLOAD_URL)
-            .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-            .field('file', file);
-
-        upload.end((err, response) => {
-            if (err) {
-                console.error(err);
-            }
-
-            if (response.body.secure_url !== '') {
-                this.setState({
-                    uploadedFileCloudinaryUrl: response.body.secure_url
-                });
-            }
-        });
     }
 
     render() {
@@ -172,4 +143,16 @@ class Stepper extends React.Component {
 
 const WrappedForm = Form.create()(Stepper)
 
-export default WrappedForm
+const mapStateToProps = (state) => {
+    return {
+        
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WrappedForm)

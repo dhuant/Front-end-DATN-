@@ -19,28 +19,24 @@ class WaitingRequest extends Component {
         }
     }
 
-    onChangeValue = (event) => {
-        console.log(document.getElementById('project').value)
-        this.setState({project: event.target.value})
-        var info = {
-            projectid: '5ce932b37165ba0ccc47b987'
-        }
-        // var projectid = event.target.value
-        this.props.onShowWaitingRequestList(info)
-    }
+    // onChangeValue = (e) => {
+    //     this.setState({project: e.target.value})
+    //     // var projectid = document.getElementById('project').value
+    //     this.props.onShowWaitingRequestList(e.target.value)
+    // }
 
     componentDidMount = () => {
         this.props.onGettingEstateListOfUser()
-        console.log(document.getElementById('project').value)
-        var info = {
-            projectid: '5ce932b37165ba0ccc47b987'
-        }
-        // var projectid = event.target.value
-        this.setState({project: document.getElementById('project').value})
-        this.props.onShowWaitingRequestList('5ce932b37165ba0ccc47b987')
+        this.props.onShowWaitingRequestList(document.getElementById('project').value)
+        // console.log(document.getElementById('project').value)
+        // var projectid = document.getElementById('project').value
+        // // var projectid = event.target.value
+        // this.setState({project: document.getElementById('project').value})
+        // this.props.onShowWaitingRequestList(projectid)
     }
     render() {
         var { estatesListOfUser, waiting } = this.props
+        console.log(waiting.requests)
         return (
             <div>
                 <MainHeader />
@@ -85,10 +81,11 @@ class WaitingRequest extends Component {
                                         </select>
                                     </div>
                                 </div>
+                                <br></br>
                                 {/* table start */}
                                 <table className="manage-table responsive-table">
                                     <tbody>
-                                        {/* {this.ShowWaitingRequestList(waiting)} */}
+                                        {this.ShowWaitingRequestList(waiting)}
                                     </tbody>
                                 </table>
                                 {/* table end */}
@@ -104,19 +101,19 @@ class WaitingRequest extends Component {
     ShowWaitingRequestList = (waiting) => {
         console.log(waiting)
         var result = null;
-        if (waiting.requests.length === 0 || waiting.requests === undefined) {
+        if (waiting.requests === undefined) {
             result = (<tr><td>Danh sách yêu cầu hiện đang trống!</td></tr>)
         }
-        else if (waiting && waiting.requests.length > 0) {
+        else if (waiting.requests && waiting.requests.length > 0) {
             result = waiting.requests.map((single, index) => {
                 console.log(single)
                 // if (single.project === projectid)
-                    return (
-                        <SingleWaiting key={index} waitingRequestSingle={single} waitingList={waiting}/>
-                    );
+                return (
+                    <SingleWaiting key={index} waitingRequestSingle={single} waitingList={waiting} />
+                );
             });
         }
-        
+
         return result;
     }
 }
