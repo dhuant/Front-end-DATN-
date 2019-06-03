@@ -51,7 +51,7 @@ class App extends Component {
         <div>
           <Switch>
             <Route exact path='/test' component={test} />
-            <Route exact path='/' component={Home} />
+            <Route exact path='/' component={HomeMap} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/login2' component={Login2} />
             <Route exact path='/submitproperty' component={SubmitProperty} />
@@ -65,7 +65,7 @@ class App extends Component {
             <Route exact path="/news" component={News} />
             <Route exact path="/news/:id" component={NewsDetail} />
             <Route exact path='/properties' component={Properties} />
-            <Route exact path='/homemaps' component={HomeMap} />
+            {/* <Route exact path='/homemaps' component={HomeMap} /> */}
             <Route exact path='/demo' component={MapOfDetail} />
             <Route exact path='/myproperties/edit/:id' component={EditUI} />
             <Route exact path='/myfollowing' component={MyFollowing} />
@@ -82,9 +82,8 @@ class App extends Component {
             {/* Agent */}
             <Route exact path='/agents' component={ListAgents}/>
             <Route exact path='/companies' component={ListCompaies}/>
-            <Route exact path='/agentdetail' component={AgentDetail}/>
+            <Route exact path='/agentdetail/:id' component={AgentDetail}/>
             <Route exact path='/companydetail' component={CompanyDetail}/>
-
             {/* ---------- */}
             {/* Route cho company */}
 

@@ -15,8 +15,10 @@ import userCompany from './Company/userCompany'
 import transaction from './Transaction/transaction'
 import transactionDetail from './Transaction/transactionDetail'
 import waiting from './Transaction/waiting'
-import agents from './Contact/agent'
-import companies from './Contact/company'
+import agents from './Contact/agent'        //danh sách nhà môi giới
+import companies from './Contact/company'   //danh sách công ty đối tác
+import infoAgent from './Contact/infoAgent' //info cuả nhà môi giới
+import projectsOfAgent from './Contact/listProjectsOfAgent'
 const appReducers = combineReducers({
     user,
     estates,
@@ -33,7 +35,9 @@ const appReducers = combineReducers({
     transactionDetail,
     waiting,
     agents,
-    companies
+    companies,
+    infoAgent,
+    projectsOfAgent
 });
 
 export default appReducers;
