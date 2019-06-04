@@ -17,7 +17,7 @@ class InfoEstateOfAgent extends Component {
                                 {/* <div className="property-tag button alt featured">Featured</div>
                                 <div className="property-tag button sale">For Sale</div>
                                 <div className="property-price">$150,000</div> */}
-                                <img src={project.url[0]} alt="fp-list" className="img-responsive hp-1" />
+                                <img style={{height:'244px'}} src={project.url[0]} alt="fp-list" className="img-responsive hp-1" />
                                 {/* <div className="property-overlay">
                                     
                                 </div> */}
