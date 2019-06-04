@@ -8,44 +8,44 @@ import { connect } from 'react-redux';
 class ListAgents extends Component {
     constructor(props) {
         super(props);
-        this.state ={
+        this.state = {
             page: 1,
         }
         this.props.reqGetListAgents(this.state.page);
 
     }
-    componentDidMount(){
+    componentDidMount() {
         this.props.reqGetListAgents(this.state.page);
     }
     render() {
-        let {agents} = this.props;
+        let { agents } = this.props;
         console.log(agents);
-        let des =''
-        let listAgents = <h5 style={{marginLeft:'15px'}}>Không có nhà môi giới nào</h5>;
-		if (agents.length > 0) {
-			// if (option === '1') {
-			// 	agents = agents.sort((a, b) => (a.price - b.price))
-			// }
-			// else if(option === '2'){
-			// 	agents = agents.sort((a, b) => (b.price - a.price))
-			// }
-			// else if(option === '3') {
-			// 	agents = agents.sort((a, b) => (a.area - b.area))
-			// }
-			// else if(option === '4') {
-			// 	agents = agents.sort((a, b) => (b.area - a.area))
-			// }
-			des = `Hiện đang có ${agents.length} nhà môi giới đang hoạt động trên hệ thống`
-			listAgents = agents.map((agent, index) => {
-				return (
-					<Agent
-						key={index}
-						agent={agent}
-					/>
-				)
-			}
-			)
-		}
+        let des = ''
+        let listAgents = <h5 style={{ marginLeft: '15px' }}>Không có nhà môi giới nào</h5>;
+        if (agents.length > 0) {
+            // if (option === '1') {
+            // 	agents = agents.sort((a, b) => (a.price - b.price))
+            // }
+            // else if(option === '2'){
+            // 	agents = agents.sort((a, b) => (b.price - a.price))
+            // }
+            // else if(option === '3') {
+            // 	agents = agents.sort((a, b) => (a.area - b.area))
+            // }
+            // else if(option === '4') {
+            // 	agents = agents.sort((a, b) => (b.area - a.area))
+            // }
+            des = `Hiện đang có ${agents.length} nhà môi giới đang hoạt động trên hệ thống`
+            listAgents = agents.map((agent, index) => {
+                return (
+                    <Agent
+                        key={index}
+                        agent={agent}
+                    />
+                )
+            }
+            )
+        }
         return (
             <div>
                 <MainHeader />
@@ -71,7 +71,7 @@ class ListAgents extends Component {
                                             <option>Properties (High To Low)</option>
                                             <option>Properties (Low To High)</option>
                                         </select>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -80,12 +80,12 @@ class ListAgents extends Component {
                         <div class="clearfix"></div>
                         <div><h4>{des}</h4></div>
                         <div className="row">
-                            {listAgents}
+                                {listAgents}
                         </div>
                     </div>
                 </div>
                 {/* Agent section end */}
-                <Footer/>
+                <Footer />
             </div>
         );
     }

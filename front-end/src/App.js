@@ -83,7 +83,7 @@ class App extends Component {
             <Route exact path='/agents' component={ListAgents}/>
             <Route exact path='/companies' component={ListCompaies}/>
             <Route exact path='/agentdetail/:id' component={AgentDetail}/>
-            <Route exact path='/companydetail' component={CompanyDetail}/>
+            <Route exact path='/companydetail/:id' component={CompanyDetail}/>
             {/* ---------- */}
             {/* Route cho company */}
 
