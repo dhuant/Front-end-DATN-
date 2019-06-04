@@ -7,8 +7,13 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 // import SingleCurrTransaction from '../components/Profile/SingleCurrTransaction'
 import Stepper from '../components/Profile/Stepper'
+import * as transAction from '../actions/transactionRequest'
 
 class TransactionDetail extends Component {
+
+    componentDidMount = () => {
+        
+    }
   render() {
     return (
       <div>
@@ -77,11 +82,16 @@ class TransactionDetail extends Component {
 }
 
 const mapStateToProps = (state) => {
-
+    return {
+        transaction: state.transaction
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
-
+    return {
+        onGettingTransactionDetail: (id, type) => dispatch(transAction.actGettingTransactionDetailRequest(id, type)),
+        onGettingTransactionHistory: () => dispatch(transAction.actGettingTransactionHistoryRequest())
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransactionDetail)

@@ -1,6 +1,6 @@
 import * as Types from '../../constants/Transaction/transaction'
 
-var initialState = {};
+var initialState = [];
 
 const transaction = (state = initialState, action) => {
     switch (action.type) {
@@ -15,7 +15,8 @@ const transaction = (state = initialState, action) => {
             return { ...state }
         case Types.TRANSACTION_HISTORY:
             console.log(action, state)
-            return { ...state }
+            state = action.transaction
+            return [ ...state ]
 
         default: return { ...state };
     }
