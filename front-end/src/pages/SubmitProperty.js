@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Footer from '../components/Footer';
 import { connect } from 'react-redux';
-// import * as Types from './../constants/ActionTypes';
 import * as actions from '../actions/request';
 import MainHeader from '../components/MainHeader';
 import { Link } from 'react-router-dom'
@@ -13,6 +12,7 @@ import { toast } from 'react-toastify'
 import { message } from 'antd'
 import moment from 'moment'
 import LoginModal from '../components/LoginModal'
+import AddressData from '../countries-flat.json'
 
 const Types = [
     { value: '1', label: 'Chung cư. căn hộ' },
@@ -25,12 +25,12 @@ const Types = [
 const Status = [
     { value: '1', label: 'Bất động sản bán' },
     { value: '3', label: 'Bất động sản thuê' },
-   
+
 ];
 
 const Unit = [
-    {value: '1', label: 'Triệu'},
-    {value: '2', label: 'Tỉ'},
+    { value: '1', label: 'Triệu' },
+    { value: '2', label: 'Tỉ' },
 ];
 
 class SubmitProperty extends Component {
@@ -55,15 +55,47 @@ class SubmitProperty extends Component {
             contactname: '',
             contactphonenumber: '',
             contactemail: '',
-            visible: false
+            visible: false,
+            addressList: [],
+            city: '',
+            ward: '',
+            state: '',
+            mapPosition: {
+				lat: 10.7625626,
+				lng: 106.6805316
+			},
+			markerPosition: {
+				lat: 10.7625626,
+				lng: 106.6805316
+			}
         };
 
-        this.onHandleChange = this.onHandleChange.bind(this)
+        // this.onHandleChange = this.onHandleChange.bind(this)
     }
-    // handleChange = (selectedOption) => {
-    //     this.setState({ selectedOption });
-    //     console.log(`Option selected:`, selectedOption);
+
+    // componentDidMount =() => {
+    //     var address = this.onGettingAddress
+    //     Geocode.fromAddress(address).then(
+	// 		response => {
+	// 			const { lat, lng } = response.results[0].geometry.location;
+	// 			console.log(lat, lng);
+	// 			this.setState({
+	// 				markerPosition: {
+	// 					lat: lat ? lat : this.state.markerPosition.lat,
+	// 					lng: lng ? lng : this.state.markerPosition.lng,
+	// 				},
+	// 				mapPosition: {
+	// 					lat: lat ? lat : this.state.mapPosition.lat,
+	// 					lng: lng ? lng : this.state.mapPosition.lng,
+	// 				},
+	// 			})
+	// 		},
+	// 		error => {
+	// 			console.error(error);
+	// 		}
+	// 	);
     // }
+
     handleCancel = () => this.setState({ previewVisible: false })
 
     handlePreview = (file) => {
@@ -75,11 +107,19 @@ class SubmitProperty extends Component {
 
     handleChangeImageList = ({ fileList }) => this.setState({ fileList })
 
-    onHandleChange(event) {
+    onHandleChangeAddress = (event) => {
         let target = event.target
         let name = target.name
         let value = target.value
         this.setState({ [name]: value });
+    }
+
+    onGettingAddress = () => {
+        var address = ''
+        if (document.getElementById('street') !== undefined)
+            address = document.getElementById('street').value + ', ' + this.state.ward + ', ' + this.state.city + ', ' + this.state.state
+        else address = this.state.ward + ', ' + this.state.city + ', ' + this.state.state
+        console.log(address)
     }
     onSubmit = (e) => {
         if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null) {
@@ -155,22 +195,7 @@ class SubmitProperty extends Component {
         }
 
     }
-    onCheckingError = (errorContent) => {
-        switch (errorContent) {
-            case "Name":
-                return toast.error("Có vấn đề với tên bài đăng! Vui lòng kiểm tra lại!", { position: toast.POSITION.TOP_RIGHT })
-            case "Investor":
-                return toast.error("Có vấn đề với tên nhà đầu tư! Vui lòng kiểm tra lại!", { position: toast.POSITION.TOP_RIGHT })
-            case "Price":
-                return toast.error("Có vấn đề với giá! Vui lòng kiểm tra lại! Hãy chắc chắn bạn nhập vào những con số", { position: toast.POSITION.TOP_RIGHT })
-            case "Area":
-                return toast.error("Có vấn đề với diện tích! Vui lòng kiểm tra lại! Hãy chắc chắn bạn nhập vào những con số", { position: toast.POSITION.TOP_RIGHT })
-            case "DetailInformation":
-                return toast.error("Có vấn đề với thông tin chi tiết! Vui lòng kiểm tra lại!", { position: toast.POSITION.TOP_RIGHT })
-            default:
-                break;
-        }
-    }
+    
     getUrlList = (urlArray, publicIdArray) => {
         this.setState({
             url: urlArray,
@@ -196,15 +221,46 @@ class SubmitProperty extends Component {
     }
     checkUploadResult = (resultEvent, urlArray, publicIdArray) => {
         if (resultEvent.event === 'success') {
-            console.log(resultEvent)
             urlArray.push(resultEvent.info.secure_url)
             publicIdArray.push(resultEvent.info.public_id)
         }
         this.getUrlList(urlArray, publicIdArray)
     }
 
+    parseStateData = (AddressData) => {
+        var result = []
+        AddressData.map((data => {
+            if (data.country === 'Vietnam' && result.indexOf(data.state) === -1) {
+                result.push(data.state)
+            }
+        }))
+        return result.sort()
+    }
+
+    parseCityData = (AddressData, stateValue) => {
+        var result = []
+        AddressData.map(data => {
+            if (data.country === 'Vietnam' && data.state === stateValue && result.indexOf(data.city) === -1) {
+                result.push(data.city)
+            }
+        })
+        return result.sort()
+    }
+
+    parseWardData = (AddressData, stateValue, cityValue) => {
+        var result = []
+        AddressData.map(data => {
+            if (data.country === 'Vietnam' && data.state === stateValue && data.city === cityValue && result.indexOf(data.ward) === -1) {
+                result.push(data.ward)
+            }
+        })
+        return result.sort()
+    }
     render() {
-        const { visible } = this.state;
+        var { visible, addressList, city, ward, state } = this.state;
+        var stateList = this.parseStateData(AddressData)
+        var cityList = this.parseCityData(AddressData, state)
+        var wardList = this.parseWardData(AddressData, state, city)
         return (
             <div>
                 <MainHeader />
@@ -235,7 +291,7 @@ class SubmitProperty extends Component {
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="submit-address">
-                                    <form method="GET">
+                                    <form method="GET" action="submit">
                                         <div className="main-title-2">
                                             <h1>
                                                 <span>Thông tin</span> cơ bản
@@ -345,18 +401,90 @@ class SubmitProperty extends Component {
                                                         />
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         {/* <div className="row" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                             <Button variant="info" onClick={this.onHandleShowMap} style={{ padding: "5px 100px 5px 100px" }}>{visible ? "Hide Map" : "Show Map"}</Button>
                                         </div> */}
+                                        <div className="main-title-2">
+                                            <h1>
+                                                <span>Địa</span> chỉ
+                                            </h1>
+                                        </div>
+                                        <div className="row mb-30">
+                                            <div className="col-md-6">
+                                                <div className="form-group" style={{ marginBottom: '0px' }}>
+                                                    <label>Nhập số nhà/đường</label>
+                                                    <input
+                                                        type="text"
+                                                        className="input-text"
+                                                        name="street"
+                                                        id="street"
+                                                        placeholder="Nhập số nhà/đường"
+                                                        // onChange={this.onHandleChange}
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="col-md-6">
+                                                <div className="form-group" style={{ marginBottom: '0px' }}>
+                                                    <label>Chọn tỉnh</label>
+                                                    <select className="form-control"
+                                                        name="state"
+                                                        id="state"
+                                                        required
+                                                        onChange={this.onHandleChangeAddress}
+                                                        style={{ overflowY: "scroll" }}
+                                                    >
+                                                        {stateList.map((single, index) => <option key={index} value={single}>{single}</option>)}
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="row mb-30">
+                                            <div className="col-md-6">
+                                                <div className="form-group" style={{ marginBottom: '0px' }}>
+                                                    <label>Chọn thành phố</label>
+                                                    <select className="form-control"
+                                                        name="city"
+                                                        id="city"
+                                                        required
+                                                        onChange={this.onHandleChangeAddress}
+                                                        style={{ overflowY: "scroll" }}
+                                                    >
+                                                        {cityList.map((single, indexx) => <option key={indexx} value={single}>{single}</option>)}
+                                                        {/* {this.parseCityData(AddressData, document.getElementById('city').value)} */}
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div className="col-md-6">
+                                                <div className="form-group" style={{ marginBottom: '0px' }}>
+                                                    <label>Chọn xã/huyện</label>
+                                                    <select className="form-control"
+                                                        name="ward"
+                                                        id="ward"
+                                                        required
+                                                        onChange={this.onHandleChangeAddress}
+                                                    >
+                                                        {wardList.map((single, indexx) => <option key={indexx} value={single}>{single}</option>)}
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div style={{ paddingBottom: '80px' }}>
                                             <MapSearching
                                                 google={this.props.google}
                                                 center={{ lat: 10.7625626, lng: 106.6805316 }}
                                                 height='300px'
                                                 zoom={15}
+                                                address={this.onGettingAddress}
                                             />
                                         </div>
                                         <div className="main-title-2">
@@ -472,7 +600,7 @@ class SubmitProperty extends Component {
                                                 >
                                                 </input>
                                             </div> */}
-                                            <Button variant="success" style={{ fontSize: "16px", padding: "15px 30px 15px 30px" }} onClick={this.onSubmit} className="btn button-md button-theme">
+                                            <Button type="submit" variant="success" style={{ fontSize: "16px", padding: "15px 30px 15px 30px" }} onClick={this.onSubmit} className="btn button-md button-theme">
                                                 Đăng bài
                                             </Button>
                                         </div>

@@ -9,7 +9,7 @@ export const actCreatingTransactionRequest = infoToCreate => {
             .then(res => {
                 if (res.data.status === 201)
                     dispatch(Action.actCreateTransaction(res.data.transaction))
-                    message.success('Tạo giao dịch thành công!')
+                message.success('Tạo giao dịch thành công!')
             })
             .catch(error => {
                 message.error(`Có lỗi xảy ra: ${error}`)
@@ -18,7 +18,6 @@ export const actCreatingTransactionRequest = infoToCreate => {
 };
 
 export const actGettingTransactionHistoryRequest = (page) => {
-    console.log("a")
     return dispatch => {
         return axios.get(`http://localhost:3001/transaction/history/${page}`, { headers: authHeader() })
             .then(res => {
@@ -32,9 +31,11 @@ export const actGettingTransactionHistoryRequest = (page) => {
 }
 
 export const actGettingTransactionDetailRequest = (transactionId, transactionType) => {
+    console.log("a")
     return dispatch => {
-        return axios.get(`http://locahost:3001/transaction/detail/${transactionId}/${transactionType}`, { headers: authHeader() })
+        return axios.get(`http://localhost:3001/transaction/detail/${transactionId}/${transactionType}`, { headers: authHeader() })
             .then(res => {
+                console.log(res)
                 dispatch(Action.actGetTransactionDetail(res.data.transaction))
             })
             .catch(error => {
@@ -59,7 +60,11 @@ export const actPostingDealRequest = (dealInfo) => {
     return dispatch => {
         return axios.post("http://localhost:3001/selldetail/deal", dealInfo, { headers: authHeader() })
             .then(res => {
-                dispatch(Action.actPostingDeal(res.data.deal))
+                console.log(res)
+                if (res.data.status === 200 || res.status === 200) {
+                    dispatch(Action.actPostingDeal(res.data.deal))
+                    message.success('Thành công!')
+                }
             })
             .catch(error => {
                 message.error(`Có lỗi xảy ra: ${error}`)
@@ -72,7 +77,10 @@ export const actPostingLegalityRequest = (legalityInfo) => {
         return axios.post("http://localhost:3001/selldetail/legality", legalityInfo, { headers: authHeader() })
             .then(res => {
                 console.log(res.data)
-                dispatch(Action.actPostingLegality(res.data.legality))
+                if (res.data.status === 200 || res.status === 200) {
+                    dispatch(Action.actPostingLegality(res.data.legality))
+                    message.success('Thành công!')
+                }
             })
             .catch(error => {
                 message.error(`Có lỗi xảy ra: ${error}`)
@@ -155,7 +163,7 @@ export const actPostingTransferRequest = (transferInfo) => {
 export const actGettingWaitingListRequest = (id) => {
     console.log(id)
     return dispatch => {
-        return axios.get(`http://localhost:3001/transaction/listrequest/${id}`,{ headers: authHeader() })
+        return axios.get(`http://localhost:3001/transaction/listrequest/${id}`, { headers: authHeader() })
             .then(res => {
                 // console.log(res)
                 dispatch(Action.actGettingRequestList(res.data.result))

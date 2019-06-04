@@ -14,7 +14,7 @@ class SingleCurrTransaction extends Component {
     return (
       <div>
         <table className="manage-table responsive-table">
-          <Link to={`/mytransactions/${transactionSingle._id}`}>
+          <Link to={`/mytransactions/${transactionSingle._id}/${transactionSingle.typetransaction}`}>
             <tbody className="transactionSingle">
               <tr>
                 <td className="title-container" style={{ width: "500px" }}>

@@ -11,7 +11,7 @@
     "@material-ui/styles": "^4.0.0",
     "aframe": "^0.9.2",
     "aframe-react": "^4.4.0",
-    "antd": "^3.17.0",
+    "antd": "^3.19.2",
     "apexcharts": "^3.6.11",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",

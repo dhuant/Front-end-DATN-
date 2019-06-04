@@ -49,7 +49,7 @@ class InfoEstate extends Component {
                             <div className="property-tag button alt featured" style={{marginTop:'0px', left: '0px'}}>{status}</div>
                         {/* <div className="property-tag button sale">Sale</div>
                         <div className="property-price">$2505.11</div>  */}
-                            <img src={estate.url[0]} style={{ height: '110px' }} alt="properties" className="img-responsive img-inside-map" />
+                            <img src={estate.url[0] ? estate.url[0] : '/images/Home.png'} style={{ height: '110px' }} alt="properties" className="img-responsive img-inside-map" />
                             {/* </a>  */}
                         </div>
                         <div className="col-lg-8 col-md-8 col-sm-8 col-xs-12 property-content ">

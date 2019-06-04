@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { Image } from 'react-bootstrap'
 import request from 'superagent'
 import { Steps, Button, message, Form, Modal } from 'antd';
+import * as transAction from '../../../actions/transactionRequest'
+import moment from 'moment'
 
 const CLOUDINARY_UPLOAD_PRESET = 'nn6imhmo';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dne3aha8f/image/upload';
@@ -24,6 +26,31 @@ class Legality extends Component {
         }
     }
 
+    componentDidMount = () => {
+        this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
+    }
+
+    onSendingLegalityInfo = () => {
+        var legalityInfo = {
+            complete: true,
+            updateTime: moment().unix(),
+            _id: this.props.transactions._id,
+            id: this.props.transactions.selldetail._id,
+            government: this.state.governmentArray.length === 0 ? this.props.transactions.selldetail.legality.government : this.state.governmentArray,
+            certificate: this.state.certificateArray.length === 0 ? this.props.transactions.selldetail.legality.certificate : this.state.certificateArray,
+            contract: this.state.contractArray.length === 0 ? this.props.transactions.selldetail.legality.contract : this.state.contractArray,
+        }
+
+        if (legalityInfo.government === this.props.transactions.selldetail.legality.government
+            && legalityInfo.contract === this.props.transactions.selldetail.legality.contract
+            && legalityInfo.certificate === this.props.transactions.selldetail.legality.certificate)
+            return message.warning("Bạn chưa thay đổi gì cả!")
+
+        if (legalityInfo.government.length === 0)
+            return message.error("Bạn phải tải lên hình ảnh xác thực từ chính quyền địa phương!")
+
+        this.props.onSendingLegality(legalityInfo)
+    }
     onHandlePreviewImage = (event) => {
         this.setState({ previewImage: true, previewUrl: event.target.src })
     }
@@ -41,6 +68,9 @@ class Legality extends Component {
     }
 
     handleGovernmentUpload(files) {
+        if(this.props.transactions.selldetail.legality.government.length > 0){
+            this.setState({governmentArray: this.state.governmentArray.concat(this.props.transactions.selldetail.legality.government)})
+        }
         console.log(files)
         files.map(file => {
             let upload = request.post(CLOUDINARY_UPLOAD_URL)
@@ -55,7 +85,7 @@ class Legality extends Component {
 
                 if (response.body.secure_url !== '') {
                     this.setState({
-                        governmentArray: this.state.governmentArray.concat({url: response.body.secure_url, id: response.body.public_id})
+                        governmentArray: this.state.governmentArray.concat({ url: response.body.secure_url, id: response.body.public_id })
                     });
                 }
             });
@@ -75,7 +105,7 @@ class Legality extends Component {
 
                 if (response.body.secure_url !== '') {
                     this.setState({
-                        contractArray: this.state.contractArray.concat({url: response.body.secure_url, id: response.body.public_id})
+                        contractArray: this.state.contractArray.concat({ url: response.body.secure_url, id: response.body.public_id })
                     });
                 }
             });
@@ -95,7 +125,7 @@ class Legality extends Component {
 
                 if (response.body.secure_url !== '') {
                     this.setState({
-                        certificateArray: this.state.certificateArray.concat({url: response.body.secure_url, id: response.body.public_id})
+                        certificateArray: this.state.certificateArray.concat({ url: response.body.secure_url, id: response.body.public_id })
                     });
                 }
             });
@@ -114,11 +144,11 @@ class Legality extends Component {
                         onClick={this.onHandlePreviewImage}
                     >
                     </Image>
-                    <button 
-                        type="button" 
-                        className="close" 
-                        aria-label="Close" 
-                        style={{top: "-100px", left: "-5px", position: "relative", color: "#0A10C8" }} 
+                    <button
+                        type="button"
+                        className="close"
+                        aria-label="Close"
+                        style={{ top: "-100px", left: "-5px", position: "relative", color: "#0A10C8" }}
                         onClick={this.showContractDeleteConfirm} name={array[i].id} value={i}>
                         x
                     </button>
@@ -142,11 +172,11 @@ class Legality extends Component {
                         onClick={this.onHandlePreviewImage}
                     >
                     </Image>
-                    <button 
-                        type="button" 
-                        className="close" 
-                        aria-label="Close" 
-                        style={{top: "-100px", left: "-5px", position: "relative", color: "#0A10C8" }} 
+                    <button
+                        type="button"
+                        className="close"
+                        aria-label="Close"
+                        style={{ top: "-100px", left: "-5px", position: "relative", color: "#0A10C8" }}
                         onClick={this.showCertificateDeleteConfirm} name={array[i].id} value={i}>
                         x
                     </button>
@@ -171,11 +201,11 @@ class Legality extends Component {
                         onClick={this.onHandlePreviewImage}
                     >
                     </Image>
-                    <button 
-                        type="button" 
-                        className="close" 
-                        aria-label="Close" 
-                        style={{top: "-100px", left: "-5px", position: "relative", color: "#0A10C8" }} 
+                    <button
+                        type="button"
+                        className="close"
+                        aria-label="Close"
+                        style={{ top: "-100px", left: "-5px", position: "relative", color: "#0A10C8" }}
                         onClick={this.showGovernmentDeleteConfirm} name={array[i].id} value={i}>
                         x
                     </button>
@@ -247,6 +277,9 @@ class Legality extends Component {
     }
     render() {
         const { getFieldDecorator } = this.props.form
+        var { transactions } = this.props
+        var legality = transactions.selldetail.legality
+        console.log(legality)
         var { certificateArray, contractArray, governmentArray, previewImage, previewUrl } = this.state
         console.log(governmentArray)
         return (
@@ -362,6 +395,16 @@ class Legality extends Component {
                         </div>
                     </div>
                 </div>
+
+                <div className="row">
+                    <div className="col-md-8 col-lg-8 col-xs-12">
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" style={{ fontSize: "10px", float: "right" }} onClick={this.onSendingLegalityInfo}>
+                                Gửi
+                            </Button>
+                        </Form.Item>
+                    </div>
+                </div>
                 <Modal visible={previewImage} footer={null} onCancel={this.onHandleCancelImage} width="800px" style={{ height: "500px" }}>
                     <img alt="example" src={previewUrl} style={{ width: "750px", height: "500px" }} />
                 </Modal>
@@ -371,11 +414,15 @@ class Legality extends Component {
 }
 
 const mapStateToProps = (state) => ({
-
+    transactionDetail: state.transactionDetail,
+    transactions: state.transaction
 })
 
-const mapDispatchToProps = {
-
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSendingLegality: (legalityData) => dispatch(transAction.actPostingLegalityRequest(legalityData)),
+        onGettingTransactionDetail: (id, type) => dispatch(transAction.actGettingTransactionDetailRequest(id, type))
+    }
 }
 
 const WrappedFormLegality = Form.create()(Legality)

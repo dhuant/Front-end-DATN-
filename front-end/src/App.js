@@ -70,7 +70,7 @@ class App extends Component {
             <Route exact path='/myproperties/edit/:id' component={EditUI} />
             <Route exact path='/myfollowing' component={MyFollowing} />
             <Route exact path='/mytransactions' component={MyTransaction} />
-            <Route exact path='/mytransactions/:id' component={TransactionDetail} />
+            <Route exact path='/mytransactions/:id/:type' component={TransactionDetail} />
             <Route exact path='/transhistory' component={TransHistory} />
             <Route exact path='/waiting' component={WaitingRequest} />
             <Route exact path='/progress' component={Stepper} />

@@ -1,20 +1,20 @@
 import { Steps, Button, message, Form, Icon, Input, Checkbox, Progress, InputNumber, Select, DatePicker } from 'antd';
 import React from 'react'
-import Deal from './TransactionStepForSeller/Deal'
-import Legality from './TransactionStepForSeller/Legality'
-import Deposit from './TransactionStepForSeller/Deposit'
-import Contract from './TransactionStepForSeller/Contract'
-import Confirmation from './TransactionStepForSeller/Confirmation'
-import Tax from './TransactionStepForSeller/Tax'
-import Delivery from './TransactionStepForSeller/Delivery'
+import Deal from './TransactionStepForBuyer/Deal'
+import Legality from './TransactionStepForBuyer/Legality'
+import Deposit from './TransactionStepForBuyer/Deposit'
+import Contract from './TransactionStepForBuyer/Contract'
+import Confirmation from './TransactionStepForBuyer/Confirmation'
+import Tax from './TransactionStepForBuyer/Tax'
+import Delivery from './TransactionStepForBuyer/Delivery'
 import * as transAction from '../../actions/transactionRequest'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
 const Step = Steps.Step;
 const Option = Select.Option;
 const { TextArea } = Input
 
-class Stepper extends React.Component {
+class StepperForBuyer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -49,18 +49,10 @@ class Stepper extends React.Component {
         });
     };
 
-    onChange = (date, dateString) => {
-        console.log(date, dateString);
-    }
-
-    onHandleChange = () => {
-
-    }
-
     render() {
         const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
         const { current } = this.state;
-        var {transaction} = this.props
+        var {transaction } = this.props
         // const totalPriceError = isFieldTouched('TotalPrice') && getFieldError('TotalPrice');
         // const depositError = isFieldTouched('deposit') && getFieldError('deposit');
         // const paymentMethodError = isFieldTouched('paymentMethod') && getFieldError('paymentMethod');
@@ -70,15 +62,13 @@ class Stepper extends React.Component {
             {
                 title: 'Thỏa thuận mua ban đầu',
                 content: (
-                    <React.Fragment>
-                        <Deal transaction={transaction}/>
-                    </React.Fragment>
+                    <Deal transaction={transaction}/>
                 )
             },
             {
                 title: 'Kiểm tra tính pháp lý của bất động sản',
                 content: (
-                    <Legality transaction={transaction}/>
+                    <Legality />
                 ),
             },
             {
@@ -116,9 +106,9 @@ class Stepper extends React.Component {
                                 <Step key={item.title} title={item.title} />
                             ))}
                         </Steps>
-                        {/* <hr></hr> */}
+                        <hr></hr>
                         <div className="steps-content">{steps[current].content}</div>
-                        {/* <hr></hr> */}
+                        <hr></hr>
                         <div className="steps-action">
                             {current > 0 && (
                                 <Button style={{}} onClick={() => this.prev()}>
@@ -135,6 +125,7 @@ class Stepper extends React.Component {
                                     <i className="fa fa-check" style={{ marginRight: "3px" }}></i> Hoàn tất
                                 </Button>
                             )}
+
                         </div>
                     </div>
                 </div>
@@ -143,17 +134,17 @@ class Stepper extends React.Component {
     }
 }
 
-const WrappedForm = Form.create()(Stepper)
+const WrappedForm = Form.create()(StepperForBuyer)
 
 const mapStateToProps = (state) => {
     return {
-
+        
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
+        
     }
 }
 
