@@ -33,6 +33,15 @@ class CompanyDetail extends Component {
             }
             )
         }
+        let mobile = 'Đang cập nhật'
+        if(company.phone !==''){
+            mobile = company.phone
+        }
+        let address = 'Đang cập nhật'
+            
+        if (company.address !== '') {
+            address = company.address
+        }
         console.log(company)
         return (
             <div>
@@ -66,21 +75,16 @@ class CompanyDetail extends Component {
                                     <div className="col-lg-7 col-md-6 col-sm-7 agent-content clearfix">
                                         {/* <h5>Creative Director</h5> */}
                                         <h3>
-                                            Công ty thảo điền
+                                            {company.companyname}
                                         </h3>
                                         {/* Address list */}
                                         <ul className="address-list">
-                                            <li>
-                                                <span>
-                                                    <i className="fa fa-tag" />Title:
-                                                </span>
-                                                John Antony
-                                            </li>
+                                        
                                             <li>
                                                 <span>
                                                     <i className="fa fa-envelope" />Email:
                                                 </span>
-                                                info@themevessel.com
+                                                {company.email}
                                             </li>
                                             <li>
                                                 <span>
@@ -92,13 +96,13 @@ class CompanyDetail extends Component {
                                                 <span>
                                                     <i className="fa fa-mobile" />Mobile:
                                                 </span>
-                                                +55 4XX-634-7071
+                                                {mobile}
                                             </li>
                                             <li>
-                                                <span>
-                                                    <i className="fa fa-skype" />Skype:
+                                            <span>
+                                                <i class="fa fa-map-marker"/>Điện thoại:
                                                 </span>
-                                                john.antony
+                                                {address}
                                             </li>
                                         </ul>
                                     </div>
@@ -160,7 +164,7 @@ class CompanyDetail extends Component {
                                 <div className="recently-properties">
                                     {/* Main title */}
                                     <div className="main-title-2">
-                                        <h1><span>Danh sách bài đăng</span> </h1>
+                                        <h1><span>Danh sách nhân viên</span> </h1>
                                     </div>
                                     {/* Option bar start */}
                                     <div className="option-bar">
@@ -170,13 +174,13 @@ class CompanyDetail extends Component {
                                                     <span className="heading-icon">
                                                         <i className="fa fa-th-list" />
                                                     </span>
-                                                    <span className="hidden-xs">Danh sách bài đăng</span>
+                                                    <span className="hidden-xs">Danh sách nhân viên</span>
                                                 </h4>
                                             </div>
                                             <div className="col-lg-6 col-md-7 col-sm-7 col-xs-10 cod-pad">
                                                 <div className="sorting-options">
                                                     <select className="sorting">
-                                                        <option>Bất động sản bán</option>
+                                                        <option>Mới tham gia</option>
                                                         <option>Bất động sản thuê</option>
                                                         <option>Properties (High To Low)</option>
                                                         <option>Properties (Low To High)</option>
