@@ -25,11 +25,10 @@ class ListEmployees extends Component {
         let dataSource = [];
         let isLoading = true;
         let company = this.props.userCompany;
-        console.log(company)
-        if(company!=={}){
-            dataSource = company.employees;
+        let {employees} = this.props
+        if(employees !==[]){
+            dataSource =  employees
         }
-        console.log(dataSource)
         const columns = [
             {
                 title: 'Họ tên',
@@ -105,7 +104,14 @@ class ListEmployees extends Component {
                                 </div>
                                 {/* table start */}
                                 <table className="manage-table responsive-table">
-                                    <Table dataSource={dataSource} columns={columns} />
+                                    <Table dataSource={dataSource} columns={columns}
+                                     onRow={(record, rowIndex) => {
+                                        return {
+                                            onClick: (event) => {
+                                                this.props.history.push(`info-employee/${record._id}`)
+                                            },
+                                        }}}
+                                    />
                                 </table>
                                 {/* table end */}
                             </div>
@@ -126,7 +132,8 @@ const mapDispathToProp = (dispatch) => {
 }
 const mapStateToProp = (state) => {
     return {
-        userCompany: state.userCompany
+        userCompany: state.userCompany,
+        employees: state.employees
     }
 }
 export default connect(mapStateToProp, mapDispathToProp)(ListEmployees)

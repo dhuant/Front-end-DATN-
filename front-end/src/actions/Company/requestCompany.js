@@ -11,7 +11,7 @@ export const actGetInfoUserCompany = (id) => {
       .then(res => {
         console.log(res.data);
         dispatch(action.actSaveInfoUserCompany(res.data.company));
-
+        dispatch(action.actSaveListEmployees(res.data.company.employees))
       })
       .catch(err => {
         console.log(err.respone)

@@ -11,6 +11,7 @@ import estatesListOfUser from './estatesListOfUser'
 import follow from './follow'
 //=====company
 import userCompany from './Company/userCompany'
+import employees from './Company/employees'
 //=====
 import transaction from './Transaction/transaction'
 import transactionDetail from './Transaction/transactionDetail'
@@ -33,6 +34,7 @@ const appReducers = combineReducers({
     estatesListOfUser,
     follow,
     userCompany,
+    employees,
     transaction,
     transactionDetail,
     waiting,
