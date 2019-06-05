@@ -18,10 +18,18 @@ class ListEmployees extends Component {
         };
     }
     componentDidMount() {
-        this.props.actGetInfoUserCompany();
-
+        let company = JSON.parse(localStorage.getItem('company'));
+        this.props.actGetInfoUserCompany(company.id);
     }
     render() {
+        let dataSource = [];
+        let isLoading = true;
+        let company = this.props.userCompany;
+        console.log(company)
+        if(company!=={}){
+            dataSource = company.employees;
+        }
+        console.log(dataSource)
         const columns = [
             {
                 title: 'Họ tên',
@@ -64,10 +72,6 @@ class ListEmployees extends Component {
                 }
             },
         ]
-        let dataSource = [];
-        let isLoading = true;
-        let userCompany = this.props.userCompany;
-        dataSource = userCompany.employees;
         
         return (
             <div>
@@ -117,7 +121,7 @@ class ListEmployees extends Component {
 
 const mapDispathToProp = (dispatch) => {
     return {
-        actGetInfoUserCompany: () => dispatch(actions.actGetInfoUserCompany())
+        actGetInfoUserCompany: (id) => dispatch(actions.actGetInfoUserCompany(id))
     }
 }
 const mapStateToProp = (state) => {
