@@ -4,20 +4,21 @@ import InfoCompany from '../../components/Company/ProfileCompany/InfoCompany'
 import Footer from '../../components/Footer'
 import HeaderCompany from '../../components/Company/HeaderCompany'
 import { Link } from 'react-router-dom'
-import {message} from 'antd'
+import { message } from 'antd'
 import { connect } from 'react-redux';
 // import * as actions from '../../actions/Company/requestCompany';
-import {withRouter} from 'react-router-dom'
-import  {adminService} from '../../actions/Company/admin.service'
+import { withRouter } from 'react-router-dom'
+import { adminService } from '../../actions/Company/admin.service'
 import moment from 'moment'
+import { Form, Input, Button } from 'antd';
 class AddAccount extends Component {
     constructor() {
         super();
         this.state = {
-            fullname:'',
+            fullname: '',
             email: '',
-            phoneNumber:'',
-            description:'',
+            phoneNumber: '',
+            description: '',
             address: ''
 
         };
@@ -30,13 +31,13 @@ class AddAccount extends Component {
             [name]: value,
         });
     }
-    onQuit =(e) =>{
+    onCancel = (e) => {
         e.preventDefault();
         this.props.history.push('/company/profile-admin')
     }
-    onRegister=(e)=>{
+    onRegister = (e) => {
         e.preventDefault();
-        let account ={
+        let account = {
             fullname: this.state.fullname,
             email: this.state.email,
             phone: this.state.phoneNumber,
@@ -48,22 +49,73 @@ class AddAccount extends Component {
         }
         console.log(account.createTime);
         message.loading('Đang thêm tài khoản', 2)
-        .then(()=>{
-            adminService.addAccount(account)
-            .then(res => {
-                if(res.status === 201){
-                    message.success('Thêm tài khoản nhân viên thành công');
-                }
-                this.props.history.push('/company/profile-admin')
-            })
-            .catch(err => {
-                message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
-            })
-        });
-        
+            .then(() => {
+                adminService.addAccount(account)
+                    .then(res => {
+                        if (res.status === 201) {
+                            message.success('Thêm tài khoản nhân viên thành công');
+                        }
+                        this.props.history.push('/company/profile-admin')
+                    })
+                    .catch(err => {
+                        message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                    })
+            });
+
     }
+    handleSubmit = e => {
+        e.preventDefault();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                let data = {
+                    currentPassword: values.currentPassword,
+                    newPassword: values.newPassword,
+
+                }
+                console.log(data)
+
+                message.loading('Đang cập nhật lại mật khẩu', 2)
+                    .then(() => {
+                        adminService.changePasswordCompany(data)
+                            .then(res => {
+                                if (res.status === 200) {
+                                    message.success('Đổi mật khẩu thành công');
+                                }
+                                this.props.history.push('/company/profile-admin')
+                            })
+                            .catch(err => {
+                                message.error('Đổi mật khẩu thất bại. Mời bạn vui lòng thử lại')
+                            })
+                    });
+            }
+        });
+    };
+
     render() {
-        let {fullname, email,phoneNumber, description} = this.state;
+        let { fullname, email, phoneNumber, description } = this.state;
+        const { getFieldDecorator } = this.props.form;
+        const formItemLayout = {
+            labelCol: {
+                xs: { span: 24 },
+                sm: { span: 6 },
+            },
+            wrapperCol: {
+                xs: { span: 24 },
+                sm: { span: 18 },
+            },
+        };
+        const tailFormItemLayout = {
+            wrapperCol: {
+                xs: {
+                    span: 24,
+                    offset: 0,
+                },
+                sm: {
+                    span: 24,
+                    offset: 0,
+                },
+            },
+        };
         return (
             <div>
                 <HeaderCompany />
@@ -95,7 +147,7 @@ class AddAccount extends Component {
                                     <h1><span>Thêm tài khoản nhân viên</span> </h1>
                                 </div>
 
-                                <form className="form-horizontal" onSubmit={this.onRegister}>
+                                {/* <form className="form-horizontal" onSubmit={this.onRegister}>
                                     <div className="form-group">
                                         <label htmlFor="fullname" className="col-sm-3 control-label">Họ và tên*</label>
                                         <div className="col-sm-9">
@@ -110,26 +162,7 @@ class AddAccount extends Component {
                                             onChange={this.handleOnChange}  />
                                         </div>
                                     </div>
-                                    {/* <div className="form-group">
-                                        <label htmlFor="username" className="col-sm-3 control-label">Tên đăng nhập*</label>
-                                        <div className="col-sm-9">
-                                            <input type="text" id="username" placeholder="Dùng email của nhân viên để làm tên đăng nhập" className="form-control" required /> 
-                                            
-                                        </div>
-                                    </div> */}
-                                    {/* autofocus /> */}
-                                    {/* <div className="form-group">
-                                        <label htmlFor="password" className="col-sm-3 control-label">Mật khẩu*</label>
-                                        <div className="col-sm-9">
-                                            <input type="password" id="password" placeholder="Mật khẩu" className="form-control" required/>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="password" className="col-sm-3 control-label">Confirm Password*</label>
-                                        <div className="col-sm-9">
-                                            <input type="password" id="password" placeholder="Password" className="form-control" required/>
-                                        </div>
-                                    </div> */}
+                                    
                                     <div className="form-group">
                                         <label htmlFor="email" className="col-sm-3 control-label">Email* </label>
                                         <div className="col-sm-9">
@@ -166,12 +199,48 @@ class AddAccount extends Component {
                                         </div>
                                     </div>
                                     <div className="form-group" style={{textAlign:'center'}}>
-                                    {/* <button type="submit" className="btn btn-primary btn-block">Đăng kí</button> */}
                                     <button style={{marginRight:'5px'}} type="submit" className="btn btn-success">Tạo tài khoản</button>
                                     <button onClick={this.onQuit} type="button" class="btn btn-primary">Hủy</button>
-
                                     </div>
-                                </form>
+                                </form> */}
+                                <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+                                    
+                                    <Form.Item label="E-mail" style={{ paddingRight: '20px' }} hasFeedback>
+                                        {getFieldDecorator('email', {
+                                            rules: [
+                                                {
+                                                    type: 'email',
+                                                    message: 'Văn bản không đúng định dạng email',
+                                                },
+                                                {
+                                                    required: true,
+                                                    message: 'Vui lòng nhập email của bạn vào ô văn bản',
+                                                },
+                                            ],
+                                        })(<Input style={{ marginRight: '30px' }}/>)}
+                                    </Form.Item>
+                                    
+                                    <Form.Item label="Mật khẩu hiện tại" style={{ paddingRight: '20px' }} hasFeedback>
+                                        {getFieldDecorator('currentPassword', {
+                                            rules: [
+                                                {
+                                                    required: true,
+                                                    message: 'Vui lòng nhập mật khẩu!',
+                                                },
+
+                                            ],
+                                        })(<Input.Password style={{ marginRight: '30px' }} />)}
+                                    </Form.Item>
+                                    
+                                    <Form.Item {...tailFormItemLayout} style={{ textAlign: 'right', paddingRight: '20px' }}>
+                                        <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit">
+                                            Cập nhật mật khẩu
+                                                </Button>
+                                        <Button type="danger" onClick={this.onCancel}>
+                                            Hủy
+                                                </Button>
+                                    </Form.Item>
+                                </Form>
                             </div>
                         </div>
                     </div>
@@ -192,4 +261,4 @@ const mapStateToProp = (state) => {
     }
 }
 
-export default connect(mapStateToProp, mapDispathToProp)(withRouter(AddAccount));
+export default connect(mapStateToProp, mapDispathToProp)(withRouter(Form.create()(AddAccount)));

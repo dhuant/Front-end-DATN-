@@ -45,6 +45,7 @@ import AddAccount from './pages/Company/AddAccount'
 import ChangePasswordCompany from './pages/Company/ChangePasswordCompany'
 import ForgotPasswordCompany from './pages/Company/ForgotPasswordCompany'
 import ProfileEmployee from './pages/Company/ProfileEmployee'
+import InputNumber from './components/Company/InputNumber';
 class App extends Component {
   render() {
     return (
@@ -88,6 +89,7 @@ class App extends Component {
             {/* ---------- */}
             {/* Route cho company */}
 
+            <Route exact path='/input' component={InputNumber}/>
             <Route exact path='/company/login' component={LoginCompany} />
             <Route exact path='/company/profile-admin' component={ProfileAdmin} />
             <Route exact path='/company/add-account-employee' component={AddAccount}/>
