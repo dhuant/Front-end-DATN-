@@ -12,6 +12,11 @@ class ForgotPasswordCompany extends Component {
         };
 
     }
+    componentDidMount() {
+        if(localStorage.getItem('company')){
+            this.props.history.push('/company/profile-admin')
+        }
+    }
     handleOnChange = (e) => {
         let target = e.target;
         let name = target.name;
@@ -107,7 +112,7 @@ class ForgotPasswordCompany extends Component {
                                             </Form.Item>
                                             <Form.Item {...tailFormItemLayout} style={{textAlign: 'right'}}>
                                                 <Button type="primary" style={{marginRight:'5px'}} htmlType="submit">
-                                                    Register
+                                                    Gửi email
                                                 </Button>
                                                 <Button type="danger" onClick={this.onCancel}>
                                                     Hủy
