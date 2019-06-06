@@ -70,7 +70,6 @@ class HeaderCompany extends Component {
 
     render() {
         var token = localStorage.getItem('company')
-        console.log(token)
         return (
             <div>
                 <header className="main-header">
