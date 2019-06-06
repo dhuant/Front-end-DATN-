@@ -25,31 +25,11 @@ class ChangePasswordCompany extends Component {
             [name]: value,
         });
     }
-    onQuit = (e) => {
+    onCancel = (e) => {
         e.preventDefault();
         this.props.history.push('/company/profile-admin')
     }
-    onChangePassword = (e) => {
-        e.preventDefault();
-        let data = {
-            currentPassword: this.state.password,
-            newPassword: this.state.newpassword,
-
-        }
-        message.loading('Đang cập nhật lại mật khẩu', 2)
-            .then(() => {
-                adminService.changePasswordCompany(data)
-                    .then(res => {
-                        if (res.status === 200) {
-                            message.success('Đổi mật khẩu thành công');
-                        }
-                        this.props.history.push('/company/profile-admin')
-                    })
-                    .catch(err => {
-                        message.error('Đổi mật khẩu thất bại. Mời bạn vui lòng thử lại')
-                    })
-            });
-    }
+    
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -99,14 +79,6 @@ class ChangePasswordCompany extends Component {
         callback();
     };
     render() {
-        let { password, newpassword, confirmpassword } = this.state;
-        let message = '';
-        let button = <button style={{ marginRight: '5px' }} type="submit" className="btn btn-success" disabled >Lưu thay đổi</button>
-
-        if (confirmpassword !== '' & newpassword !== '' & confirmpassword === newpassword) {
-            message = <h5 style={{ color: 'green', marginTop: '4px', marginLeft: '2px' }}><b>Mật khẩu khớp</b></h5>
-            button = <button style={{ marginRight: '5px' }} type="submit" className="btn btn-success" >Lưu thay đổi</button>
-        }
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: {
