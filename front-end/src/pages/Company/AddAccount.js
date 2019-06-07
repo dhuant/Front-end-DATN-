@@ -86,12 +86,14 @@ class AddAccount extends Component {
         });
     };
     onCheckFullName = (rule, value, callback) => {
-        const reg = /^[a-z]|[A-Z]?([a-z][a-z]*)?$/;
-        if ((reg.test(value)) || value === '') {
-            callback();
+        const reg = /\d|^[a-z]|^\s|[A-z]{8}|\S{8}|[`~!@#$%^&*()(\-)_=+[(\]){};:'",<.>/?\\|]/
+        //Check kí tự đầu là số, chữ cái viết thường, 
+        //bắt đầu bằng khoảng trắng, 8 kí tự liền nhau (tên: Nghiêng), kí tự đặc biệt
+        if ((!Number.isNaN(value) && reg.test(value)) || value === ''|| value.length <4) {
+            callback('Vui lòng nhập đúng tên!');
         }
         else {
-            callback('Vui lòng nhập đúng họ !')
+            callback()
         }
     }
     onCheckPhoneNumber = (rule, value, callback) => {
@@ -238,7 +240,7 @@ class AddAccount extends Component {
                                         })(<Input
                                             //onChange={this.onChange} 
                                             style={{ marginRight: '30px' }}
-                                            placeholder="Nhập 9 chữ số sau số 0"
+                                            placeholder="Nhập tên nhân viên"
                                             maxLength={50} />)}
                                     </Form.Item>
                                     <Form.Item label="E-mail" style={{ paddingRight: '20px' }} hasFeedback>
