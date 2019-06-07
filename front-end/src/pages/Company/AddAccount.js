@@ -67,30 +67,22 @@ class AddAccount extends Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                let data = {
-                    currentPassword: values.currentPassword,
-                    newPassword: values.newPassword,
+                
+                console.log(values);
 
-                }
-                console.log(data)
-
-                message.loading('Đang cập nhật lại mật khẩu', 2)
-                    .then(() => {
-                        adminService.changePasswordCompany(data)
-                            .then(res => {
-                                if (res.status === 200) {
-                                    message.success('Đổi mật khẩu thành công');
-                                }
-                                this.props.history.push('/company/profile-admin')
-                            })
-                            .catch(err => {
-                                message.error('Đổi mật khẩu thất bại. Mời bạn vui lòng thử lại')
-                            })
-                    });
             }
         });
     };
-
+    onChange = (rule, value, callback) => {
+        const form = this.props.form;
+        const reg = /^01?([1-9][0-9]*)?$/;
+        if ((!Number.isNaN(value) && reg.test(value)) ||value === '') {
+            callback();
+        }
+        else{
+            callback('Vui lòng nhập đúng số điện thoại!')
+        }
+    };
     render() {
         let { fullname, email, phoneNumber, description } = this.state;
         const { getFieldDecorator } = this.props.form;
@@ -204,7 +196,7 @@ class AddAccount extends Component {
                                     </div>
                                 </form> */}
                                 <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-                                    
+
                                     <Form.Item label="E-mail" style={{ paddingRight: '20px' }} hasFeedback>
                                         {getFieldDecorator('email', {
                                             rules: [
@@ -214,24 +206,29 @@ class AddAccount extends Component {
                                                 },
                                                 {
                                                     required: true,
-                                                    message: 'Vui lòng nhập email của bạn vào ô văn bản',
+                                                    message: 'Vui lòng nhập email của nhân viên vào ô văn bản',
                                                 },
                                             ],
-                                        })(<Input style={{ marginRight: '30px' }}/>)}
+                                        })(<Input style={{ marginRight: '30px' }} />)}
                                     </Form.Item>
-                                    
-                                    <Form.Item label="Mật khẩu hiện tại" style={{ paddingRight: '20px' }} hasFeedback>
-                                        {getFieldDecorator('currentPassword', {
+                                    <Form.Item label="Số điện thoại" style={{ paddingRight: '20px' }} hasFeedback>
+                                        {getFieldDecorator('phone', {
                                             rules: [
                                                 {
                                                     required: true,
-                                                    message: 'Vui lòng nhập mật khẩu!',
+                                                    message: 'Vui lòng nhập số điện thoại của nhân viên!',
                                                 },
-
+                                                {
+                                                    validator: this.onChange,
+                                                },
                                             ],
-                                        })(<Input.Password style={{ marginRight: '30px' }} />)}
+                                        })(<Input
+                                            //onChange={this.onChange} 
+                                            style={{ marginRight: '30px' }}
+                                            placeholder="Nhập số điện thoại"
+                                            maxLength={10} />)}
                                     </Form.Item>
-                                    
+
                                     <Form.Item {...tailFormItemLayout} style={{ textAlign: 'right', paddingRight: '20px' }}>
                                         <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit">
                                             Cập nhật mật khẩu
