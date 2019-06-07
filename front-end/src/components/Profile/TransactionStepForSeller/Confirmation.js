@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import { Image } from 'react-bootstrap'
 import request from 'superagent'
+import * as transAction from '../../../actions/transactionRequest'
 import { Button, message, Form, Icon, Input, Checkbox, Progress, InputNumber, Select, DatePicker, Modal } from 'antd';
+import moment from 'moment'
 
 const CLOUDINARY_UPLOAD_PRESET = 'nn6imhmo';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dne3aha8f/image/upload';
@@ -15,6 +17,8 @@ class Confirmation extends Component {
 
         this.state = {
             governmentArray: [],
+            governmentPreviewImageBeforeUpload: [],
+            governmentListImagesBeforeUpload: [],
             previewImage: false,
             previewUrl: '',
         }
@@ -28,37 +32,59 @@ class Confirmation extends Component {
         this.setState({ previewImage: false })
     }
 
-    handleGovernmentUpload(files) {
-        console.log(files)
-        files.map(file => {
-            let upload = request.post(CLOUDINARY_UPLOAD_URL)
-                .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-                .field('file', file);
-
-            upload.end((err, response) => {
-                console.log(response)
-                if (err) {
-                    console.error(err);
-                }
-
-                if (response.body.secure_url !== '') {
-                    this.setState({
-                        governmentArray: this.state.governmentArray.concat({ url: response.body.secure_url, id: response.body.public_id })
-                    });
-                }
-            });
+    componentDidMount = () => {
+        this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
+        this.setState({
+            governmentArray: this.props.transactions.selldetail.confirmation.image,
         })
     }
 
-    onShowGovernmentPreviewImage = (array) => {
-        console.log(array.length)
+    onUploadingGovernmentImages = async (list) => {
+        console.log(list)
+        await Promise.all(list.map(async file => {
+            await
+                request
+                    .post(CLOUDINARY_UPLOAD_URL)
+                    .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+                    .field('file', file)
+                    .then(response => {
+                        console.log(response)
+                        this.setState({
+                            governmentArray: this.state.governmentArray.concat({ url: response.body.secure_url, id: response.body.public_id }),
+                        })
+                    })
+                    .catch(err => message.error(`Có lỗi xảy ra: ${err}`))
+        }))
+        this.setState({ governmentListImagesBeforeUpload: [] })
+        console.log(this.state.governmentArray)
+
+    }
+
+    handleGovernmentUpload(files) {
+        files.map(file => {
+            console.log(file)
+            let reader = new FileReader()
+            reader.onloadend = () => {
+                console.log(reader.result)
+                this.setState({
+                    governmentArray: [...this.state.governmentArray, reader.result],
+                    governmentPreviewImageBeforeUpload: [...this.state.governmentPreviewImageBeforeUpload, reader.result],
+                    governmentListImagesBeforeUpload: [...this.state.governmentListImagesBeforeUpload, file]
+                })
+                console.log(reader.result, file)
+            }
+            reader.readAsDataURL(file);
+        })
+    }
+
+    onShowImageBeforeUpload = (array) => {
         let result = []
         if (array && array.length > 0) {
             for (var i = 0; i < array.length; i++) {
                 result.push(<div className="col-md-3" key={i}>
                     <Image
                         className="imagepreview"
-                        src={array[i].url}
+                        src={array[i].url ? array[i].url : array[i]}
                         thumbnail
                         style={{ width: "150px", height: "100px", cursor: "pointer" }}
                         onClick={this.onHandlePreviewImage}
@@ -69,9 +95,9 @@ class Confirmation extends Component {
                         className="close"
                         aria-label="Close"
                         style={{ top: "-100px", left: "-5px", position: "relative", color: "#0A10C8" }}
-                        onClick={this.showGovernmentDeleteConfirm} name={array[i].id} value={i}>
+                        onClick={this.showGovernmentDeleteConfirm} value={array[i].url ? i : array[i]}>
                         x
-                </button>
+                    </button>
                 </div>)
             }
         }
@@ -81,6 +107,11 @@ class Confirmation extends Component {
 
     showGovernmentDeleteConfirm = (event) => {
         var index = event.target.value
+        this.state.governmentPreviewImageBeforeUpload.map((image, key) => {
+            if (image === index) {
+                index = key
+            }
+        })
         confirm({
             title: 'Bạn muốn xóa hình này không?',
             okText: 'Có',
@@ -88,8 +119,12 @@ class Confirmation extends Component {
             cancelText: 'Trở lại',
             onOk: () => {
                 console.log('OK');
+                this.state.governmentListImagesBeforeUpload.splice(index, 1)
+                this.state.governmentPreviewImageBeforeUpload.splice(index, 1)
                 this.state.governmentArray.splice(index, 1)
                 this.setState({
+                    governmentPreviewImageBeforeUpload: this.state.governmentPreviewImageBeforeUpload,
+                    governmentListImagesBeforeUpload: this.state.governmentListImagesBeforeUpload,
                     governmentArray: this.state.governmentArray
                 })
             },
@@ -98,16 +133,51 @@ class Confirmation extends Component {
             },
         });
     }
+    onSendingData = (uploadList, transactions) => {
+        return new Promise(async () => {
+            await Promise.all(this.state.governmentArray.map(image => {
+                if (image.url) {
+                    uploadList.push(image)
+                }
+            }))
+            this.setState({ govermentArray: uploadList })
+            // if (uploadList.length === 0)
+            //     return message.error('Bạn chưa tải lên hình nào!')
+            var governmentData = {
+                image: uploadList,
+                updateTime: moment().unix(),
+                _id: transactions._id,
+                id: transactions.selldetail._id,
+                complete: true
+            }
+
+            this.props.onSendingConfirmation(governmentData)
+        })
+    }
+    handleSubmit = (e) => {
+        e.preventDefault()
+        var uploadList = []
+        var { transactions } = this.props
+        this.props.form.validateFields(async (err, values) => {
+            if (!err) {
+                try {
+                    await this.onUploadingGovernmentImages(this.state.governmentListImagesBeforeUpload);
+                    await this.onSendingData(uploadList, transactions);
+
+                } catch (error) {
+                    message.error(error)
+                }
+            }
+        })
+    }
     render() {
         var { governmentArray, previewImage, previewUrl } = this.state
-        const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
+        const { getFieldDecorator } = this.props.form;
         return (
             <div className="container">
-                <div className="col-md-8 col-lg-8 col-xs-12">
-                    <Form.Item label="Hình ảnh xác thực từ chính quyền địa phương: ">
-                        {getFieldDecorator('government', {
-                            rules: [{ required: true, message: 'Bạn phải có hình xác thực!' }],
-                        })(
+                <Form onSubmit={this.handleSubmit}>
+                    <div className="col-md-8 col-lg-8 col-xs-12">
+                        <Form.Item label="Hình ảnh xác thực từ chính quyền địa phương: ">
                             <div className="col-md-3 col-lag-3 col-xs-12">
                                 <div className="photoUpload">
                                     <Dropzone
@@ -130,16 +200,25 @@ class Confirmation extends Component {
                                     </Dropzone>
                                 </div>
                             </div>
-                        )}
-                    </Form.Item>
-                    <div className="col-md-8 col-lag-8 col-xs-12">
-                        <div className="row">
-                            <div className="clearfix">
-                                {(governmentArray && governmentArray.length > 0) ? this.onShowGovernmentPreviewImage(governmentArray) : null}
+                        </Form.Item>
+                        <div className="col-md-8 col-lag-8 col-xs-12">
+                            <div className="row">
+                                <div className="clearfix">
+                                    {(governmentArray && governmentArray.length > 0) ? this.onShowImageBeforeUpload(governmentArray) : null}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div className="row">
+                        <div className="col-md-8 col-lg-8 col-xs-12">
+                            <Form.Item>
+                                <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }}>
+                                    Xác nhận
+                                </Button>
+                            </Form.Item>
+                        </div>
+                    </div>
+                </Form>
                 <Modal visible={previewImage} footer={null} onCancel={this.onHandleCancelImage} width="800px" style={{ height: "500px" }}>
                     <img alt="example" src={previewUrl} style={{ width: "750px", height: "500px" }} />
                 </Modal>
@@ -148,12 +227,18 @@ class Confirmation extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => {
+    return {
+        transactions: state.transaction,
+        transactionDetail: state.transactionDetail
+    }
+}
 
-})
-
-const mapDispatchToProps = {
-
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onGettingTransactionDetail: (id, type) => dispatch(transAction.actGettingTransactionDetailRequest(id, type)),
+        onSendingConfirmation: (confirmationData) => dispatch(transAction.actPostingConfirmationRequest(confirmationData))
+    }
 }
 
 const WrappedFormConfirmation = Form.create()(Confirmation)

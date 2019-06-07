@@ -1,9 +1,7 @@
 import * as Types from '../constants/ActionTypes';
 
 var initialState = {
-    province: '',
-    district: '',
-    addressDetail: '',
+    
 };
 const address = (state = initialState, action) => {
     switch (action.type) {

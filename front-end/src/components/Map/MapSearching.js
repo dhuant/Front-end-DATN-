@@ -4,8 +4,10 @@ import Geocode from 'react-geocode'
 // const Geocode = require('react-geocode')
 // import Autocomplete from 'react-google-autocomplete';
 import Searching from '../../pages/Map/Searching'
+import SearchBox from '../../pages/Map/SearchBox'
 import * as actions from '../../actions/index'
 import { connect } from 'react-redux'
+import { message, Alert } from 'antd';
 Geocode.setApiKey("AIzaSyB9iQfFH9AdPXjCfzV-qwRZMA-l2VoJlRo");
 Geocode.enableDebug();
 
@@ -18,6 +20,7 @@ class MapSearching extends Component {
 			city: '',
 			area: '',
 			state: '',
+			unknownAddress: '',
 			mapPosition: {
 				lat: this.props.center.lat,
 				lng: this.props.center.lng
@@ -26,7 +29,6 @@ class MapSearching extends Component {
 				lat: this.props.center.lat,
 				lng: this.props.center.lng
 			}
-
 		}
 	}
 	/**
@@ -36,18 +38,18 @@ class MapSearching extends Component {
 		Geocode.fromLatLng(this.state.mapPosition.lat, this.state.mapPosition.lng).then(
 			response => {
 				const address = response.results[0].formatted_address,
-					addressArray = response.results[0].address_components,
-					city = this.getCity(addressArray),
-					area = this.getArea(addressArray),
-					state = this.getState(addressArray);
+					addressArray = response.results[0].address_components
+				// city = this.getCity(addressArray),
+				// area = this.getArea(addressArray),
+				// state = this.getState(addressArray);
 
-				console.log('city', city, area, state, this.state.markerPosition, addressArray, address);
+				console.log('city', this.state.markerPosition, addressArray, address);
 				localStorage.setItem('defaultAddress', address)
 				this.setState({
 					address: (address) ? address : '',
-					area: (area) ? area : '',
-					city: (city) ? city : '',
-					state: (state) ? state : '',
+					// area: (area) ? area : '',
+					// city: (city) ? city : '',
+					// state: (state) ? state : '',
 				})
 			},
 			error => {
@@ -84,13 +86,15 @@ class MapSearching extends Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (snapshot) {
-			let { city, state, address, markerPosition } = this.state;
-			const location = {
-				province: city,
-				district: state,
-				addressDetail: address,
-				markerPosition: markerPosition
-			}
+			var unknownAddress = ''
+			let { address, markerPosition } = this.state;
+			document.getElementById('address').value ? unknownAddress = document.getElementById('address').value : unknownAddress = ''
+				const location = {
+					// province: city,
+					unknownAddress: unknownAddress,
+					addressDetail: address,
+					markerPosition: markerPosition
+				}
 			this.props.onSaveLocationInfo(location)
 			console.log(location)
 
@@ -180,15 +184,17 @@ class MapSearching extends Component {
 			response => {
 				console.log(response)
 				const address = response.results[0].formatted_address,
-					addressArray = response.results[0].address_components,
-					city = this.getCity(addressArray),
-					area = this.getArea(addressArray),
-					state = this.getState(addressArray);
+					unknownAddress = response.results[0].formatted_address,
+					addressArray = response.results[0].address_components
+				// city = this.getCity(addressArray),
+				// area = this.getArea(addressArray),
+				// state = this.getState(addressArray);
 				this.setState({
 					address: (address) ? address : '',
-					area: (area) ? area : '',
-					city: (city) ? city : '',
-					state: (state) ? state : '',
+					// unknownAddress: (unknownAddress) ? unknownAddress : '',
+					// area: (area) ? area : '',
+					// city: (city) ? city : '',
+					// state: (state) ? state : '',
 					markerPosition: {
 						lat: newLat,
 						lng: newLng
@@ -206,35 +212,49 @@ class MapSearching extends Component {
 	 * @param place
 	 */
 	onPlaceSelected = (place) => {
-		console.log('plc', place);
-		const address = place.formatted_address,
-			addressArray = place.address_components,
-			city = this.getCity(addressArray),
-			area = this.getArea(addressArray),
-			state = this.getState(addressArray),
-			latValue = place.geometry.location.lat(),
-			lngValue = place.geometry.location.lng();
-		// Set these values in the state.
-		this.setState({
-			address: (address) ? address : '',
-			area: (area) ? area : '',
-			city: (city) ? city : '',
-			state: (state) ? state : '',
-			markerPosition: {
-				lat: latValue,
-				lng: lngValue
-			},
-			mapPosition: {
-				lat: latValue,
-				lng: lngValue
-			},
-		})
+		console.log('plc', place[0]);
+		if (place[0].formatted_address) {
+			const address = place[0].formatted_address,
+				// addressArray = place[0].address_components,
+				unknownAddress = place[0].formatted_address,
+				// city = this.getCity(addressArray),
+				// area = this.getArea(addressArray),
+				// state = this.getState(addressArray),
+				latValue = place[0].geometry.location.lat(),
+				lngValue = place[0].geometry.location.lng();
+			// Set these values in the state.
+			this.setState({
+				address: (address) ? address : '',
+				unknownAddress: (unknownAddress) ? unknownAddress : '',
+				// area: (area) ? area : '',
+				// city: (city) ? city : '',
+				// state: (state) ? state : '',
+				markerPosition: {
+					lat: latValue,
+					lng: lngValue
+				},
+				mapPosition: {
+					lat: latValue,
+					lng: lngValue
+				},
+			})
+		}
+		else if (place[0].formatted_address === undefined || place[0].formatted_address === null) {
+			this.setState({ unknownAddress: place[0].name ? place[0].name : '' })
+			message.warning('Không thể tìm chính xác vị trí của bạn! Bạn có thể xác định lại vị trí của mình thủ công trên bản đồ!')
+			// return (
+			// 	< Alert
+			// 		message="Warning"
+			// 		description='Không thể tìm chính xác vị trí của bạn! Bạn có thể xác định lại vị trí của mình thủ công trên bản đồ!'
+			// 		type="warning"
+			// 		showIcon
+			// 	/>
+			// )
+		}
 	};
 
 
 	render() {
-		console.log("abc")
-		// let markerLength = this.state.markers.length
 		const AsyncMap = withScriptjs(
 			withGoogleMap(
 				props => (
@@ -262,7 +282,7 @@ class MapSearching extends Component {
 						<Marker />
 
 						{/* For Auto complete Search Box */}
-						<Searching
+						{/* <Searching
 							style={{
 								width: '100%',
 								height: '40px',
@@ -274,6 +294,9 @@ class MapSearching extends Component {
 
 							onPlaceChanged={this.onPlaceSelected}
 
+						/> */}
+						<SearchBox
+							onPlaceChanged={this.onPlaceSelected}
 						/>
 					</GoogleMap>
 				)
@@ -287,22 +310,23 @@ class MapSearching extends Component {
 						<span>Vị </span>trí
 					</h1>
 				</div>
-				{/* <div className="row mb-30 ">
-					<div className="col-md-6 col-sm-6">
+				<div className="row mb-30 ">
+					<div className="col-md-12 col-sm-12">
 						<div className="form-group">
 							<label>Địa chỉ chi tiết</label>
 							<input
 								type="text"
 								className="form-control"
 								name="address"
+								id="address"
 								placeholder="Address"
 								onChange={this.onChange}
 								readOnly="readOnly"
-								value={this.state.address}
+								value={this.state.unknownAddress}
 							/>
 						</div>
 					</div>
-					<div className="col-md-6 col-sm-6">
+					{/* <div className="col-md-6 col-sm-6">
 						<div className="form-group">
 							<label>Tỉnh/Thành phố</label>
 							<input
@@ -343,8 +367,8 @@ class MapSearching extends Component {
 								value={this.state.state}
 							/>
 						</div>
-					</div>
-				</div> */}
+					</div> */}
+				</div>
 				<AsyncMap
 					googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaznvdfOL3vMLdqR729vJEWauyZp9-Ud8&v=3.exp&libraries=places"
 					loadingElement={

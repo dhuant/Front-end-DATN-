@@ -13,8 +13,8 @@ const user = (state = initialState, action) => {
             console.log(state, action)
             return { ...state }
         case GET_USER_INFO:
-            state = action.user
-            console.log(action)
+            state = action.user.user
+            console.log(action, state)
             return { ...state }
         default: return { ...state };
     }

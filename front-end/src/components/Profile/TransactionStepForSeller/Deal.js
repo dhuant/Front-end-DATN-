@@ -22,7 +22,7 @@ class Deal extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.transaction)
+        // console.log(this.props.transaction)
         this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
     }
     hasErrors = (fieldsError) => {
@@ -66,8 +66,8 @@ class Deal extends Component {
             && dealInfo.description === existedDealInfo.description) {
             return message.warning("Bạn chưa thay đổi gì cả!")
         }
-        console.log(dealInfo)
-        console.log(existedDealInfo)
+        // console.log(dealInfo)
+        // console.log(existedDealInfo)
         this.props.onSendingDeal(dealInfo)
     }
 
@@ -160,7 +160,7 @@ class Deal extends Component {
                     <div className="row">
                         <div className="col-md-8 col-lg-8 col-xs-12">
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" style={{ fontSize: "10px", float: "right" }} onClick={this.onSubmitDeal}>
+                                <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} onClick={this.onSubmitDeal}>
                                     Xác nhận
                                 </Button>
                             </Form.Item>

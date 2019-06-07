@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, message, Form, Icon, Input, Checkbox, Progress, InputNumber, Select, DatePicker, Modal } from 'antd';
+import * as transAction from '../../../actions/transactionRequest'
+import moment from 'moment'
 
 const { TextArea } = Input
 
@@ -13,8 +15,36 @@ class Delivery extends Component {
     }
   }
 
+  handleSubmit = e => {
+    var { transactions } = this.props
+    e.preventDefault();
+    var deliveryData = null
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+        deliveryData = {
+          datecomplete: moment(values.deliveryDate, 'YYYY/MM/DD, h:mm a').unix(),
+          apartmentcode: transactions.code,
+          room: Number(document.getElementById('room').value),
+          datein: moment(values.startDate, 'YYYY/MM/DD, h:mm a').unix(),
+          tax: Number(document.getElementById('tax').value),
+          complete: true,
+          updateTime: moment().unix(),
+          _id: this.props.transaction._id,
+          id: this.props.transaction.selldetail._id,
+        }
+        if (transactions.selldetail.delivery.datecomplete === moment(values.deliveryDate, 'YYYY/MM/DD, h:mm a').unix()
+          && transactions.selldetail.delivery.room === document.getElementById('room').value
+          && transactions.selldetail.delivery.tax === document.getElementById('tax').value
+          && transactions.selldetail.delivery.datein === moment(values.startDate, 'YYYY/MM/DD, h:mm a').unix())
+          return message.warning('Bạn chưa thay đổi gì cả!')
+        this.props.onSendingDelivery(deliveryData)
+      }
+    });
+  };
   render() {
     const { getFieldDecorator } = this.props.form
+    var { transactions } = this.props
     return (
       <div className="container">
         <Form onSubmit={this.handleSubmit}>
@@ -22,15 +52,16 @@ class Delivery extends Component {
             <div className="col-md-4 col-lg-4 col-xs-12">
               <Form.Item label="Mã căn hộ: ">
                 {getFieldDecorator('estateCode', {
+                  initialValue: transactions.code,
                   rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                 })(
-                  <Input style={{ width: "100%" }} />
+                  <Input style={{ width: "100%" }} disabled />
                 )}
               </Form.Item>
             </div>
             <div className="col-md-4 col-lg-4 col-xs-12">
               <Form.Item label="Số phòng (nếu có): ">
-                <InputNumber style={{ width: "100%" }} />
+                <InputNumber style={{ width: "100%" }} defaultValue={transactions.selldetail.delivery.room} id="room" />
               </Form.Item>
             </div>
           </div>
@@ -38,6 +69,7 @@ class Delivery extends Component {
             <div className="col-md-4 col-lg-4 col-xs-12">
               <Form.Item label="Ngày giao bất động sản (thực tế): ">
                 {getFieldDecorator('deliveryDate', {
+                  initialValue: moment(moment.unix(transactions.selldetail.delivery.datecomplete).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
                   rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                 })(
                   <DatePicker style={{ width: "100%" }} />
@@ -47,6 +79,7 @@ class Delivery extends Component {
             <div className="col-md-4 col-lg-4 col-xs-12">
               <Form.Item label="Ngày dọn vào ở: ">
                 {getFieldDecorator('startDate', {
+                  initialValue: moment(moment.unix(transactions.selldetail.delivery.datein).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
                   rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                 })(
                   <DatePicker style={{ width: "100%" }} />
@@ -55,12 +88,12 @@ class Delivery extends Component {
             </div>
           </div>
           <div className="row">
-            <div className="col-md-3 col-lg-3 col-xs-12">
+            <div className="col-md-5 col-lg-5 col-xs-12">
               <Form.Item label="Phí hàng tháng (nếu có): ">
-                <InputNumber style={{ width: "100%" }} />
+                <InputNumber style={{ width: "100%" }} defaultValue={transactions.selldetail.delivery.tax} id="tax" />
               </Form.Item>
             </div>
-            <div className="col-md-5 col-lg-5 col-xs-12">
+            {/* <div className="col-md-5 col-lg-5 col-xs-12">
               <Form.Item label="Các trang bị có sẵn: ">
                 {getFieldDecorator('deliveryDate', {
                   rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
@@ -71,6 +104,13 @@ class Delivery extends Component {
                   </TextArea>
                 )}
               </Form.Item>
+            </div> */}
+            <div className="col-md-3 col-lg-3 col-xs-12">
+              <Form.Item>
+                <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }}>
+                  Xác nhận
+                </Button>
+              </Form.Item>
             </div>
           </div>
         </Form>
@@ -79,12 +119,18 @@ class Delivery extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => {
+  return {
+    transactions: state.transaction,
+    transactionDetail: state.transactionDetail
+  }
+}
 
-})
-
-const mapDispatchToProps = {
-
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onGettingTransactionDetail: (id, type) => dispatch(transAction.actGettingTransactionDetailRequest(id, type)),
+    onSendingDelivery: (deliveryData) => dispatch(transAction.actPostingDeliveryRequest(deliveryData))
+  }
 }
 
 const WrappedFormDelivery = Form.create()(Delivery)

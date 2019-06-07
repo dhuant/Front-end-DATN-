@@ -16,18 +16,28 @@ class Legality extends Component {
         super(props)
 
         this.state = {
-            uploadedFile: null,
             governmentArray: [],
+            governmentPreviewImageBeforeUpload: [],
+            governmentListImagesBeforeUpload: [],
             certificateArray: [],
+            certificatePreviewImageBeforeUpload: [],
+            certificateListImagesBeforeUpload: [],
             contractArray: [],
-            currentDeleteImgIndex: null,
+            contractPreviewImageBeforeUpload: [],
+            contractListImagesBeforeUpload: [],
             previewImage: false,
-            previewUrl: ''
+            previewUrl: '',
+
         }
     }
 
     componentDidMount = () => {
         this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
+        this.setState({
+            certificateArray: this.props.transactions.selldetail.legality.certificate,
+            governmentArray: this.props.transactions.selldetail.legality.government,
+            contractArray: this.props.transactions.selldetail.legality.contract,
+        })
     }
 
     onSendingLegalityInfo = () => {
@@ -59,86 +69,124 @@ class Legality extends Component {
         this.setState({ previewImage: false })
     }
 
-    onImageSelect(files) {
-        this.setState({
-            uploadedFile: files[0]
-        });
+    onUploadingContractImages = async (list) => {
+        console.log(list)
+        await Promise.all(list.map(async file => {
+            await
+                request
+                    .post(CLOUDINARY_UPLOAD_URL)
+                    .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+                    .field('file', file)
+                    .then(response => {
+                        console.log(response)
+                        this.setState({
+                            contractArray: this.state.contractArray.concat({ url: response.body.secure_url, id: response.body.public_id }),
+                        })
+                    })
+                    .catch(err => message.error(`Có lỗi xảy ra: ${err}`))
+        }))
+        this.setState({ contractListImagesBeforeUpload: [] })
+        console.log(this.state.contractArray)
 
-        this.handleImageUpload(files[0]);
+    }
+    onUploadingCertificateImages = async (list) => {
+        console.log(list)
+        await Promise.all(list.map(async file => {
+            await
+                request
+                    .post(CLOUDINARY_UPLOAD_URL)
+                    .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+                    .field('file', file)
+                    .then(response => {
+                        console.log(response)
+                        this.setState({
+                            certificateArray: this.state.certificateArray.concat({ url: response.body.secure_url, id: response.body.public_id }),
+                        })
+                    })
+                    .catch(err => message.error(`Có lỗi xảy ra: ${err}`))
+        }))
+        this.setState({ certificateListImagesBeforeUpload: [] })
+        console.log(this.state.certificateArray)
+
+    }
+    onUploadingGovernmentImages = async (list) => {
+        console.log(list)
+        await Promise.all(list.map(async file => {
+            await
+                request
+                    .post(CLOUDINARY_UPLOAD_URL)
+                    .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+                    .field('file', file)
+                    .then(response => {
+                        console.log(response)
+                        this.setState({
+                            governmentArray: this.state.governmentArray.concat({ url: response.body.secure_url, id: response.body.public_id }),
+                        })
+                    })
+                    .catch(err => message.error(`Có lỗi xảy ra: ${err}`))
+        }))
+        this.setState({ governmentListImagesBeforeUpload: [] })
+        console.log(this.state.governmentArray)
+
     }
 
-    handleGovernmentUpload(files) {
-        if(this.props.transactions.selldetail.legality.government.length > 0){
-            this.setState({governmentArray: this.state.governmentArray.concat(this.props.transactions.selldetail.legality.government)})
-        }
-        console.log(files)
-        files.map(file => {
-            let upload = request.post(CLOUDINARY_UPLOAD_URL)
-                .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-                .field('file', file);
-
-            upload.end((err, response) => {
-                console.log(response)
-                if (err) {
-                    console.error(err);
-                }
-
-                if (response.body.secure_url !== '') {
-                    this.setState({
-                        governmentArray: this.state.governmentArray.concat({ url: response.body.secure_url, id: response.body.public_id })
-                    });
-                }
-            });
-        })
-    }
     handleContractUpload(files) {
         files.map(file => {
-            let upload = request.post(CLOUDINARY_UPLOAD_URL)
-                .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-                .field('file', file);
-
-            upload.end((err, response) => {
-                console.log(response)
-                if (err) {
-                    console.error(err);
-                }
-
-                if (response.body.secure_url !== '') {
-                    this.setState({
-                        contractArray: this.state.contractArray.concat({ url: response.body.secure_url, id: response.body.public_id })
-                    });
-                }
-            });
+            console.log(file)
+            let reader = new FileReader()
+            reader.onloadend = () => {
+                console.log(reader.result)
+                this.setState({
+                    contractArray: [...this.state.contractArray, reader.result],
+                    contractPreviewImageBeforeUpload: [...this.state.contractPreviewImageBeforeUpload, reader.result],
+                    contractListImagesBeforeUpload: [...this.state.contractListImagesBeforeUpload, file]
+                })
+                console.log(reader.result, file)
+            }
+            reader.readAsDataURL(file);
         })
     }
     handleCertificateUpload(files) {
         files.map(file => {
-            let upload = request.post(CLOUDINARY_UPLOAD_URL)
-                .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-                .field('file', file);
-
-            upload.end((err, response) => {
-                console.log(response)
-                if (err) {
-                    console.error(err);
-                }
-
-                if (response.body.secure_url !== '') {
-                    this.setState({
-                        certificateArray: this.state.certificateArray.concat({ url: response.body.secure_url, id: response.body.public_id })
-                    });
-                }
-            });
+            console.log(file)
+            let reader = new FileReader()
+            reader.onloadend = () => {
+                console.log(reader.result)
+                this.setState({
+                    certificateArray: [...this.state.certificateArray, reader.result],
+                    certificatePreviewImageBeforeUpload: [...this.state.certificatePreviewImageBeforeUpload, reader.result],
+                    certificateListImagesBeforeUpload: [...this.state.certificateListImagesBeforeUpload, file]
+                })
+                console.log(reader.result, file)
+            }
+            reader.readAsDataURL(file);
         })
     }
-    onShowContractPreviewImage = (array) => {
+    handleGovernmentUpload(files) {
+        files.map(file => {
+            console.log(file)
+            let reader = new FileReader()
+            reader.onloadend = () => {
+                console.log(reader.result)
+                this.setState({
+                    governmentArray: [...this.state.governmentArray, reader.result],
+                    governmentPreviewImageBeforeUpload: [...this.state.governmentPreviewImageBeforeUpload, reader.result],
+                    governmentListImagesBeforeUpload: [...this.state.governmentListImagesBeforeUpload, file]
+                })
+                console.log(reader.result, file)
+            }
+            reader.readAsDataURL(file);
+        })
+    }
+
+    onShowContractImageBeforeUpload = (array) => {
         let result = []
         if (array && array.length > 0) {
             for (var i = 0; i < array.length; i++) {
                 result.push(<div className="col-md-3" key={i}>
                     <Image
                         className="imagepreview"
-                        src={array[i].url}
+                        src={array[i].url ? array[i].url : array[i]}
                         thumbnail
                         style={{ width: "150px", height: "100px", cursor: "pointer" }}
                         onClick={this.onHandlePreviewImage}
@@ -149,7 +197,7 @@ class Legality extends Component {
                         className="close"
                         aria-label="Close"
                         style={{ top: "-100px", left: "-5px", position: "relative", color: "#0A10C8" }}
-                        onClick={this.showContractDeleteConfirm} name={array[i].id} value={i}>
+                        onClick={this.showContractDeleteConfirm} value={array[i].url ? i : array[i]}>
                         x
                     </button>
                 </div>)
@@ -159,14 +207,14 @@ class Legality extends Component {
         return result
     }
 
-    onShowCertificatePreviewImage = (array) => {
+    onShowCertificateImageBeforeUpload = (array) => {
         let result = []
         if (array && array.length > 0) {
             for (var i = 0; i < array.length; i++) {
                 result.push(<div className="col-md-3" key={i}>
                     <Image
                         className="imagepreview"
-                        src={array[i].url}
+                        src={array[i].url ? array[i].url : array[i]}
                         thumbnail
                         style={{ width: "150px", height: "100px", cursor: "pointer" }}
                         onClick={this.onHandlePreviewImage}
@@ -177,7 +225,7 @@ class Legality extends Component {
                         className="close"
                         aria-label="Close"
                         style={{ top: "-100px", left: "-5px", position: "relative", color: "#0A10C8" }}
-                        onClick={this.showCertificateDeleteConfirm} name={array[i].id} value={i}>
+                        onClick={this.showCertificateDeleteConfirm} value={array[i].url ? i : array[i]}>
                         x
                     </button>
                 </div>)
@@ -187,15 +235,14 @@ class Legality extends Component {
         return result
     }
 
-    onShowGovernmentPreviewImage = (array) => {
-        console.log(array.length)
+    onShowGovernmentImageBeforeUpload = (array) => {
         let result = []
         if (array && array.length > 0) {
             for (var i = 0; i < array.length; i++) {
                 result.push(<div className="col-md-3" key={i}>
                     <Image
                         className="imagepreview"
-                        src={array[i].url}
+                        src={array[i].url ? array[i].url : array[i]}
                         thumbnail
                         style={{ width: "150px", height: "100px", cursor: "pointer" }}
                         onClick={this.onHandlePreviewImage}
@@ -206,7 +253,7 @@ class Legality extends Component {
                         className="close"
                         aria-label="Close"
                         style={{ top: "-100px", left: "-5px", position: "relative", color: "#0A10C8" }}
-                        onClick={this.showGovernmentDeleteConfirm} name={array[i].id} value={i}>
+                        onClick={this.showGovernmentDeleteConfirm} value={array[i].url ? i : array[i]}>
                         x
                     </button>
                 </div>)
@@ -218,6 +265,11 @@ class Legality extends Component {
 
     showCertificateDeleteConfirm = (event) => {
         var index = event.target.value
+        this.state.certificatePreviewImageBeforeUpload.map((image, key) => {
+            if (image === index) {
+                index = key
+            }
+        })
         confirm({
             title: 'Bạn muốn xóa hình này không?',
             okText: 'Có',
@@ -225,8 +277,12 @@ class Legality extends Component {
             cancelText: 'Trở lại',
             onOk: () => {
                 console.log('OK');
+                this.state.certificateListImagesBeforeUpload.splice(index, 1)
+                this.state.certificatePreviewImageBeforeUpload.splice(index, 1)
                 this.state.certificateArray.splice(index, 1)
                 this.setState({
+                    certificatePreviewImageBeforeUpload: this.state.certificatePreviewImageBeforeUpload,
+                    certificateListImagesBeforeUpload: this.state.certificateListImagesBeforeUpload,
                     certificateArray: this.state.certificateArray
                 })
             },
@@ -238,6 +294,11 @@ class Legality extends Component {
 
     showGovernmentDeleteConfirm = (event) => {
         var index = event.target.value
+        this.state.governmentPreviewImageBeforeUpload.map((image, key) => {
+            if (image === index) {
+                index = key
+            }
+        })
         confirm({
             title: 'Bạn muốn xóa hình này không?',
             okText: 'Có',
@@ -245,8 +306,12 @@ class Legality extends Component {
             cancelText: 'Trở lại',
             onOk: () => {
                 console.log('OK');
+                this.state.governmentListImagesBeforeUpload.splice(index, 1)
+                this.state.governmentPreviewImageBeforeUpload.splice(index, 1)
                 this.state.governmentArray.splice(index, 1)
                 this.setState({
+                    governmentPreviewImageBeforeUpload: this.state.governmentPreviewImageBeforeUpload,
+                    governmentListImagesBeforeUpload: this.state.governmentListImagesBeforeUpload,
                     governmentArray: this.state.governmentArray
                 })
             },
@@ -258,6 +323,11 @@ class Legality extends Component {
 
     showContractDeleteConfirm = (event) => {
         var index = event.target.value
+        this.state.contractPreviewImageBeforeUpload.map((image, key) => {
+            if (image === index) {
+                index = key
+            }
+        })
         confirm({
             title: 'Bạn muốn xóa hình này không?',
             okText: 'Có',
@@ -265,8 +335,12 @@ class Legality extends Component {
             cancelText: 'Trở lại',
             onOk: () => {
                 console.log('OK');
+                this.state.contractListImagesBeforeUpload.splice(index, 1)
+                this.state.contractPreviewImageBeforeUpload.splice(index, 1)
                 this.state.contractArray.splice(index, 1)
                 this.setState({
+                    contractPreviewImageBeforeUpload: this.state.contractPreviewImageBeforeUpload,
+                    contractListImagesBeforeUpload: this.state.contractListImagesBeforeUpload,
                     contractArray: this.state.contractArray
                 })
             },
@@ -275,21 +349,83 @@ class Legality extends Component {
             },
         });
     }
+
+    onSendingData = (contractUploadList, certificateUploadList, governmentUploadList, transactions) => {
+        return new Promise(async () => {
+            await Promise.all(this.state.contractArray.map(image => {
+                if (image.url) {
+                    contractUploadList.push(image)
+                }
+            }))
+            await Promise.all(this.state.certificateArray.map(image => {
+                if (image.url) {
+                    certificateUploadList.push(image)
+                }
+            }))
+            await Promise.all(this.state.governmentArray.map(image => {
+                if (image.url) {
+                    governmentUploadList.push(image)
+                }
+            }))
+            this.setState({
+                contractArray: contractUploadList,
+                governmentArray: governmentUploadList,
+                certificateArray: certificateUploadList
+            })
+
+            var legalityInfo = {
+                complete: true,
+                updateTime: moment().unix(),
+                _id: transactions._id,
+                id: transactions.selldetail._id,
+                government: governmentUploadList,
+                certificate: certificateUploadList,
+                contract: contractUploadList,
+            }
+
+            if (legalityInfo.government === transactions.selldetail.legality.government
+                && legalityInfo.contract === transactions.selldetail.legality.contract
+                && legalityInfo.certificate === transactions.selldetail.legality.certificate)
+                return message.warning("Bạn chưa thay đổi gì cả!")
+
+            this.props.onSendingLegality(legalityInfo)
+        })
+    }
+    handleSubmit = (e) => {
+        e.preventDefault()
+        var governmentUploadList = [], certificateUploadList = [], contractUploadList = []
+        var { transactions } = this.props
+        this.props.form.validateFields(async (err, values) => {
+            if (!err) {
+                try {
+                    await this.onUploadingContractImages(this.state.contractListImagesBeforeUpload);
+                    await this.onUploadingCertificateImages(this.state.certificateListImagesBeforeUpload)
+                    await this.onUploadingGovernmentImages(this.state.governmentListImagesBeforeUpload)
+                    await this.onSendingData(contractUploadList, certificateUploadList, governmentUploadList, transactions);
+
+                } catch (error) {
+                    message.error(error)
+                }
+            }
+        })
+    }
     render() {
         const { getFieldDecorator } = this.props.form
         var { transactions } = this.props
         var legality = transactions.selldetail.legality
         console.log(legality)
-        var { certificateArray, contractArray, governmentArray, previewImage, previewUrl } = this.state
-        console.log(governmentArray)
+        var { previewImage,
+            previewUrl,
+            contractArray,
+            certificateArray,
+            governmentArray
+        } = this.state
         return (
             <div className="container">
-                <div className="row">
-                    <div className="col-md-8 col-lag-8 col-xs-12">
-                        <Form.Item label="Hình ảnh xác thực từ chính quyền địa phương: ">
-                            {getFieldDecorator('government', {
-                                rules: [{ required: true, message: 'Bạn phải có hình xác thực!' }],
-                            })(
+                <Form onSubmit={this.handleSubmit}>
+                    <div className="row">
+                        <div className="col-md-8 col-lag-8 col-xs-12">
+                            <Form.Item label="Hình ảnh xác thực từ chính quyền địa phương: ">
                                 <div className="col-md-3 col-lag-3 col-xs-12">
                                     <div className="photoUpload">
                                         <Dropzone
@@ -312,99 +448,99 @@ class Legality extends Component {
                                         </Dropzone>
                                     </div>
                                 </div>
-                            )}
-                        </Form.Item>
+                            </Form.Item>
+                            <div className="col-md-8 col-lag-8 col-xs-12">
+                                <div className="row">
+                                    <div className="clearfix">
+                                        {(governmentArray && governmentArray.length > 0) ? this.onShowGovernmentImageBeforeUpload(governmentArray) : null}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div className="row">
                         <div className="col-md-8 col-lag-8 col-xs-12">
-                            <div className="row">
-                                <div className="clearfix">
-                                    {(governmentArray && governmentArray.length > 0) ? this.onShowGovernmentPreviewImage(governmentArray) : null}
+                            <Form.Item label="Hình ảnh xác thực từ hợp đồng mua bán (tùy chọn): ">
+                                <div className="col-md-3 col-lag-3 col-xs-12">
+                                    <div className="photoUpload">
+                                        <Dropzone
+                                            onDrop={this.handleContractUpload.bind(this)}
+                                            multiple={true}
+                                            accept="image/*">
+                                            {({ getRootProps, getInputProps }) => {
+                                                return (
+                                                    <div
+                                                        {...getRootProps()}
+                                                        style={{ border: "1px solid #95c41f", borderRadius: "2px" }}
+                                                    >
+                                                        <input {...getInputProps()} />
+                                                        {
+                                                            <span style={{ display: "flex", justifyContent: "center", alignItems: "center" }}><i className="fa fa-upload" /> Tải ảnh lên</span>
+                                                        }
+                                                    </div>
+                                                )
+                                            }}
+                                        </Dropzone>
+                                    </div>
+                                </div>
+                            </Form.Item>
+                            <div className="col-md-8 col-lag-8 col-xs-12">
+                                <div className="row">
+                                    <div className="clearfix">
+                                        {(contractArray && contractArray.length > 0) ? this.onShowContractImageBeforeUpload(contractArray) : null}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div className="row">
+                        <div className="col-md-8 col-lag-8 col-xs-12">
+                            <Form.Item label="Hình ảnh xác thực từ giấy chứng nhận quyền sử dụng đất (tùy chọn): ">
+                                <div className="col-md-3 col-lag-3 col-xs-12">
+                                    <div className="photoUpload">
+                                        <Dropzone
+                                            onDrop={this.handleCertificateUpload.bind(this)}
+                                            multiple={true}
+                                            accept="image/*">
+                                            {({ getRootProps, getInputProps }) => {
+                                                return (
+                                                    <div
+                                                        {...getRootProps()}
+                                                        style={{ border: "1px solid #95c41f", borderRadius: "2px" }}
+                                                    >
+                                                        <input {...getInputProps()} />
+                                                        {
+                                                            <span style={{ display: "flex", justifyContent: "center", alignItems: "center" }}><i className="fa fa-upload" /> Tải ảnh lên</span>
+                                                        }
+                                                    </div>
+                                                )
+                                            }}
+                                        </Dropzone>
+                                    </div>
+                                </div>
+                            </Form.Item>
+                            <div className="col-md-8 col-lag-8 col-xs-12">
+                                <div className="row">
+                                    <div className="clearfix">
+                                        {(certificateArray && certificateArray.length > 0) ? this.onShowCertificateImageBeforeUpload(certificateArray) : null}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                </div>
-                <div className="row">
-                    <div className="col-md-8 col-lag-8 col-xs-12">
-                        <Form.Item label="Hình ảnh xác thực từ hợp đồng mua bán (tùy chọn): ">
-                            <div className="col-md-3 col-lag-3 col-xs-12">
-                                <div className="photoUpload">
-                                    <Dropzone
-                                        onDrop={this.handleContractUpload.bind(this)}
-                                        multiple={true}
-                                        accept="image/*">
-                                        {({ getRootProps, getInputProps }) => {
-                                            return (
-                                                <div
-                                                    {...getRootProps()}
-                                                    style={{ border: "1px solid #95c41f", borderRadius: "2px" }}
-                                                >
-                                                    <input {...getInputProps()} />
-                                                    {
-                                                        <span style={{ display: "flex", justifyContent: "center", alignItems: "center" }}><i className="fa fa-upload" /> Tải ảnh lên</span>
-                                                    }
-                                                </div>
-                                            )
-                                        }}
-                                    </Dropzone>
-                                </div>
-                            </div>
-                        </Form.Item>
-                        <div className="col-md-8 col-lag-8 col-xs-12">
-                            <div className="row">
-                                <div className="clearfix">
-                                    {(contractArray && contractArray.length > 0) ? this.onShowContractPreviewImage(contractArray) : null}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div className="row">
-                    <div className="col-md-8 col-lag-8 col-xs-12">
-                        <Form.Item label="Hình ảnh xác thực từ giấy chứng nhận quyền sử dụng đất (tùy chọn): ">
-                            <div className="col-md-3 col-lag-3 col-xs-12">
-                                <div className="photoUpload">
-                                    <Dropzone
-                                        onDrop={this.handleCertificateUpload.bind(this)}
-                                        multiple={true}
-                                        accept="image/*">
-                                        {({ getRootProps, getInputProps }) => {
-                                            return (
-                                                <div
-                                                    {...getRootProps()}
-                                                    style={{ border: "1px solid #95c41f", borderRadius: "2px" }}
-                                                >
-                                                    <input {...getInputProps()} />
-                                                    {
-                                                        <span style={{ display: "flex", justifyContent: "center", alignItems: "center" }}><i className="fa fa-upload" /> Tải ảnh lên</span>
-                                                    }
-                                                </div>
-                                            )
-                                        }}
-                                    </Dropzone>
-                                </div>
-                            </div>
-                        </Form.Item>
-                        <div className="col-md-8 col-lag-8 col-xs-12">
-                            <div className="row">
-                                <div className="clearfix">
-                                    {(certificateArray && certificateArray.length > 0) ? this.onShowCertificatePreviewImage(certificateArray) : null}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col-md-8 col-lg-8 col-xs-12">
-                        <Form.Item>
-                            <Button type="primary" htmlType="submit" style={{ fontSize: "10px", float: "right" }} onClick={this.onSendingLegalityInfo}>
-                                Gửi
+                    <div className="row">
+                        <div className="col-md-8 col-lg-8 col-xs-12">
+                            <Form.Item>
+                                <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }}>
+                                    Xác nhận
                             </Button>
-                        </Form.Item>
+                            </Form.Item>
+                        </div>
                     </div>
-                </div>
+                </Form>
                 <Modal visible={previewImage} footer={null} onCancel={this.onHandleCancelImage} width="800px" style={{ height: "500px" }}>
                     <img alt="example" src={previewUrl} style={{ width: "750px", height: "500px" }} />
                 </Modal>

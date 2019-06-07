@@ -9,10 +9,11 @@ import { authHeader } from '../constants/authHeader';
 import MapSearching from '../components/Map/MapSearching'
 import { Button, Form } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { message } from 'antd'
+import { message, Modal } from 'antd'
 import moment from 'moment'
 import LoginModal from '../components/LoginModal'
 import AddressData from '../countries-flat.json'
+import TagsInput from '../components/TagsInput'
 
 const Types = [
     { value: '1', label: 'Chung cư. căn hộ' },
@@ -28,15 +29,18 @@ const Status = [
 
 ];
 
-const Unit = [
-    { value: '1', label: 'Triệu' },
-    { value: '2', label: 'Tỉ' },
+const Units = [
+    { value: '1', label: 'Triệu/tháng' },
+    { value: '2', label: 'Triệu/năm' },
+    { value: '3', label: 'Triệu/m2/tháng' },
+    { value: '4', label: 'Trăm nghìn/m2/tháng' },
 ];
 
 class SubmitProperty extends Component {
     constructor() {
         super();
         this.state = {
+            tags: [],
             selectedOption: null,
             status: Status[0].value,
             type: Types[0].value,
@@ -61,40 +65,17 @@ class SubmitProperty extends Component {
             ward: '',
             state: '',
             mapPosition: {
-				lat: 10.7625626,
-				lng: 106.6805316
-			},
-			markerPosition: {
-				lat: 10.7625626,
-				lng: 106.6805316
-			}
-        };
-
-        // this.onHandleChange = this.onHandleChange.bind(this)
+                lat: 10.7625626,
+                lng: 106.6805316
+            },
+            markerPosition: {
+                lat: 10.7625626,
+                lng: 106.6805316
+            },
+            isShowUnit: false,
+            isShowCodeModal: false,
+        }
     }
-
-    // componentDidMount =() => {
-    //     var address = this.onGettingAddress
-    //     Geocode.fromAddress(address).then(
-	// 		response => {
-	// 			const { lat, lng } = response.results[0].geometry.location;
-	// 			console.log(lat, lng);
-	// 			this.setState({
-	// 				markerPosition: {
-	// 					lat: lat ? lat : this.state.markerPosition.lat,
-	// 					lng: lng ? lng : this.state.markerPosition.lng,
-	// 				},
-	// 				mapPosition: {
-	// 					lat: lat ? lat : this.state.mapPosition.lat,
-	// 					lng: lng ? lng : this.state.mapPosition.lng,
-	// 				},
-	// 			})
-	// 		},
-	// 		error => {
-	// 			console.error(error);
-	// 		}
-	// 	);
-    // }
 
     handleCancel = () => this.setState({ previewVisible: false })
 
@@ -105,22 +86,31 @@ class SubmitProperty extends Component {
         });
     }
 
+    onShowUnitSelect = () => {
+        if (this.state.status === '3' || this.state.status === 3)
+            return true
+        else if (this.state.status === 1)
+            return false
+    }
+
     handleChangeImageList = ({ fileList }) => this.setState({ fileList })
 
-    onHandleChangeAddress = (event) => {
+    onHandleChange = (event) => {
         let target = event.target
         let name = target.name
         let value = target.value
-        this.setState({ [name]: value });
+        if (value === 3 || value === '3')
+            this.setState({
+                [name]: value,
+                isShowUnit: true
+            });
+        if (value === 1 || value === '1')
+            this.setState({
+                [name]: value,
+                isShowUnit: false
+            });
     }
 
-    onGettingAddress = () => {
-        var address = ''
-        if (document.getElementById('street') !== undefined)
-            address = document.getElementById('street').value + ', ' + this.state.ward + ', ' + this.state.city + ', ' + this.state.state
-        else address = this.state.ward + ', ' + this.state.city + ', ' + this.state.state
-        console.log(address)
-    }
     onSubmit = (e) => {
         if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null) {
             message.warning("Bạn cần phải đăng nhập trước khi đăng bài!")
@@ -164,9 +154,9 @@ class SubmitProperty extends Component {
                 name: document.getElementById("name").value,
                 investor: document.getElementById('investor').value,
                 price: document.getElementById('price').value,
-                unit: document.getElementById('unit').value,
+                unit: "Triệu",
                 area: document.getElementById('area').value,
-                address: this.props.address.addressDetail === '' ? localStorage.getItem('defaultAddress') : this.props.address.addressDetail,
+                address: this.props.address.unknownAddress === '' ? localStorage.getItem('defaultAddress') : this.props.address.unknownAddress,
                 type: document.getElementById('type').value,
                 info: document.getElementById('description').value,
                 lat: this.props.address.markerPosition === undefined ? 10.7625626 : this.props.address.markerPosition.lat,
@@ -180,7 +170,8 @@ class SubmitProperty extends Component {
                 fullname: document.getElementById('contactname').value,
                 phone: document.getElementById('contactphonenumber').value,
                 email: document.getElementById('contactemail').value,
-                avatar: JSON.parse(localStorage.getItem('res')).user.avatar === undefined ? localStorage.getItem('avatar') : JSON.parse(localStorage.getItem('res')).user.avatar
+                avatar: JSON.parse(localStorage.getItem('res')).user.avatar === undefined ? localStorage.getItem('avatar') : JSON.parse(localStorage.getItem('res')).user.avatar,
+                codeList: this.state.tags
             }
             console.log(info);
             axios.post('http://localhost:3001/projects/', info, { headers: authHeader() })
@@ -195,7 +186,7 @@ class SubmitProperty extends Component {
         }
 
     }
-    
+
     getUrlList = (urlArray, publicIdArray) => {
         this.setState({
             url: urlArray,
@@ -256,8 +247,41 @@ class SubmitProperty extends Component {
         })
         return result.sort()
     }
+
+    onOpenCodeModal = () => {
+        this.setState({ isShowCodeModal: true })
+    }
+
+    onHandleCancelCodeModal = () => {
+        this.setState({ isShowCodeModal: false })
+    }
+
+    onHandleOk = () => {
+        console.log(this.state.tags)
+        this.setState({ isShowCodeModal: false })
+    }
+    removeTag = (i) => {
+        const newTags = [...this.state.tags];
+        newTags.splice(i, 1);
+        this.setState({ tags: newTags });
+    }
+
+    inputKeyDown = (e) => {
+        const val = e.target.value;
+        if (e.key === 'Enter' && val) {
+            if (this.state.tags.find(tag => tag.toLowerCase() === val.toLowerCase())) {
+                return;
+            }
+            this.setState({ tags: [...this.state.tags, val] });
+            this.tagInput.value = null;
+        } else if (e.key === 'Ba ckspace' && !val) {
+            this.removeTag(this.state.tags.length - 1);
+        }
+    }
+
     render() {
-        var { visible, addressList, city, ward, state } = this.state;
+        var { status, city, ward, state, isShowUnit, tags } = this.state;
+        console.log(status, isShowUnit)
         var stateList = this.parseStateData(AddressData)
         var cityList = this.parseCityData(AddressData, state)
         var wardList = this.parseWardData(AddressData, state, city)
@@ -337,8 +361,8 @@ class SubmitProperty extends Component {
                                                         <select className="form-control"
                                                             name="status"
                                                             id="status"
-                                                        // value={type}
-                                                        // onChange={this.onHandleChange}
+                                                            defaultValue={Status[0].value}
+                                                            onChange={this.onHandleChange}
                                                         >
                                                             {Status.map((status, index) => <option key={index} value={status.value}>{status.label}</option>)}
 
@@ -351,7 +375,7 @@ class SubmitProperty extends Component {
                                                         <select className="form-control"
                                                             name="type"
                                                             id="type"
-                                                        // value={type}
+                                                            defaultValue={Types[0].value}
                                                         // onChange={this.onHandleChange}
                                                         >
                                                             {Types.map((type, indexx) => <option key={indexx} value={type.value}>{type.label}</option>)}
@@ -381,8 +405,10 @@ class SubmitProperty extends Component {
                                                         <select className="form-control"
                                                             name="unit"
                                                             id="unit"
+                                                            disabled={!this.state.isShowUnit}
+                                                            placeholder="Chọn đơn vị"
                                                         >
-                                                            {Unit.map((single, indexx) => <option key={indexx} value={single.label}>{single.label}</option>)}
+                                                            {Units.map((single, indexx) => <option key={indexx} value={single.label}>{single.label}</option>)}
 
                                                         </select>
                                                     </div>
@@ -404,9 +430,15 @@ class SubmitProperty extends Component {
 
                                             </div>
                                         </div>
-                                        {/* <div className="row" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                            <Button variant="info" onClick={this.onHandleShowMap} style={{ padding: "5px 100px 5px 100px" }}>{visible ? "Hide Map" : "Show Map"}</Button>
-                                        </div> */}
+                                        <div className="row">
+                                            <div className="col-md-12 col-sm-12">
+                                                <div className="form-group">
+                                                    <Button variant="primary" style={{ display: "flex", alignContent: "center", justifyContent: "center", fontSize: "12px" }} onClick={this.onOpenCodeModal}>
+                                                        Nhấn vào đây để nhập mã số căn hộ/phòng
+                                                   </Button>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div className="main-title-2">
                                             <h1>
                                                 <span>Địa</span> chỉ
@@ -614,7 +646,102 @@ class SubmitProperty extends Component {
                     /* Submit Property end */
                 }
                 <Footer />
+                <Modal
+                    title="Nhập mã số"
+                    style={{ top: 20 }}
+                    visible={this.state.isShowCodeModal}
+                    onOk={this.onHandleOk}
+                    onCancel={this.onHandleCancelCodeModal}
+                    footer={[
+                        <Button key="back" onClick={this.onHandleCancelCodeModal}>
+                            Trở về
+                        </Button>,
+                        <Button key="submit" type="primary" onClick={this.onHandleOk}>
+                            Chấp nhận
+                        </Button>,
+                    ]}
+                >
+                    <div className="input-tag"
+                        style={{
+                            background: "white",
+                            border: "1px solid #d6d6d6",
+                            borderRadius: "2px",
+                            display: "flex",
+                            flexWrap: "wrap",
+                            padding: "5px 5px 0"
+                        }}
+                    >
+                        <ul
+                            className="input-tag__tags"
+                            style={{
+                                display: "inline-flex",
+                                flexWrap: "wrap",
+                                margin: "0",
+                                padding: "0",
+                                width: "100%"
+                            }}
+                        >
+                            {tags.map((tag, i) => (
+                                <li
+                                    key={tag}
+                                    style={{
+                                        alignItems: "center",
+                                        background: "#85A3BF",
+                                        borderRadius: "2px",
+                                        color: "white",
+                                        display: "flex",
+                                        fontWeight: "300",
+                                        listStyle: "none",
+                                        marginBottom: "5px",
+                                        marginRight: "5px",
+                                        padding: "5px 10px"
+                                    }}
+                                >
+                                    {tag}
+                                    <button
+                                        type="button"
+                                        onClick={() => { this.removeTag(i); }}
+                                        style={{
+                                            alignItems: "center",
+                                            appearance: "none",
+                                            background: "#333333",
+                                            border: "none",
+                                            borderRadius: "50%",
+                                            color: "white",
+                                            cursor: "pointer",
+                                            display: "inline-flex",
+                                            fontSize: "12px",
+                                            height: "15px",
+                                            justifyContent: "center",
+                                            lineHeight: "0",
+                                            marginLeft: "8px",
+                                            transform: "rotate(45deg)",
+                                            width: "15px"
+                                        }}
+                                    >
+                                        +
+                            </button>
+                                </li>
+                            ))}
+                            <li
+                                className="input-tag__tags__input"
+                                style={{
+                                    background: "none",
+                                    flexGrow: "1",
+                                    padding: "0"
+                                }}
+                            >
+                                <input
+                                    type="text"
+                                    onKeyDown={this.inputKeyDown}
+                                    ref={c => { this.tagInput = c; }}
+                                    style={{ border: "none", width: "100%" }}
+                                />
 
+                            </li>
+                        </ul>
+                    </div>
+                </Modal>
             </div>
         );
     }

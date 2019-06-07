@@ -30,6 +30,7 @@ import WaitingRequest from './pages/WaitingRequest'
 import VerifyEmployee from './pages/Verify/VerifyEmployee'
 import VerifyCompany from './pages/Verify/VerifyCompany'
 import ForgotPasswordEmployee from './pages/Employee/ForgotPasswordEmployee'
+import Test from './pages/Map/test'
 
 //import component agent
 import ListAgents from './pages/Contact/ListAgents'
@@ -73,7 +74,7 @@ class App extends Component {
             <Route exact path='/mytransactions/:id/:type' component={TransactionDetail} />
             <Route exact path='/transhistory' component={TransHistory} />
             <Route exact path='/waiting' component={WaitingRequest} />
-            <Route exact path='/progress' component={Stepper} />
+            <Route exact path='/testing' component={Test} />
 
             <Route exact path='/verifyemployee/:idc/:ide/:hash'component={VerifyEmployee}/>
             <Route exact path='/verifycompany/:id/:hash'component={VerifyCompany}/>

@@ -93,6 +93,7 @@ export const actPostingDepositRequest = (depositInfo) => {
         return axios.post("http://localhost:3001/selldetail/deposit", depositInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingDeposit(res.data.deposit))
+                message.success('Thành công!')
             })
             .catch(error => {
                 message.error(`Có lỗi xảy ra: ${error}`)
@@ -105,6 +106,7 @@ export const actPostingContractRequest = (contractInfo) => {
         return axios.post("http://localhost:3001/selldetail/contract", contractInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingContract(res.data.contract))
+                message.success('Thành công!')
             })
             .catch(error => {
                 message.error(`Có lỗi xảy ra: ${error}`)
@@ -117,6 +119,7 @@ export const actPostingConfirmationRequest = (confirmationInfo) => {
         return axios.post("http://localhost:3001/selldetail/confirmation", confirmationInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingConfirmation(res.data.confirmation))
+                message.success('Thành công!')
             })
             .catch(error => {
                 message.error(`Có lỗi xảy ra: ${error}`)
@@ -129,6 +132,7 @@ export const actPostingTaxRequest = (taxInfo) => {
         return axios.post("http://localhost:3001/selldetail/tax", taxInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingTax(res.data.tax))
+                message.success('Thành công!')
             })
             .catch(error => {
                 message.error(`Có lỗi xảy ra: ${error}`)
@@ -141,6 +145,7 @@ export const actPostingDeliveryRequest = (deliveryInfo) => {
         return axios.post("http://localhost:3001/selldetail/delivery", deliveryInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingDelivery(res.data.delivery))
+                message.success('Thành công!')
             })
             .catch(error => {
                 message.error(`Có lỗi xảy ra: ${error}`)

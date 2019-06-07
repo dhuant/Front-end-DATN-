@@ -103,9 +103,9 @@ export const actGetCommentsByIdRequest = (id) => {
   }
 }
 
-export const actGetEstateListOfUserRequest = () => {
+export const actGetEstateListOfUserRequest = (page) => {
   return dispatch => {
-    return axios.get(`http://localhost:3001/users/danhsachproject`, { headers: authHeader() }).then(res => {
+    return axios.get(`http://localhost:3001/users/danhsachproject/${page}`, { headers: authHeader() }).then(res => {
       if (res.data.status === 200)
         dispatch(Action.actGetEstateListOfUser(res.data.projects))
       console.log(res);

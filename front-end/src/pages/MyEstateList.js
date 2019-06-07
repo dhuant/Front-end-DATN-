@@ -11,7 +11,7 @@ import Login from '../pages/Login'
 
 class MyEstateList extends Component {
     componentDidMount = () => {
-        this.props.onGetEstateListOfUser()
+        this.props.onGetEstateListOfUser('0')
     }
     render() {
         let { estatesListOfUser } = this.props

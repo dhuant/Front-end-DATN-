@@ -23,7 +23,29 @@ class Stepper extends React.Component {
         };
     }
 
+    componentDidMount =() => {
+        this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
+    }
     next() {
+        // this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
+        // switch (this.state.current) {
+        //     case 0: if (!this.props.transactions.selldetail.deal.complete) return null
+        //         break;
+        //     case 1: if (!this.props.transactions.selldetail.legality.complete) return null
+        //         break;
+        //     case 2: if (!this.props.transactions.selldetail.deposit.complete) return null
+        //         break;
+        //     case 3: if (!this.props.transactions.selldetail.contract.complete) return null
+        //         break;
+        //     case 4: if (!this.props.transactions.selldetail.confirm.complete) return null
+        //         break;
+        //     case 5: if (!this.props.transactions.selldetail.tax.complete) return null
+        //         break;
+        //     case 6: if (!this.props.transactions.selldetail.delivery.complete) return null
+        //         break;
+        //     default:
+        //         break;
+        // }
         const current = this.state.current + 1;
         this.setState({
             current,
@@ -60,46 +82,42 @@ class Stepper extends React.Component {
     render() {
         const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
         const { current } = this.state;
-        var {transaction} = this.props
-        // const totalPriceError = isFieldTouched('TotalPrice') && getFieldError('TotalPrice');
-        // const depositError = isFieldTouched('deposit') && getFieldError('deposit');
-        // const paymentMethodError = isFieldTouched('paymentMethod') && getFieldError('paymentMethod');
-        // const payNumberError = isFieldTouched('payNumber') && getFieldError('payNumber');
-        // console.log(document.getElementById("MoreInformation").value)
+        var { transaction } = this.props
+        console.log(transaction)
         const steps = [
             {
                 title: 'Thỏa thuận mua ban đầu',
                 content: (
                     <React.Fragment>
-                        <Deal transaction={transaction}/>
+                        <Deal transaction={transaction} />
                     </React.Fragment>
                 )
             },
             {
                 title: 'Kiểm tra tính pháp lý của bất động sản',
                 content: (
-                    <Legality transaction={transaction}/>
+                    <Legality transaction={transaction} />
                 ),
             },
             {
                 title: 'Đặt cọc',
-                content: <Deposit />,
+                content: <Deposit transaction={transaction} />,
             },
             {
                 title: 'Ký hợp đồng',
-                content: <Contract />,
+                content: <Contract transaction={transaction} />,
             },
             {
                 title: 'Công chứng hợp đồng',
-                content: <Confirmation />,
+                content: <Confirmation transaction={transaction} />,
             },
             {
                 title: 'Đóng thuế',
-                content: <Tax />,
+                content: <Tax transaction={transaction} />,
             },
             {
                 title: 'Giao bất động sản',
-                content: <Delivery />,
+                content: <Delivery transaction={transaction} />,
             },
         ];
         return (
@@ -147,13 +165,13 @@ const WrappedForm = Form.create()(Stepper)
 
 const mapStateToProps = (state) => {
     return {
-
+        transactions: state.transaction
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
+        onGettingTransactionDetail: (id, type) => dispatch(transAction.actGettingTransactionDetailRequest(id, type))
     }
 }
 
