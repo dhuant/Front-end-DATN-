@@ -11,76 +11,55 @@ import { withRouter } from 'react-router-dom'
 import { adminService } from '../../actions/Company/admin.service'
 import moment from 'moment'
 import { Form, Input, Button, Select, } from 'antd';
-import { string } from 'prop-types';
 const { Option } = Select;
+
 class AddAccount extends Component {
     constructor() {
         super();
         this.state = {
-            fullname: '',
-            email: '',
-            phoneNumber: '',
             description: '',
-            address: ''
-
+            address: '',
+            disable: true,
         };
-    }
-    handleOnChange = (e) => {
-        let target = e.target;
-        let name = target.name;
-        let value = target.value;
-        this.setState({
-            [name]: value,
-        });
     }
     onCancel = (e) => {
         e.preventDefault();
         this.props.history.push('/company/profile-admin')
     }
-    onRegister = (e) => {
-        e.preventDefault();
-        let account = {
-            fullname: this.state.fullname,
-            email: this.state.email,
-            phone: this.state.phoneNumber,
-            description: this.state.description,
-            address: this.state.address,
-            avatar: 'https://res.cloudinary.com/dne3aha8f/image/upload/v1559203321/ddtyciszy3oiwdjasrjh.png?fbclid=IwAR3RFWWiOrMw-sMiNigCXJMFEGdpYw_FUBa4PxZYZLTtHvjLaa1JjBpNGy0',
-            createTime: moment().unix(),
-            updateTime: moment().unix(),
-        }
-        console.log(account.createTime);
-        message.loading('Đang thêm tài khoản', 2)
-            .then(() => {
-                adminService.addAccount(account)
-                    .then(res => {
-                        if (res.status === 201) {
-                            message.success('Thêm tài khoản nhân viên thành công');
-                        }
-                        this.props.history.push('/company/profile-admin')
-                    })
-                    .catch(err => {
-                        message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
-                    })
-            });
-
-    }
+    
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
+                this.setState({
+                    disable: true,
+                })
                 let account = {
-                    // fullname: this.state.fullname,
+                    fullname: values.fullname,
                     email: values.email,
                     phone: `${values.prefix} ${values.phone}`,
-                    // description: this.state.description,
-                    // address: this.state.address,
+                    description: this.state.description,
+                    address: this.state.address,
                     avatar: 'https://res.cloudinary.com/dne3aha8f/image/upload/v1559203321/ddtyciszy3oiwdjasrjh.png?fbclid=IwAR3RFWWiOrMw-sMiNigCXJMFEGdpYw_FUBa4PxZYZLTtHvjLaa1JjBpNGy0',
                     createTime: moment().unix(),
                     updateTime: moment().unix(),
                 }
                 console.log(values);
                 console.log(account);
+                // this.props.form.resetFields([fullname])
+                message.loading('Đang thêm tài khoản, vui lòng chờ trong giây lát', 2.5)
+                    .then(() => {
+                        adminService.addAccount(account)
+                            .then(res => {
+                                if (res.status === 201) {
+                                    message.success('Thêm tài khoản nhân viên thành công');
+                                }
+                                this.props.history.push('/company/profile-admin')
+                            })
+                            .catch(err => {
+                                message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                            })
+                    });
 
             }
         });
@@ -89,7 +68,10 @@ class AddAccount extends Component {
         const reg = /\d|^[a-z]|^\s|[A-z]{8}|\S{8}|[`~!@#$%^&*()(\-)_=+[(\]){};:'",<.>/?\\|]/
         //Check kí tự đầu là số, chữ cái viết thường, 
         //bắt đầu bằng khoảng trắng, 8 kí tự liền nhau (tên: Nghiêng), kí tự đặc biệt
-        if ((!Number.isNaN(value) && reg.test(value)) || value === ''|| value.length <4) {
+        if ((!Number.isNaN(value) && reg.test(value)) || value === '' || value.length < 4) {
+            this.setState({
+                disable: true,
+            })
             callback('Vui lòng nhập đúng tên!');
         }
         else {
@@ -98,15 +80,24 @@ class AddAccount extends Component {
     }
     onCheckPhoneNumber = (rule, value, callback) => {
         const reg = /^[1-9]?([1-9][0-9]*)?$/;
-        if ((!Number.isNaN(value) && reg.test(value) && value.length === 9) || value === '') {
+        if ((!Number.isNaN(value) && reg.test(value) && value.length === 9)) {
+            this.setState({
+                disable: false,
+            })
             callback();
         }
         else {
+            this.setState({
+                disable: true,
+            })
             callback('Vui lòng nhập đúng số điện thoại!')
         }
     };
+    componentDidMount() {
+        this.setState({ disable: true })
+    }
     render() {
-        let { fullname, email, phoneNumber, description } = this.state;
+        console.log(this.state.disable);
         const { getFieldDecorator } = this.props.form;
         const prefixSelector = getFieldDecorator('prefix', {
             initialValue: '84',
@@ -168,68 +159,12 @@ class AddAccount extends Component {
                                 <div className="main-title-2">
                                     <h1><span>Thêm tài khoản nhân viên</span> </h1>
                                 </div>
-
-                                {/* <form className="form-horizontal" onSubmit={this.onRegister}>
-                                    <div className="form-group">
-                                        <label htmlFor="fullname" className="col-sm-3 control-label">Họ và tên*</label>
-                                        <div className="col-sm-9">
-                                            <input 
-                                            type="text" 
-                                            id="fullname" 
-                                            name="fullname" 
-                                            placeholder="Nhập đầy đủ họ tên" 
-                                            className="form-control" 
-                                            value={fullname} 
-                                            required
-                                            onChange={this.handleOnChange}  />
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="form-group">
-                                        <label htmlFor="email" className="col-sm-3 control-label">Email* </label>
-                                        <div className="col-sm-9">
-                                            <input 
-                                            type="email" 
-                                            id="email" 
-                                            placeholder="Email" 
-                                            className="form-control" 
-                                            name="email" 
-                                            value={email} 
-                                            required 
-                                            onChange={this.handleOnChange} />
-                                        </div>
-                                    </div>  
-                                    
-                                    <div className="form-group">
-                                        <label htmlFor="phoneNumber" className="col-sm-3 control-label">Số điện thoại* </label>
-                                        <div className="col-sm-9">
-                                            <input 
-                                            type="number" 
-                                            id="phoneNumber" 
-                                            name="phoneNumber" 
-                                            placeholder="Nhập số điện thoại của nhân viên" 
-                                            className="form-control" 
-                                            value={phoneNumber}
-                                            onChange={this.handleOnChange}
-                                            required/>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="description" className="col-sm-3 control-label">Mô tả </label>
-                                        <div className="col-sm-9">
-                                        <textarea  onChange={this.handleOnChange} className="form-control" id="description" name="description" placeholder="Nhập mô tả về nhân viên" value={description}/>
-                                        </div>
-                                    </div>
-                                    <div className="form-group" style={{textAlign:'center'}}>
-                                    <button style={{marginRight:'5px'}} type="submit" className="btn btn-success">Tạo tài khoản</button>
-                                    <button onClick={this.onQuit} type="button" class="btn btn-primary">Hủy</button>
-                                    </div>
-                                </form> */}
                                 <Form {...formItemLayout} onSubmit={this.handleSubmit}>
                                     <Form.Item label="Họ và tên" style={{ paddingRight: '20px' }} hasFeedback>
                                         {getFieldDecorator('fullname', {
                                             rules: [
                                                 {
+                                                    min: 5,
                                                     required: true,
                                                     message: 'Vui lòng nhập tên của nhân viên!',
                                                 },
@@ -240,7 +175,7 @@ class AddAccount extends Component {
                                         })(<Input
                                             //onChange={this.onChange} 
                                             style={{ marginRight: '30px' }}
-                                            placeholder="Nhập tên nhân viên"
+                                            placeholder="Nhập tên nhân viên (Bắt đầu bằng chữ in hoa)"
                                             maxLength={50} />)}
                                     </Form.Item>
                                     <Form.Item label="E-mail" style={{ paddingRight: '20px' }} hasFeedback>
@@ -277,8 +212,8 @@ class AddAccount extends Component {
                                     </Form.Item>
 
                                     <Form.Item {...tailFormItemLayout} style={{ textAlign: 'right', paddingRight: '20px' }}>
-                                        <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit">
-                                            Cập nhật mật khẩu
+                                        <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit" disabled={this.state.disable}>
+                                            Tạo tài khoản
                                                 </Button>
                                         <Button type="danger" onClick={this.onCancel}>
                                             Hủy
