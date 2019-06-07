@@ -45,6 +45,8 @@ import ListEmployees from './pages/Company/ListEmployees'
 import AddAccount from './pages/Company/AddAccount'
 import ChangePasswordCompany from './pages/Company/ChangePasswordCompany'
 import ForgotPasswordCompany from './pages/Company/ForgotPasswordCompany'
+import ProfileEmployee from './pages/Company/ProfileEmployee'
+import InputNumber from './components/Company/InputNumber';
 class App extends Component {
   render() {
     return (
@@ -84,16 +86,18 @@ class App extends Component {
             <Route exact path='/agents' component={ListAgents}/>
             <Route exact path='/companies' component={ListCompaies}/>
             <Route exact path='/agentdetail/:id' component={AgentDetail}/>
-            <Route exact path='/companydetail' component={CompanyDetail}/>
+            <Route exact path='/companydetail/:id' component={CompanyDetail}/>
             {/* ---------- */}
             {/* Route cho company */}
 
+            <Route exact path='/input' component={InputNumber}/>
             <Route exact path='/company/login' component={LoginCompany} />
             <Route exact path='/company/profile-admin' component={ProfileAdmin} />
             <Route exact path='/company/add-account-employee' component={AddAccount}/>
             <Route exact path='/company/list-employees' component={ListEmployees}/>
             <Route exact path='/company/changepassword' component={ChangePasswordCompany}/>
             <Route exact path='/company/forgotpassword' component={ForgotPasswordCompany}/>
+            <Route exact path='/company/info-employee/:id' component={ProfileEmployee}/>
             {/* End route cho company */}
             <Route exact path='' component={NotFound} />
 

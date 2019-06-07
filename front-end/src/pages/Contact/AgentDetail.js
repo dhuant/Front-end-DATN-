@@ -93,12 +93,7 @@ class AgentDetail extends Component {
                                         </h3>
                                         {/* Address list */}
                                         <ul className="address-list">
-                                            {/* <li>
-                                                <span>
-                                                    <i className="fa fa-tag" />Title:
-                                                </span>
-                                                John Antony
-                                            </li> */}
+                                            
                                             <li>
                                                 <span>
                                                     <i className="fa fa-envelope" />Email:

@@ -5,6 +5,8 @@ import axios from 'axios'
 
 import * as config from '../../constants/Config'
 import { message } from 'antd'
+// ======Start request get list Agents
+//lấy danh sách nhà môi giới
 export const reqGetListAgents = (page) => {
   return dispatch => {
     // return console.log("Company")
@@ -21,6 +23,7 @@ export const reqGetListAgents = (page) => {
   };
 }
 
+//lấy thông tin chi tiết 1 nhà môi giới (gồm thông tin cơ bản, và số lượng bài đăng)
 export const reqGetInfoAgent = (id, page) => {
   return dispatch => {
     // return console.log("Company")
@@ -30,6 +33,44 @@ export const reqGetInfoAgent = (id, page) => {
         console.log(res);
         dispatch(actionAgent.actGetInfoAgent(res.data.info));
         dispatch(actionAgent.actGetListProjectOfAgent(res.data.projects));
+      })
+      .catch(err => {
+        console.log(err.respone)
+      })
+  };
+}
+
+//======End request get list agents
+
+//======Start request get list companies
+
+//Lấy danh sách công ty đối tác
+export const reqGetListCompanies = (page) => {
+  return dispatch => {
+    // return console.log("Company")
+    return axios
+      .get(`${config.API_URL}/company/all/${page}`,)
+      .then(res => {
+        console.log(res);
+        dispatch(actionCompany.actGetListCompanies(res.data.result));
+      })
+      .catch(err => {
+        console.log(err.respone)
+      })
+  };
+}
+
+//Lấy thông tin cơ bản của 1 công ty đối tác (thông tin cơ bản, danh sách nhân viên)
+export const reqGetInfoCompany = (id) => {
+  return dispatch => {
+    // return console.log("Company")
+    return axios
+      .get(`${config.API_URL}/company/info/${id}`,)
+      .then(res => {
+        console.log(res);
+        dispatch(actionCompany.actGetInfoCompany(res.data.company));
+        dispatch(actionAgent.actGetListAgents(res.data.company.employees))
+        // dispatch(actionAgent.actGetListProjectOfAgent(res.data.projects));
       })
       .catch(err => {
         console.log(err.respone)

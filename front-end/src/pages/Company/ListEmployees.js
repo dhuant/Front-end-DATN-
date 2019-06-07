@@ -18,10 +18,17 @@ class ListEmployees extends Component {
         };
     }
     componentDidMount() {
-        this.props.actGetInfoUserCompany();
-
+        let company = JSON.parse(localStorage.getItem('company'));
+        this.props.actGetInfoUserCompany(company.id);
     }
     render() {
+        let dataSource = [];
+        let isLoading = true;
+        let company = this.props.userCompany;
+        let {employees} = this.props
+        if(employees !==[]){
+            dataSource =  employees
+        }
         const columns = [
             {
                 title: 'Họ tên',
@@ -29,17 +36,21 @@ class ListEmployees extends Component {
                 key: 'employee.fullname',
                 sorter: (a, b) => a.employee.fullname > b.employee.fullname,
                 sortDirections: ['descend', 'ascend'],
+                width: 200,
+                fixed: 'left',
             },
             {
                 title: 'Email',
                 dataIndex: 'employee.email',
                 key: 'employee.email',
+                width: 240,
             },
             {
                 title: 'Số tin',
                 dataIndex: 'employee.totalProject',
                 key: 'employee.totalProject',
                 sorter: (a, b) => a.employee.totalProject > b.employee.totalProject,
+                width: 100,
                 render: tag => <Tag color={'green'} key={tag}>{tag}</Tag>
             },
             {
@@ -56,18 +67,25 @@ class ListEmployees extends Component {
                     },
                 ],
                 filterMultiple: false,
+                width: 150,
                 onFilter: (value, record) => record.employee.verify === value,
                 key: 'employee.verify',
                 render: verify => {
                     let color = verify === true ? 'red' : 'geekblue'
                     return <Tag color={color} key={verify}>{verify === true ? 'Đã kích hoạt' : 'Chưa kích hoạt'}</Tag>
                 }
+                
+            },
+            {
+                title: 'Thao tác',
+                dataIndex: 'employee.totalProject',
+                key: 'employee.totalProject',
+                
+                render: tag => <Tag color={'green'} key={tag}>{tag}</Tag>,
+                width: 150,
+                fixed: 'right',
             },
         ]
-        let dataSource = [];
-        let isLoading = true;
-        let userCompany = this.props.userCompany;
-        dataSource = userCompany.employees;
         
         return (
             <div>
@@ -101,7 +119,14 @@ class ListEmployees extends Component {
                                 </div>
                                 {/* table start */}
                                 <table className="manage-table responsive-table">
-                                    <Table dataSource={dataSource} columns={columns} />
+                                    <Table dataSource={dataSource} bordered columns={columns} scroll={{x:'110%', y: 300 }}
+                                     onRow={(record, rowIndex) => {
+                                        return {
+                                            onClick: (event) => {
+                                                this.props.history.push(`info-employee/${record._id}`)
+                                            },
+                                        }}}
+                                    />
                                 </table>
                                 {/* table end */}
                             </div>
@@ -117,12 +142,13 @@ class ListEmployees extends Component {
 
 const mapDispathToProp = (dispatch) => {
     return {
-        actGetInfoUserCompany: () => dispatch(actions.actGetInfoUserCompany())
+        actGetInfoUserCompany: (id) => dispatch(actions.actGetInfoUserCompany(id))
     }
 }
 const mapStateToProp = (state) => {
     return {
-        userCompany: state.userCompany
+        userCompany: state.userCompany,
+        employees: state.employees
     }
 }
 export default connect(mapStateToProp, mapDispathToProp)(ListEmployees)

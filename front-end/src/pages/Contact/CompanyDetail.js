@@ -2,12 +2,50 @@ import React, { Component } from 'react';
 import MainHeader from '../../components/MainHeader';
 import InfoEstateOfAgent from '../../components/ContactDetail/InfoEstateOfAgent';
 import SidebarAgentDetail from '../../components/ContactDetail/SidebarAgentDetail';
+import * as actions from '../../actions/Contact/requestContact';
+import { connect } from 'react-redux';
+import Employee from '../../components/Contact/Employee';
 
 class CompanyDetail extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            page: 1,
+        }
+    }
+    componentDidMount() {
+        this.props.reqGetInfoCompany(this.props.match.params.id);
+    }
     render() {
+        let company = this.props.info;
+        let { employees } = this.props;
+        let des = 'Hiện chưa có nhân viên'
+        let listEmployees = ''
+        if (employees.length > 0) {
+            des = `Hiện đang có ${employees.length} bài đăng`
+            listEmployees = employees.map((employee, index) => {
+                return (
+                    <Employee
+                        key={index}
+                        employee={employee.employee}
+                    />
+                )
+            }
+            )
+        }
+        let mobile = 'Đang cập nhật'
+        if(company.phone !==''){
+            mobile = company.phone
+        }
+        let address = 'Đang cập nhật'
+            
+        if (company.address !== '') {
+            address = company.address
+        }
+        console.log(company)
         return (
             <div>
-                <MainHeader/>
+                <MainHeader />
                 {/* Sub banner start */}
                 <div className="sub-banner overview-bgi" >
                     <div className="overlay">
@@ -30,28 +68,23 @@ class CompanyDetail extends Component {
                         <div className="row">
                             <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                                 {/* Agent detail start */}
-                                <div className="agent-detail clearfix" style = {{height:'300px'}}>
+                                <div className="agent-detail clearfix" style={{ height: '300px' }}>
                                     <div className="col-lg-5 col-md-6 col-sm-5 agent-theme">
-                                        <img src="img/agent-1.jpg" alt="agent-1" className="img-responsive" style={{height:'300px', width:'300px'}}/>
+                                        <img src={company.avatar} alt="agent-1" className="img-responsive" style={{ height: '300px', width: '300px' }} />
                                     </div>
                                     <div className="col-lg-7 col-md-6 col-sm-7 agent-content clearfix">
                                         {/* <h5>Creative Director</h5> */}
                                         <h3>
-                                            Công ty thảo điền
+                                            {company.companyname}
                                         </h3>
                                         {/* Address list */}
                                         <ul className="address-list">
-                                            <li>
-                                                <span>
-                                                    <i className="fa fa-tag" />Title:
-                                                </span>
-                                                John Antony
-                                            </li>
+                                        
                                             <li>
                                                 <span>
                                                     <i className="fa fa-envelope" />Email:
                                                 </span>
-                                                info@themevessel.com
+                                                {company.email}
                                             </li>
                                             <li>
                                                 <span>
@@ -63,13 +96,13 @@ class CompanyDetail extends Component {
                                                 <span>
                                                     <i className="fa fa-mobile" />Mobile:
                                                 </span>
-                                                +55 4XX-634-7071
+                                                {mobile}
                                             </li>
                                             <li>
-                                                <span>
-                                                    <i className="fa fa-skype" />Skype:
+                                            <span>
+                                                <i class="fa fa-map-marker"/>Điện thoại:
                                                 </span>
-                                                john.antony
+                                                {address}
                                             </li>
                                         </ul>
                                     </div>
@@ -131,7 +164,7 @@ class CompanyDetail extends Component {
                                 <div className="recently-properties">
                                     {/* Main title */}
                                     <div className="main-title-2">
-                                        <h1><span>Danh sách bài đăng</span> </h1>
+                                        <h1><span>Danh sách nhân viên</span> </h1>
                                     </div>
                                     {/* Option bar start */}
                                     <div className="option-bar">
@@ -141,18 +174,18 @@ class CompanyDetail extends Component {
                                                     <span className="heading-icon">
                                                         <i className="fa fa-th-list" />
                                                     </span>
-                                                    <span className="hidden-xs">Danh sách bài đăng</span>
+                                                    <span className="hidden-xs">Danh sách nhân viên</span>
                                                 </h4>
                                             </div>
                                             <div className="col-lg-6 col-md-7 col-sm-7 col-xs-10 cod-pad">
                                                 <div className="sorting-options">
                                                     <select className="sorting">
-                                                        <option>Bất động sản bán</option>
+                                                        <option>Mới tham gia</option>
                                                         <option>Bất động sản thuê</option>
                                                         <option>Properties (High To Low)</option>
                                                         <option>Properties (Low To High)</option>
                                                     </select>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -160,9 +193,7 @@ class CompanyDetail extends Component {
                                     {/* Option bar end */}
                                     <div className="clearfix" />
                                     <div className="row">
-                                        <InfoEstateOfAgent/>>
-                                        <InfoEstateOfAgent/>
-                                        <InfoEstateOfAgent/>
+                                        {listEmployees}
                                     </div>
                                 </div>
                                 {/* Partners block end */}
@@ -179,4 +210,15 @@ class CompanyDetail extends Component {
     }
 }
 
-export default CompanyDetail;
+const mapDispathToProp = (dispatch) => {
+    return {
+        reqGetInfoCompany: (id) => dispatch(actions.reqGetInfoCompany(id))
+    }
+}
+const mapStateToProp = (state) => {
+    return {
+        info: state.infoCompany,
+        employees: state.agents
+    }
+}
+export default connect(mapStateToProp, mapDispathToProp)(CompanyDetail);

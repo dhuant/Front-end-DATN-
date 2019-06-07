@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
-import {message}from 'antd';
-import {adminService} from '../../actions/Company/admin.service'
+import { message, Form, Input,Button } from 'antd';
+import { adminService } from '../../actions/Company/admin.service'
 
 class ForgotPasswordCompany extends Component {
     constructor() {
         super();
         this.state = {
             email: '',
+            confirmDirty: false,
+            autoCompleteResult: [],
         };
+
+    }
+    componentDidMount() {
+        if(localStorage.getItem('company')){
+            this.props.history.push('/company/profile-admin')
+        }
     }
     handleOnChange = (e) => {
         let target = e.target;
@@ -17,31 +25,58 @@ class ForgotPasswordCompany extends Component {
             [name]: value,
         });
     }
-    onCancel =(e) =>{
+    onCancel = (e) => {
         e.preventDefault();
         this.props.history.push('/company/login')
     }
-    onSendEmail = (e) => {
+    handleSubmit = e => {
         e.preventDefault();
-        console.log(this.state.email);
-        let data = {
-            email: this.state.email
-        }
-        message.loading('Vui lòng chờ trong giây lát', 1)
-        .then(()=>{
-            adminService.resetPasswordCompany(data)
-            .then(res => {
-                if(res.status === 200){
-                    message.success('Mật khẩu đã được gửi tới email của bạn');
-                }
-                this.props.history.push('/company/login')
-            })
-            .catch(err => {
-                message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
-            })
+        this.props.form.validateFieldsAndScroll((err, values) => {
+          if (!err) {
+            let data = {
+                email: values.email
+            }
+            message.loading('Vui lòng chờ trong giây lát', 1)
+            .then(() => {
+                adminService.resetPasswordCompany(data)
+                    .then(res => {
+                        if (res.status === 200) {
+                            message.success('Mật khẩu đã được gửi tới email của bạn');
+                        }
+                        this.props.history.push('/company/login')
+                    })
+                    .catch(err => {
+                        message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                    })
+            });
+          }
         });
-    }
+      };
+    
     render() {
+        const { getFieldDecorator } = this.props.form;
+        const formItemLayout = {
+            labelCol: {
+                xs: { span: 24 },
+                sm: { span: 4 },
+            },
+            wrapperCol: {
+                xs: { span: 24 },
+                sm: { span: 20 },
+            },
+        };
+        const tailFormItemLayout = {
+            wrapperCol: {
+                xs: {
+                    span: 24,
+                    offset: 0,
+                },
+                sm: {
+                    span: 24,
+                    offset: 0,
+                },
+            },
+        };
         return (
             <div>
                 <div className="content-area" style={{ backgroundColor: 'lightgray' }}>
@@ -49,7 +84,7 @@ class ForgotPasswordCompany extends Component {
                         <div className="row">
                             <div className="col-lg-12">
                                 {/* Form content box start */}
-                                <div className="form-content-box">
+                                <div className="form-content-box" style={{textAlign:'unset'}}>
                                     {/* details */}
                                     <div className="details">
                                         {/* Main title */}
@@ -58,31 +93,32 @@ class ForgotPasswordCompany extends Component {
                                                 <span>Quên mật khẩu</span>
                                             </h1>
                                         </div>
-                                        <div style={{borderBottom: '1px solid #ccc', marginBottom:'10px'}}></div>
+                                        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '10px' }}></div>
                                         {/* Form start */}
-                                        <form onSubmit={this.onSendEmail}>
-                                            <p style={{fontFamily:'inherit', fontSize:'13px', margin:'0 0 5px 0'}}>Vui lòng nhập email của tài khoản để hệ thống gửi email mới</p>
-                                            <div className="form-group">
-                                                <input
-                                                    onChange={this.handleOnChange}
-                                                    type="email"
-                                                    name="email"
-                                                    className="input-text"
-                                                    placeholder="Nhập email tài khoản của bạn"
-                                                    required
-                                                />
-                                                
-                                            </div>
-                                            <div style={{borderBottom: '1px solid #ccc', marginTop:'26px'}}></div>
-                                            <div className="form-group" style={{ textAlign: 'right', marginTop:'20px' }}>
-                                                {/* <button type="submit" className="btn btn-primary btn-block">Đăng kí</button> */}
-                                                <button style={{ marginRight: '5px' }} type="submit" className="btn btn-success">Gửi email</button>
-                                                <button onClick={this.onCancel} type="button" class="btn btn-primary">Hủy</button>
-
-                                            </div>
-
-                                
-                                        </form>
+                                        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+                                            <Form.Item label="E-mail">
+                                                {getFieldDecorator('email', {
+                                                    rules: [
+                                                        {
+                                                            type: 'email',
+                                                            message: 'Văn bản không đúng định dạng email',
+                                                        },
+                                                        {
+                                                            required: true,
+                                                            message: 'Vui lòng nhập email của bạn vào ô văn bản',
+                                                        },
+                                                    ],
+                                                })(<Input />)}
+                                            </Form.Item>
+                                            <Form.Item {...tailFormItemLayout} style={{textAlign: 'right'}}>
+                                                <Button type="primary" style={{marginRight:'5px'}} htmlType="submit">
+                                                    Gửi email
+                                                </Button>
+                                                <Button type="danger" onClick={this.onCancel}>
+                                                    Hủy
+                                                </Button>
+                                            </Form.Item>
+                                        </Form>
                                         {/* Form end */}
                                     </div>
                                     {/* Footer */}
@@ -98,4 +134,4 @@ class ForgotPasswordCompany extends Component {
     }
 }
 
-export default ForgotPasswordCompany;
+export default Form.create()(ForgotPasswordCompany);

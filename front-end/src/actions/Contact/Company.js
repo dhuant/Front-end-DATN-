@@ -5,3 +5,10 @@ export const actGetListCompanies =(companies) =>{
         companies: companies
     }
 }
+
+export const actGetInfoCompany = (company)  => {
+    return {
+        type: types.GET_INFO_COMPANY,
+        company: company
+    }
+}

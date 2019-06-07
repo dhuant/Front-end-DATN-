@@ -1,9 +1,51 @@
 import React, { Component } from 'react';
 import Company from '../../components/Contact/Company'
 import MainHeader from '../../components/MainHeader'
+import * as actions from '../../actions/Contact/requestContact';
+import { connect } from 'react-redux';
+
 
 class ListCompaies extends Component {
+    constructor(props) {
+        super(props);
+        this.state ={
+            page: 1,
+        }
+        this.props.reqGetListCompanies(this.state.page);
+
+    }
+    componentDidMount(){
+        this.props.reqGetListCompanies(this.state.page);
+    }
     render() {
+        let {companies} = this.props;
+        console.log(companies);
+        let des =''
+        let listCompanies = <h5 style={{marginLeft:'15px'}}>Hiện không có công ty nào</h5>;
+		if (companies.length > 0) {
+			// if (option === '1') {
+			// 	companies = companies.sort((a, b) => (a.price - b.price))
+			// }
+			// else if(option === '2'){
+			// 	companies = companies.sort((a, b) => (b.price - a.price))
+			// }
+			// else if(option === '3') {
+			// 	companies = companies.sort((a, b) => (a.area - b.area))
+			// }
+			// else if(option === '4') {
+			// 	companies = companies.sort((a, b) => (b.area - a.area))
+			// }
+			des = `Hiện đang có ${companies.length} công ty đối tác trên hệ thống`
+			listCompanies = companies.map((company, index) => {
+				return (
+					<Company
+						key={index}
+						company={company}
+					/>
+				)
+			}
+			)
+		}
         return (
             <div>
                 <MainHeader />
@@ -37,8 +79,7 @@ class ListCompaies extends Component {
                         {/* option bar end */}
                         <div class="clearfix"></div>
                         <div className="row">
-                            <Company/>
-                            <Company/>
+                            {listCompanies}
                         </div>
                     </div>
                 </div>
@@ -48,5 +89,15 @@ class ListCompaies extends Component {
     }
 }
 
+const mapDispathToProp = (dispatch) => {
+    return {
+        reqGetListCompanies: (page) => dispatch(actions.reqGetListCompanies(page))
+    }
+}
+const mapStateToProp = (state) => {
+    return {
+        companies: state.companies
+    }
+}
 
-export default ListCompaies;
+export default connect(mapStateToProp, mapDispathToProp)(ListCompaies);

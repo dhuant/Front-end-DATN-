@@ -18,10 +18,9 @@ class ProfileAdmin extends Component {
     }
     render() {
         let { userCompany } = this.props;
-        console.log(userCompany.company);
         let detail = null
-        if (userCompany.company ){
-            detail =  <DetailCompany company={userCompany.company} />
+        if (userCompany !=={}){
+            detail =  <DetailCompany company={userCompany} />
         }
 
             return (

@@ -5,8 +5,8 @@ import InfoCompany from '../../components/Company/ProfileCompany/InfoCompany'
 import { CHANGE_PASSWORD } from '../../constants/Company/profileCompany'
 // import FollowingProject from '../components/My Properties/FollowingProject'
 import { Link } from 'react-router-dom'
-import  {adminService} from '../../actions/Company/admin.service'
-import { message } from 'antd';
+import { adminService } from '../../actions/Company/admin.service'
+import { message, Form, Input, Button } from 'antd';
 class ChangePasswordCompany extends Component {
     constructor() {
         super();
@@ -14,6 +14,7 @@ class ChangePasswordCompany extends Component {
             password: '',
             newpassword: '',
             confirmpassword: '',
+            confirmDirty: false,
         };
     }
     handleOnChange = (e) => {
@@ -24,40 +25,83 @@ class ChangePasswordCompany extends Component {
             [name]: value,
         });
     }
-    onQuit = (e) => {
+    onCancel = (e) => {
         e.preventDefault();
         this.props.history.push('/company/profile-admin')
     }
-    onChangePassword = (e) => {
+    
+    handleSubmit = e => {
         e.preventDefault();
-        let data = {
-            currentPassword: this.state.password,
-            newPassword: this.state.newpassword,
-
-        }
-        message.loading('Đang cập nhật lại mật khẩu', 2)
-        .then(()=>{
-            adminService.changePasswordCompany(data)
-            .then(res => {
-                if(res.status === 200){
-                    message.success('Đổi mật khẩu thành công');
-                }
-                this.props.history.push('/company/profile-admin')
-            })
-            .catch(err => {
-                message.error('Đổi mật khẩu thất bại. Mời bạn vui lòng thử lại')
-            })
-        });
-    }
-    render() {
-        let { password, newpassword, confirmpassword } = this.state;
-        let message = '';
-        let button = <button style={{ marginRight: '5px' }} type="submit" className="btn btn-success" disabled >Lưu thay đổi</button>
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                let data = {
+                    currentPassword: values.currentPassword,
+                    newPassword: values.newPassword,
         
-        if(confirmpassword !=='' & newpassword !=='' & confirmpassword === newpassword){
-            message = <h5 style={{color:'green', marginTop:'4px', marginLeft:'2px'}}><b>Mật khẩu khớp</b></h5>
-            button = <button style={{ marginRight: '5px' }} type="submit" className="btn btn-success" >Lưu thay đổi</button>
+                }
+                console.log(data)
+
+                message.loading('Đang cập nhật lại mật khẩu', 2)
+                .then(() => {
+                    adminService.changePasswordCompany(data)
+                        .then(res => {
+                            if (res.status === 200) {
+                                message.success('Đổi mật khẩu thành công');
+                            }
+                            this.props.history.push('/company/profile-admin')
+                        })
+                        .catch(err => {
+                            message.error('Đổi mật khẩu thất bại. Mời bạn vui lòng thử lại')
+                        })
+                });
+            }
+        });
+    };
+
+    handleConfirmBlur = e => {
+        const value = e.target.value;
+        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+    };
+    compareToFirstPassword = (rule, value, callback) => {
+        const form = this.props.form;
+        if (value && value !== form.getFieldValue('newPassword')) {
+            callback('Mật khẩu mới không trùng khớp!');
+        } else {
+            callback()
         }
+    };
+
+    validateToNextPassword = (rule, value, callback) => {
+        const form = this.props.form;
+        if (value && this.state.confirmDirty) {
+            form.validateFields(['confirm'], { force: true });
+        }
+        callback();
+    };
+    render() {
+        const { getFieldDecorator } = this.props.form;
+        const formItemLayout = {
+            labelCol: {
+                xs: { span: 24 },
+                sm: { span: 6 },
+            },
+            wrapperCol: {
+                xs: { span: 24 },
+                sm: { span: 18 },
+            },
+        };
+        const tailFormItemLayout = {
+            wrapperCol: {
+                xs: {
+                    span: 24,
+                    offset: 0,
+                },
+                sm: {
+                    span: 24,
+                    offset: 0,
+                },
+            },
+        };
         return (
             <div>
                 <HeaderCompany />
@@ -89,60 +133,53 @@ class ChangePasswordCompany extends Component {
                                     <h1><span>Đổi mật khẩu</span></h1>
                                 </div>
                                 {/* table start */}
+                                <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+                                    <Form.Item label="Mật khẩu hiện tại" style={{paddingRight:'20px'}} hasFeedback>
+                                        {getFieldDecorator('currentPassword', {
+                                            rules: [
+                                                {
+                                                    required: true,
+                                                    message: 'Vui lòng nhập mật khẩu!',
+                                                },
 
-                                <form className="form-horizontal" onSubmit={this.onChangePassword}>
-                                    <div className="form-group">
-                                        <label htmlFor="password" className="col-sm-3 control-label">Mật khẩu hiện tại</label>
-                                        <div className="col-sm-9">
-                                            <input
-                                                type="password"
-                                                id="password"
-                                                name="password"
-                                                placeholder="Nhập mật khẩu hiện tại"
-                                                className="form-control"
-                                                value={password}
-                                                required
-                                                onChange={this.handleOnChange} />
-                                        </div>
-                                    </div>
-
-                                    <div className="form-group">
-                                        <label htmlFor="newpassword" className="col-sm-3 control-label">Mật khẩu mới</label>
-                                        <div className="col-sm-9">
-                                            <input
-                                                type="password"
-                                                id="newpassword"
-                                                name="newpassword"
-                                                placeholder=""
-                                                className="form-control"
-                                                onChange={this.handleOnChange}
-                                                value={newpassword}
-                                                required />
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="confirmpassword" className="col-sm-3 control-label">Nhập lại mật khẩu mới</label>
-                                        <div className="col-sm-9">
-                                            <input
-                                                type="password"
-                                                id="confirmpassword"
-                                                name="confirmpassword"
-                                                placeholder=""
-                                                className="form-control"
-                                                onChange={this.handleOnChange}
-                                                value={confirmpassword}
-                                                required />
-                                            
-                                            {message}
-                                        </div>
-                                    </div>
-                                    <div className="form-group" style={{ textAlign: 'center' }}>
-                                        {/* <button type="submit" className="btn btn-primary btn-block">Đăng kí</button> */}
-                                        {button}
-                                        <button onClick={this.onQuit} type="button" class="btn btn-primary">Hủy</button>
-                                    </div>
-                                </form>
-
+                                            ],
+                                        })(<Input.Password style={{marginRight:'30px'}}/>)}
+                                    </Form.Item>
+                                    <Form.Item label="Mật khẩu mới"style={{paddingRight:'20px'}} hasFeedback>
+                                        {getFieldDecorator('newPassword', {
+                                            rules: [
+                                                {
+                                                    required: true,
+                                                    message: 'Vui lòng nhập mật khẩu mới!',
+                                                },
+                                                {
+                                                    validator: this.validateToNextPassword,
+                                                },
+                                            ],
+                                        })(<Input.Password style={{marginRight:'30px'}}/>)}
+                                    </Form.Item>
+                                    <Form.Item label="Xác nhận mật khẩu" style={{paddingRight:'20px'}} hasFeedback>
+                                        {getFieldDecorator('confirm', {
+                                            rules: [
+                                                {
+                                                    required: true,
+                                                    message: 'Vui lòng xác nhận lại mật khẩu!',
+                                                },
+                                                {
+                                                    validator: this.compareToFirstPassword,
+                                                },
+                                            ],
+                                        })(<Input.Password onBlur={this.handleConfirmBlur} style={{marginRight:'30px'}}/>)}
+                                    </Form.Item>
+                                    <Form.Item {...tailFormItemLayout} style={{ textAlign: 'right',paddingRight:'20px' }}>
+                                        <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit">
+                                            Cập nhật mật khẩu
+                                                </Button>
+                                        <Button type="danger" onClick={this.onCancel}>
+                                            Hủy
+                                                </Button>
+                                    </Form.Item>
+                                </Form>
                                 {/* table end */}
                             </div>
                         </div>
@@ -154,4 +191,4 @@ class ChangePasswordCompany extends Component {
     }
 }
 
-export default ChangePasswordCompany;
+export default Form.create()(ChangePasswordCompany);

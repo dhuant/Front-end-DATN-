@@ -7,11 +7,11 @@ export const actGetInfoUserCompany = (id) => {
   return dispatch => {
     // return console.log("Company")
     return axios
-      .get(`${config.API_URL}/company/info/${id}`, { headers: authCompany() })
+      .get(`${config.API_URL}/company/info/${id}`)
       .then(res => {
         console.log(res.data);
-        dispatch(action.actSaveInfoUserCompany(res.data));
-
+        dispatch(action.actSaveInfoUserCompany(res.data.company));
+        dispatch(action.actSaveListEmployees(res.data.company.employees))
       })
       .catch(err => {
         console.log(err.respone)

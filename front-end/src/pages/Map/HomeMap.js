@@ -18,6 +18,11 @@ class HomeMap extends Component {
             location: "",
         }
     }
+    componentDidMount(){
+        if(localStorage.getItem('company')){
+            this.props.history.push('/company/profile-admin')
+        }
+    }
     render() {
         return (
             <div>
