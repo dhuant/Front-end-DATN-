@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { message, Form, Input,Button } from 'antd';
+import { message, Form, Input, Button } from 'antd';
 import { adminService } from '../../actions/Company/admin.service'
 
 class ForgotPasswordCompany extends Component {
@@ -9,13 +9,17 @@ class ForgotPasswordCompany extends Component {
             email: '',
             confirmDirty: false,
             autoCompleteResult: [],
+            disable: false
         };
 
     }
     componentDidMount() {
-        if(localStorage.getItem('company')){
+        if (localStorage.getItem('company')) {
             this.props.history.push('/company/profile-admin')
         }
+        this.setState({
+            disable: false,
+        })
     }
     handleOnChange = (e) => {
         let target = e.target;
@@ -32,27 +36,38 @@ class ForgotPasswordCompany extends Component {
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
-          if (!err) {
-            let data = {
-                email: values.email
+            if (!err) {
+                this.setState({
+                    disable: true,
+                })
+                let data = {
+                    email: values.email
+                }
+                message.loading('Vui lòng chờ trong giây lát', 1)
+                    .then(() => {
+                        adminService.resetPasswordCompany(data)
+                            .then(res => {
+                                if (res.status === 200) {
+                                    message.success('Mật khẩu đã được gửi tới email của bạn');
+                                }
+                                this.props.history.push('/company/login')
+                            })
+                            .catch(err => {
+                                message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                this.setState({
+                                    disable: false,
+                                })
+                            })
+                    });
             }
-            message.loading('Vui lòng chờ trong giây lát', 1)
-            .then(() => {
-                adminService.resetPasswordCompany(data)
-                    .then(res => {
-                        if (res.status === 200) {
-                            message.success('Mật khẩu đã được gửi tới email của bạn');
-                        }
-                        this.props.history.push('/company/login')
-                    })
-                    .catch(err => {
-                        message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
-                    })
-            });
-          }
+            else{
+                this.setState({
+                    disable: false,
+                })
+            }
         });
-      };
-    
+    };
+
     render() {
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
@@ -84,7 +99,7 @@ class ForgotPasswordCompany extends Component {
                         <div className="row">
                             <div className="col-lg-12">
                                 {/* Form content box start */}
-                                <div className="form-content-box" style={{textAlign:'unset'}}>
+                                <div className="form-content-box" style={{ textAlign: 'unset' }}>
                                     {/* details */}
                                     <div className="details">
                                         {/* Main title */}
@@ -110,8 +125,8 @@ class ForgotPasswordCompany extends Component {
                                                     ],
                                                 })(<Input />)}
                                             </Form.Item>
-                                            <Form.Item {...tailFormItemLayout} style={{textAlign: 'right'}}>
-                                                <Button type="primary" style={{marginRight:'5px'}} htmlType="submit">
+                                            <Form.Item {...tailFormItemLayout} style={{ textAlign: 'right' }}>
+                                                <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit" disabled={this.state.disable}>
                                                     Gửi email
                                                 </Button>
                                                 <Button type="danger" onClick={this.onCancel}>

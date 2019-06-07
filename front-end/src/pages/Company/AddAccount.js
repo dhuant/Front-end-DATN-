@@ -58,9 +58,17 @@ class AddAccount extends Component {
                             })
                             .catch(err => {
                                 message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                this.setState({
+                                    disable: false,
+                                })
                             })
                     });
 
+            }
+            else{
+                this.setState({
+                    disable: false,
+                })
             }
         });
     };
@@ -69,9 +77,6 @@ class AddAccount extends Component {
         //Check kí tự đầu là số, chữ cái viết thường, 
         //bắt đầu bằng khoảng trắng, 8 kí tự liền nhau (tên: Nghiêng), kí tự đặc biệt
         if ((!Number.isNaN(value) && reg.test(value)) || value === '' || value.length < 4) {
-            this.setState({
-                disable: true,
-            })
             callback('Vui lòng nhập đúng tên!');
         }
         else {
@@ -81,20 +86,14 @@ class AddAccount extends Component {
     onCheckPhoneNumber = (rule, value, callback) => {
         const reg = /^[1-9]?([1-9][0-9]*)?$/;
         if ((!Number.isNaN(value) && reg.test(value) && value.length === 9)) {
-            this.setState({
-                disable: false,
-            })
             callback();
         }
         else {
-            this.setState({
-                disable: true,
-            })
             callback('Vui lòng nhập đúng số điện thoại!')
         }
     };
     componentDidMount() {
-        this.setState({ disable: true })
+        this.setState({ disable: false })
     }
     render() {
         console.log(this.state.disable);

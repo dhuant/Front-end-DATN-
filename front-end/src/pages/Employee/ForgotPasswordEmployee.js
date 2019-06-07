@@ -7,25 +7,24 @@ class ForgotPasswordEmployee extends Component {
         super();
         this.state = {
             email: '',
+            disable: false,
         };
     }
     componentDidMount() {
         if(localStorage.getItem('company')){
             this.props.history.push('/company/profile-admin')
         }
-    }
-    handleOnChange = (e) => {
-        let target = e.target;
-        let name = target.name;
-        let value = target.value;
         this.setState({
-            [name]: value,
-        });
+            disable: false,
+        })
     }
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
+                this.setState({
+                    disable: true,
+                })
                 let data = {
                     email: values.email
                 }
@@ -40,8 +39,16 @@ class ForgotPasswordEmployee extends Component {
                             })
                             .catch(err => {
                                 message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                this.setState({
+                                    disable: false,
+                                })
                             })
                     });
+            }
+            else{
+                this.setState({
+                    disable: false,
+                })
             }
         });
     };
@@ -128,7 +135,7 @@ class ForgotPasswordEmployee extends Component {
                                                 })(<Input />)}
                                             </Form.Item>
                                             <Form.Item {...tailFormItemLayout} style={{ textAlign: 'right' }}>
-                                                <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit">
+                                                <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit" disabled={this.state.disable}>
                                                     Gửi email
                                                 </Button>
                                                 <Button type="danger" onClick={this.onCancel}>
