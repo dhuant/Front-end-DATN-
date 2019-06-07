@@ -178,6 +178,7 @@ class MapSearching extends Component {
 		// console.log(newLat, newLng)
 		Geocode.fromLatLng(newLat, newLng).then(
 			response => {
+				console.log(response)
 				const address = response.results[0].formatted_address,
 					addressArray = response.results[0].address_components,
 					city = this.getCity(addressArray),
@@ -283,10 +284,10 @@ class MapSearching extends Component {
 			map = <div>
 				<div className="main-title-2">
 					<h1>
-						<span>Vị trí</span>
+						<span>Vị </span>trí
 					</h1>
 				</div>
-				<div className="row mb-30 ">
+				{/* <div className="row mb-30 ">
 					<div className="col-md-6 col-sm-6">
 						<div className="form-group">
 							<label>Địa chỉ chi tiết</label>
@@ -343,7 +344,7 @@ class MapSearching extends Component {
 							/>
 						</div>
 					</div>
-				</div>
+				</div> */}
 				<AsyncMap
 					googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaznvdfOL3vMLdqR729vJEWauyZp9-Ud8&v=3.exp&libraries=places"
 					loadingElement={

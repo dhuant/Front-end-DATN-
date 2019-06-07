@@ -12,6 +12,7 @@ const transaction = (state = initialState, action) => {
             return { ...state }
         case Types.TRANSACTION_DETAIL:
             console.log(action, state)
+            state = action.transaction
             return { ...state }
         case Types.TRANSACTION_HISTORY:
             console.log(action, state)

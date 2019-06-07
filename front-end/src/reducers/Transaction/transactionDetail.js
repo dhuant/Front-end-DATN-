@@ -9,6 +9,7 @@ const transactionDetail = (state = initialState, action) => {
             return {...state}
         case Types.LEGALITY:
             console.log(action, state)
+            state = action.legality
             return {...state}
         case Types.DEPOSIT:
             console.log(action, state)

@@ -2,22 +2,32 @@ import React, { Component } from 'react'
 import MainHeader from '../components/MainHeader'
 import Footer from '../components/Footer'
 import Info from '../components/Profile/Info'
-import {MY_TRANSACTION} from '../constants/Profile'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import { MY_TRANSACTION } from '../constants/Profile'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 // import SingleCurrTransaction from '../components/Profile/SingleCurrTransaction'
 import Stepper from '../components/Profile/Stepper'
+import StepperForBuyer from '../components/Profile/StepperForBuyer'
 import * as transAction from '../actions/transactionRequest'
 
 class TransactionDetail extends Component {
 
     componentDidMount = () => {
-        
+        this.props.onGettingTransactionDetail(this.props.match.params.id, this.props.match.params.type)
     }
-  render() {
-    return (
-      <div>
-        <MainHeader />
+
+    onShowTransactionDetail = (transaction) => {
+        if (JSON.parse(localStorage.getItem('res')).user._id === transaction.seller)
+            return <Stepper transaction={transaction} />
+        else if (JSON.parse(localStorage.getItem('res')).user._id === transaction.buyer)
+            return <StepperForBuyer transaction={transaction} />
+    }
+    render() {
+        var { transaction } = this.props
+        console.log(transaction)
+        return (
+            <div>
+                <MainHeader />
                 {/* Sub banner start */}
                 <div className="sub-banner overview-bgi">
                     <div className="overlay">
@@ -49,7 +59,7 @@ class TransactionDetail extends Component {
                                 <table className="manage-table responsive-table">
                                     <tbody>
                                         {/* {this.ShowFollowingList(follow)} */}
-                                        <Stepper />
+                                        {this.onShowTransactionDetail(transaction)}
                                     </tbody>
                                 </table>
                                 {/* table end */}
@@ -59,26 +69,26 @@ class TransactionDetail extends Component {
                 </div>
                 {/* My Propertiess end */}
                 <Footer />
-      </div>
-    )
-  }
-//   ShowTransactionList = (transaction) => {
-//     var result = null;
-//     if (transaction.length > 0) {
-//       result = transaction.map((single, index) => {
-//         console.log(single)
-//         if (single.transaction !== null)
-//           return (
-//             <SingleCurrTransaction key={index} transactionSingle={single} />
+            </div>
+        )
+    }
+    //   ShowTransactionList = (transaction) => {
+    //     var result = null;
+    //     if (transaction.length > 0) {
+    //       result = transaction.map((single, index) => {
+    //         console.log(single)
+    //         if (single.transaction !== null)
+    //           return (
+    //             <SingleCurrTransaction key={index} transactionSingle={single} />
 
-//           );
-//       });
-//     }
-//     else if (transaction.length === 0 || transaction === undefined) {
-//       result = (<tr><td>Hiện bạn chưa có giao dịch nào!</td></tr>)
-//     }
-//     return result;
-//   }
+    //           );
+    //       });
+    //     }
+    //     else if (transaction.length === 0 || transaction === undefined) {
+    //       result = (<tr><td>Hiện bạn chưa có giao dịch nào!</td></tr>)
+    //     }
+    //     return result;
+    //   }
 }
 
 const mapStateToProps = (state) => {
@@ -90,7 +100,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGettingTransactionDetail: (id, type) => dispatch(transAction.actGettingTransactionDetailRequest(id, type)),
-        onGettingTransactionHistory: () => dispatch(transAction.actGettingTransactionHistoryRequest())
+        onGettingTransactionHistory: () => dispatch(transAction.actGettingTransactionHistoryRequest()),
     }
 }
 

@@ -37,6 +37,22 @@ class Deposit extends Component {
                             </Form.Item>
                         </div>
                     </div>
+
+                    <div className="row">
+                        <div className="col-md-8 col-lg-8 col-xs-12">
+                            <Form.Item label="Thông tin thêm: ">
+                                {getFieldDecorator('moreDepositInformation', {
+                                    rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
+                                })(
+                                    <Input.TextArea
+                                        style={{ width: "100%" }}
+                                        autosize={{ minRows: 2, maxRows: 6 }}
+                                        placeholder="Thông tin thêm..."
+                                    />,
+                                )}
+                            </Form.Item>
+                        </div>
+                    </div>
                 </Form>
             </div>
         )
