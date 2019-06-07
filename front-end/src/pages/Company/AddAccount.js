@@ -10,7 +10,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import { adminService } from '../../actions/Company/admin.service'
 import moment from 'moment'
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Select, } from 'antd';
+import { string } from 'prop-types';
+const { Option } = Select;
 class AddAccount extends Component {
     constructor() {
         super();
@@ -67,25 +69,51 @@ class AddAccount extends Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                
+                let account = {
+                    // fullname: this.state.fullname,
+                    email: values.email,
+                    phone: `${values.prefix} ${values.phone}`,
+                    // description: this.state.description,
+                    // address: this.state.address,
+                    avatar: 'https://res.cloudinary.com/dne3aha8f/image/upload/v1559203321/ddtyciszy3oiwdjasrjh.png?fbclid=IwAR3RFWWiOrMw-sMiNigCXJMFEGdpYw_FUBa4PxZYZLTtHvjLaa1JjBpNGy0',
+                    createTime: moment().unix(),
+                    updateTime: moment().unix(),
+                }
                 console.log(values);
+                console.log(account);
 
             }
         });
     };
-    onChange = (rule, value, callback) => {
-        const form = this.props.form;
-        const reg = /^01?([1-9][0-9]*)?$/;
-        if ((!Number.isNaN(value) && reg.test(value)) ||value === '') {
+    onCheckFullName = (rule, value, callback) => {
+        const reg = /^[a-z]|[A-Z]?([a-z][a-z]*)?$/;
+        if ((reg.test(value)) || value === '') {
             callback();
         }
-        else{
+        else {
+            callback('Vui lòng nhập đúng họ !')
+        }
+    }
+    onCheckPhoneNumber = (rule, value, callback) => {
+        const reg = /^[1-9]?([1-9][0-9]*)?$/;
+        if ((!Number.isNaN(value) && reg.test(value) && value.length === 9) || value === '') {
+            callback();
+        }
+        else {
             callback('Vui lòng nhập đúng số điện thoại!')
         }
     };
     render() {
         let { fullname, email, phoneNumber, description } = this.state;
         const { getFieldDecorator } = this.props.form;
+        const prefixSelector = getFieldDecorator('prefix', {
+            initialValue: '84',
+        })(
+            <Select style={{ width: 70 }}>
+                <Option value="84">+84</Option>
+                <Option value="86">+86</Option>
+            </Select>,
+        );
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
@@ -196,7 +224,23 @@ class AddAccount extends Component {
                                     </div>
                                 </form> */}
                                 <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-
+                                    <Form.Item label="Họ và tên" style={{ paddingRight: '20px' }} hasFeedback>
+                                        {getFieldDecorator('fullname', {
+                                            rules: [
+                                                {
+                                                    required: true,
+                                                    message: 'Vui lòng nhập tên của nhân viên!',
+                                                },
+                                                {
+                                                    validator: this.onCheckFullName,
+                                                },
+                                            ],
+                                        })(<Input
+                                            //onChange={this.onChange} 
+                                            style={{ marginRight: '30px' }}
+                                            placeholder="Nhập 9 chữ số sau số 0"
+                                            maxLength={50} />)}
+                                    </Form.Item>
                                     <Form.Item label="E-mail" style={{ paddingRight: '20px' }} hasFeedback>
                                         {getFieldDecorator('email', {
                                             rules: [
@@ -219,14 +263,15 @@ class AddAccount extends Component {
                                                     message: 'Vui lòng nhập số điện thoại của nhân viên!',
                                                 },
                                                 {
-                                                    validator: this.onChange,
+                                                    validator: this.onCheckPhoneNumber,
                                                 },
                                             ],
                                         })(<Input
+                                            addonBefore={prefixSelector}
                                             //onChange={this.onChange} 
                                             style={{ marginRight: '30px' }}
-                                            placeholder="Nhập số điện thoại"
-                                            maxLength={10} />)}
+                                            placeholder="Nhập 9 chữ số sau số 0"
+                                            maxLength={9} />)}
                                     </Form.Item>
 
                                     <Form.Item {...tailFormItemLayout} style={{ textAlign: 'right', paddingRight: '20px' }}>
