@@ -54,7 +54,7 @@ class ListEmployees extends Component {
                 render: tag => <Tag color={'green'} key={tag}>{tag}</Tag>
             },
             {
-                title: 'Tình trạng tài khoản',
+                title: 'Trạng thái tài khoản',
                 dataIndex: 'employee.verify',
                 filters: [
                     {
@@ -77,11 +77,14 @@ class ListEmployees extends Component {
                 
             },
             {
-                title: 'Thao tác',
-                dataIndex: 'employee.totalProject',
-                key: 'employee.totalProject',
+                title: 'Tình trạng',
+                dataIndex: 'employee.lock',
+                key: 'employee.lock',
                 
-                render: tag => <Tag color={'green'} key={tag}>{tag}</Tag>,
+                render: lock => {
+                    let color = lock === true ? 'red' : 'geekblue'
+                    return <Tag color={color} key={lock}>{lock === true ? 'Đã bị khóa' : 'Đang hoạt động'}</Tag>
+                },
                 width: 150,
                 fixed: 'right',
             },
@@ -123,7 +126,8 @@ class ListEmployees extends Component {
                                      onRow={(record, rowIndex) => {
                                         return {
                                             onClick: (event) => {
-                                                this.props.history.push(`info-employee/${record._id}`)
+                                                console.log(record)
+                                                this.props.history.push(`info-employee/${record.employee._id}`)
                                             },
                                         }}}
                                     />
