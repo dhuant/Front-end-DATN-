@@ -69,6 +69,7 @@ class ForgotPasswordCompany extends Component {
     };
 
     render() {
+        console.log('aa')
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: {

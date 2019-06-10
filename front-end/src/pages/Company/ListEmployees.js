@@ -8,7 +8,7 @@ import { LIST_EMPLOYEES } from '../../constants/Company/profileCompany'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/Company/requestCompany';
-import { Table, Tag, message } from 'antd';
+import { Table, Tag } from 'antd';
 class ListEmployees extends Component {
     constructor(props) {
         super(props);
@@ -23,8 +23,6 @@ class ListEmployees extends Component {
     }
     render() {
         let dataSource = [];
-        let isLoading = true;
-        let company = this.props.userCompany;
         let {employees} = this.props
         if(employees !==[]){
             dataSource =  employees

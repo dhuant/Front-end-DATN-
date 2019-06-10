@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import HeaderCompany from '../../components/Company/HeaderCompany';
 import * as actions from '../../actions/Company/requestCompany';
-import { message, Button, Modal, Form, Input, Select } from 'antd'
+import { message, Button, Modal, Form, Input, Select,Tag } from 'antd'
 import { adminService } from '../../actions/Company/admin.service'
 import { connect } from 'react-redux';
 import moment from 'moment'
@@ -155,28 +155,29 @@ class ProfileEmployee extends Component {
             if (!err) {
                 this.setState({
                     disable: true,
+                    visible1: false,
                 })
                 let account = {
-                    fullname: values.fullname,
+                    id: this.props.match.params.id,
                     email: values.email,
+                    fullname: values.fullname,
+                    identify: this.props.info.identify,
+                    address: this.props.info.address,
                     phone: `${values.prefix} ${values.phone}`,
-                    description: this.state.description,
-                    address: this.state.address,
-                    avatar: 'https://res.cloudinary.com/dne3aha8f/image/upload/v1559203321/ddtyciszy3oiwdjasrjh.png?fbclid=IwAR3RFWWiOrMw-sMiNigCXJMFEGdpYw_FUBa4PxZYZLTtHvjLaa1JjBpNGy0',
-                    createTime: moment().unix(),
-                    updateTime: moment().unix(),
+                    totalProject: this.props.info.totalProject,
+                    statusAccount: this.props.info.statusAccount,
+                    avatar: this.props.info.avatar,
+                    description: this.props.info.description,
+
                 }
-                console.log(values);
                 console.log(account);
-                // this.props.form.resetFields([fullname])
                 message.loading('Đang thêm tài khoản, vui lòng chờ trong giây lát', 2.5)
                     .then(() => {
-                        adminService.addAccount(account)
+                        adminService.editEmployee(account)
                             .then(res => {
-                                if (res.status === 201) {
-                                    message.success('Thêm tài khoản nhân viên thành công');
+                                if (res.status === 200) {
+                                    message.success('Sửa tài khoản thành công');
                                 }
-                                this.props.history.push('/company/profile-admin')
                             })
                             .catch(err => {
                                 message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
@@ -228,7 +229,7 @@ class ProfileEmployee extends Component {
             },
         };
         let des = 'Hiện chưa có bài đăng';
-        if(projects.length >0){
+        if (projects.length > 0) {
             des = `Có ${projects.length} bài đăng`
         }
         let listProjects = '';
@@ -269,14 +270,34 @@ class ProfileEmployee extends Component {
             address = info.address
         }
         let statusButton = 'Mở tài khoản'
-        let verify = 'Chưa kích hoạt'
-        if (info.verify === false) {
-            verify = 'Đã kích hoạt'
-
+        let btn =
+            <Button
+                type="primary"
+                style={{ margin: '5px 0 5px 0' }}
+                // htmlType="submit"
+                disabled={this.state.disable}
+                onClick={this.showModal}
+            >
+                Chỉnh sửa tài khoản
+            </Button>
+            
+        let verify = <Tag style={{fontSize:'13px'}} color='red'>Chưa kích hoạt</Tag>
+        if (info.verify === true) {
+            verify = <Tag style={{fontSize:'13px'}} color='green'>Chưa kích hoạt</Tag>
+            btn =
+                <Button
+                    type="primary"
+                    style={{ margin: '5px 0 5px 0' }}
+                    // htmlType="submit"
+                    disabled
+                    onClick={this.showModal}
+                >
+                    Chỉnh sửa tài khoản
+                </Button>
         }
-        let lock = 'Tài khoản bị khóa'
+        let lock = <Tag style={{fontSize:'13px'}} color='red'>Tài khoản bị khóa</Tag>
         if (info.lock === false) {
-            lock = 'Tài khoản đang được sử dụng'
+            lock = <Tag style={{fontSize:'13px'}} color='green'>Tài khoản đang được sử dụng</Tag>
             statusButton = 'Khóa tài khoản'
         }
         return (
@@ -330,7 +351,7 @@ class ProfileEmployee extends Component {
                                                 </li>
                                                 <li>
                                                     <span>
-                                                        <i class="fa fa-map-marker" />Điện thoại:
+                                                        <i class="fa fa-map-marker" />Địa chỉ:
                                                 </span>
                                                     {address}
                                                 </li>
@@ -361,23 +382,7 @@ class ProfileEmployee extends Component {
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                                                 >
                                                     <div>
-                                                        <Button
-                                                            type="primary"
-                                                            style={{ margin: '5px 0 5px 0' }}
-                                                            // htmlType="submit"
-                                                            disabled={this.state.disable}
-                                                            onClick={this.showModal}
-                                                        >
-                                                            Chỉnh sửa tài khoản
-                                                </Button>
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                                                >
-                                                    <div >
-                                                        <Button style={{ width: '157px', margin: '5px 0 5px 0' }} type="danger" onClick={this.showConfirm} disabled={this.state.disable}>
-                                                            {statusButton}
-                                                        </Button>
+                                                        {btn}
                                                     </div>
                                                     <Modal
                                                         title="Basic Modal"
@@ -449,13 +454,22 @@ class ProfileEmployee extends Component {
                                                         </Form>
                                                     </Modal>
                                                 </div>
+                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                                >
+                                                    <div >
+                                                        <Button style={{ width: '157px', margin: '5px 0 5px 0' }} type="danger" onClick={this.showConfirm} disabled={this.state.disable}>
+                                                            {statusButton}
+                                                        </Button>
+                                                    </div>
+
+                                                </div>
                                             </div>
                                         </div>
                                         {/* </div> */}
                                     </div>
                                     <div className="recently-properties">
                                         {/* Main title */}
-                                        
+
                                         {/* Option bar start */}
                                         <div className="option-bar">
                                             <div className="row">
@@ -472,7 +486,7 @@ class ProfileEmployee extends Component {
                                                         <select className="sorting">
                                                             <option>Bài đăng bán bất động sản</option>
                                                             <option>Bài đăng cho thuê bất động sản</option>
-                                                            
+
                                                         </select>
 
                                                     </div>

@@ -3,7 +3,6 @@ import * as actionEmployee from './employee'
 import axios from 'axios'
 import { authCompany } from "../../constants/Company/authCompany";
 import * as config from '../../constants/Config'
-import { message } from 'antd'
 export const actGetInfoUserCompany = (id) => {
   return dispatch => {
     // return console.log("Company")
