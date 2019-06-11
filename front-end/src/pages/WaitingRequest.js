@@ -19,24 +19,18 @@ class WaitingRequest extends Component {
         }
     }
 
-    // onChangeValue = (e) => {
-    //     this.setState({project: e.target.value})
-    //     // var projectid = document.getElementById('project').value
-    //     this.props.onShowWaitingRequestList(e.target.value)
-    // }
+    onChange = (e) => {
+        this.setState({ project: e.target.value })
+        this.props.onShowWaitingRequestList(e.target.value)
+        this.props.onGettingEstateDetail(e.target.value)
+    }
 
-    componentDidMount = () => {
-        this.props.onGettingEstateListOfUser()
-        this.props.onShowWaitingRequestList(document.getElementById('project').value)
-        // console.log(document.getElementById('project').value)
-        // var projectid = document.getElementById('project').value
-        // // var projectid = event.target.value
-        // this.setState({project: document.getElementById('project').value})
-        // this.props.onShowWaitingRequestList(projectid)
+    componentDidMount = async () => {
+        await this.props.onGettingEstateListOfUser()
     }
     render() {
-        var { estatesListOfUser, waiting } = this.props
-        console.log(waiting.requests)
+        var { estatesListOfUser, waiting, estateDetail } = this.props
+        console.log(estateDetail)
         return (
             <div>
                 <MainHeader />
@@ -65,7 +59,7 @@ class WaitingRequest extends Component {
                             </div>
                             <div className="col-lg-8 col-md-8 col-sm-12">
                                 <div className="main-title-2">
-                                    <h1><span>Danh sách</span> yêu cầu</h1>
+                                    <h1><span>Danh sách</span> yêu cầu giao dịch</h1>
                                 </div>
                                 <div className="row">
                                     <div className="col-md-5 col-lg-5 col-xs-12" style={{ float: "right" }}>
@@ -74,9 +68,10 @@ class WaitingRequest extends Component {
                                         </label>
                                         <select className="form-control"
                                             name="type"
-                                            // value={newsType}
-                                            // onChange={this.onChangeValue}
-                                            id="project">
+                                            id="project"
+                                            onChange={this.onChange}
+                                        >
+                                            <option style={{ display: "none" }}>---Chọn bất động sản---</option>
                                             {estatesListOfUser.map((estateName, index) => <option key={index} value={estateName._id}>{estateName.name}</option>)}
                                         </select>
                                     </div>
@@ -85,7 +80,7 @@ class WaitingRequest extends Component {
                                 {/* table start */}
                                 <table className="manage-table responsive-table">
                                     <tbody>
-                                        {this.ShowWaitingRequestList(waiting)}
+                                        {this.ShowWaitingRequestList(waiting, estateDetail)}
                                     </tbody>
                                 </table>
                                 {/* table end */}
@@ -98,18 +93,15 @@ class WaitingRequest extends Component {
             </div>
         )
     }
-    ShowWaitingRequestList = (waiting) => {
-        console.log(waiting)
+    ShowWaitingRequestList = (waiting, estateDetail) => {
         var result = null;
         if (waiting.requests === undefined) {
             result = (<tr><td>Danh sách yêu cầu hiện đang trống!</td></tr>)
         }
         else if (waiting.requests && waiting.requests.length > 0) {
             result = waiting.requests.map((single, index) => {
-                console.log(single)
-                // if (single.project === projectid)
                 return (
-                    <SingleWaiting key={index} waitingRequestSingle={single} waitingList={waiting} />
+                    <SingleWaiting key={index} waitingRequestSingle={single} waitingList={waiting} codelist={estateDetail.codelist}/>
                 );
             });
         }
@@ -121,7 +113,8 @@ class WaitingRequest extends Component {
 const mapStateToProps = (state) => {
     return {
         estatesListOfUser: state.estatesListOfUser,
-        waiting: state.waiting
+        waiting: state.waiting,
+        estateDetail: state.estateInfo
     }
 }
 
@@ -129,6 +122,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onGettingEstateListOfUser: () => dispatch(actions.actGetEstateListOfUserRequest()),
         onShowWaitingRequestList: (projectid) => dispatch(transActions.actGettingWaitingListRequest(projectid)),
+        onGettingEstateDetail: (id) => dispatch(actions.actGetEstateRequest(id))
     }
 }
 

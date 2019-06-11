@@ -1,6 +1,7 @@
 import * as Types from '../constants/Transaction/transaction'
 import { ADD_WAITING_REQUEST, GET_REQUEST_LIST, DELETE_WAITING_REQUEST } from '../constants/Transaction/waiting'
 
+//Transaction API
 export const actCreateTransaction = (transaction) => {
     return {
         type: Types.CREATE_TRANSACTION,
@@ -29,6 +30,7 @@ export const actGetTransactionDetail = (transaction) => {
     }
 }
 
+// Selling Transaction API
 export const actPostingDeal = (deal) => {
     return {
         type: Types.DEAL,
@@ -85,6 +87,7 @@ export const actPostingTransfer = (transfer) => {
     }
 }
 
+//Waiting Request API
 export const actGettingRequestList = (waiting) => {
     return {
         type: GET_REQUEST_LIST,
@@ -103,6 +106,42 @@ export const actDeletingWaitingRequest = (waiting) => {
     return {
         type: DELETE_WAITING_REQUEST,
         waiting: waiting
+    }
+}
+
+//Renting Transaction API
+export const actPostingRentingDeal = (deal) => {
+    return {
+        type: Types.RENTING_DEAL,
+        deal: deal
+    }
+}
+
+export const actPostingRentingDeposit = (deposit) => {
+    return {
+        type: Types.RENTING_DEPOSIT,
+        deposit: deposit
+    }
+}
+
+export const actPostingRentingContract = (contract) => {
+    return {
+        type: Types.RENTING_CONTRACT,
+        contract: contract
+    }
+}
+
+export const actPostingRentingConfirmation = (confirmation) => {
+    return {
+        type: Types.RENTING_CONFIRMATION,
+        confirmation: confirmation
+    }
+}
+
+export const actPostingRentingDelivery = (delivery) => {
+    return {
+        type: Types.RENTING_DELIVERY,
+        delivery: delivery
     }
 }
 

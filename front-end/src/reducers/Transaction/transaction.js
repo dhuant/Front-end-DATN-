@@ -6,6 +6,7 @@ const transaction = (state = initialState, action) => {
     switch (action.type) {
         case Types.CREATE_TRANSACTION:
             console.log(action, state)
+            state = action.transaction
             return { ...state }
         case Types.CHANGE_STATUS:
             console.log(action, state)

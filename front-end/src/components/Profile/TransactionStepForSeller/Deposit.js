@@ -72,7 +72,7 @@ class Deposit extends Component {
                         <div className="col-md-8 col-lg-8 col-xs-12">
                             <Form.Item label="Số tiền đặt cọc (đơn vị: triệu): ">
                                 {getFieldDecorator('depositAmount', {
-                                    initialValue: transactions.selldetail.deposit.detail[0].ratio,
+                                    initialValue: transactions.selldetail.deposit.detail[0] === undefined ? 0 : transactions.selldetail.deposit.detail[0].ratio,
                                     rules: [
                                         { required: true, message: 'Trường này chưa được nhập!' },
                                         { validator: this.onCheckingDepositAmount }
@@ -108,7 +108,7 @@ class Deposit extends Component {
                         <div className="col-md-8 col-lg-8 col-xs-12">
                             <Form.Item label="Thông tin thêm: ">
                                 {getFieldDecorator('moreDepositInformation', {
-                                    initialValue: transactions.selldetail.deposit.detail[0].description,
+                                    initialValue: transactions.selldetail.deposit.detail[0] === undefined ? '' : transactions.selldetail.deposit.detail[0].description,
                                     rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                                 })(
                                     <Input.TextArea

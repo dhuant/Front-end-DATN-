@@ -18,6 +18,7 @@ class Deal extends Component {
         this.state = {
             dealdate: 0,
             typeofpay: 1,
+            loading: false
         }
     }
 
@@ -31,49 +32,48 @@ class Deal extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields(async (err, values) => {
             if (!err) {
+                await this.setState({loading: true})
                 console.log('Received values of form: ', values);
+                var dealInfo = {
+                    total: Number(document.getElementById('TotalPrice').value),
+                    deposit: Number(document.getElementById('deposit').value),
+                    typeofpay: this.state.typeofpay === this.props.transactions.selldetail.deal.typeofpay ? Number(this.props.transactions.selldetail.deal.typeofpay) : Number(this.state.typeofpay),
+                    datedeal: (Number(this.state.dealdate) === Number(this.props.transactions.selldetail.deal.datedeal) || Number(this.state.dealdate) === 0) ? Number(this.props.transactions.selldetail.deal.datedeal) : Number(this.state.dealdate),
+                    description: document.getElementById('moreInformation').value,
+                    complete: true,
+                    updateTime: moment().unix(),
+                    _id: this.props.transactions._id,
+                    id: this.props.transactions.selldetail._id,
+                }
+
+                var existedDealInfo = {
+                    total: Number(this.props.transactions.selldetail.deal.total),
+                    deposit: Number(this.props.transactions.selldetail.deal.deposit),
+                    typeofpay: Number(this.props.transactions.selldetail.deal.typeofpay),
+                    description: this.props.transactions.selldetail.deal.description,
+                    datedeal: Number(this.props.transactions.selldetail.deal.datedeal)
+                }
+
+                if (dealInfo.total === existedDealInfo.total
+                    && dealInfo.deposit === existedDealInfo.deposit
+                    && dealInfo.typeofpay === existedDealInfo.typeofpay
+                    && dealInfo.datedeal === existedDealInfo.datedeal
+                    && dealInfo.description === existedDealInfo.description) {
+                    return message.warning("Bạn chưa thay đổi gì cả!")
+                }
+
+                await this.props.onSendingDeal(dealInfo)
+                await this.setState({loading: false})
             }
         });
     };
 
-    onSubmitDeal = () => {
-        var dealInfo = {
-            total: Number(document.getElementById('TotalPrice').value),
-            deposit: Number(document.getElementById('deposit').value),
-            typeofpay: this.state.typeofpay === this.props.transactions.selldetail.deal.typeofpay ? Number(this.props.transactions.selldetail.deal.typeofpay) : Number(this.state.typeofpay),
-            datedeal: (Number(this.state.dealdate) === Number(this.props.transactions.selldetail.deal.datedeal) || Number(this.state.dealdate) === 0)? Number(this.props.transactions.selldetail.deal.datedeal) : Number(this.state.dealdate),
-            description: document.getElementById('moreInformation').value,
-            complete: true,
-            updateTime: moment().unix(),
-            _id: this.props.transactions._id,
-            id: this.props.transactions.selldetail._id,
-        }
-
-        var existedDealInfo = {
-            total: Number(this.props.transactions.selldetail.deal.total),
-            deposit: Number(this.props.transactions.selldetail.deal.deposit),
-            typeofpay: Number(this.props.transactions.selldetail.deal.typeofpay),
-            description: this.props.transactions.selldetail.deal.description,
-            datedeal: Number(this.props.transactions.selldetail.deal.datedeal)
-        }
-
-        if (dealInfo.total === existedDealInfo.total
-            && dealInfo.deposit === existedDealInfo.deposit
-            && dealInfo.typeofpay === existedDealInfo.typeofpay
-            && dealInfo.datedeal === existedDealInfo.datedeal
-            && dealInfo.description === existedDealInfo.description) {
-            return message.warning("Bạn chưa thay đổi gì cả!")
-        }
-        // console.log(dealInfo)
-        // console.log(existedDealInfo)
-        this.props.onSendingDeal(dealInfo)
-    }
-
     onChangeSelectValue = (value) => {
         this.setState({ typeofpay: value })
     }
+
     onChange = (date, dateString) => {
         var formatDate = moment(dateString, 'YYYY/MM/DD, h:mm a').unix()
         this.setState({ dealdate: formatDate })
@@ -81,20 +81,22 @@ class Deal extends Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         var { transactions } = this.props
+        const {loading} = this.state
         return (
             <div className="container">
                 <Form onSubmit={this.handleSubmit}>
                     <div className="row">
                         <div className="col-md-4 col-lg-4 col-xs-12" >
-                            <Form.Item label="Tổng giá trị: ">
+                            <Form.Item label={this.props.transaction.typeproject === 1 ? "Tổng giá trị (triệu đồng): " : `Tổng giá trị: `}>
                                 {getFieldDecorator('TotalPrice', {
-                                    initialValue: transactions.selldetail.deal.total,
+                                    initialValue: transactions.selldetail.deal.total === 0 ? null : transactions.selldetail.deal.total,
                                     rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                                 })(
                                     <InputNumber
                                         style={{ width: "100%" }}
                                         // defaultValue={transactions.selldetail.deal.total}
                                         id="TotalPrice"
+                                        min={0}
                                     />,
                                 )}
                             </Form.Item>
@@ -102,7 +104,7 @@ class Deal extends Component {
                         <div className="col-md-4 col-lg-4 col-xs-12">
                             <Form.Item label="Tiền đặt cọc: ">
                                 {getFieldDecorator('deposit', {
-                                    initialValue: transactions.selldetail.deal.deposit,
+                                    initialValue: transactions.selldetail.deal.deposit === 0 ? null : transactions.selldetail.deal.deposit,
                                     rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                                 })(
                                     <InputNumber
@@ -120,7 +122,7 @@ class Deal extends Component {
                             <Form.Item label="Hình thức thanh toán: ">
                                 {getFieldDecorator('paymentMethod', {
                                     // valuePropName: transactions.selldetail.deal.typeofpay,
-                                    initialValue: TypeOfPay[transactions.selldetail.deal.typeofpay - 1].label,
+                                    initialValue: transactions.selldetail.deal.typeofpay === 0 ? null : TypeOfPay[transactions.selldetail.deal.typeofpay - 1].label,
                                     rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                                 })(
                                     <Select style={{ width: "100%" }} id="paymentMethod" onChange={this.onChangeSelectValue}>
@@ -132,7 +134,7 @@ class Deal extends Component {
                         <div className="col-md-4 col-lg-4 col-xs-12">
                             <Form.Item label="Ngày bàn giao (dự kiến): ">
                                 {getFieldDecorator('date', {
-                                    initialValue: moment(moment.unix(transactions.selldetail.deal.datedeal).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
+                                    initialValue: transactions.selldetail.deal.datedeal === 0 ? null : moment(moment.unix(transactions.selldetail.deal.datedeal).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
                                     rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                                 })(
                                     <DatePicker onChange={this.onChange} style={{ width: "100%" }} id="dealdate" />
@@ -144,7 +146,7 @@ class Deal extends Component {
                         <div className="col-md-8 col-lg-8 col-xs-12">
                             <Form.Item label="Thông tin thêm: ">
                                 {getFieldDecorator('moreInformation', {
-                                    initialValue: transactions.selldetail.deal.description,
+                                    initialValue: transactions.selldetail.deal.description === '0' ? null : transactions.selldetail.deal.description,
                                     rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                                 })(
                                     <TextArea
@@ -160,8 +162,15 @@ class Deal extends Component {
                     <div className="row">
                         <div className="col-md-8 col-lg-8 col-xs-12">
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} onClick={this.onSubmitDeal}>
-                                    Xác nhận
+                                <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }}>
+                                    {loading && (
+                                        <i
+                                            className="fa fa-refresh fa-spin"
+                                            style={{ marginRight: "5px" }}
+                                        />
+                                    )}
+                                    {loading && <span>Đang thực thi...</span>}
+                                    {!loading && <span>Chấp nhận</span>}
                                 </Button>
                             </Form.Item>
                         </div>

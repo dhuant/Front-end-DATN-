@@ -28,9 +28,11 @@ const Status = [
     { value: '4', label: 'Rent' },
 ];
 
-const Unit = [
-    {value: '1', label: 'Triệu'},
-    {value: '2', label: 'Tỉ'},
+const Units = [
+    { value: '1', label: 'Triệu/tháng' },
+    { value: '2', label: 'Triệu/năm' },
+    { value: '3', label: 'Triệu/m2/tháng' },
+    { value: '4', label: 'Trăm nghìn/m2/tháng' },
 ];
 
 class EditUI extends Component {
@@ -38,6 +40,7 @@ class EditUI extends Component {
         super(props);
         console.log(this.props)
         this.state = {
+            tags: [],
             selectedOption: null,
             status: Status[0].value,
             type: Types[0].value,
@@ -67,11 +70,25 @@ class EditUI extends Component {
             test: null,
             avatar: '',
             _id: '',
-            unit: ''
+            unit: '',
+            isShowCodeModal: false,
+            isShowUnit: false
         };
     }
     onHandleChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value });
+        let target = event.target
+        let name = target.name
+        let value = target.value
+        if (value === 3 || value === '3')
+            this.setState({
+                [name]: value,
+                isShowUnit: true
+            });
+        if (value === 1 || value === '1')
+            this.setState({
+                [name]: value,
+                isShowUnit: false
+            });
     }
     onHandlePreviewImage = (event) => {
         this.setState({ previewImage: true, previewUrl: event.target.src })
@@ -101,7 +118,7 @@ class EditUI extends Component {
         else result.push(<span>Bài đăng này hiện chưa có hình nào!</span>)
         return result
     }
-    
+
     showModalDeleteImage = (e) => {
         console.log(e.target)
         this.setState({
@@ -127,7 +144,7 @@ class EditUI extends Component {
     handleCancelDeleteImage = () => {
         this.setState({ visibleDeleteImage: false });
     };
-    
+
     updateMyProperties = (e) => {
         e.preventDefault()
         if (this.state.name === ''
@@ -135,12 +152,10 @@ class EditUI extends Component {
             || this.state.area === ''
             || this.state.price === ''
             || this.state.description === '') {
-            console.log("inside")
             return null
         }
 
         else {
-            console.log("inside2")
             let info = {
                 name: this.state.name,
                 investor: this.state.investor,
@@ -169,10 +184,6 @@ class EditUI extends Component {
         }
     }
     getUrlList = (urlArray, publicIdArray) => {
-        // let temp1 = this.state.url
-        // let temp2 = this.state.publicId
-        // temp1.push(urlArray)
-        // temp2.push(publicIdArray)
         this.setState({
             url: urlArray,
             publicId: publicIdArray
@@ -249,15 +260,46 @@ class EditUI extends Component {
                 address: estateUserInfo.address,
                 avatar: estateUserInfo.avatar,
                 _id: estateUserInfo._id,
-                unit: estateUserInfo.unit
+                unit: estateUserInfo.unit,
+                tags: estateUserInfo.codelist ? estateUserInfo.codelist : []
             })
         }
     }
 
+    onOpenCodeModal = () => {
+        this.setState({ isShowCodeModal: true })
+    }
+
+    onHandleCancelCodeModal = () => {
+        this.setState({ isShowCodeModal: false })
+    }
+
+    onHandleOk = () => {
+        console.log(this.state.tags)
+        this.setState({ isShowCodeModal: false })
+    }
+    removeTag = (i) => {
+        const newTags = [...this.state.tags];
+        newTags.splice(i, 1);
+        this.setState({ tags: newTags });
+    }
+
+    inputKeyDown = (e) => {
+        const val = e.target.value;
+        if (e.key === 'Enter' && val) {
+            if (this.state.tags.find(tag => tag.toLowerCase() === val.toLowerCase())) {
+                return;
+            }
+            this.setState({ tags: [...this.state.tags, val] });
+            this.tagInput.value = null;
+        } else if (e.key === 'Ba ckspace' && !val) {
+            this.removeTag(this.state.tags.length - 1);
+        }
+    }
     render() {
         let { estateUserInfo } = this.props
         localStorage.setItem("projectid", estateUserInfo._id)
-        let { visible, estateInfo, previewImage, url, previewUrl, publicId, loading, currentIndexDeleteImage, test } = this.state
+        let { visible, estateInfo, previewImage, url, previewUrl, publicId, loading, currentIndexDeleteImage, tags } = this.state
         console.log(this.props.updatedProject)
         return (
             <div>
@@ -378,11 +420,10 @@ class EditUI extends Component {
                                                         <select className="form-control"
                                                             name="unit"
                                                             id="unit"
-                                                            defaultValue={this.state.unit}
-                                                            onChange={this.onHandleChange}
-                                                            required
+                                                            disabled={!this.state.isShowUnit}
+                                                            placeholder="Chọn đơn vị"
                                                         >
-                                                            {Unit.map((single, indexx) => <option key={indexx} value={single.label}>{single.label}</option>)}
+                                                            {Units.map((single, indexx) => <option key={indexx} value={single.label}>{single.label}</option>)}
 
                                                         </select>
                                                     </div>
@@ -398,14 +439,21 @@ class EditUI extends Component {
                                                             onChange={this.onHandleChange}
                                                             defaultValue={this.state.area}
                                                             required
-
                                                         />
                                                     </div>
                                                 </div>
 
                                             </div>
                                         </div>
-
+                                        <div className="row">
+                                            <div className="col-md-12 col-sm-12">
+                                                <div className="form-group">
+                                                    <Button variant="primary" style={{ display: "flex", alignContent: "center", justifyContent: "center", fontSize: "12px" }} onClick={this.onOpenCodeModal}>
+                                                        Nhấn vào đây để nhập mã số căn hộ/phòng
+                                                   </Button>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div className="main-title-2">
                                             <h1>
                                                 <span>Thông tin</span> chi tiết
@@ -501,7 +549,7 @@ class EditUI extends Component {
                                                 {(url && url.length > 0) ? this.onShowPreviewImage(url, publicId) : null}
                                             </div>
                                             <div className="col-md-11">
-                                                
+
                                             </div>
                                         </div>
                                         <div className="row">
@@ -515,7 +563,7 @@ class EditUI extends Component {
                                         <Modal
                                             title="Delete Confirm"
                                             visible={this.state.visibleDeleteImage}
-                                            onOk={ () => this.handleOkDeleteImage(currentIndexDeleteImage)}
+                                            onOk={() => this.handleOkDeleteImage(currentIndexDeleteImage)}
                                             onCancel={this.handleCancelDeleteImage}
                                             footer={[
                                                 <Button key="back" onClick={this.handleCancelDeleteImage}>
@@ -550,6 +598,102 @@ class EditUI extends Component {
                     </div>
                 </div >
                 <Footer />
+                <Modal
+                    title="Nhập mã số"
+                    style={{ top: 20 }}
+                    visible={this.state.isShowCodeModal}
+                    onOk={this.onHandleOk}
+                    onCancel={this.onHandleCancelCodeModal}
+                    footer={[
+                        <Button key="back" onClick={this.onHandleCancelCodeModal}>
+                            Trở về
+                        </Button>,
+                        <Button key="submit" type="primary" onClick={this.onHandleOk}>
+                            Chấp nhận
+                        </Button>,
+                    ]}
+                >
+                    <div className="input-tag"
+                        style={{
+                            background: "white",
+                            border: "1px solid #d6d6d6",
+                            borderRadius: "2px",
+                            display: "flex",
+                            flexWrap: "wrap",
+                            padding: "5px 5px 0"
+                        }}
+                    >
+                        <ul
+                            className="input-tag__tags"
+                            style={{
+                                display: "inline-flex",
+                                flexWrap: "wrap",
+                                margin: "0",
+                                padding: "0",
+                                width: "100%"
+                            }}
+                        >
+                            {tags.map((tag, i) => (
+                                <li
+                                    key={tag}
+                                    style={{
+                                        alignItems: "center",
+                                        background: "#85A3BF",
+                                        borderRadius: "2px",
+                                        color: "white",
+                                        display: "flex",
+                                        fontWeight: "300",
+                                        listStyle: "none",
+                                        marginBottom: "5px",
+                                        marginRight: "5px",
+                                        padding: "5px 10px"
+                                    }}
+                                >
+                                    {tag}
+                                    <button
+                                        type="button"
+                                        onClick={() => { this.removeTag(i); }}
+                                        style={{
+                                            alignItems: "center",
+                                            appearance: "none",
+                                            background: "#333333",
+                                            border: "none",
+                                            borderRadius: "50%",
+                                            color: "white",
+                                            cursor: "pointer",
+                                            display: "inline-flex",
+                                            fontSize: "12px",
+                                            height: "15px",
+                                            justifyContent: "center",
+                                            lineHeight: "0",
+                                            marginLeft: "8px",
+                                            transform: "rotate(45deg)",
+                                            width: "15px"
+                                        }}
+                                    >
+                                        +
+                            </button>
+                                </li>
+                            ))}
+                            <li
+                                className="input-tag__tags__input"
+                                style={{
+                                    background: "none",
+                                    flexGrow: "1",
+                                    padding: "0"
+                                }}
+                            >
+                                <input
+                                    type="text"
+                                    onKeyDown={this.inputKeyDown}
+                                    ref={c => { this.tagInput = c; }}
+                                    style={{ border: "none", width: "100%" }}
+                                />
+
+                            </li>
+                        </ul>
+                    </div>
+                </Modal>
             </div>
         )
     }

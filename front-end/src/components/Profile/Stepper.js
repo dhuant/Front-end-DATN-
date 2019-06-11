@@ -23,7 +23,7 @@ class Stepper extends React.Component {
         };
     }
 
-    componentDidMount =() => {
+    componentDidMount = () => {
         this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
     }
     next() {
@@ -84,13 +84,11 @@ class Stepper extends React.Component {
         const { current } = this.state;
         var { transaction } = this.props
         console.log(transaction)
-        const steps = [
+        const steps = transaction.typeproject === 1 ? [
             {
                 title: 'Thỏa thuận mua ban đầu',
                 content: (
-                    <React.Fragment>
-                        <Deal transaction={transaction} />
-                    </React.Fragment>
+                    <Deal transaction={transaction} />
                 )
             },
             {
@@ -119,7 +117,28 @@ class Stepper extends React.Component {
                 title: 'Giao bất động sản',
                 content: <Delivery transaction={transaction} />,
             },
-        ];
+        ]:[
+            {
+                title: 'Thỏa thuận mua ban đầu',
+                content: <Deal transaction={transaction} />
+            },
+            {
+                title: 'Đặt cọc',
+                content: <Deposit transaction={transaction} />,
+            },
+            {
+                title: 'Ký hợp đồng',
+                content: <Contract transaction={transaction} />,
+            },
+            {
+                title: 'Công chứng hợp đồng',
+                content: <Confirmation transaction={transaction} />,
+            },
+            {
+                title: 'Giao bất động sản',
+                content: <Delivery transaction={transaction} />,
+            },
+        ]
         return (
             <div className="container">
                 <div className="row">

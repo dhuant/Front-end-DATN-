@@ -91,7 +91,6 @@ class PropertiesDetail extends Component {
         // return document.getElementsByClassName("ratingStar").value
     }
     componentDidMount = () => {
-        console.log(this.props.id)
         this.props.onGetCommentsById(this.props.id)
         this.props.onGetFollowingList()
         console.log(this.props.follow, "indidmount")
@@ -126,8 +125,6 @@ class PropertiesDetail extends Component {
         var result = null;
         if (images.length > 0) {
             result = images.map((image, index) => {
-                var percent = 100 / (index + 1)
-                console.log(percent)
                 return (
                     <li
                         data-target="#carousel-custom"
@@ -259,21 +256,36 @@ class PropertiesDetail extends Component {
         this.setState({ requestVisible: false })
     }
 
-    onSendingRequest = (projectid) => {
-        var waitingInfo = {
-            projectid: projectid,
-            createTime: moment().unix(),
-            money: document.getElementById("offerPrice").value,
-            description: document.getElementById("moreRequest").value
-        }
-        console.log(waitingInfo)
-        this.props.onSendingRequest(waitingInfo)
-        this.onHandleCancelRequestModal()
+    onCheckingOfferPrice = (rule, value, callback) => {
+        if (Number(value) <= Number(this.props.info.price))
+            callback()
+        else if (Number(value) > Number(this.props.info.price))
+            callback(`Số tiền bạn nhập phải nhỏ hơn giá trị của bất động sản (${this.props.info.price} triệu đồng)!`)
     }
 
+    handleSubmit = e => {
+        e.preventDefault();
+        this.props.form.validateFields(async(err, values) => {
+            if (!err) {
+                var waitingInfo = {
+                    projectid: this.props.info._id,
+                    createTime: moment().unix(),
+                    money: values.offerPrice,
+                    description: document.getElementById("moreRequest").value
+                }
+                console.log(waitingInfo)
+                await this.props.onSendingRequest(waitingInfo)
+                await this.setState({requestVisible: false})
+            }
+        });
+    };
+    onChange =() => {
+
+    }
     render() {
         const { getFieldDecorator } = this.props.form
         let { info, comments, follow } = this.props;
+        console.log(info)
         let check = false
         if (follow && follow.length > 0 && info) {
             for (var i = 0; i < follow.length; i++) {
@@ -579,20 +591,27 @@ class PropertiesDetail extends Component {
                     title="Gửi yêu cầu giao dịch"
                     style={{ top: 20 }}
                     visible={this.state.requestVisible}
-                    onOk={() => this.onSendingRequest(info._id)}
+                    // onOk={() => this.onSendingRequest(info._id)}
                     onCancel={this.onHandleCancelRequestModal}
+                    footer={null}
+                    closable={true}
                 >
-                    <Form>
+                    <Form onSubmit={this.handleSubmit}>
                         <div className="row">
                             <div className="col-md-12 col-lg-12 col-xs-12">
-                                <Form.Item label="Nhập mức giá mong muốn: ">
+                                <Form.Item label="Nhập mức giá mong muốn (đơn vị: triệu đồng): ">
                                     {getFieldDecorator('offerPrice', {
-                                        rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
+                                        // trigger: 'onBlur',
+                                        rules: [
+                                            { required: true, message: 'Trường này chưa được nhập!' },
+                                            { validator: this.onCheckingOfferPrice }
+                                        ],
                                     })(
                                         <InputNumber
                                             id="offerPrice"
                                             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                             style={{ width: "100%" }}
+                                            onBlur={this.onChange}
                                         />,
                                     )}
                                 </Form.Item>
@@ -610,6 +629,15 @@ class PropertiesDetail extends Component {
                                     >
 
                                     </Input.TextArea>
+                                </Form.Item>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-12 col-lg-12 col-xs-12">
+                                <Form.Item>
+                                    <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }}>
+                                        Xác nhận
+                                    </Button>
                                 </Form.Item>
                             </div>
                         </div>

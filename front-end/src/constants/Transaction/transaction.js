@@ -2,7 +2,7 @@ export const CREATE_TRANSACTION = 'CREATE_TRANSACTION'
 export const CHANGE_STATUS = 'CHANGE_STATUS'
 export const TRANSACTION_HISTORY = 'TRANSACTION_HISTORY'
 export const TRANSACTION_DETAIL = 'TRANSACTION_DETAIL'
-//Chi tiết các bước trong giao dịch
+//Chi tiết các bước trong giao dịch mua/bán bất động sản
 export const DEAL = 'DEAL'
 export const LEGALITY = 'LEGALITY'
 export const DEPOSIT = 'DEPOSIT'
@@ -11,3 +11,9 @@ export const CONFIRMATION = 'CONFIRMATION'
 export const TAX = 'TAX'
 export const DELIVERY = 'DELIVERY'
 export const TRANSFER = 'TRANSFER'
+//Chi tiết các bước trong giao dịch cho thuê bất động sản
+export const RENTING_DEAL = 'RENTING_DEAL'
+export const RENTING_DEPOSIT = 'RENTING_DEPOSIT'
+export const RENTING_CONTRACT = 'RENTING_CONTRACT'
+export const RENTING_CONFIRMATION = 'RENTING_CONFIRMATION'
+export const RENTING_DELIVERY = 'RENTING_DELIVERY'

@@ -7,9 +7,10 @@ export const actCreatingTransactionRequest = infoToCreate => {
     return dispatch => {
         return axios.post("http://localhost:3001/transaction/create", infoToCreate, { headers: authHeader() })
             .then(res => {
-                if (res.data.status === 201)
+                if (res.data.status === 201) {
                     dispatch(Action.actCreateTransaction(res.data.transaction))
-                message.success('Tạo giao dịch thành công!')
+                    message.success('Tạo giao dịch thành công!')
+                }
             })
             .catch(error => {
                 message.error(`Có lỗi xảy ra: ${error}`)
@@ -55,7 +56,7 @@ export const actChangingTransactionStatus = (transactionData) => {
             })
     }
 }
-
+//API for Selling
 export const actPostingDealRequest = (dealInfo) => {
     return dispatch => {
         return axios.post("http://localhost:3001/selldetail/deal", dealInfo, { headers: authHeader() })
@@ -165,6 +166,7 @@ export const actPostingTransferRequest = (transferInfo) => {
     }
 }
 
+//API for Requesting Transaction
 export const actGettingWaitingListRequest = (id) => {
     console.log(id)
     return dispatch => {
@@ -186,6 +188,7 @@ export const actAddingWaitingRequest = (waitingData) => {
                 console.log(res)
                 if (res.data.status === 201) {
                     dispatch(Action.actAddingWaitingRequest(res.data.result))
+                    message.success("Gửi yêu cầu thành công!")
                 }
                 else if (res.data.status === 203)
                     message.warning('Bất động sản này đang trong quá trình giao dịch!')
@@ -205,6 +208,75 @@ export const actDeletingWaitingRequest = (waitingData) => {
         return axios.delete("http://localhost:3001/transaction/deletewaitingrequest", waitingData, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actDeletingWaitingRequest(res.data))
+            })
+            .catch(error => {
+                message.error(`Có lỗi xảy ra: ${error}`)
+            })
+    }
+}
+
+//API for Renting
+export const actPostingRentingDealRequest = (dealInfo) => {
+    return dispatch => {
+        return axios.post("http://localhost:3001/rentdetail/deal", dealInfo, { headers: authHeader() })
+            .then(res => {
+                console.log(res)
+                if (res.data.status === 200 || res.status === 200) {
+                    dispatch(Action.actPostingRentingDeal(res.data.deal))
+                    message.success('Thành công!')
+                }
+            })
+            .catch(error => {
+                message.error(`Có lỗi xảy ra: ${error}`)
+            })
+    }
+}
+
+export const actPostingRentingDepositRequest = (depositInfo) => {
+    return dispatch => {
+        return axios.post("http://localhost:3001/rentdetail/deposit", depositInfo, { headers: authHeader() })
+            .then(res => {
+                dispatch(Action.actPostingRentingDeposit(res.data.deposit))
+                message.success('Thành công!')
+            })
+            .catch(error => {
+                message.error(`Có lỗi xảy ra: ${error}`)
+            })
+    }
+}
+
+export const actPostingRentingContractRequest = (contractInfo) => {
+    return dispatch => {
+        return axios.post("http://localhost:3001/rentdetail/contract", contractInfo, { headers: authHeader() })
+            .then(res => {
+                dispatch(Action.actPostingRentingContract(res.data.contract))
+                message.success('Thành công!')
+            })
+            .catch(error => {
+                message.error(`Có lỗi xảy ra: ${error}`)
+            })
+    }
+}
+
+export const actPostingRentingConfirmationRequest = (confirmationInfo) => {
+    return dispatch => {
+        return axios.post("http://localhost:3001/rentdetail/confirmation", confirmationInfo, { headers: authHeader() })
+            .then(res => {
+                dispatch(Action.actPostingRentingConfirmation(res.data.confirmation))
+                message.success('Thành công!')
+            })
+            .catch(error => {
+                message.error(`Có lỗi xảy ra: ${error}`)
+            })
+    }
+}
+
+export const actPostingRentingDeliveryRequest = (deliveryInfo) => {
+    return dispatch => {
+        return axios.post("http://localhost:3001/rentdetail/delivery", deliveryInfo, { headers: authHeader() })
+            .then(res => {
+                dispatch(Action.actPostingRentingDelivery(res.data.delivery))
+                message.success('Thành công!')
             })
             .catch(error => {
                 message.error(`Có lỗi xảy ra: ${error}`)
