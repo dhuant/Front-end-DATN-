@@ -46,7 +46,7 @@ class ProfileEmployee extends Component {
     }
     showConfirm = () => {
         let changeLock = !this.props.info.lock;
-        let id = this.props.match.params.id
+    
         // console.log(changeLock)
         if (changeLock === true) {
             confirm({
@@ -57,7 +57,7 @@ class ProfileEmployee extends Component {
                     })
                     let data = {
                         lock: changeLock,
-                        id: id
+                        id: this.props.match.params.id
                     }
                     console.log(data)
                     message.loading('Đang xử lý yêu cầu, vui lòng chờ trong giây lát', 2.5)
@@ -71,7 +71,7 @@ class ProfileEmployee extends Component {
                                         disable: false
                                     })
                                     // req.push('/company/profile-admin')
-                                    this.props.reqGetInfoEmployee(id, this.state.page);
+                                    this.props.reqGetInfoEmployee(this.props.match.params.id, this.state.page);
                                 })
                                 .catch(err => {
                                     message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
@@ -94,7 +94,7 @@ class ProfileEmployee extends Component {
                     })
                     let data = {
                         lock: changeLock,
-                        id: id
+                        id: this.props.match.params.id
                     }
                     console.log(data)
                     message.loading('Đang xử lý yêu cầu, vui lòng chờ trong giây lát', 2.5)
@@ -107,7 +107,7 @@ class ProfileEmployee extends Component {
                                     this.setState({
                                         disable: false
                                     })
-                                    this.props.reqGetInfoEmployee(id, this.state.page);
+                                    this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page);
                                     // req.push('/company/profile-admin')
                                 })
                                 .catch(err => {
@@ -126,7 +126,7 @@ class ProfileEmployee extends Component {
     }
     componentDidMount() {
         console.log(this.props.match.params.id)
-        this.props.reqGetInfoEmployee(this.props.match.params.id, this.state.page);
+        this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page);
         console.log('did')
     }
     onCheckFullName = (rule, value, callback) => {
@@ -297,7 +297,7 @@ class ProfileEmployee extends Component {
         }
         let lock = <Tag style={{fontSize:'13px'}} color='red'>Tài khoản bị khóa</Tag>
         if (info.lock === false) {
-            lock = <Tag style={{fontSize:'13px'}} color='green'>Tài khoản đang được sử dụng</Tag>
+            lock = <Tag style={{fontSize:'13px'}} color='green'>Tài khoản được phép sử dụng</Tag>
             statusButton = 'Khóa tài khoản'
         }
         return (

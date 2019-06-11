@@ -57,6 +57,7 @@ class AddAccount extends Component {
                                 this.props.history.push('/company/profile-admin')
                             })
                             .catch(err => {
+                                console.log(err)
                                 message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
                                 this.setState({
                                     disable: false,

@@ -23,9 +23,9 @@ class ListEmployees extends Component {
     }
     render() {
         let dataSource = [];
-        let {employees} = this.props
-        if(employees !==[]){
-            dataSource =  employees
+        let { employees } = this.props
+        if (employees !== []) {
+            dataSource = employees
         }
         const columns = [
             {
@@ -34,21 +34,21 @@ class ListEmployees extends Component {
                 key: 'employee.fullname',
                 sorter: (a, b) => a.employee.fullname > b.employee.fullname,
                 sortDirections: ['descend', 'ascend'],
-                width: 200,
-                fixed: 'left',
+                //width: 200,
+                //fixed: 'left',
             },
             {
                 title: 'Email',
                 dataIndex: 'employee.email',
                 key: 'employee.email',
-                width: 240,
+                //width: 240,
             },
             {
                 title: 'Số tin',
                 dataIndex: 'employee.totalProject',
                 key: 'employee.totalProject',
                 sorter: (a, b) => a.employee.totalProject > b.employee.totalProject,
-                width: 100,
+                //width: 100,
                 render: tag => <Tag color={'green'} key={tag}>{tag}</Tag>
             },
             {
@@ -65,29 +65,29 @@ class ListEmployees extends Component {
                     },
                 ],
                 filterMultiple: false,
-                width: 150,
+                //width: 150,
                 onFilter: (value, record) => record.employee.verify === value,
                 key: 'employee.verify',
                 render: verify => {
                     let color = verify === true ? 'red' : 'geekblue'
                     return <Tag color={color} key={verify}>{verify === true ? 'Đã kích hoạt' : 'Chưa kích hoạt'}</Tag>
                 }
-                
+
             },
             {
                 title: 'Tình trạng',
                 dataIndex: 'employee.lock',
                 key: 'employee.lock',
-                
+
                 render: lock => {
                     let color = lock === true ? 'red' : 'geekblue'
-                    return <Tag color={color} key={lock}>{lock === true ? 'Đã bị khóa' : 'Đang hoạt động'}</Tag>
+                    return <Tag color={color} key={lock}>{lock === true ? 'Đã bị khóa' : 'Được phép sử dụng'}</Tag>
                 },
-                width: 150,
-                fixed: 'right',
+                //width: 150,
+                //fixed: 'right',
             },
         ]
-        
+
         return (
             <div>
                 <HeaderCompany />
@@ -119,17 +119,19 @@ class ListEmployees extends Component {
                                     <h1><span>Danh sách nhân viên</span></h1>
                                 </div>
                                 {/* table start */}
-                                <table className="manage-table responsive-table">
-                                    <Table dataSource={dataSource} bordered columns={columns} scroll={{x:'110%', y: 300 }}
-                                     onRow={(record, rowIndex) => {
+
+                                <Table dataSource={dataSource} columns={columns} scroll={{ y: 300 }}
+                                    onRow={(record, rowIndex) => {
                                         return {
                                             onClick: (event) => {
                                                 console.log(record)
-                                                this.props.history.push(`info-employee/${record.employee._id}`)
+                                                this.props.history.push(`info-employee/${record.employee._id}/1`)
                                             },
-                                        }}}
-                                    />
-                                </table>
+                                        }
+                                    }}
+                                >
+                                </Table>
+
                                 {/* table end */}
                             </div>
                         </div>
