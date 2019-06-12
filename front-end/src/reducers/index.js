@@ -9,6 +9,7 @@ import address from './address'
 import comments from './comments'
 import estatesListOfUser from './estatesListOfUser'
 import follow from './follow'
+import totalPage from './totalPage'
 //=====company
 import userCompany from './Company/userCompany'
 import employees from './Company/employees'
@@ -35,6 +36,7 @@ const appReducers = combineReducers({
     comments,
     estatesListOfUser,
     follow,
+    totalPage,
     // company
     userCompany,
     employees,

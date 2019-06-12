@@ -1,10 +1,10 @@
 import * as actionAgent from './Agent'
 import * as actionCompany from './Company'
+import * as actionTotalPage from '../totalPage'
 
 import axios from 'axios'
 
 import * as config from '../../constants/Config'
-import { message } from 'antd'
 // ======Start request get list Agents
 //lấy danh sách nhà môi giới
 export const reqGetListAgents = (page) => {
@@ -68,8 +68,10 @@ export const reqGetInfoCompany = (id) => {
       .get(`${config.API_URL}/company/info/${id}`,)
       .then(res => {
         console.log(res);
+        let totalPage = parseInt(res.data.company.employees.length /5) + 1
         dispatch(actionCompany.actGetInfoCompany(res.data.company));
         dispatch(actionAgent.actGetListAgents(res.data.company.employees))
+        dispatch(actionTotalPage.actSaveTotalPage(totalPage))
         // dispatch(actionAgent.actGetListProjectOfAgent(res.data.projects));
       })
       .catch(err => {
