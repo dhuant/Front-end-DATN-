@@ -3,38 +3,42 @@ import { Link } from 'react-router-dom'
 
 class Employee extends Component {
     render() {
-        let { employee } = this.props;
+        let employee = this.props.employee;
+        // let employee = info.employee
         let company =
             <li>
                 <strong>Công ty:</strong>Nhà môi giới tự do
             </li>;
-        if (employee.company !== "0") {
-            company =
-                <li>
-                    <strong>Công ty:</strong>{employee.company}
-                </li>
-        }
         let address =
             <li>
                 <strong>Địa chỉ:</strong>Đang cập nhật
             </li>;
-        if (employee.address !== '') {
-            address =
-                <li>
-                    <strong>Địa chỉ:</strong>{employee.address}
-                </li>
-        }
         let mobile =
             <li>
                 <strong>Điện thoại:</strong>Đang cập nhật
             </li>;
-        if (employee.phone !== '') {
-            mobile =
-                <li>
-                    <strong>Điện thoại:</strong>{employee.phone}
-                </li>
+        let url = ''
+        if (employee) {
+            if (employee.company !== "0") {
+                company =
+                    <li>
+                        <strong>Công ty:</strong>{employee.company}
+                    </li>
+            }
+            if (employee.address !== '') {
+                address =
+                    <li>
+                        <strong>Địa chỉ:</strong>{employee.address}
+                    </li>
+            }
+            if (employee.phone !== '') {
+                mobile =
+                    <li>
+                        <strong>Điện thoại:</strong>{employee.phone}
+                    </li>
+            }
+            url = `/agentdetail/${employee._id}`;
         }
-        let url = `/agentdetail/${employee._id}`
         return (
             <Link to={url}>
                 <div>
@@ -42,7 +46,7 @@ class Employee extends Component {
                         {/* Agent box 2start */}
                         <div className="agent-2 clearfix" style={{ height: '231.25px' }}>
                             <div className="col-lg-4 col-md-4 col-sm-4 agent-theme-2">
-                                <img src={employee.avatar} style={{ height: '231.25px' }}alt="team-2" className="img-responsive" />
+                                <img src={employee.avatar} style={{ height: '231.25px' }} alt="team-2" className="img-responsive" />
                                 {/* social list */}
                             </div>
                             <div className="col-lg-8 col-md-8 col-sm-8 agent-content" style={{ padding: '15px 15px 15px 15px' }}>

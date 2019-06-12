@@ -1,7 +1,7 @@
 import * as actionAgent from './Agent'
 import * as actionCompany from './Company'
 import * as actionTotalPage from '../totalPage'
-
+import * as actionUserCompany from '../Company/userCompany'
 import axios from 'axios'
 
 import * as config from '../../constants/Config'
@@ -70,7 +70,7 @@ export const reqGetInfoCompany = (id) => {
         console.log(res);
         let totalPage = parseInt(res.data.company.employees.length /5) + 1
         dispatch(actionCompany.actGetInfoCompany(res.data.company));
-        dispatch(actionAgent.actGetListAgents(res.data.company.employees))
+        dispatch(actionUserCompany.actSaveListEmployees(res.data.company.employees));
         dispatch(actionTotalPage.actSaveTotalPage(totalPage))
         // dispatch(actionAgent.actGetListProjectOfAgent(res.data.projects));
       })

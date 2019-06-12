@@ -1,29 +1,52 @@
 import React, { Component } from 'react';
 import MainHeader from '../../components/MainHeader';
-import InfoEstateOfAgent from '../../components/ContactDetail/InfoEstateOfAgent';
+// import InfoEstateOfAgent from '../../components/ContactDetail/InfoEstateOfAgent';
 import SidebarAgentDetail from '../../components/ContactDetail/SidebarAgentDetail';
 import * as actions from '../../actions/Contact/requestContact';
 import { connect } from 'react-redux';
 import Employee from '../../components/Contact/Employee';
-
+import { Pagination } from 'antd';
+const pageSize = 5
 class CompanyDetail extends Component {
     constructor(props) {
         super(props);
+        this.props.reqGetInfoCompany(this.props.match.params.id);
         this.state = {
-            page: 1,
+            current: 1,
+            pageEmployee: []
         }
     }
+    onChange = page => {
+        console.log(page);
+        this.setState({
+            current: page,
+        });
+    };
     componentDidMount() {
         this.props.reqGetInfoCompany(this.props.match.params.id);
+        // let employees = this.props.employees;
+        // let arr = [];
+        // employees.forEach(element => {
+        //     arr.push(element)
+        // });
+        // this.setState({
+        //     pageEmployee: arr
+        // })
     }
     render() {
         let company = this.props.info;
-        let { employees } = this.props;
+        let { employees, totalPage } = this.props;
+        let total = 1
+        let list =[]
+        let current = this.state.current
+        let offset = (current - 1) * pageSize;
         let des = 'Hiện chưa có nhân viên'
-        let listEmployees = ''
+        let listEmployees = 'Không có nhân viên'
         if (employees.length > 0) {
-            des = `Hiện đang có ${employees.length} bài đăng`
-            listEmployees = employees.map((employee, index) => {
+            total = employees.length
+            des = `Hiện đang có ${employees.length} nhân viên`
+            list = employees.slice(offset,current * pageSize)
+            listEmployees = list.map((employee, index) => {
                 return (
                     <Employee
                         key={index}
@@ -34,11 +57,11 @@ class CompanyDetail extends Component {
             )
         }
         let mobile = 'Đang cập nhật'
-        if(company.phone !==''){
+        if (company.phone !== '') {
             mobile = company.phone
         }
         let address = 'Đang cập nhật'
-            
+
         if (company.address !== '') {
             address = company.address
         }
@@ -79,7 +102,7 @@ class CompanyDetail extends Component {
                                         </h3>
                                         {/* Address list */}
                                         <ul className="address-list">
-                                        
+
                                             <li>
                                                 <span>
                                                     <i className="fa fa-envelope" />Email:
@@ -99,8 +122,8 @@ class CompanyDetail extends Component {
                                                 {mobile}
                                             </li>
                                             <li>
-                                            <span>
-                                                <i class="fa fa-map-marker"/>Điện thoại:
+                                                <span>
+                                                    <i className="fa fa-map-marker" />Điện thoại:
                                                 </span>
                                                 {address}
                                             </li>
@@ -192,8 +215,13 @@ class CompanyDetail extends Component {
                                     </div>
                                     {/* Option bar end */}
                                     <div className="clearfix" />
+                                    <h4>{des}</h4>
                                     <div className="row">
                                         {listEmployees}
+                                    </div>
+                                    <div style ={{textAlign:'center'}}>
+                                    <Pagination current={this.state.current} pageSize={pageSize}onChange={this.onChange} total={total} />
+
                                     </div>
                                 </div>
                                 {/* Partners block end */}
@@ -218,7 +246,8 @@ const mapDispathToProp = (dispatch) => {
 const mapStateToProp = (state) => {
     return {
         info: state.infoCompany,
-        employees: state.agents
+        employees: state.employees,
+        totalPage: state.totalPage
     }
 }
 export default connect(mapStateToProp, mapDispathToProp)(CompanyDetail);
