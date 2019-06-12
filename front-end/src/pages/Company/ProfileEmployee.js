@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import HeaderCompany from '../../components/Company/HeaderCompany';
 import * as actions from '../../actions/Company/requestCompany';
-import { message, Button, Modal, Form, Input, Select,Tag } from 'antd'
+import { message, Button, Modal, Form, Input, Select, Tag } from 'antd'
 import { adminService } from '../../actions/Company/admin.service'
 import { connect } from 'react-redux';
 import moment from 'moment'
@@ -46,7 +46,7 @@ class ProfileEmployee extends Component {
     }
     showConfirm = () => {
         let changeLock = !this.props.info.lock;
-    
+
         // console.log(changeLock)
         if (changeLock === true) {
             confirm({
@@ -71,7 +71,7 @@ class ProfileEmployee extends Component {
                                         disable: false
                                     })
                                     // req.push('/company/profile-admin')
-                                    this.props.reqGetInfoEmployee(this.props.match.params.id, this.state.page);
+                                    this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page)
                                 })
                                 .catch(err => {
                                     message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
@@ -149,44 +149,54 @@ class ProfileEmployee extends Component {
             callback('Vui lòng nhập đúng số điện thoại!')
         }
     };
-    handleSubmit = e => {
+    handleSubmit = (e) => {
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
+        this.props.form.validateFieldsAndScroll((err, values, callback) => {
             if (!err) {
-                this.setState({
-                    disable: true,
-                    visible1: false,
-                })
-                let account = {
-                    id: this.props.match.params.id,
-                    email: values.email,
-                    fullname: values.fullname,
-                    identify: this.props.info.identify,
-                    address: this.props.info.address,
-                    phone: `${values.prefix} ${values.phone}`,
-                    totalProject: this.props.info.totalProject,
-                    statusAccount: this.props.info.statusAccount,
-                    avatar: this.props.info.avatar,
-                    description: this.props.info.description,
-
+                if (values.fullname === this.props.info.fullname && `${values.prefix} ${values.phone}` === this.props.info.phone) {
+                    message.warning("Bạn chưa thay đổi thông tin")
                 }
-                console.log(account);
-                message.loading('Đang thêm tài khoản, vui lòng chờ trong giây lát', 2.5)
-                    .then(() => {
-                        adminService.editEmployee(account)
-                            .then(res => {
-                                if (res.status === 200) {
-                                    message.success('Sửa tài khoản thành công');
-                                }
-                            })
-                            .catch(err => {
-                                message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
-                                this.setState({
-                                    disable: false,
-                                })
-                            })
-                    });
+                else {
 
+                    this.setState({
+                        disable: true,
+                        visible1: false,
+                    })
+                    let account = {
+                        id: this.props.match.params.id,
+                        email: values.email,
+                        fullname: values.fullname,
+                        identify: this.props.info.identify,
+                        address: this.props.info.address,
+                        phone: `${values.prefix} ${values.phone}`,
+                        totalProject: this.props.info.totalProject,
+                        statusAccount: this.props.info.statusAccount,
+                        avatar: this.props.info.avatar,
+                        description: this.props.info.description,
+
+                    }
+                    console.log(account);
+                    message.loading('Đang thêm tài khoản, vui lòng chờ trong giây lát', 2.5)
+                        .then(() => {
+                            adminService.editEmployee(account)
+                                .then(res => {
+                                    if (res.status === 200) {
+                                        message.success('Sửa tài khoản thành công');
+                                    }
+                                    this.setState({
+                                        disable: false,
+                                    })
+                                    this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page)
+
+                                })
+                                .catch(err => {
+                                    message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                    this.setState({
+                                        disable: false,
+                                    })
+                                })
+                        });
+                }
             }
             else {
                 this.setState({
@@ -197,6 +207,19 @@ class ProfileEmployee extends Component {
     };
     render() {
         let { info, projects } = this.props;
+        let phoneTmp = ''
+        if (info !== {}) {
+            phoneTmp = `${info.phone}`
+            // let str = "42 3"
+            let n = phoneTmp.search(" ")
+            if (n !== -1) {
+                phoneTmp = phoneTmp.slice(n + 1)
+            }
+            else {
+                phoneTmp = info.phone
+            }
+        }
+        console.log(phoneTmp)
         const { getFieldDecorator } = this.props.form;
         const prefixSelector = getFieldDecorator('prefix', {
             initialValue: '84',
@@ -280,10 +303,10 @@ class ProfileEmployee extends Component {
             >
                 Chỉnh sửa tài khoản
             </Button>
-            
-        let verify = <Tag style={{fontSize:'13px'}} color='red'>Chưa kích hoạt</Tag>
+
+        let verify = <Tag style={{ fontSize: '13px' }} color='red'>Chưa kích hoạt</Tag>
         if (info.verify === true) {
-            verify = <Tag style={{fontSize:'13px'}} color='green'>Chưa kích hoạt</Tag>
+            verify = <Tag style={{ fontSize: '13px' }} color='green'>Chưa kích hoạt</Tag>
             btn =
                 <Button
                     type="primary"
@@ -295,9 +318,9 @@ class ProfileEmployee extends Component {
                     Chỉnh sửa tài khoản
                 </Button>
         }
-        let lock = <Tag style={{fontSize:'13px'}} color='red'>Tài khoản bị khóa</Tag>
+        let lock = <Tag style={{ fontSize: '13px' }} color='red'>Tài khoản bị khóa</Tag>
         if (info.lock === false) {
-            lock = <Tag style={{fontSize:'13px'}} color='green'>Tài khoản được phép sử dụng</Tag>
+            lock = <Tag style={{ fontSize: '13px' }} color='green'>Tài khoản được phép sử dụng</Tag>
             statusButton = 'Khóa tài khoản'
         }
         return (
@@ -413,6 +436,7 @@ class ProfileEmployee extends Component {
                                                                             validator: this.onCheckFullName,
                                                                         },
                                                                     ],
+                                                                    initialValue: info.fullname,
                                                                 })(<Input
                                                                     //onChange={this.onChange} 
                                                                     style={{ marginRight: '30px' }}
@@ -431,7 +455,9 @@ class ProfileEmployee extends Component {
                                                                             message: 'Vui lòng nhập email của nhân viên vào ô văn bản',
                                                                         },
                                                                     ],
-                                                                })(<Input style={{ marginRight: '30px' }} />)}
+                                                                    initialValue: info.email,
+
+                                                                })(<Input disabled style={{ marginRight: '30px' }} />)}
                                                             </Form.Item>
                                                             <Form.Item label="Số điện thoại" style={{ paddingRight: '20px' }} hasFeedback>
                                                                 {getFieldDecorator('phone', {
@@ -444,6 +470,8 @@ class ProfileEmployee extends Component {
                                                                             validator: this.onCheckPhoneNumber,
                                                                         },
                                                                     ],
+                                                                    initialValue: phoneTmp,
+
                                                                 })(<Input
                                                                     addonBefore={prefixSelector}
                                                                     //onChange={this.onChange} 
