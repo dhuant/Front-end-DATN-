@@ -97,7 +97,7 @@ class App extends Component {
             <Route exact path='/company/list-employees' component={ListEmployees}/>
             <Route exact path='/company/changepassword' component={ChangePasswordCompany}/>
             <Route exact path='/company/forgotpassword' component={ForgotPasswordCompany}/>
-            <Route exact path='/company/info-employee/:id' component={ProfileEmployee}/>
+            <Route exact path='/company/info-employee/:id/:page' component={ProfileEmployee}/>
             {/* End route cho company */}
             <Route exact path='' component={NotFound} />
 

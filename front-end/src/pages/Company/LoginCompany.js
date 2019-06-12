@@ -68,7 +68,6 @@ class Login extends Component {
                     message.success("Đăng nhập thành công");
                     console.log(res);
                     localStorage.setItem('company', JSON.stringify(res.data));
-                    this.props.actGetInfoUserCompany()
                     this.props.history.push(`/company/profile-admin`);
                 }
 
@@ -167,7 +166,7 @@ class Login extends Component {
 
 const mapDispathToProp = (dispatch) => {
     return {
-        actGetInfoUserCompany: () => dispatch(actions.actGetInfoUserCompany()),
+        // actGetInfoUserCompany: () => dispatch(actions.actGetInfoUserCompany()),
     }
 }
 const mapStateToProp = (state) => {

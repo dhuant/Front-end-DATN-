@@ -8,7 +8,7 @@ import { LIST_EMPLOYEES } from '../../constants/Company/profileCompany'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/Company/requestCompany';
-import { Table, Tag, message } from 'antd';
+import { Table, Tag } from 'antd';
 class ListEmployees extends Component {
     constructor(props) {
         super(props);
@@ -23,11 +23,9 @@ class ListEmployees extends Component {
     }
     render() {
         let dataSource = [];
-        let isLoading = true;
-        let company = this.props.userCompany;
-        let {employees} = this.props
-        if(employees !==[]){
-            dataSource =  employees
+        let { employees } = this.props
+        if (employees !== []) {
+            dataSource = employees
         }
         const columns = [
             {
@@ -36,25 +34,25 @@ class ListEmployees extends Component {
                 key: 'employee.fullname',
                 sorter: (a, b) => a.employee.fullname > b.employee.fullname,
                 sortDirections: ['descend', 'ascend'],
-                width: 200,
+                // width: '25%',
                 fixed: 'left',
             },
             {
                 title: 'Email',
                 dataIndex: 'employee.email',
                 key: 'employee.email',
-                width: 240,
+                // width: '25%',
             },
             {
                 title: 'Số tin',
                 dataIndex: 'employee.totalProject',
                 key: 'employee.totalProject',
                 sorter: (a, b) => a.employee.totalProject > b.employee.totalProject,
-                width: 100,
+                // width: '10%',
                 render: tag => <Tag color={'green'} key={tag}>{tag}</Tag>
             },
             {
-                title: 'Tình trạng tài khoản',
+                title: 'Trạng thái tài khoản',
                 dataIndex: 'employee.verify',
                 filters: [
                     {
@@ -67,26 +65,41 @@ class ListEmployees extends Component {
                     },
                 ],
                 filterMultiple: false,
-                width: 150,
+                // width: '15%',
                 onFilter: (value, record) => record.employee.verify === value,
                 key: 'employee.verify',
                 render: verify => {
                     let color = verify === true ? 'red' : 'geekblue'
                     return <Tag color={color} key={verify}>{verify === true ? 'Đã kích hoạt' : 'Chưa kích hoạt'}</Tag>
                 }
-                
+
             },
             {
-                title: 'Thao tác',
-                dataIndex: 'employee.totalProject',
-                key: 'employee.totalProject',
-                
-                render: tag => <Tag color={'green'} key={tag}>{tag}</Tag>,
-                width: 150,
-                fixed: 'right',
+                title: 'Tình trạng',
+                dataIndex: 'employee.lock',
+                key: 'employee.lock',
+                filters: [
+                    {
+                        text: 'Đã bị khóa',
+                        value: true,
+                    },
+                    {
+                        text: 'Không bị khóa',
+                        value: false,
+                    },
+                ],
+                filterMultiple: false,
+                onFilter: (value, record) => record.employee.lock === value,
+
+                render: lock => {
+                    let color = lock === true ? 'red' : 'geekblue'
+                    return <Tag color={color} key={lock}>{lock === true ? 'Đã bị khóa' : 'Không bị khóa'}</Tag>
+                },
+                // width: '15%',
+                // fixed: 'right',
             },
         ]
-        
+
         return (
             <div>
                 <HeaderCompany />
@@ -118,16 +131,19 @@ class ListEmployees extends Component {
                                     <h1><span>Danh sách nhân viên</span></h1>
                                 </div>
                                 {/* table start */}
-                                <table className="manage-table responsive-table">
-                                    <Table dataSource={dataSource} bordered columns={columns} scroll={{x:'110%', y: 300 }}
-                                     onRow={(record, rowIndex) => {
+
+                                <Table dataSource={dataSource} columns={columns} scroll={{x:'115%' }}
+                                    onRow={(record, rowIndex) => {
                                         return {
                                             onClick: (event) => {
-                                                this.props.history.push(`info-employee/${record._id}`)
+                                                console.log(record)
+                                                this.props.history.push(`info-employee/${record.employee._id}/1`)
                                             },
-                                        }}}
-                                    />
-                                </table>
+                                        }
+                                    }}
+                                >
+                                </Table>
+
                                 {/* table end */}
                             </div>
                         </div>

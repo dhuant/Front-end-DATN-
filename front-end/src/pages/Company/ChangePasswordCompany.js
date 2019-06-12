@@ -15,16 +15,15 @@ class ChangePasswordCompany extends Component {
             newpassword: '',
             confirmpassword: '',
             confirmDirty: false,
+            disable: false,
         };
     }
-    handleOnChange = (e) => {
-        let target = e.target;
-        let name = target.name;
-        let value = target.value;
+    componentDidMount(){
         this.setState({
-            [name]: value,
-        });
+            disable: false,
+        })
     }
+    
     onCancel = (e) => {
         e.preventDefault();
         this.props.history.push('/company/profile-admin')
@@ -34,6 +33,9 @@ class ChangePasswordCompany extends Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
+                this.setState({
+                    disable: true,
+                })
                 let data = {
                     currentPassword: values.currentPassword,
                     newPassword: values.newPassword,
@@ -52,8 +54,16 @@ class ChangePasswordCompany extends Component {
                         })
                         .catch(err => {
                             message.error('Đổi mật khẩu thất bại. Mời bạn vui lòng thử lại')
+                            this.setState({
+                                disable: false
+                            })
                         })
                 });
+            }
+            else{
+                this.setState({
+                    disable: false,
+                })
             }
         });
     };
@@ -172,7 +182,7 @@ class ChangePasswordCompany extends Component {
                                         })(<Input.Password onBlur={this.handleConfirmBlur} style={{marginRight:'30px'}}/>)}
                                     </Form.Item>
                                     <Form.Item {...tailFormItemLayout} style={{ textAlign: 'right',paddingRight:'20px' }}>
-                                        <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit">
+                                        <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit" disabled={this.state.disable}>
                                             Cập nhật mật khẩu
                                                 </Button>
                                         <Button type="danger" onClick={this.onCancel}>

@@ -36,8 +36,8 @@ class InfoCompany extends Component {
                 <div className="user-account-box">
                     <div className="header clearfix">
                         <div className="edit-profile-photo">
-                            {/* <img src={userInfoCompany.avatar} alt="agent-1" className="img-responsive" /> */}
-                            <img src='https://res.cloudinary.com/dne3aha8f/image/upload/v1559203321/ddtyciszy3oiwdjasrjh.png?fbclid=IwAR3RFWWiOrMw-sMiNigCXJMFEGdpYw_FUBa4PxZYZLTtHvjLaa1JjBpNGy0' alt="agent-1" className="img-responsive" />
+                            <img src={userInfoCompany.avatar} alt="agent-1" className="img-responsive" />
+                            {/* <img src='https://res.cloudinary.com/dne3aha8f/image/upload/v1559203321/ddtyciszy3oiwdjasrjh.png?fbclid=IwAR3RFWWiOrMw-sMiNigCXJMFEGdpYw_FUBa4PxZYZLTtHvjLaa1JjBpNGy0' alt="agent-1" className="img-responsive" /> */}
                             
                             {/* <div className="change-photo-btn">
                                 <div className="photoUpload">

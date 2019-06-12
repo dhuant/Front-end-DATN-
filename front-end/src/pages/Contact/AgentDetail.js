@@ -7,54 +7,54 @@ import { connect } from 'react-redux';
 class AgentDetail extends Component {
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             page: 1,
         }
     }
-    componentDidMount(){
+    componentDidMount() {
         this.props.reqGetInfoAgent(this.props.match.params.id, this.state.page);
     }
     render() {
-        let {info, projects} = this.props;
+        let { info, projects } = this.props;
         console.log(info);
         console.log(projects);
         let des = 'Hiện chưa có bài đăng'
         let listProjects = ''
         if (projects.length > 0) {
-			// if (option === '1') {
-			// 	agents = agents.sort((a, b) => (a.price - b.price))
-			// }
-			// else if(option === '2'){
-			// 	agents = agents.sort((a, b) => (b.price - a.price))
-			// }
-			// else if(option === '3') {
-			// 	agents = agents.sort((a, b) => (a.area - b.area))
-			// }
-			// else if(option === '4') {
-			// 	agents = agents.sort((a, b) => (b.area - a.area))
-			// }
-			des = `Hiện đang có ${projects.length} bài đăng`
-			listProjects = projects.map((project, index) => {
-				return (
-					<InfoEstateOfAgent
-						key={index}
-						project={project}
-					/>
-				)
-			}
-			)
+            // if (option === '1') {
+            // 	agents = agents.sort((a, b) => (a.price - b.price))
+            // }
+            // else if(option === '2'){
+            // 	agents = agents.sort((a, b) => (b.price - a.price))
+            // }
+            // else if(option === '3') {
+            // 	agents = agents.sort((a, b) => (a.area - b.area))
+            // }
+            // else if(option === '4') {
+            // 	agents = agents.sort((a, b) => (b.area - a.area))
+            // }
+            des = `Hiện đang có ${projects.length} bài đăng`
+            listProjects = projects.map((project, index) => {
+                return (
+                    <InfoEstateOfAgent
+                        key={index}
+                        project={project}
+                    />
+                )
+            }
+            )
         }
         let company = 'Môi giới tự do'
         if (info.company !== "0") {
             company = info.company
         }
         let mobile = 'Đang cập nhật'
-        if(info.phone !==''){
+        if (info.phone !== ' ') {
             mobile = info.phone
         }
         let address = 'Đang cập nhật'
-            
-        if (info.address !== '') {
+
+        if (info.address !== ' ') {
             address = info.address
         }
         return (
@@ -82,9 +82,9 @@ class AgentDetail extends Component {
                         <div className="row">
                             <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                                 {/* Agent detail start */}
-                                <div className="agent-detail clearfix" style={{height:'285px'}}>
+                                <div className="agent-detail clearfix" style={{ height: '285px' }}>
                                     <div className="col-lg-5 col-md-6 col-sm-5 agent-theme">
-                                        <img src={info.avatar} style={{height:'280px',width:'290px'}} alt="agent-1" className="img-responsive" />
+                                        <img src={info.avatar} style={{ height: '280px', width: '290px' }} alt="agent-1" className="img-responsive" />
                                     </div>
                                     <div className="col-lg-7 col-md-6 col-sm-7 agent-content clearfix">
                                         {/* <h5>Creative Director</h5> */}
@@ -93,7 +93,7 @@ class AgentDetail extends Component {
                                         </h3>
                                         {/* Address list */}
                                         <ul className="address-list">
-                                            
+
                                             <li>
                                                 <span>
                                                     <i className="fa fa-envelope" />Email:
@@ -114,13 +114,12 @@ class AgentDetail extends Component {
                                             </li>
                                             <li>
                                                 <span>
-                                                <i class="fa fa-map-marker"/>Điện thoại:
+                                                    <i className="fa fa-map-marker" />Địa chỉ:
                                                 </span>
                                                 {address}
                                             </li>
-                                            
                                         </ul>
-                                        
+
                                     </div>
                                 </div>
                                 {/* Agent detail end */}
@@ -129,7 +128,7 @@ class AgentDetail extends Component {
                                     <div className="main-title-2">
                                         <h1><span>Giới thiệu</span></h1>
                                     </div>
-                                    {<div dangerouslySetInnerHTML={{__html: info.description}} ></div>}
+                                    {<div dangerouslySetInnerHTML={{ __html: info.description }} ></div>}
                                     {/* <p>
                                         {info.description}
                                     </p> */}
@@ -229,7 +228,7 @@ class AgentDetail extends Component {
 
 const mapDispathToProp = (dispatch) => {
     return {
-        reqGetInfoAgent: (id, page) => dispatch(actions.reqGetInfoAgent(id,page))
+        reqGetInfoAgent: (id, page) => dispatch(actions.reqGetInfoAgent(id, page))
     }
 }
 const mapStateToProp = (state) => {

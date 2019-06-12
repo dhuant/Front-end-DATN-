@@ -36,6 +36,10 @@ class HeaderCompany extends Component {
         }
 
     }
+    onAddAccount = (e) => {
+        e.preventDefault();
+        this.props.history.push('/company/add-account-employee');
+    }
     onSignOut = (e) => {
         e.preventDefault();
         localStorage.removeItem('company');
@@ -112,7 +116,7 @@ class HeaderCompany extends Component {
                                         </a>
                                     </li>
                                     <li className={this.props.component === ABOUT ? "active" : ""}>
-                                        <a href="true" onClick={this.onRedirectHome}>
+                                        <a href="true" onClick={this.onAddAccount}>
                                             Thêm nhân viên
                                         </a>
                                     </li>
