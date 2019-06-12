@@ -34,21 +34,21 @@ class ListEmployees extends Component {
                 key: 'employee.fullname',
                 sorter: (a, b) => a.employee.fullname > b.employee.fullname,
                 sortDirections: ['descend', 'ascend'],
-                //width: 200,
-                //fixed: 'left',
+                // width: '25%',
+                fixed: 'left',
             },
             {
                 title: 'Email',
                 dataIndex: 'employee.email',
                 key: 'employee.email',
-                //width: 240,
+                // width: '25%',
             },
             {
                 title: 'Số tin',
                 dataIndex: 'employee.totalProject',
                 key: 'employee.totalProject',
                 sorter: (a, b) => a.employee.totalProject > b.employee.totalProject,
-                //width: 100,
+                // width: '10%',
                 render: tag => <Tag color={'green'} key={tag}>{tag}</Tag>
             },
             {
@@ -65,7 +65,7 @@ class ListEmployees extends Component {
                     },
                 ],
                 filterMultiple: false,
-                //width: 150,
+                // width: '15%',
                 onFilter: (value, record) => record.employee.verify === value,
                 key: 'employee.verify',
                 render: verify => {
@@ -78,13 +78,25 @@ class ListEmployees extends Component {
                 title: 'Tình trạng',
                 dataIndex: 'employee.lock',
                 key: 'employee.lock',
+                filters: [
+                    {
+                        text: 'Đã bị khóa',
+                        value: true,
+                    },
+                    {
+                        text: 'Không bị khóa',
+                        value: false,
+                    },
+                ],
+                filterMultiple: false,
+                onFilter: (value, record) => record.employee.lock === value,
 
                 render: lock => {
                     let color = lock === true ? 'red' : 'geekblue'
-                    return <Tag color={color} key={lock}>{lock === true ? 'Đã bị khóa' : 'Được phép sử dụng'}</Tag>
+                    return <Tag color={color} key={lock}>{lock === true ? 'Đã bị khóa' : 'Không bị khóa'}</Tag>
                 },
-                //width: 150,
-                //fixed: 'right',
+                // width: '15%',
+                // fixed: 'right',
             },
         ]
 
@@ -120,7 +132,7 @@ class ListEmployees extends Component {
                                 </div>
                                 {/* table start */}
 
-                                <Table dataSource={dataSource} columns={columns} scroll={{ y: 300 }}
+                                <Table dataSource={dataSource} columns={columns} scroll={{x:'115%' }}
                                     onRow={(record, rowIndex) => {
                                         return {
                                             onClick: (event) => {
