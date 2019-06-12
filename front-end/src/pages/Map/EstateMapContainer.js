@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/request';
 import { } from 'react-google-maps'
 import Searching from './Searching'
-// import { timeout } from 'q';
 
 const colStyle = {
     paddingRight: '5px',
@@ -339,34 +338,20 @@ class EstateMapContainer extends Component {
         console.log(type);
         console.log(price);
         console.log(this.state.center);
-
-        // let {place} = this.state;
-        // console.log(place.ge);
-
-        // // const { place } = 
-        // console.log(estates);
-        // let tmp = JSON.stringify(place.geometry, null, 2);
-        // console.log(tmp);
-
-        // let tmp2 = JSON.stringify(tmp.location, null, 2)
-        // console.log(JSON.stringify(place.geometry, null, 2));
+        
         return (
             <div>
                 <div className="properties-map-search" style={{ backgroundColor: '#5d1070' }}>
                     <div className="properties-map-search-content" style={{ paddingTop: '5px' }}>
                         <div className="row">
                             <div className="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                                {/* <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12" style={{ paddingLeft: '15px', paddingRight: '0px' }}> */}
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12" >
-                                {/* style={{ paddingLeft: '5px', paddingRight: '5px', marginLeft: '5px', marginRight: '10px', marginBottom: '10px' }} */}
                                     <div className="form-group" > 
                                         <Searching onPlaceChanged={this.onPlaceSelected} style={optionStyle} />
                                     </div>
 
                                 </div>
-
-                                {/* <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" style={colStyle}>
-                                    <div className="form-group" style={fomrGroupStyle}> */}
+                                
                                 <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" >
                                     <div className="form-group" >
                                         <select className="form-control"
@@ -381,8 +366,7 @@ class EstateMapContainer extends Component {
                                         </select>
                                     </div>
                                 </div>
-                                {/* <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" style={colStyle}>
-                                    <div className="form-group" style={fomrGroupStyle}> */}
+                               
                                 <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" >
                                     <div className="form-group" >
                                         <select className="form-control"
@@ -397,8 +381,7 @@ class EstateMapContainer extends Component {
                                         </select>
                                     </div>
                                 </div>
-                                {/* <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12" style={colStyle}>
-                                    <div className="form-group" style={fomrGroupStyle}> */}
+                               
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <div className="form-group" >
                                         <select className="form-control"
@@ -412,8 +395,7 @@ class EstateMapContainer extends Component {
                                         </select>
                                     </div>
                                 </div>
-                                {/* <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" style={colStyle}>
-                                    <div className="form-group" style={fomrGroupStyle}> */}
+                               
                                 <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" >
                                     <div className="form-group" >
                                         <select className="form-control"
@@ -462,17 +444,6 @@ class EstateMapContainer extends Component {
                             </div>
 
                         </div>
-
-                        {/* <div className='row'>
-                            <div clasName="col-lg-12 col-md-6 col-sm-6 col-xs-12" style={{ float: "right", paddingRight: '28px' }}>
-                                <button
-                                    onClick={this.onSearchMap}
-                                    type="button" class="btn btn-success"
-                                    style={{ margin: '0px 10px 10px 25px' }}
-                                >
-                                    Tìm kiếm</button>
-                            </div>
-                        </div> */}
                     </div>
                 </div>
                 <div>
