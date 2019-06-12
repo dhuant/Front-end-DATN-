@@ -16,7 +16,7 @@ class Detail extends Component {
             description: document.getElementById('description').value,
             avatar: localStorage.getItem('avatar') ? localStorage.getItem('avatar') : JSON.parse(localStorage.getItem('res')).user.avatar,
             statusAccount: 2,
-            // totalProject: this.props.estatesListOfUser.length
+            totalProject: this.props.estatesListOfUser.length
         }
         this.props.onEditUserInfo(updateInfo)
     }
@@ -47,7 +47,7 @@ class Detail extends Component {
                         </div>
                         <div className="form-group">
                             <label>Giới thiệu bản thân</label>
-                            <textarea className="input-text" name="description" id="description" placeholder="Viết thêm gì đó về bạn..." >{userUpdated.description === '' ? ' ' : userUpdated.description}</textarea>
+                            <textarea className="input-text" name="description" id="description" placeholder="Viết thêm gì đó về bạn..." defaultValue={userUpdated.description === '' ? ' ' : userUpdated.description}></textarea>
                         </div>
                         <a href="true" className="btn button-md button-theme" onClick={this.onSubmit}>Lưu thay đổi</a>
                     </form>

@@ -77,18 +77,18 @@ class SingleWaiting extends Component {
         console.log(this.props.waitingList)
         console.log(this.props.waitingList.requests[this.state.currentRequestNumber].user)
         var step = null, typetransaction = null
-        if (this.props.waitingList.project.type === 1) {
+        if (this.props.waitingList.project.statusProject === 1) {
           step = 7
           typetransaction = 1
         }
 
-        if (this.props.waitingList.project.type === 3) {
+        if (this.props.waitingList.project.statusProject === 3) {
           step = 8
           typetransaction = 2
         }
         var transactionInfo = {
           step: step,
-          typeproject: this.props.waitingList.project.type,
+          typeproject: this.props.waitingList.project.statusProject,
           typetransaction: typetransaction,
           project: this.props.waitingList.project._id,
           buyer: this.props.waitingList.requests[this.state.currentRequestNumber].user._id,
@@ -107,7 +107,7 @@ class SingleWaiting extends Component {
 
   }
   render() {
-    var { waitingList, codelist } = this.props
+    var { waitingList, codelist, unit } = this.props
     const { loading } = this.state
     console.log(codelist)
     const { getFieldDecorator } = this.props.form
@@ -125,7 +125,7 @@ class SingleWaiting extends Component {
                     <span>
                       <p style={{ fontWeight: "bold" }}>{waitingRequestSingle.user.fullname}
                         <p style={{ fontWeight: "lighter" }}>{moment.unix(waitingRequestSingle.createTime).format('DD/MM/YYYY, h:mm a')}</p>
-                      </p> đã gửi yêu cầu giao dịch bất động sản với giá mong muốn {waitingRequestSingle.money} triệu đồng.
+                      </p> đã gửi yêu cầu giao dịch bất động sản với giá mong muốn {waitingRequestSingle.money} {unit}.
                       <div style={{ float: "right" }}>
                         <div className="comment-meta-reply"
                           style={{ marginRight: "5px" }}
