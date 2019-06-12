@@ -18,6 +18,7 @@ import projectsOfEmployee from './Company/listProjectOfEmployee'
 //=====
 import transaction from './Transaction/transaction'
 import transactionDetail from './Transaction/transactionDetail'
+import rentTransaction from './Transaction/rentTransaction'
 import waiting from './Transaction/waiting'
 import agents from './Contact/agent'        //danh sách nhà môi giới
 import companies from './Contact/company'   //danh sách công ty đối tác
@@ -45,6 +46,7 @@ const appReducers = combineReducers({
     //-------
     transaction,
     transactionDetail,
+    rentTransaction,
     waiting,
     agents,
     companies,
