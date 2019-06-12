@@ -101,21 +101,14 @@ class SubmitProperty extends Component {
         })
     }
 
-    onSubmit = async (e) => {
+    onSubmit = async(e) => {
+        e.preventDefault()
         if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null) {
-            message.warning("Bạn cần phải đăng nhập trước khi đăng bài!")
+            await message.warning("Bạn cần phải đăng nhập trước khi đăng bài!")
             return <LoginModal visible={true} />
         }
-
-        e.preventDefault()
-        if (document.getElementById('name').value === undefined
-            || document.getElementById('investor').value === undefined
-            || document.getElementById('price').value === undefined
-            || document.getElementById('area').value === undefined
-            || document.getElementById('description').value === undefined) {
-            return message.error("Có trường thông tin nào đó bạn chưa nhập! Vui lòng kiểm tra lại!")
-        }
         else {
+            await this.setState({ loading: true })
             await this.onUploadingImages(this.state.imagesToUpload)
             let ownerID = JSON.parse(localStorage.getItem('res')).user._id
             let info = {
@@ -150,11 +143,16 @@ class SubmitProperty extends Component {
                         await message.success('Đăng bài thành công!');
                         await this.props.history.goBack()
                     }
+                    else if (res.status === 203) {
+                        message.error('Tài khoản của bạn đã đạt giới hạn đăng bài (5 bài). Vui lòng upgrade tài khoản để đăng nhiều hơn!')
+                    }
+                    else if (res.status === 204) {
+                        message.error('Tài khoản của bạn đã đạt giới hạn bài đăng (40 bài)')
+                    }
                     else message.error('Đăng bài thất bại!');
                 });
-            await this.setState({ loading: false })
         }
-
+        await this.setState({ loading: false })
     }
 
     getUrlList = (urlArray, publicIdArray) => {
@@ -323,11 +321,6 @@ class SubmitProperty extends Component {
 
     showDeleteConfirm = (event) => {
         var index = event.target.value
-        // this.state.previewList.map((image, key) => {
-        //     if (image === index) {
-        //         index = key
-        //     }
-        // })
         confirm({
             title: 'Bạn muốn xóa hình này không?',
             okText: 'Có',
@@ -348,480 +341,484 @@ class SubmitProperty extends Component {
         });
     }
     render() {
-        var { status, city, ward, state, isShowUnit, tags } = this.state;
-        console.log(status, isShowUnit)
+        var { status, city, ward, state, isShowUnit, tags, loading } = this.state;
         var stateList = this.parseStateData(AddressData)
         var cityList = this.parseCityData(AddressData, state)
         var wardList = this.parseWardData(AddressData, state, city)
         return (
-            <Spin size="large" tip="Đang đăng bài..." spinning={this.state.loading} style={{ textAlign: "center" }}>
-                <div>
-                    <MainHeader />
-                    {
-                        /* Sub banner start */
-                    }
-                    <div className="sub-banner overview-bgi">
-                        <div className="overlay">
-                            <div className="container">
-                                <div className="breadcrumb-area">
-                                    <h1>Đăng bài</h1>
-                                    <ul className="breadcrumbs">
-                                        <li>
-                                            <Link to="/">Trang chủ</Link>
-                                        </li>
-                                        <li className="active">Đăng bài</li>
-                                    </ul>
-                                </div>
+            <div>
+                <MainHeader />
+                {
+                    /* Sub banner start */
+                }
+                <div className="sub-banner overview-bgi">
+                    <div className="overlay">
+                        <div className="container">
+                            <div className="breadcrumb-area">
+                                <h1>Đăng bài</h1>
+                                <ul className="breadcrumbs">
+                                    <li>
+                                        <Link to="/">Trang chủ</Link>
+                                    </li>
+                                    <li className="active">Đăng bài</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    {
-                        /* Sub Banner end */
-                    }
+                </div>
+                {
+                    /* Sub Banner end */
+                }
 
-                    <div className="content-area-7 submit-property">
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="submit-address">
-                                        <form method="GET" action="submit">
-                                            <div className="main-title-2">
-                                                <h1>
-                                                    <span>Thông tin</span> cơ bản
+                <div className="content-area-7 submit-property">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="submit-address">
+                                    <form onSubmit={this.onSubmit}>
+                                        <div className="main-title-2">
+                                            <h1>
+                                                <span>Thông tin</span> cơ bản
                                             </h1>
-                                            </div>
-                                            <div className="search-contents-sidebar mb-30">
-                                                <div className="row">
-                                                    <div className="col-md-6 col-sm-6">
-                                                        <div className="form-group">
-                                                            <label>Tên bài đăng</label>
-                                                            <input
-                                                                type="text"
-                                                                className="input-text"
-                                                                name="name"
-                                                                id="name"
-                                                                placeholder="Tên bài đăng"
-                                                                // onChange={this.onHandleChange}
-                                                                required
-                                                            />
-                                                            {/* <Form.Control type="email" placeholder="Enter email" required=""/> */}
-                                                            {/* <Form.Text className="text-muted" style={{ color: "#827f7f" }}>Tên bài đăng không bao gồm các kí tự đặc biệt (~!@#,...)</Form.Text> */}
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-md-6 col-sm-6">
-                                                        <div className="form-group">
-                                                            <label>Nhà đầu tư</label>
-                                                            <input
-                                                                type="text"
-                                                                className="input-text"
-                                                                name="investor"
-                                                                id="investor"
-                                                                placeholder="Nhà đầu tư"
-                                                                // onChange={this.onHandleChange}
-                                                                required
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="row">
-                                                    <div className="col-md-3 col-sm-6">
-                                                        <div className="form-group">
-                                                            <label>Trạng thái</label>
-                                                            <select className="form-control"
-                                                                name="status"
-                                                                id="status"
-                                                                // defaultValue={Status[0].value}
-                                                                onChange={this.onHandleChange}
-                                                            >
-                                                                <option style={{ display: "none" }}>---Chọn trạng thái---</option>
-                                                                {Status.map((status, index) => <option key={index} value={status.value}>{status.label}</option>)}
-
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-md-3 col-sm-6">
-                                                        <div className="form-group">
-                                                            <label>Loại</label>
-                                                            <select className="form-control"
-                                                                name="type"
-                                                                id="type"
-                                                            // defaultValue={Types[0].value}
-                                                            // onChange={this.onHandleChange}
-                                                            >
-                                                                <option style={{ display: "none" }}>---Chọn loại---</option>
-                                                                {Types.map((type, indexx) => <option key={indexx} value={type.value}>{type.label}</option>)}
-
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div className="col-md-2 col-sm-6">
-                                                        <div className="form-group">
-                                                            <label>Giá</label>
-                                                            <input
-                                                                type="text"
-                                                                className="input-text"
-                                                                name="price"
-                                                                id="price"
-                                                                placeholder="Nhập giá bán"
-                                                                // onChange={this.onHandleChange}
-                                                                required
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-md-2 col-sm-6">
-                                                        <div className="form-group">
-                                                            <label>Đơn vị</label>
-                                                            <select className="form-control"
-                                                                name="unit"
-                                                                id="unit"
-                                                                placeholder="Chọn đơn vị"
-                                                            // defaultValue={}
-                                                            >
-                                                                <option style={{ display: "none" }}>---Chọn đơn vị---</option>
-                                                                {this.state.units.map((single, indexx) => <option key={indexx} value={single.label}>{single.label}</option>)}
-
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-md-2 col-sm-6">
-                                                        <div className="form-group">
-                                                            <label>Diện tích (m2)</label>
-                                                            <input
-                                                                type="text"
-                                                                className="input-text"
-                                                                name="area"
-                                                                id="area"
-                                                                placeholder="Diện tích"
-                                                                // onChange={this.onHandleChange}
-                                                                required
-                                                            />
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
+                                        </div>
+                                        <div className="search-contents-sidebar mb-30">
                                             <div className="row">
-                                                <div className="col-md-12 col-sm-12">
+                                                <div className="col-md-6 col-sm-6">
                                                     <div className="form-group">
-                                                        <Button variant="primary" style={{ display: "flex", alignContent: "center", justifyContent: "center", fontSize: "12px" }} onClick={this.onOpenCodeModal}>
-                                                            Nhấn vào đây để nhập mã số căn hộ/phòng
-                                                   </Button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="main-title-2">
-                                                <h1>
-                                                    <span>Địa</span> chỉ
-                                            </h1>
-                                            </div>
-                                            <div className="row mb-30">
-                                                <div className="col-md-6">
-                                                    <div className="form-group" style={{ marginBottom: '0px' }}>
-                                                        <label>Nhập số nhà/đường</label>
+                                                        <label>Tên bài đăng</label>
                                                         <input
                                                             type="text"
                                                             className="input-text"
-                                                            name="street"
-                                                            id="street"
-                                                            placeholder="Nhập số nhà/đường"
+                                                            name="name"
+                                                            id="name"
+                                                            placeholder="Tên bài đăng"
                                                             // onChange={this.onHandleChange}
                                                             required
                                                         />
+                                                        {/* <Form.Control type="email" placeholder="Enter email" required=""/> */}
+                                                        {/* <Form.Text className="text-muted" style={{ color: "#827f7f" }}>Tên bài đăng không bao gồm các kí tự đặc biệt (~!@#,...)</Form.Text> */}
                                                     </div>
                                                 </div>
-
-                                                <div className="col-md-6">
-                                                    <div className="form-group" style={{ marginBottom: '0px' }}>
-                                                        <label>Chọn tỉnh</label>
-                                                        <select className="form-control"
-                                                            name="state"
-                                                            id="state"
-                                                            required
-                                                            onChange={this.onHandleChangeAddress}
-                                                            style={{ overflowY: "scroll" }}
-                                                        >
-                                                            {stateList.map((single, index) => <option key={index} value={single}>{single}</option>)}
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="row mb-30">
-                                                <div className="col-md-6">
-                                                    <div className="form-group" style={{ marginBottom: '0px' }}>
-                                                        <label>Chọn thành phố</label>
-                                                        <select className="form-control"
-                                                            name="city"
-                                                            id="city"
-                                                            required
-                                                            onChange={this.onHandleChangeAddress}
-                                                            style={{ overflowY: "scroll" }}
-                                                        >
-                                                            {cityList.map((single, indexx) => <option key={indexx} value={single}>{single}</option>)}
-                                                            {/* {this.parseCityData(AddressData, document.getElementById('city').value)} */}
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div className="col-md-6">
-                                                    <div className="form-group" style={{ marginBottom: '0px' }}>
-                                                        <label>Chọn xã/huyện</label>
-                                                        <select className="form-control"
-                                                            name="ward"
-                                                            id="ward"
-                                                            required
-                                                            onChange={this.onHandleChangeAddress}
-                                                        >
-                                                            {wardList.map((single, indexx) => <option key={indexx} value={single}>{single}</option>)}
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div style={{ paddingBottom: '80px' }}>
-                                                <MapSearching
-                                                    google={this.props.google}
-                                                    center={{ lat: 10.7625626, lng: 106.6805316 }}
-                                                    height='300px'
-                                                    zoom={15}
-                                                />
-                                            </div>
-                                            <div className="main-title-2">
-                                                <h1>
-                                                    <span>Thông tin</span> chi tiết
-                                            </h1>
-                                            </div>
-                                            <div className="row mb-30">
-                                                <div className="col-md-12">
-                                                    <div className="form-group" style={{ marginBottom: '0px' }}>
-                                                        <label>Nội dung bài đăng</label>
-                                                        <textarea
+                                                <div className="col-md-6 col-sm-6">
+                                                    <div className="form-group">
+                                                        <label>Nhà đầu tư</label>
+                                                        <input
+                                                            type="text"
                                                             className="input-text"
-                                                            name="description"
-                                                            id="description"
-                                                            placeholder="Nhập nội dung bài đăng ở đây..."
-                                                            defaultValue={""}
+                                                            name="investor"
+                                                            id="investor"
+                                                            placeholder="Nhà đầu tư"
                                                             // onChange={this.onHandleChange}
                                                             required
                                                         />
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="main-title-2">
-                                                <h1>
-                                                    <span>Thông tin</span> liên hệ
-                                            </h1>
-                                            </div>
-                                            <div className="search-contents-sidebar mb-30">
-                                                <div className="row">
-                                                    <div className="col-md-6 col-sm-6">
-                                                        <div className="form-group">
-                                                            <label>Tên người liên hệ</label>
-                                                            <input
-                                                                type="text"
-                                                                className="input-text"
-                                                                name="contactname"
-                                                                id="contactname"
-                                                                placeholder="Tên người liên hệ"
-                                                                // onChange={this.onHandleChange}
-                                                                required
-                                                            />
+                                            <div className="row">
+                                                <div className="col-md-3 col-sm-6">
+                                                    <div className="form-group">
+                                                        <label>Trạng thái</label>
+                                                        <select className="form-control"
+                                                            name="status"
+                                                            id="status"
+                                                            // defaultValue={Status[0].value}
+                                                            onChange={this.onHandleChange}
+                                                        >
+                                                            <option style={{ display: "none" }}>---Chọn trạng thái---</option>
+                                                            {Status.map((status, index) => <option key={index} value={status.value}>{status.label}</option>)}
 
-                                                        </div>
+                                                        </select>
                                                     </div>
-                                                    <div className="col-md-6 col-sm-6">
-                                                        <div className="form-group">
-                                                            <label>Số điện thoại</label>
-                                                            <input
-                                                                type="text"
-                                                                className="input-text"
-                                                                name="contactphonenumber"
-                                                                id="contactphonenumber"
-                                                                placeholder="Số điện thoại"
-                                                                // onChange={this.onHandleChange}
-                                                                required
-                                                            />
-                                                        </div>
+                                                </div>
+                                                <div className="col-md-3 col-sm-6">
+                                                    <div className="form-group">
+                                                        <label>Loại</label>
+                                                        <select className="form-control"
+                                                            name="type"
+                                                            id="type"
+                                                        // defaultValue={Types[0].value}
+                                                        // onChange={this.onHandleChange}
+                                                        >
+                                                            <option style={{ display: "none" }}>---Chọn loại---</option>
+                                                            {Types.map((type, indexx) => <option key={indexx} value={type.value}>{type.label}</option>)}
+
+                                                        </select>
                                                     </div>
                                                 </div>
 
-                                                <div className="row">
-                                                    <div className="col-md-6 col-sm-6">
-                                                        <div className="form-group">
-                                                            <label>Địa chỉ email</label>
-                                                            <input
-                                                                type="text"
-                                                                className="input-text"
-                                                                name="contactemail"
-                                                                id="contactemail"
-                                                                placeholder="Email"
+
+                                                <div className="col-md-2 col-sm-6">
+                                                    <div className="form-group">
+                                                        <label>Giá</label>
+                                                        <input
+                                                            type="text"
+                                                            className="input-text"
+                                                            name="price"
+                                                            id="price"
+                                                            placeholder="Nhập giá bán"
                                                             // onChange={this.onHandleChange}
+                                                            required
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-2 col-sm-6">
+                                                    <div className="form-group">
+                                                        <label>Đơn vị</label>
+                                                        <select className="form-control"
+                                                            name="unit"
+                                                            id="unit"
+                                                            placeholder="Chọn đơn vị"
+                                                        // defaultValue={}
+                                                        >
+                                                            <option style={{ display: "none" }}>---Chọn đơn vị---</option>
+                                                            {this.state.units.map((single, indexx) => <option key={indexx} value={single.label}>{single.label}</option>)}
 
-                                                            />
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-2 col-sm-6">
+                                                    <div className="form-group">
+                                                        <label>Diện tích (m2)</label>
+                                                        <input
+                                                            type="text"
+                                                            className="input-text"
+                                                            name="area"
+                                                            id="area"
+                                                            placeholder="Diện tích"
+                                                            // onChange={this.onHandleChange}
+                                                            required
+                                                        />
+                                                    </div>
+                                                </div>
 
-                                                        </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-12 col-sm-12">
+                                                <div className="form-group">
+                                                    <Button variant="primary" style={{ display: "flex", alignContent: "center", justifyContent: "center", fontSize: "12px" }} onClick={this.onOpenCodeModal}>
+                                                        Nhấn vào đây để nhập mã số căn hộ/phòng
+                                                   </Button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="main-title-2">
+                                            <h1>
+                                                <span>Địa</span> chỉ
+                                            </h1>
+                                        </div>
+                                        <div className="row mb-30">
+                                            <div className="col-md-6">
+                                                <div className="form-group" style={{ marginBottom: '0px' }}>
+                                                    <label>Nhập số nhà/đường</label>
+                                                    <input
+                                                        type="text"
+                                                        className="input-text"
+                                                        name="street"
+                                                        id="street"
+                                                        placeholder="Nhập số nhà/đường"
+                                                        // onChange={this.onHandleChange}
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="col-md-6">
+                                                <div className="form-group" style={{ marginBottom: '0px' }}>
+                                                    <label>Chọn tỉnh</label>
+                                                    <select className="form-control"
+                                                        name="state"
+                                                        id="state"
+                                                        required
+                                                        onChange={this.onHandleChangeAddress}
+                                                        style={{ overflowY: "scroll" }}
+                                                    >
+                                                        {stateList.map((single, index) => <option key={index} value={single}>{single}</option>)}
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="row mb-30">
+                                            <div className="col-md-6">
+                                                <div className="form-group" style={{ marginBottom: '0px' }}>
+                                                    <label>Chọn thành phố</label>
+                                                    <select className="form-control"
+                                                        name="city"
+                                                        id="city"
+                                                        required
+                                                        onChange={this.onHandleChangeAddress}
+                                                        style={{ overflowY: "scroll" }}
+                                                    >
+                                                        {cityList.map((single, indexx) => <option key={indexx} value={single}>{single}</option>)}
+                                                        {/* {this.parseCityData(AddressData, document.getElementById('city').value)} */}
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div className="col-md-6">
+                                                <div className="form-group" style={{ marginBottom: '0px' }}>
+                                                    <label>Chọn xã/huyện</label>
+                                                    <select className="form-control"
+                                                        name="ward"
+                                                        id="ward"
+                                                        required
+                                                        onChange={this.onHandleChangeAddress}
+                                                    >
+                                                        {wardList.map((single, indexx) => <option key={indexx} value={single}>{single}</option>)}
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style={{ paddingBottom: '80px' }}>
+                                            <MapSearching
+                                                google={this.props.google}
+                                                center={{ lat: 10.7625626, lng: 106.6805316 }}
+                                                height='300px'
+                                                zoom={15}
+                                            />
+                                        </div>
+                                        <div className="main-title-2">
+                                            <h1>
+                                                <span>Thông tin</span> chi tiết
+                                            </h1>
+                                        </div>
+                                        <div className="row mb-30">
+                                            <div className="col-md-12">
+                                                <div className="form-group" style={{ marginBottom: '0px' }}>
+                                                    <label>Nội dung bài đăng</label>
+                                                    <textarea
+                                                        className="input-text"
+                                                        name="description"
+                                                        id="description"
+                                                        placeholder="Nhập nội dung bài đăng ở đây..."
+                                                        defaultValue={""}
+                                                        // onChange={this.onHandleChange}
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="main-title-2">
+                                            <h1>
+                                                <span>Thông tin</span> liên hệ
+                                            </h1>
+                                        </div>
+                                        <div className="search-contents-sidebar mb-30">
+                                            <div className="row">
+                                                <div className="col-md-6 col-sm-6">
+                                                    <div className="form-group">
+                                                        <label>Tên người liên hệ</label>
+                                                        <input
+                                                            type="text"
+                                                            className="input-text"
+                                                            name="contactname"
+                                                            id="contactname"
+                                                            placeholder="Tên người liên hệ"
+                                                            // onChange={this.onHandleChange}
+                                                            required
+                                                        />
+
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6 col-sm-6">
+                                                    <div className="form-group">
+                                                        <label>Số điện thoại</label>
+                                                        <input
+                                                            type="text"
+                                                            className="input-text"
+                                                            name="contactphonenumber"
+                                                            id="contactphonenumber"
+                                                            placeholder="Số điện thoại"
+                                                            // onChange={this.onHandleChange}
+                                                            required
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
-                                            {/* <div className="row">
+
+                                            <div className="row">
+                                                <div className="col-md-6 col-sm-6">
+                                                    <div className="form-group">
+                                                        <label>Địa chỉ email</label>
+                                                        <input
+                                                            type="text"
+                                                            className="input-text"
+                                                            name="contactemail"
+                                                            id="contactemail"
+                                                            placeholder="Email"
+                                                        // onChange={this.onHandleChange}
+
+                                                        />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* <div className="row">
                                             <div className="col-md-12">
                                                 <Button variant="info" style={{ float: "right", fontSize: '12px', marginTop: "0px" }} onClick={this.showWidget}>Đăng hình kèm theo</Button>
                                             </div>
                                         </div> */}
-                                            <div className="row">
-                                                <div className="clearfix">
-                                                    <div className="col-md-12 col-lg-12 col-xs-12">
-                                                        <div className="photoUpload">
-                                                            <Dropzone
-                                                                onDrop={this.handleUpload.bind(this)}
-                                                                multiple={true}
-                                                                accept="image/*">
-                                                                {({ getRootProps, getInputProps }) => {
-                                                                    return (
-                                                                        <div
-                                                                            {...getRootProps()}
-                                                                            style={{ border: "1px solid #95c41f", borderRadius: "5px", float: "right" }}
-                                                                        >
-                                                                            <input {...getInputProps()} />
-                                                                            {
-                                                                                <span style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "10px 20px 10px 20px" }}><i className="fa fa-upload" /> Tải ảnh lên</span>
-                                                                            }
-                                                                        </div>
-                                                                    )
-                                                                }}
-                                                            </Dropzone>
-                                                        </div>
+                                        <div className="row">
+                                            <div className="clearfix">
+                                                <div className="col-md-12 col-lg-12 col-xs-12">
+                                                    <div className="photoUpload">
+                                                        <Dropzone
+                                                            onDrop={this.handleUpload.bind(this)}
+                                                            multiple={true}
+                                                            accept="image/*">
+                                                            {({ getRootProps, getInputProps }) => {
+                                                                return (
+                                                                    <div
+                                                                        {...getRootProps()}
+                                                                        style={{ border: "1px solid #95c41f", borderRadius: "5px", float: "right" }}
+                                                                    >
+                                                                        <input {...getInputProps()} />
+                                                                        {
+                                                                            <span style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "10px 20px 10px 20px" }}><i className="fa fa-upload" /> Tải ảnh lên</span>
+                                                                        }
+                                                                    </div>
+                                                                )
+                                                            }}
+                                                        </Dropzone>
                                                     </div>
                                                 </div>
                                             </div>
-                                            {/* <div className="col-md-8 col-lag-8 col-xs-12"> */}
-                                            <div className="row">
-                                                {/* <div className="clearfix"> */}
-                                                {(this.state.previewList && this.state.previewList.length > 0) ? this.onShowImageBeforeUpload(this.state.previewList) : null}
-                                                {/* </div> */}
-                                            </div>
+                                        </div>
+                                        {/* <div className="col-md-8 col-lag-8 col-xs-12"> */}
+                                        <div className="row">
+                                            {/* <div className="clearfix"> */}
+                                            {(this.state.previewList && this.state.previewList.length > 0) ? this.onShowImageBeforeUpload(this.state.previewList) : null}
                                             {/* </div> */}
-                                            <br></br>
-                                            <div className="row">
-                                                <Button type="submit" variant="success" style={{ fontSize: "16px", padding: "15px 30px 15px 30px" }} onClick={this.onSubmit} className="btn button-md button-theme">
-                                                    Đăng bài
+                                        </div>
+                                        {/* </div> */}
+                                        <br></br>
+                                        <div className="row">
+                                            <Button type="submit" variant="success" style={{ fontSize: "16px", padding: "15px 30px 15px 30px" }} onClick={this.onSubmit} className="btn button-md button-theme" disabled={loading}>
+                                                {loading && (
+                                                    <i
+                                                        className="fa fa-refresh fa-spin"
+                                                        style={{ marginRight: "5px" }}
+                                                    />
+                                                )}
+                                                {loading && <span>Đang đăng bài...</span>}
+                                                {!loading && <span>Đăng bài</span>}
                                             </Button>
-                                            </div>
-                                        </form>
-                                    </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {
-                        /* Submit Property end */
-                    }
-                    <Footer />
-                    <Modal
-                        title="Nhập mã số"
-                        style={{ top: 20 }}
-                        visible={this.state.isShowCodeModal}
-                        onOk={this.onHandleOk}
-                        onCancel={this.onHandleCancelCodeModal}
-                        footer={[
-                            <Button key="back" onClick={this.onHandleCancelCodeModal}>
-                                Trở về
+                </div>
+                {
+                    /* Submit Property end */
+                }
+                <Footer />
+                <Modal
+                    title="Nhập mã số"
+                    style={{ top: 20 }}
+                    visible={this.state.isShowCodeModal}
+                    onOk={this.onHandleOk}
+                    onCancel={this.onHandleCancelCodeModal}
+                    footer={[
+                        <Button key="back" onClick={this.onHandleCancelCodeModal}>
+                            Trở về
                         </Button>,
-                            <Button key="submit" type="primary" onClick={this.onHandleOk}>
-                                Chấp nhận
+                        <Button key="submit" type="primary" onClick={this.onHandleOk}>
+                            Chấp nhận
                         </Button>,
-                        ]}
+                    ]}
+                >
+                    <div className="input-tag"
+                        style={{
+                            background: "white",
+                            border: "1px solid #d6d6d6",
+                            borderRadius: "2px",
+                            display: "flex",
+                            flexWrap: "wrap",
+                            padding: "5px 5px 0"
+                        }}
                     >
-                        <div className="input-tag"
+                        <ul
+                            className="input-tag__tags"
                             style={{
-                                background: "white",
-                                border: "1px solid #d6d6d6",
-                                borderRadius: "2px",
-                                display: "flex",
+                                display: "inline-flex",
                                 flexWrap: "wrap",
-                                padding: "5px 5px 0"
+                                margin: "0",
+                                padding: "0",
+                                width: "100%"
                             }}
                         >
-                            <ul
-                                className="input-tag__tags"
-                                style={{
-                                    display: "inline-flex",
-                                    flexWrap: "wrap",
-                                    margin: "0",
-                                    padding: "0",
-                                    width: "100%"
-                                }}
-                            >
-                                {tags.map((tag, i) => (
-                                    <li
-                                        key={tag}
-                                        style={{
-                                            alignItems: "center",
-                                            background: "#85A3BF",
-                                            borderRadius: "2px",
-                                            color: "white",
-                                            display: "flex",
-                                            fontWeight: "300",
-                                            listStyle: "none",
-                                            marginBottom: "5px",
-                                            marginRight: "5px",
-                                            padding: "5px 10px"
-                                        }}
-                                    >
-                                        {tag}
-                                        <button
-                                            type="button"
-                                            onClick={() => { this.removeTag(i); }}
-                                            style={{
-                                                alignItems: "center",
-                                                appearance: "none",
-                                                background: "#333333",
-                                                border: "none",
-                                                borderRadius: "50%",
-                                                color: "white",
-                                                cursor: "pointer",
-                                                display: "inline-flex",
-                                                fontSize: "12px",
-                                                height: "15px",
-                                                justifyContent: "center",
-                                                lineHeight: "0",
-                                                marginLeft: "8px",
-                                                transform: "rotate(45deg)",
-                                                width: "15px"
-                                            }}
-                                        >
-                                            +
-                            </button>
-                                    </li>
-                                ))}
+                            {tags.map((tag, i) => (
                                 <li
-                                    className="input-tag__tags__input"
+                                    key={tag}
                                     style={{
-                                        background: "none",
-                                        flexGrow: "1",
-                                        padding: "0"
+                                        alignItems: "center",
+                                        background: "#85A3BF",
+                                        borderRadius: "2px",
+                                        color: "white",
+                                        display: "flex",
+                                        fontWeight: "300",
+                                        listStyle: "none",
+                                        marginBottom: "5px",
+                                        marginRight: "5px",
+                                        padding: "5px 10px"
                                     }}
                                 >
-                                    <input
-                                        type="text"
-                                        onKeyDown={this.inputKeyDown}
-                                        ref={c => { this.tagInput = c; }}
-                                        style={{ border: "none", width: "100%" }}
-                                    />
-
+                                    {tag}
+                                    <button
+                                        type="button"
+                                        onClick={() => { this.removeTag(i); }}
+                                        style={{
+                                            alignItems: "center",
+                                            appearance: "none",
+                                            background: "#333333",
+                                            border: "none",
+                                            borderRadius: "50%",
+                                            color: "white",
+                                            cursor: "pointer",
+                                            display: "inline-flex",
+                                            fontSize: "12px",
+                                            height: "15px",
+                                            justifyContent: "center",
+                                            lineHeight: "0",
+                                            marginLeft: "8px",
+                                            transform: "rotate(45deg)",
+                                            width: "15px"
+                                        }}
+                                    >
+                                        +
+                            </button>
                                 </li>
-                            </ul>
-                        </div>
-                    </Modal>
-                    <Modal visible={this.state.previewVisible} footer={null} onCancel={this.onHandleCancelImage} width="800px" style={{ height: "500px" }}>
-                        <img alt="example" src={this.state.previewImage} style={{ width: "750px", height: "500px" }} />
-                    </Modal>
-                </div>
-            </Spin>
+                            ))}
+                            <li
+                                className="input-tag__tags__input"
+                                style={{
+                                    background: "none",
+                                    flexGrow: "1",
+                                    padding: "0"
+                                }}
+                            >
+                                <input
+                                    type="text"
+                                    onKeyDown={this.inputKeyDown}
+                                    ref={c => { this.tagInput = c; }}
+                                    style={{ border: "none", width: "100%" }}
+                                />
+
+                            </li>
+                        </ul>
+                    </div>
+                </Modal>
+                <Modal visible={this.state.previewVisible} footer={null} onCancel={this.onHandleCancelImage} width="800px" style={{ height: "500px" }}>
+                    <img alt="example" src={this.state.previewImage} style={{ width: "750px", height: "500px" }} />
+                </Modal>
+            </div>
         );
     }
 }

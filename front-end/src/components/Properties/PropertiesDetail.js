@@ -260,7 +260,7 @@ class PropertiesDetail extends Component {
         if (Number(value) <= Number(this.props.info.price))
             callback()
         else if (Number(value) > Number(this.props.info.price))
-            callback(`Số tiền bạn nhập phải nhỏ hơn giá trị của bất động sản (${this.props.info.price} triệu đồng)!`)
+            callback(`Số tiền bạn nhập phải nhỏ hơn giá trị của bất động sản (${this.props.info.price} ${this.props.info.unit})!`)
     }
 
     handleSubmit = e => {
@@ -314,9 +314,9 @@ class PropertiesDetail extends Component {
                         </div>
                         <div className="pull-right">
                             <h3>
-                                <span>{info.price}</span>
+                                <span>{info.price >= 1000 ? Number((info.price / 1000).toFixed(1)) : info.price}</span>
                             </h3>
-                            <h5>Tỷ</h5>
+                            <h5>{(info.statusProject === 1 && info.price >= 1000) ? 'Tỉ' : info.unit}</h5>
                         </div>
                     </div>
                     {/* Properties detail slider start */}
@@ -384,7 +384,7 @@ class PropertiesDetail extends Component {
                                                     <span>Mô tả chi tiết</span>
                                                 </h1>
                                             </div>
-                                            <p>{info.info}</p>
+                                            <p>{<div dangerouslySetInnerHTML={{__html: info.info}} ></div>}</p>
                                             <br />
                                         </div>
                                         <div className="tab-pane fade features" id="tab2default">
@@ -599,7 +599,7 @@ class PropertiesDetail extends Component {
                     <Form onSubmit={this.handleSubmit}>
                         <div className="row">
                             <div className="col-md-12 col-lg-12 col-xs-12">
-                                <Form.Item label="Nhập mức giá mong muốn (đơn vị: triệu đồng): ">
+                                <Form.Item label={`Nhập mức giá mong muốn (đơn vị: ${info.unit})`}>
                                     {getFieldDecorator('offerPrice', {
                                         // trigger: 'onBlur',
                                         rules: [
