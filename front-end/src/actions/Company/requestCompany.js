@@ -4,18 +4,26 @@ import axios from 'axios'
 import { authCompany } from "../../constants/Company/authCompany";
 import * as config from '../../constants/Config'
 import * as actionAuth from '../auth'
+import { message } from 'antd';
 export const actGetInfoUserCompany = (id) => {
   return dispatch => {
     // return console.log("Company")
     return axios
-      .get(`${config.API_URL}/company/info/${id}`)
+      .get(`${config.API_URL}/company/infoprivate`, { headers: authCompany() })
       .then(res => {
         console.log(res.data);
+        dispatch(actionAuth.actCheckAuth(true))
         dispatch(action.actSaveInfoUserCompany(res.data.company));
         dispatch(action.actSaveListEmployees(res.data.company.employees))
       })
       .catch(err => {
-        console.log(err.response)
+        if (err.response.data.status === 401) {
+          localStorage.removeItem('company')
+          dispatch(actionAuth.actCheckAuth(false))
+        }
+        else {
+          message.error('Lỗi, không lấy được dữ liệu!')
+        }
       })
   };
 }
@@ -32,7 +40,7 @@ export const reqGetInfoEmployee = (id, page) => {
       })
       .catch(err => {
         console.log(err.response)
-        if(err.response.data.status === 401){
+        if (err.response.data.status === 401) {
           localStorage.removeItem('company')
           dispatch(actionAuth.actCheckAuth(false))
         }
