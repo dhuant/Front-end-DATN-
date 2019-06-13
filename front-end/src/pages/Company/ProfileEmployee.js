@@ -453,20 +453,20 @@ class ProfileEmployee extends Component {
                 <Button
                     type="primary"
                     style={{ margin: '5px 0 5px 0' }}
-                    disabled
+                    disabled={this.state.disable}
+                    onClick={this.onCheckAuthEdit}
                 >
                     Chỉnh sửa tài khoản
             </Button>
 
             let verify = <Tag style={{ fontSize: '13px' }} color='red'>Chưa kích hoạt</Tag>
             if (info.verify === true) {
-                verify = <Tag style={{ fontSize: '13px' }} color='green'>Chưa kích hoạt</Tag>
+                verify = <Tag style={{ fontSize: '13px' }} color='geekblue'>Đã kích hoạt</Tag>
                 btn =
                     <Button
                         type="primary"
                         style={{ margin: '5px 0 5px 0' }}
-                        disabled={this.state.disable}
-                        onClick={this.onCheckAuthEdit}
+                        disabled
                     >
                         Chỉnh sửa tài khoản
                 </Button>
