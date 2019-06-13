@@ -26,7 +26,7 @@ class AddAccount extends Component {
         e.preventDefault();
         this.props.history.push('/company/profile-admin')
     }
-    
+
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -57,8 +57,17 @@ class AddAccount extends Component {
                                 this.props.history.push('/company/profile-admin')
                             })
                             .catch(err => {
-                                console.log(err)
-                                message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                if (err.data.status === 409) {
+                                    message.error('Email đã tồn tại')
+                                }
+                                else if (err.data.status === 401) {
+                                    localStorage.removeItem('company')
+                                    message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
+                                    this.props.history.push('/company/login')
+                                }
+                                else {
+                                    message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                }
                                 this.setState({
                                     disable: false,
                                 })
@@ -66,7 +75,7 @@ class AddAccount extends Component {
                     });
 
             }
-            else{
+            else {
                 this.setState({
                     disable: false,
                 })
