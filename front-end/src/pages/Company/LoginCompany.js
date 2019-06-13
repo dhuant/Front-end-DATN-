@@ -5,15 +5,17 @@ import axios from 'axios';
 import * as Config from '../../constants/Config'
 import { withRouter } from 'react-router-dom';
 import * as actions from '../../actions/Company/requestCompany';
+import * as actionAuth from '../../actions/auth'
 import { connect } from 'react-redux';
-import { message } from 'antd'
+import { message, Modal } from 'antd'
 //=== tai khoan
 // thaodien@gmail.com
 // 5yPQAn
 //===
 class Login extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        this.props.actCheckAuth('')
         this.state = {
             email: '',
             password: '',
@@ -27,6 +29,7 @@ class Login extends Component {
         if(localStorage.getItem('company')){
             this.props.history.push('/company/profile-admin')
         }
+        
     }
     logout = () => {
         this.setState({
@@ -68,6 +71,7 @@ class Login extends Component {
                     message.success("Đăng nhập thành công");
                     console.log(res);
                     localStorage.setItem('company', JSON.stringify(res.data));
+                    this.props.actCheckAuth(true)
                     this.props.history.push(`/company/profile-admin`);
                 }
 
@@ -79,7 +83,7 @@ class Login extends Component {
             });
     }
     render() {
-
+        Modal.destroyAll()
         return (
             <div className="content-area" style={{ backgroundColor: 'lightgray' }}>
                 <div className="container">
@@ -167,6 +171,7 @@ class Login extends Component {
 const mapDispathToProp = (dispatch) => {
     return {
         // actGetInfoUserCompany: () => dispatch(actions.actGetInfoUserCompany()),
+        actCheckAuth: (isAuth) => dispatch(actionAuth.actCheckAuth(isAuth))
     }
 }
 const mapStateToProp = (state) => {
