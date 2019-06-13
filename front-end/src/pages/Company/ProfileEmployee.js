@@ -4,7 +4,7 @@ import * as actions from '../../actions/Company/requestCompany';
 import { message, Button, Modal, Form, Input, Select, Tag, Spin, Alert } from 'antd'
 import { adminService } from '../../actions/Company/admin.service'
 import { connect } from 'react-redux';
-import moment from 'moment'
+// import moment from 'moment'
 import { withRouter } from 'react-router-dom'
 import * as actionAuth from '../../actions/auth'
 
@@ -31,6 +31,116 @@ class ProfileEmployee extends Component {
         }
         else if (auth === true) {
             this.showModal()
+        }
+    }
+    onCheckAuthPermission = async () => {
+        await this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page)
+        let auth = this.props.auth;
+        if (auth === false) {
+            // message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
+            this.props.history.push('/company/login')
+        }
+        else if (auth === true) {
+            this.showConfirmChangePermission()
+        }
+    }
+    showConfirmChangePermission = () => {
+        let changePermission = !this.props.info.permission;
+
+        // console.log(changeLock)
+        if (changePermission === true) {
+            confirm({
+                title: 'Bạn có chắc chắn muốn cho phép nhân viên này đăng bài mà không cần kiểm duyệt?',
+                onOk: () => {
+                    this.setState({
+                        disable: true
+                    })
+                    let data = {
+                        permission: changePermission,
+                        id: this.props.match.params.id
+                    }
+                    console.log(data)
+                    message.loading('Đang xử lý yêu cầu, vui lòng chờ trong giây lát', 2.5)
+                        .then(() => {
+                            adminService.changePermissionEmployee(data)
+                                .then(res => {
+                                    if (res.status === 200) {
+                                        message.success('Thay đổi trạng thái thành công');
+                                    }
+                                    this.setState({
+                                        disable: false
+                                    })
+                                    // req.push('/company/profile-admin')
+                                    this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page)
+                                })
+                                .catch(err => {
+                                    if (err.data.status === 401) {
+                                        localStorage.removeItem('company')
+                                        message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
+                                        this.props.history.push('/company/login')
+                                    }
+                                    else {
+                                        message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                        this.setState({
+                                            disable: false,
+                                        })
+                                    }
+                                })
+                        });
+                    console.log('Ok');
+                    console.log(this.state.disable)
+                },
+                onCancel() {
+                    console.log('Cancel');
+                },
+            });
+        }
+        else {
+            confirm({
+                title: 'Bạn có chắc chắn muốn kiểm duyệt mỗi khi nhân viên này đăng bài?',
+                onOk: () => {
+                    this.setState({
+                        disable: true
+                    })
+                    let data = {
+                        permission: changePermission,
+                        id: this.props.match.params.id
+                    }
+                    console.log(data)
+                    message.loading('Đang xử lý yêu cầu, vui lòng chờ trong giây lát', 2.5)
+                        .then(() => {
+                            adminService.changePermissionEmployee(data)
+                                .then(res => {
+                                    if (res.status === 200) {
+                                        message.success('Thay đổi trạng thái thành công');
+                                    }
+                                    this.setState({
+                                        disable: false
+                                    })
+                                    this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page);
+                                    // req.push('/company/profile-admin')
+                                })
+                                .catch(err => {
+                                    if (err.data.status === 401) {
+                                        localStorage.removeItem('company')
+                                        message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
+                                        this.props.history.push('/company/login')
+                                    }
+                                    else {
+                                        message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                        this.setState({
+                                            disable: false,
+                                        })
+                                    }
+                                })
+                        });
+                    console.log(this.state.disable)
+
+                },
+                onCancel() {
+                    console.log('Cancel');
+                },
+            });
         }
     }
     showModal = () => {
@@ -99,7 +209,17 @@ class ProfileEmployee extends Component {
                                     this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page)
                                 })
                                 .catch(err => {
-                                    message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                    if (err.data.status === 401) {
+                                        localStorage.removeItem('company')
+                                        message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
+                                        this.props.history.push('/company/login')
+                                    }
+                                    else {
+                                        message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                        this.setState({
+                                            disable: false,
+                                        })
+                                    }
                                 })
                         });
                     console.log('Ok');
@@ -136,8 +256,17 @@ class ProfileEmployee extends Component {
                                     // req.push('/company/profile-admin')
                                 })
                                 .catch(err => {
-
-                                    message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                    if (err.data.status === 401) {
+                                        localStorage.removeItem('company')
+                                        message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
+                                        this.props.history.push('/company/login')
+                                    }
+                                    else {
+                                        message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                        this.setState({
+                                            disable: false,
+                                        })
+                                    }
                                 })
                         });
                     console.log(this.state.disable)
@@ -297,19 +426,7 @@ class ProfileEmployee extends Component {
             let listProjects = '';
             console.log(info);
             console.log(projects);
-            // if (projects.length > 0) {
-            // 	// if (option === '1') {
-            // 	// 	agents = agents.sort((a, b) => (a.price - b.price))
-            // 	// }
-            // 	// else if(option === '2'){
-            // 	// 	agents = agents.sort((a, b) => (b.price - a.price))
-            // 	// }
-            // 	// else if(option === '3') {
-            // 	// 	agents = agents.sort((a, b) => (a.area - b.area))
-            // 	// }
-            // 	// else if(option === '4') {
-            // 	// 	agents = agents.sort((a, b) => (b.area - a.area))
-            // 	// }
+
             // 	des = `Hiện đang có ${projects.length} bài đăng`
             // 	listProjects = projects.map((project, index) => {
             // 		return (
@@ -336,9 +453,7 @@ class ProfileEmployee extends Component {
                 <Button
                     type="primary"
                     style={{ margin: '5px 0 5px 0' }}
-                    // htmlType="submit"
                     disabled
-                // onClick={this.showModal}
                 >
                     Chỉnh sửa tài khoản
             </Button>
@@ -350,7 +465,6 @@ class ProfileEmployee extends Component {
                     <Button
                         type="primary"
                         style={{ margin: '5px 0 5px 0' }}
-                        // htmlType="submit"
                         disabled={this.state.disable}
                         onClick={this.onCheckAuthEdit}
                     >
@@ -361,6 +475,31 @@ class ProfileEmployee extends Component {
             if (info.lock === false) {
                 lock = <Tag style={{ fontSize: '13px' }} color='green'>Tài khoản được phép sử dụng</Tag>
                 statusButton = 'Khóa tài khoản'
+            }
+            let btnPer =
+                <Button
+                    type="default"
+                    style={{ margin: '5px 0 5px 0', width: '157px', height:'52px', backgroundColor:'lightgreen' }}
+                    disabled={this.state.disable}
+                    onClick={this.onCheckAuthPermission}
+                >
+                    <p style={{whiteSpace: ' pre-line', color:'brown'}}>
+                    Phải kiểm duyệt bài đăng
+                    </p>
+                </Button>
+            if (info.permission === false) {
+                btnPer =
+                    <Button
+                        type="default"
+                        style={{ margin: '5px 0 5px 0', width: '157px', height:'52px', backgroundColor:'lightgreen' }}
+                        disabled={this.state.disable}
+                        onClick={this.onCheckAuthPermission}
+                    >
+                        <p style={{whiteSpace: ' pre-line', color:'brown'}}>
+                            Cho phép đăng
+                        bài không cần duyệt
+                        </p>
+                </Button>
             }
             return (
                 <div>
@@ -443,6 +582,9 @@ class ProfileEmployee extends Component {
                                                 <div>
                                                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                                                     >
+                                                        <div>
+                                                            {btnPer}
+                                                        </div>
                                                         <div>
                                                             {btn}
                                                         </div>
