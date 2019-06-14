@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import HeaderCompany from '../../components/Company/HeaderCompany';
 import * as actions from '../../actions/Company/requestCompany';
-import { message, Button, Modal, Form, Input, Select, Tag, Spin, Alert } from 'antd'
+import { message, Button, Modal, Form, Input, Select, Tag, Spin } from 'antd'
 import { adminService } from '../../actions/Company/admin.service'
 import { connect } from 'react-redux';
 // import moment from 'moment'
@@ -449,7 +449,7 @@ class ProfileEmployee extends Component {
             if (projects.length > 0) {
                 des = `Có ${projects.length} bài đăng`
             }
-            let listProjects = '';
+            // let listProjects = '';
             console.log(info);
             console.log(projects);
 

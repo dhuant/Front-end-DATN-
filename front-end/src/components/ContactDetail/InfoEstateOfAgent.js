@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import {Tag} from 'antd'
+import moment from 'moment'
 
 class InfoEstateOfAgent extends Component {
 
@@ -11,7 +13,7 @@ class InfoEstateOfAgent extends Component {
             <Link to={url}>
                 <div>
                     <div className="property clearfix wow fadeInUp delay-03s" style={{ visibility: 'visible', animationName: 'fadeInUp' }}>
-                        <div className="col-lg-5 col-md-5 col-sm-5 col-xs-12 col-pad">
+                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 col-pad">
                             {/* Property img */}
                             <div className="property-img">
                                 {/* <div className="property-tag button alt featured">Featured</div>
@@ -23,12 +25,20 @@ class InfoEstateOfAgent extends Component {
                                 </div> */}
                             </div>
                         </div>
-                        <div className="col-lg-7 col-md-7 col-sm-7 col-xs-12 property-content ">
+                        <div className="col-lg-8 col-md-8 col-sm-8 col-xs-12 property-content ">
                             {/* title */}
-                            <h1 className="title">
+                            <h2 className="title" style={{marginTop:'8px', fontSize:'17px'}}>
                                 <a href="true">{project.name}</a>
-                            </h1>
-                            <p>{project.info}</p>
+                            </h2>
+                            <p style={{
+                                width: '100%',
+                                overflow: 'hidden',
+                                textOverflow: "ellipsis",
+                                lineHeight: '16px',
+                                WebkitLineClamp: '2',
+                                display:'webkit-box',
+                                WebkitBoxOrient: 'vertical',
+                                height:'32px'}}>{project.info}</p>
                             {/* Property address */}
                             <h6 style={{ fontSize: '13px' }}>
                                 <b>Địa chỉ:</b> {project.address}
@@ -43,13 +53,14 @@ class InfoEstateOfAgent extends Component {
                                     <a href="true"><i className="fa fa-user" />{project.fullname}</a>
                                 </span>
                                 <span className="right">
-                                    <i className="fa fa-calendar" />5 Days ago
+                                <Tag style={{ fontSize: '13px' }} color='green'>
+                                    <p style={{ fontSize: '13px',margin:'auto', color:'green', textAlign: 'center'}}><strong>Đăng ngày:</strong>{moment.unix(project.updateTime).format('DD/MM/YYYY')}</p></Tag>
                             </span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </Link>
+            </Link> 
         );
     }
 }

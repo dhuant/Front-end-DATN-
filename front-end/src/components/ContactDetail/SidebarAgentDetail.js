@@ -6,37 +6,13 @@ class SidebarAgentDetail extends Component {
             <div>
                 <div className="sidebar">
                     <div className="sidebar-widget contact-1">
-                        <div className="main-title-2">
-                            <h1><span>Contact</span> Agent</h1>
-                        </div>
-                        <div className="contact-form">
-                            <form id="agent_form" action="http://themevessel-item.s3-website-us-east-1.amazonaws.com/nest/index.html" method="GET" encType="multipart/form-data">
-                                <div className="row">
-                                    <div className="col-lg-12">
-                                        <div className="form-group your-name">
-                                            <input type="email" name="name" className="input-text" placeholder="Your Name" />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-12">
-                                        <div className="form-group your-email">
-                                            <input type="email" name="email" className="input-text" placeholder="Your Email" />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-12">
-                                        <div className="form-group your-phone">
-                                            <input type="text" name="phone" className="input-text" placeholder="Your Phone" />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-12">
-                                        <div className="form-group message">
-                                            <textarea className="input-text" name="message" placeholder=" Message" defaultValue={""} />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-12">
-                                        <button type="submit" className="button-md button-theme btn-block">Send Message</button>
-                                    </div>
-                                </div>
-                            </form>
+                        <div style={{ width: '100%' }}>
+                            <a href="https://thegrandmanhattan.com.vn/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <img style={{ width: '100%' }} src='/images/grand.jpg' alt="Ads" />
+                            </a>
                         </div>
                     </div>
                     {/* Popular posts start */}
