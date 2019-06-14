@@ -60,7 +60,12 @@ class ChangePasswordCompany extends Component {
                                 this.props.history.push('/company/profile-admin')
                             })
                             .catch(err => {
-                                message.error('Đổi mật khẩu thất bại. Mời bạn vui lòng thử lại')
+                                if(err){
+                                    message.error('Đổi mật khẩu thất bại. Mời bạn vui lòng thử lại!')
+                                }
+                                else{
+                                    message.error('Lỗi. Phiền bạn kiểm tra lại đường truyền!')
+                                }
                                 this.setState({
                                     disable: false
                                 })

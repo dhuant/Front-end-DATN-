@@ -57,16 +57,21 @@ class AddAccount extends Component {
                                 this.props.history.push('/company/list-employees')
                             })
                             .catch(err => {
-                                if (err.data.status === 409) {
-                                    message.error('Email đã tồn tại')
+                                if(err){
+                                    if (err.data.status === 409) {
+                                        message.error('Email đã tồn tại')
+                                    }
+                                    else if (err.data.status === 401) {
+                                        localStorage.removeItem('company')
+                                        message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
+                                        this.props.history.push('/company/login')
+                                    }
+                                    else {
+                                        message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                    }
                                 }
-                                else if (err.data.status === 401) {
-                                    localStorage.removeItem('company')
-                                    message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
-                                    this.props.history.push('/company/login')
-                                }
-                                else {
-                                    message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                else{
+                                    message.error('Lỗi. Phiền bạn kiểm tra lại đường truyền!')
                                 }
                                 this.setState({
                                     disable: false,

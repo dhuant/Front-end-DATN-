@@ -53,7 +53,18 @@ class ForgotPasswordCompany extends Component {
                                 this.props.history.push('/company/login')
                             })
                             .catch(err => {
-                                message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                if(err){
+                                    if(err.data.status === 404){
+                                        message.error('Tài khoản của bạn chưa xác thực hoặc bị khóa')
+                                    }
+                                    else{
+                                        message.error('Lỗi. Phiền bạn kiểm tra lại')
+                                    }
+                                }
+                                else{
+                                    message.error('Lỗi. Phiền bạn kiểm tra lại đường truyền')
+                                }
+                                
                                 this.setState({
                                     disable: false,
                                 })
@@ -130,7 +141,7 @@ class ForgotPasswordCompany extends Component {
                                                 <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit" disabled={this.state.disable}>
                                                     Gửi email
                                                 </Button>
-                                                <Button type="danger" onClick={this.onCancel}>
+                                                <Button type="danger" disabled={this.state.disable} onClick={this.onCancel}>
                                                     Hủy
                                                 </Button>
                                             </Form.Item>
