@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
+import { Tag } from 'antd'
+import moment from 'moment'
 class Company extends Component {
     render() {
         let { company } = this.props;
@@ -50,12 +52,12 @@ class Company extends Component {
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         {/* Agent box 2start */}
                         <div className="agent-2 clearfix">
-                            <div className="col-lg-3 col-md-3 col-sm-4 agent-theme-2">
+                            <div className="col-lg-3 col-md-3 col-sm-3 agent-theme-2">
                                 <img src={company.avatar} alt="team-2" className="img-responsive" />
                                 {/* social list */}
 
                             </div>
-                            <div className="col-lg-9 col-md-9 col-sm-9 agent-content">
+                            <div className="col-lg-6 col-md-6 col-sm-6 agent-content">
                                 <h3>
                                     {company.companyname}
                                 </h3>
@@ -68,6 +70,15 @@ class Company extends Component {
                                     {mobile}
 
                                 </ul>
+                            </div>
+                            <div className="col-lg-3 col-md-3 col-sm-3 " style={{
+                                                    height: '230px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center'
+                                                }}>
+                                <Tag style={{ fontSize: '13px' }} color='green'>
+                                    <p style={{whiteSpace: ' pre-line', color:'green', textAlign: 'center'}}><strong>Ngày tham gia:</strong>{moment.unix(company.createTime).format('DD/MM/YYYY')}</p></Tag>
                             </div>
                         </div>
                         {/* Agent box 2 end */}

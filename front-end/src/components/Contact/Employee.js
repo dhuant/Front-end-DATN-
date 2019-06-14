@@ -59,7 +59,9 @@ class Employee extends Component {
                                         <strong>Email:</strong> {employee.email}
                                     </li>
                                     {mobile}
-                                    {company}
+                                    <li>
+                                        <strong>Số bài đăng:</strong> {employee.totalProject}
+                                    </li>
                                 </ul>
                             </div>
                         </div>
