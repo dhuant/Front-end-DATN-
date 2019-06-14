@@ -74,17 +74,24 @@ class ProfileEmployee extends Component {
                                     this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page)
                                 })
                                 .catch(err => {
-                                    if (err.data.status === 401) {
-                                        localStorage.removeItem('company')
-                                        message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
-                                        this.props.history.push('/company/login')
+                                    if(err){
+                                        if (err.data.status === 401) {
+                                            localStorage.removeItem('company')
+                                            message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
+                                            this.props.history.push('/company/login')
+                                        }
+                                        else {
+                                            message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                        }
                                     }
-                                    else {
-                                        message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
-                                        this.setState({
-                                            disable: false,
-                                        })
+                                    else{
+                                        message.error('Lỗi. Phiền bạn kiểm tra lại đường truyền!')
+                                        
                                     }
+                                    this.setState({
+                                        disable: false,
+                                    })
+                                    
                                 })
                         });
                     console.log('Ok');
@@ -121,17 +128,23 @@ class ProfileEmployee extends Component {
                                     // req.push('/company/profile-admin')
                                 })
                                 .catch(err => {
-                                    if (err.data.status === 401) {
-                                        localStorage.removeItem('company')
-                                        message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
-                                        this.props.history.push('/company/login')
+                                    if(err){
+                                        if (err.data.status === 401) {
+                                            localStorage.removeItem('company')
+                                            message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
+                                            this.props.history.push('/company/login')
+                                        }
+                                        else {
+                                            message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                        }
                                     }
-                                    else {
-                                        message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
-                                        this.setState({
-                                            disable: false,
-                                        })
+                                    else{
+                                        message.error('Lỗi. Phiền bạn kiểm tra lại đường truyền!')
                                     }
+                                    this.setState({
+                                        disable: false,
+                                    })
+                                    
                                 })
                         });
                     console.log(this.state.disable)
@@ -209,17 +222,25 @@ class ProfileEmployee extends Component {
                                     this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page)
                                 })
                                 .catch(err => {
-                                    if (err.data.status === 401) {
-                                        localStorage.removeItem('company')
-                                        message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
-                                        this.props.history.push('/company/login')
+                                    if(err){
+                                        if (err.data.status === 401) {
+                                            localStorage.removeItem('company')
+                                            message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
+                                            this.props.history.push('/company/login')
+                                        }
+                                        else {
+                                            message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                            
+                                        }
                                     }
-                                    else {
-                                        message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
-                                        this.setState({
-                                            disable: false,
-                                        })
+                                    else{
+                                        message.error('Lỗi. Phiền bạn kiểm tra lại đường truyền!')
+
                                     }
+                                    this.setState({
+                                        disable: false,
+                                    })
+                                    
                                 })
                         });
                     console.log('Ok');
@@ -256,17 +277,22 @@ class ProfileEmployee extends Component {
                                     // req.push('/company/profile-admin')
                                 })
                                 .catch(err => {
-                                    if (err.data.status === 401) {
-                                        localStorage.removeItem('company')
-                                        message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
-                                        this.props.history.push('/company/login')
+                                    if(err){
+                                        if (err.data.status === 401) {
+                                            localStorage.removeItem('company')
+                                            message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại!')
+                                            this.props.history.push('/company/login')
+                                        }
+                                        else {
+                                            message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại!')
+                                        }
                                     }
-                                    else {
-                                        message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
-                                        this.setState({
-                                            disable: false,
-                                        })
+                                    else{
+                                        message.error('Lỗi. Phiền bạn kiểm tra lại đường truyền!')
                                     }
+                                    this.setState({
+                                        disable: false,
+                                    })
                                 })
                         });
                     console.log(this.state.disable)
