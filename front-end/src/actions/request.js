@@ -28,8 +28,19 @@ export const actSearchMapRequest = info => {
         dispatch(actMap.actSearchMap(res.data.projects));
       })
       .catch(error => {
-        dispatch(actMap.actSearchMap([]));
-        console.log("Khong co du lieu");
+        if (error.response) {
+          if (error.response.data.status === 404) {
+            dispatch(actMap.actSearchMap([]));
+            message.warning('Không có bất động sản quanh khu vực này')
+          }
+          else{
+            message.error('Có lỗi xảy ra!')
+          }
+        }
+        else{
+          message.error('Có lỗi xảy ra. Vui lòng kiểm tra lại đường truyền hoặc lỗi do server!')
+        }
+        
       })
   }
 }
