@@ -1,4 +1,5 @@
 import * as Action from "./index";
+import * as actSearch from './searchEstate'
 import * as actMap from "./map"
 import callApi from "./../utils/apiCaller";
 import { authHeader } from "../constants/authHeader";
@@ -281,6 +282,27 @@ export const actDeleteCommentRequest = (id, data) => {
       })
       .catch(err => {
         message.error("Có lỗi xảy ra!")
+      })
+  }
+}
+
+export const reqSearchEstate = (data) => {
+  return dispatch => {
+    axios.post(`http://localhost:3001/projects/searchprojects`,data)
+      .then(res => {
+        if (res.data.status === 200) {
+          console.log(res)
+          dispatch(actSearch.actSearchEstate(res.data.projects))
+        }
+      })
+      .catch(err => {
+        if(err){
+          message.warning('Không có bất động sản bạn cần tìm')
+          dispatch(actSearch.actSearchEstate([]))
+        }
+        else{
+          message.error('Lỗi, vui lòng kiểm tra lại đường truyền!')
+        }
       })
   }
 }

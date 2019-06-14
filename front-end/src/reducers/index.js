@@ -11,6 +11,7 @@ import estatesListOfUser from './estatesListOfUser'
 import follow from './follow'
 import totalPage from './totalPage'
 import auth from './auth'
+import searchEstate from './searchEstate'
 //=====company
 import userCompany from './Company/userCompany'
 import employees from './Company/employees'
@@ -40,6 +41,7 @@ const appReducers = combineReducers({
     follow,
     totalPage,
     auth,
+    searchEstate,
     // company
     userCompany,
     employees,

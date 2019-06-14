@@ -1,0 +1,1 @@
+export const SEARCH_ESTATE = 'SEARCH_ESTATE'
