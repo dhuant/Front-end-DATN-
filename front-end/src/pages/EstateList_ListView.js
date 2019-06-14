@@ -61,7 +61,7 @@ const Price = {
         { value: '3-5', label: '3-5 triệu' }
     ],
 };
-export class EstateListListView extends Component {
+class EstateListListView extends Component {
     constructor(props) {
         super(props);
         this.state = {

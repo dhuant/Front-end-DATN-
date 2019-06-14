@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter, Switch, Route, } from 'react-router-dom';
 import Login from './pages/Login';
 import Login2 from './pages/Login2';
-// import Home from './pages/Home';
+import Home from './pages/Home';
 import SubmitProperty from './pages/SubmitProperty'
 import Map from './pages/Map'
 import Profile from './pages/Profile'
