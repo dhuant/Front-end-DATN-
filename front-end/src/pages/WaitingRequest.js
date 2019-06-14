@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 import SingleWaiting from '../components/Profile/SingleWaiting'
 import * as actions from '../actions/request'
 import * as transActions from '../actions/transactionRequest'
-import { Button } from 'antd'
+// import { Button } from 'antd'
 
 class WaitingRequest extends Component {
     constructor(props) {
@@ -94,19 +94,23 @@ class WaitingRequest extends Component {
         )
     }
     ShowWaitingRequestList = (waiting, estateDetail) => {
-        var result = null;
-        if (waiting.requests === undefined) {
-            result = (<tr><td>Danh sách yêu cầu hiện đang trống!</td></tr>)
-        }
-        else if (waiting.requests && waiting.requests.length > 0) {
-            result = waiting.requests.map((single, index) => {
-                return (
-                    <SingleWaiting key={index} waitingRequestSingle={single} waitingList={waiting} codelist={estateDetail.codelist} unit={estateDetail.unit}/>
-                );
-            });
-        }
+        if (estateDetail._id !== undefined) {
+            console.log(estateDetail)
+            var result = null;
+            if (waiting.requests === undefined) {
+                result = (<tr><td>Danh sách yêu cầu hiện đang trống!</td></tr>)
+            }
+            else if (waiting.requests && waiting.requests.length > 0) {
+                result = waiting.requests.map((single, index) => {
+                    return (
+                        <SingleWaiting key={index} waitingRequestSingle={single} waitingList={waiting} codelist={estateDetail.codelist} unit={estateDetail.unit} />
+                    );
+                });
+            }
 
-        return result;
+            return result;
+        }
+        return null
     }
 }
 

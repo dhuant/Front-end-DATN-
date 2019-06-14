@@ -1,5 +1,6 @@
+/* eslint-disable */
 import React, { Component } from 'react'
-import { Button, message, Form, Icon, Input, Checkbox, Progress, InputNumber, Select, DatePicker, Modal } from 'antd';
+import { Button, message, Form, Icon, InputNumber, DatePicker } from 'antd';
 import { connect } from 'react-redux'
 import Searching from '../../../pages/Map/Searching'
 import * as transAction from '../../../actions/transactionRequest'
@@ -11,7 +12,8 @@ class Tax extends Component {
 
         this.state = {
             taxBuyerPlace: '',
-            taxSellerPlace: ''
+            taxSellerPlace: '',
+            loading: false
         }
     }
 
@@ -36,8 +38,9 @@ class Tax extends Component {
         var { transactions } = this.props
         e.preventDefault();
         var taxData = null
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields(async (err, values) => {
             if (!err) {
+                await this.setState({ loading: true })
                 console.log('Received values of form: ', values);
                 taxData = {
                     datepay1: moment(values.sellerTaxDate, 'YYYY/MM/DD, h:mm a').unix(),
@@ -58,16 +61,15 @@ class Tax extends Component {
                     && transactions.selldetail.tax.buyer.place === values.buyerTaxPlace
                     && transactions.selldetail.tax.buyer.amountmoney === values.buyerTaxAmount)
                     return message.warning('Bạn chưa thay đổi gì cả!')
-                this.props.onSendingTax(taxData)
+                await this.props.onSendingTax(taxData)
+                await this.setState({ loading: false })
             }
         });
     };
     render() {
         const { getFieldDecorator } = this.props.form
-        var { taxSellerPlace, taxBuyerPlace } = this.state
+        var { loading } = this.state
         var { transactions } = this.props
-        console.log(taxSellerPlace)
-        console.log(taxBuyerPlace)
         return (
             <div className="container">
                 <Form onSubmit={this.handleSubmit}>
@@ -155,8 +157,15 @@ class Tax extends Component {
                     <div className="row">
                         <div className="col-md-8 col-lg-8 col-xs-12">
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }}>
-                                    Xác nhận
+                                <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
+                                    {loading && (
+                                        <i
+                                            className="fa fa-refresh fa-spin"
+                                            style={{ marginRight: "5px" }}
+                                        />
+                                    )}
+                                    {loading && <span>Đang thực thi...</span>}
+                                    {!loading && <span>Chấp nhận</span>}
                                 </Button>
                             </Form.Item>
                         </div>

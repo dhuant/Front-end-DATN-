@@ -95,7 +95,7 @@ export class SingleProperty extends Component {
               </td>
               <td style={{ width: "200px" }}>
                 <div className="properties-meta-date" style={{ marginLeft: "0px" }}>
-                  <span className="hidden-xs">{estateListOfUser.price} {estateListOfUser.unit}</span>
+                  <span className="hidden-xs">{estateListOfUser.price >= 1000 && estateListOfUser.statusProject === 1 ? `${Number(estateListOfUser.price / 1000).toFixed(1)} Tỉ` : `${estateListOfUser.price} ${estateListOfUser.unit}`}</span>
                 </div>
               </td>
               <td className="action" style={{ width: "200px" }}>

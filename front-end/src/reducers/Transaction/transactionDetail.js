@@ -6,6 +6,7 @@ const transactionDetail = (state = initialState, action) => {
     switch (action.type) {
         case Types.DEAL:
             console.log(action, state)
+            state = action.deal
             return { ...state }
         case Types.LEGALITY:
             console.log(action, state)
@@ -21,15 +22,19 @@ const transactionDetail = (state = initialState, action) => {
             return { ...state }
         case Types.CONFIRMATION:
             console.log(action, state)
+            state = action.confirmation
             return { ...state }
         case Types.TAX:
             console.log(action, state)
+            state = action.tax
             return { ...state }
         case Types.DELIVERY:
             console.log(action, state)
+            state = action.delivery
             return { ...state }
         case Types.TRANSFER:
             console.log(action, state)
+            state = action.transfer
             return { ...state }
 
         default: return { ...state };

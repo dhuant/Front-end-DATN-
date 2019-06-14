@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone'
 import { Image } from 'react-bootstrap'
 import request from 'superagent'
 import * as transAction from '../../../actions/transactionRequest'
-import { Button, message, Form, Icon, Input, Checkbox, Progress, InputNumber, Select, DatePicker, Modal } from 'antd';
+import { Button, message, Form, Modal } from 'antd';
 import moment from 'moment'
 
 const CLOUDINARY_UPLOAD_PRESET = 'nn6imhmo';
@@ -21,6 +21,7 @@ class Confirmation extends Component {
             governmentListImagesBeforeUpload: [],
             previewImage: false,
             previewUrl: '',
+            loading: false
         }
     }
 
@@ -34,9 +35,15 @@ class Confirmation extends Component {
 
     componentDidMount = () => {
         this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
-        this.setState({
-            governmentArray: this.props.transactions.selldetail.confirmation.image,
-        })
+        if (this.props.transaction.typetransaction === 1)
+            this.setState({
+                governmentArray: this.props.transactions.selldetail.confirmation.image,
+            })
+        else if (this.props.transaction.typetransaction === 3) {
+            this.setState({
+                governmentArray: this.props.transactions.rentdetail.confirmation.image,
+            })
+        }
     }
 
     onUploadingGovernmentImages = async (list) => {
@@ -134,25 +141,49 @@ class Confirmation extends Component {
         });
     }
     onSendingData = (uploadList, transactions) => {
-        return new Promise(async () => {
-            await Promise.all(this.state.governmentArray.map(image => {
-                if (image.url) {
-                    uploadList.push(image)
+        if (this.props.transaction.typetransaction === 1) {
+            return new Promise(async () => {
+                await Promise.all(this.state.governmentArray.map(image => {
+                    if (image.url) {
+                        uploadList.push(image)
+                    }
+                }))
+                this.setState({ governmentArray: uploadList })
+                // if (uploadList.length === 0)
+                //     return message.error('Bạn chưa tải lên hình nào!')
+                var governmentData = {
+                    image: uploadList,
+                    updateTime: moment().unix(),
+                    _id: transactions._id,
+                    id: transactions.selldetail._id,
+                    complete: true
                 }
-            }))
-            this.setState({ govermentArray: uploadList })
-            // if (uploadList.length === 0)
-            //     return message.error('Bạn chưa tải lên hình nào!')
-            var governmentData = {
-                image: uploadList,
-                updateTime: moment().unix(),
-                _id: transactions._id,
-                id: transactions.selldetail._id,
-                complete: true
-            }
 
-            this.props.onSendingConfirmation(governmentData)
-        })
+                this.props.onSendingSellingConfirmation(governmentData)
+            })
+        }
+        else if (this.props.transaction.typetransaction === 3) {
+            return new Promise(async () => {
+                await Promise.all(this.state.governmentArray.map(image => {
+                    if (image.url) {
+                        uploadList.push(image)
+                    }
+                }))
+                this.setState({ governmentArray: uploadList })
+                // if (uploadList.length === 0)
+                //     return message.error('Bạn chưa tải lên hình nào!')
+                var governmentData = {
+                    image: uploadList,
+                    updateTime: moment().unix(),
+                    _id: transactions._id,
+                    id: transactions.rentdetail._id,
+                    complete: true
+                }
+
+                this.props.onSendingRentingConfirmation(governmentData)
+            })
+        }
+
     }
     handleSubmit = (e) => {
         e.preventDefault()
@@ -161,8 +192,10 @@ class Confirmation extends Component {
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
                 try {
+                    this.setState({ loading: true })
                     await this.onUploadingGovernmentImages(this.state.governmentListImagesBeforeUpload);
                     await this.onSendingData(uploadList, transactions);
+                    this.setState({ loading: false })
 
                 } catch (error) {
                     message.error(error)
@@ -171,8 +204,8 @@ class Confirmation extends Component {
         })
     }
     render() {
-        var { governmentArray, previewImage, previewUrl } = this.state
-        const { getFieldDecorator } = this.props.form;
+        var { governmentArray, previewImage, previewUrl, loading } = this.state
+        // const { getFieldDecorator } = this.props.form;
         return (
             <div className="container">
                 <Form onSubmit={this.handleSubmit}>
@@ -212,8 +245,15 @@ class Confirmation extends Component {
                     <div className="row">
                         <div className="col-md-8 col-lg-8 col-xs-12">
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }}>
-                                    Xác nhận
+                                <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
+                                    {loading && (
+                                        <i
+                                            className="fa fa-refresh fa-spin"
+                                            style={{ marginRight: "5px" }}
+                                        />
+                                    )}
+                                    {loading && <span>Đang thực thi...</span>}
+                                    {!loading && <span>Chấp nhận</span>}
                                 </Button>
                             </Form.Item>
                         </div>
@@ -237,7 +277,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGettingTransactionDetail: (id, type) => dispatch(transAction.actGettingTransactionDetailRequest(id, type)),
-        onSendingConfirmation: (confirmationData) => dispatch(transAction.actPostingConfirmationRequest(confirmationData))
+        onSendingSellingConfirmation: (confirmationData) => dispatch(transAction.actPostingConfirmationRequest(confirmationData)),
+        onSendingRentingConfirmation: (confirmationData) => dispatch(transAction.actPostingRentingConfirmationRequest(confirmationData))
     }
 }
 

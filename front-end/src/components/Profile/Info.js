@@ -5,7 +5,6 @@ import Dropzone from 'react-dropzone'
 import request from 'superagent'
 import {connect} from 'react-redux'
 import * as actions from '../../actions/request'
-import { Button } from 'react-bootstrap';
 
 const CLOUDINARY_UPLOAD_PRESET = 'nn6imhmo';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dne3aha8f/image/upload';

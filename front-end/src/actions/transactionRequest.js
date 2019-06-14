@@ -56,6 +56,22 @@ export const actChangingTransactionStatus = (transactionData) => {
             })
     }
 }
+
+export const actCompleteTransaction = (transactionId) => {
+    return dispatch => {
+        return axios.post("http://localhost:3001/transaction/complete", transactionId, { headers: authHeader() })
+            .then(res => {
+                if(res.data.status === 200){
+                    dispatch(Action.actCompletingTransaction(res.data.transactionid))
+                    message.success("Giao dịch đang chờ xác nhận!")
+                }
+                
+            })
+            .catch(error => {
+                message.error(`Có lỗi xảy ra: ${error}`)
+            })
+    }
+}
 //API for Selling
 export const actPostingDealRequest = (dealInfo) => {
     return dispatch => {

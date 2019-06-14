@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { List, Avatar, Button, Modal, Select, Form } from 'antd';
 import { connect } from 'react-redux'
 import * as transActions from '../../actions/transactionRequest'
-import * as actions from '../../actions/request'
+// import * as actions from '../../actions/request'
 import moment from 'moment'
 
 const Option = Select.Option;
@@ -35,15 +35,16 @@ class SingleWaiting extends Component {
 
   onHandleAcceptingRequest = async (waiting, waitingSingle, index) => {
     await this.setState({ currentRequestNumber: index })
-    if (this.props.codelist && this.props.codelist.length === 1 && this.props.codelist[0].code === "dummy" || this.props.codelist.length === 0) {
+    console.log(this.props.codelist)
+    if ((this.props.codelist.length === 1 && this.props.codelist[0].code === "dummy")) {
       this.setState({ loading: true })
       var step = null, typetransaction = null
-      if (waiting.project.type === 1) {
+      if (waiting.project.statusProject === 1) {
         step = 7
         typetransaction = 1
       }
 
-      if (waiting.project.type === 3) {
+      if (waiting.project.statusProject === 3) {
         step = 8
         typetransaction = 2
       }
@@ -56,7 +57,7 @@ class SingleWaiting extends Component {
         company: waitingSingle.user.company,
         createTime: moment().unix(),
         updateTime: moment().unix(),
-        code: this.props.codelist[0]
+        code: this.props.codelist[0].code
       }
       console.log(transactionInfo)
       await this.props.onCreatingTransaction(transactionInfo)
@@ -88,7 +89,7 @@ class SingleWaiting extends Component {
         }
         var transactionInfo = {
           step: step,
-          typeproject: this.props.waitingList.project.statusProject,
+          typeproject: this.props.waitingList.project.type,
           typetransaction: typetransaction,
           project: this.props.waitingList.project._id,
           buyer: this.props.waitingList.requests[this.state.currentRequestNumber].user._id,

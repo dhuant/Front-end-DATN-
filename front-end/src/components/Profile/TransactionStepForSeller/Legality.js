@@ -3,7 +3,7 @@ import Dropzone from 'react-dropzone'
 import { connect } from 'react-redux'
 import { Image } from 'react-bootstrap'
 import request from 'superagent'
-import { Steps, Button, message, Form, Modal } from 'antd';
+import { Button, message, Form, Modal } from 'antd';
 import * as transAction from '../../../actions/transactionRequest'
 import moment from 'moment'
 
@@ -27,6 +27,7 @@ class Legality extends Component {
             contractListImagesBeforeUpload: [],
             previewImage: false,
             previewUrl: '',
+            loading: false
 
         }
     }
@@ -398,11 +399,12 @@ class Legality extends Component {
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
                 try {
+                    await this.setState({ loading: true })
                     await this.onUploadingContractImages(this.state.contractListImagesBeforeUpload);
                     await this.onUploadingCertificateImages(this.state.certificateListImagesBeforeUpload)
                     await this.onUploadingGovernmentImages(this.state.governmentListImagesBeforeUpload)
                     await this.onSendingData(contractUploadList, certificateUploadList, governmentUploadList, transactions);
-
+                    await this.setState({ loading: false })
                 } catch (error) {
                     message.error(error)
                 }
@@ -410,7 +412,7 @@ class Legality extends Component {
         })
     }
     render() {
-        const { getFieldDecorator } = this.props.form
+        // const { getFieldDecorator } = this.props.form
         var { transactions } = this.props
         var legality = transactions.selldetail.legality
         console.log(legality)
@@ -418,7 +420,8 @@ class Legality extends Component {
             previewUrl,
             contractArray,
             certificateArray,
-            governmentArray
+            governmentArray,
+            loading
         } = this.state
         return (
             <div className="container">
@@ -534,9 +537,16 @@ class Legality extends Component {
                     <div className="row">
                         <div className="col-md-8 col-lg-8 col-xs-12">
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }}>
-                                    Xác nhận
-                            </Button>
+                                <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
+                                    {loading && (
+                                        <i
+                                            className="fa fa-refresh fa-spin"
+                                            style={{ marginRight: "5px" }}
+                                        />
+                                    )}
+                                    {loading && <span>Đang thực thi...</span>}
+                                    {!loading && <span>Chấp nhận</span>}
+                                </Button>
                             </Form.Item>
                         </div>
                     </div>

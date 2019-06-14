@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions/request';
 import Detail from '../components/Profile/Detail'
-import LoginModal from '../components/LoginModal'
 import Login from '../pages/Login'
 
 class Profile extends Component {

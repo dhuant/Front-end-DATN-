@@ -3,16 +3,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/no-redundant-roles */
 import React, { Component } from 'react';
-import Select from 'react-select'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/request'
-
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
 
 class Sidebar extends Component {
   constructor() {
@@ -31,7 +24,7 @@ class Sidebar extends Component {
   ShowRelatedEstate = (estates, selectedEstate) => {
     var result = null;
     if (estates.length > 0) {
-      result = estates.map((estate, index) => {
+      result = estates.map((estate) => {
         if (estate._id !== selectedEstate._id)
           return (
             <div className="media">

@@ -144,20 +144,20 @@ class MainHeader extends Component {
                                 <ul className="nav navbar-nav">
                                     <li className={this.props.component === HOME ? "active" : ""}>
                                         <a href="true" onClick={this.onRedirectHome} data-toggle="dropdown active">
-                                            Home
+                                            Trang chủ
                                         </a>
                                     </li>
                                     <li className={this.props.component === ABOUT ? "active" : ""}>
                                         <a href="true" onClick={this.onRedirectHome}>
-                                            About
+                                            Về chúng tôi
                                         </a>
                                     </li>
                                     <li className={this.props.component === NEWS ? "active" : ""}>
                                         <a href="true" onClick={this.onNews}>
-                                            News
+                                            Tin tức
                                         </a>
                                     </li>
-                                    <li className="dropdown mega-dropdown">
+                                    {/* <li className="dropdown mega-dropdown">
                                         <a
                                             href="true"
                                             className="dropdown-toggle"
@@ -279,7 +279,7 @@ class MainHeader extends Component {
                                                 </ul>
                                             </li>
                                         </ul>
-                                    </li>
+                                    </li> */}
                                     <li className="dropdown">
                                         <a
                                             href="true"
