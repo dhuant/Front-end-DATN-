@@ -3,11 +3,11 @@ import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "reac
 import Geocode from 'react-geocode'
 // const Geocode = require('react-geocode')
 // import Autocomplete from 'react-google-autocomplete';
-import Searching from '../../pages/Map/Searching'
+// import Searching from '../../pages/Map/Searching'
 import SearchBox from '../../pages/Map/SearchBox'
 import * as actions from '../../actions/index'
 import { connect } from 'react-redux'
-import { message, Alert } from 'antd';
+import { message } from 'antd';
 Geocode.setApiKey("AIzaSyB9iQfFH9AdPXjCfzV-qwRZMA-l2VoJlRo");
 Geocode.enableDebug();
 
@@ -183,9 +183,9 @@ class MapSearching extends Component {
 		Geocode.fromLatLng(newLat, newLng).then(
 			response => {
 				console.log(response)
-				const address = response.results[0].formatted_address,
-					unknownAddress = response.results[0].formatted_address,
-					addressArray = response.results[0].address_components
+				const address = response.results[0].formatted_address
+					// unknownAddress = response.results[0].formatted_address,
+					// addressArray = response.results[0].address_components
 				// city = this.getCity(addressArray),
 				// area = this.getArea(addressArray),
 				// state = this.getState(addressArray);

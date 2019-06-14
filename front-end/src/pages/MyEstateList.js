@@ -7,19 +7,27 @@ import { Link } from 'react-router-dom'
 import MainHeader from '../components/MainHeader';
 import { connect } from 'react-redux'
 import * as actions from '../actions/request';
-import Login from '../pages/Login'
+import { Pagination } from 'antd'
 
+const pageSize = 5
 class MyEstateList extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            current: 1
+        }
+    }
+
     componentDidMount = () => {
         this.props.onGetEstateListOfUser('0')
     }
+
+    onChange = (page) => {
+        this.setState({ current: page })
+    }
     render() {
         let { estatesListOfUser } = this.props
-        if (estatesListOfUser === undefined) {
-            localStorage.removeItem("res")
-        }
-        console.log(estatesListOfUser)
-        if(JSON.parse(localStorage.getItem('res')))
         return (
             <div>
                 <MainHeader />
@@ -56,6 +64,15 @@ class MyEstateList extends Component {
                                         {this.onShowEstateListOfUser(estatesListOfUser)}
                                     </tbody>
                                 </table>
+                                <div className="pull-right">
+                                    <Pagination
+                                        // size="small"
+                                        current={this.state.current}
+                                        total={estatesListOfUser.length}
+                                        onChange={this.onChange}
+                                        pageSize={pageSize}
+                                    />
+                                </div>
                                 {/* table end */}
                             </div>
                         </div>
@@ -65,19 +82,18 @@ class MyEstateList extends Component {
                 <Footer />
             </div>
         )
-        else return <Login />
     }
     onShowEstateListOfUser = (estates) => {
         var result = null;
+        var currentList = estates.slice((this.state.current - 1) * pageSize, this.state.current * pageSize)
         if (estates.length > 0) {
-            result = estates.map((estate, index) => {
+            result = currentList.map((estate, index) => {
                 return (
                     <SingleProperty key={index} estateListOfUser={estate} />
-
                 );
             });
         }
-        else if(estates.length === 0 || estates === undefined){
+        else if (estates.length === 0 || estates === undefined) {
             result = (<span>Hiện không có bài đăng nào!</span>)
         }
         return result;

@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
-import { Button } from 'antd'
+import { Button, Tag } from 'antd'
 import { Link } from 'react-router-dom'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import moment from 'moment'
 
 class SingleCurrTransaction extends Component {
-  componentDidMount =() => {
-    
+  componentDidMount = () => {
+
   }
   render() {
-    var {transactionSingle} = this.props
+    var { transactionSingle } = this.props
     console.log(transactionSingle)
     return (
       <div>
@@ -26,13 +26,16 @@ class SingleCurrTransaction extends Component {
                     {/* <span className="table-property-price"><i className="fa fa-money" />{estateListOfUser.price}</span> */}
                     <span className="hidden-xs"><i className="fa fa-calendar-check-o" />
                       {moment.unix(transactionSingle.updateTime).format('DD/MM/YYYY, h:mm a')}
-                  </span>
+                    </span>
                     <span><i className="fa fa-money" style={{ marginRight: "5px" }}></i>{transactionSingle.project.price} {transactionSingle.project.unit}</span>
                   </div>
                 </td>
                 <td style={{ width: "200px" }}>
                   <div style={{ marginTop: "5px" }}>
-                    <Button type="primary" loading>Đang giao dịch</Button>
+                    {transactionSingle.complete === false ? 
+                      <Tag color="cyan">Đang trong quá trình giao dịch</Tag>
+                    : <Tag color="lime">Đang chờ xác nhận</Tag>}
+                    
                   </div>
                 </td>
                 <td className="action" style={{ width: "200px" }}>
@@ -49,13 +52,13 @@ class SingleCurrTransaction extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    
+
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    
+
   }
 }
 

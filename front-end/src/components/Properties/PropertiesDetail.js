@@ -10,6 +10,7 @@ import moment from 'moment'
 import Chart from 'react-apexcharts'
 import Login from '../../pages/Login'
 
+const pageSize = 2
 const desc = ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Tuyệt vời'];
 
 class PropertiesDetail extends Component {
@@ -21,6 +22,7 @@ class PropertiesDetail extends Component {
             content: '',
             isFollow: false,
             requestVisible: false,
+            current: 1,
             options: {
                 annotations: {
                     position: 'front'
@@ -265,7 +267,7 @@ class PropertiesDetail extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFields(async(err, values) => {
+        this.props.form.validateFields(async (err, values) => {
             if (!err) {
                 var waitingInfo = {
                     projectid: this.props.info._id,
@@ -275,16 +277,17 @@ class PropertiesDetail extends Component {
                 }
                 console.log(waitingInfo)
                 await this.props.onSendingRequest(waitingInfo)
-                await this.setState({requestVisible: false})
+                await this.setState({ requestVisible: false })
             }
         });
     };
-    onChange =() => {
-
+    onChange = (page) => {
+        this.setState({current: page})
     }
     render() {
         const { getFieldDecorator } = this.props.form
         let { info, comments, follow } = this.props;
+        console.log(comments.length)
         console.log(info)
         let check = false
         if (follow && follow.length > 0 && info) {
@@ -384,7 +387,7 @@ class PropertiesDetail extends Component {
                                                     <span>Mô tả chi tiết</span>
                                                 </h1>
                                             </div>
-                                            <p>{<div dangerouslySetInnerHTML={{__html: info.info}} ></div>}</p>
+                                            <p>{<div dangerouslySetInnerHTML={{ __html: info.info }} ></div>}</p>
                                             <br />
                                         </div>
                                         <div className="tab-pane fade features" id="tab2default">
@@ -529,7 +532,13 @@ class PropertiesDetail extends Component {
                                     </h1>
                                     </div>
                                     <div className="pull-right">
-                                        <Pagination size="small" total={50} current="1" total={comments.length} />
+                                        <Pagination 
+                                            size="small" 
+                                            current={this.state.current} 
+                                            total={comments.length} 
+                                            onChange={this.onChange} 
+                                            pageSize={pageSize}
+                                        />
                                     </div>
                                     <br></br>
                                 </div>
@@ -648,10 +657,11 @@ class PropertiesDetail extends Component {
     }
     ShowComments = (comments) => {
         var result = null;
+        var currentList = comments.slice((this.state.current - 1) * pageSize, this.state.current * pageSize)
         if (comments.length === 0)
             result = "Bài đăng này hiện chưa có bình luận nào!"
-        if (comments.length > 0) {
-            result = comments.map((comment, index) => {
+        if (currentList.length > 0) {
+            result = currentList.map((comment, index) => {
                 // console.log(index)
                 return (
                     <Comments key={index} comment={comment} />

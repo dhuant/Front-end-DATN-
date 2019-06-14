@@ -8,8 +8,7 @@ import axios from 'axios'
 import { authHeader } from '../constants/authHeader';
 import MapSearching from '../components/Map/MapSearching'
 import { Button, Image } from 'react-bootstrap'
-import { toast } from 'react-toastify'
-import { message, Modal, Form, Spin } from 'antd'
+import { message, Modal  } from 'antd'
 import moment from 'moment'
 import LoginModal from '../components/LoginModal'
 import AddressData from '../countries-flat.json'
@@ -91,6 +90,14 @@ class SubmitProperty extends Component {
 
     handleCancel = () => this.setState({ previewVisible: false })
 
+    onHandleChangeAddress = (event) => {
+        var name = event.target.name
+        var value = event.target.value
+        this.setState({
+            [name]: value
+        })
+    }
+    
     onHandleChange = (event) => {
         let target = event.target
         let name = target.name
@@ -341,7 +348,7 @@ class SubmitProperty extends Component {
         });
     }
     render() {
-        var { status, city, ward, state, isShowUnit, tags, loading } = this.state;
+        var { city, state, tags, loading } = this.state;
         var stateList = this.parseStateData(AddressData)
         var cityList = this.parseCityData(AddressData, state)
         var wardList = this.parseWardData(AddressData, state, city)

@@ -19,7 +19,10 @@ const transaction = (state = initialState, action) => {
             console.log(action, state)
             state = action.transaction
             return [ ...state ]
-
+        case Types.TRANSACTION_COMPLETE:
+            console.log(action)
+            state = action.transactionId
+            return {...state}
         default: return { ...state };
     }
 

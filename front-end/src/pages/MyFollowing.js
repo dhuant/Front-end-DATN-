@@ -72,7 +72,6 @@ class MyFollowing extends Component {
         var result = null;
         if (follow.length > 0) {
             result = follow.map((single, index) => {
-                console.log(single)
                 if (single.project !== null)
                     return (
                         <FollowingProject key={index} followSingle={single} onUnfollowProject={this.onUnfollowProject} />

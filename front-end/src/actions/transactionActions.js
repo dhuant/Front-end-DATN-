@@ -30,6 +30,12 @@ export const actGetTransactionDetail = (transaction) => {
     }
 }
 
+export const actCompletingTransaction = (transactionId) => {
+    return {
+        type: Types.TRANSACTION_COMPLETE,
+        transactionId: transactionId
+    }
+}
 // Selling Transaction API
 export const actPostingDeal = (deal) => {
     return {

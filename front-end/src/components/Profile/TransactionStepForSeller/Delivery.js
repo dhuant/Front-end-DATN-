@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, message, Form, Icon, Input, Checkbox, Progress, InputNumber, Select, DatePicker, Modal } from 'antd';
+import { Button, message, Form, Input, InputNumber, DatePicker } from 'antd';
 import * as transAction from '../../../actions/transactionRequest'
 import moment from 'moment'
-
-const { TextArea } = Input
 
 class Delivery extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-
+      loading: false
     }
   }
 
@@ -19,102 +17,190 @@ class Delivery extends Component {
     var { transactions } = this.props
     e.preventDefault();
     var deliveryData = null
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
-        deliveryData = {
-          datecomplete: moment(values.deliveryDate, 'YYYY/MM/DD, h:mm a').unix(),
-          apartmentcode: transactions.code,
-          room: Number(document.getElementById('room').value),
-          datein: moment(values.startDate, 'YYYY/MM/DD, h:mm a').unix(),
-          tax: Number(document.getElementById('tax').value),
-          complete: true,
-          updateTime: moment().unix(),
-          _id: this.props.transaction._id,
-          id: this.props.transaction.selldetail._id,
+        if (this.props.transaction.typetransaction === 1) {
+          await this.setState({ loading: true })
+          console.log('Received values of form: ', values);
+          deliveryData = {
+            datecomplete: moment(values.deliveryDate, 'YYYY/MM/DD, h:mm a').unix(),
+            apartmentcode: transactions.code,
+            room: Number(document.getElementById('room').value),
+            datein: moment(values.startDate, 'YYYY/MM/DD, h:mm a').unix(),
+            tax: Number(document.getElementById('tax').value),
+            complete: true,
+            updateTime: moment().unix(),
+            _id: this.props.transaction._id,
+            id: this.props.transaction.selldetail._id,
+          }
+          if (transactions.selldetail.delivery.datecomplete === moment(values.deliveryDate, 'YYYY/MM/DD, h:mm a').unix()
+            && transactions.selldetail.delivery.room === document.getElementById('room').value
+            && transactions.selldetail.delivery.tax === document.getElementById('tax').value
+            && transactions.selldetail.delivery.datein === moment(values.startDate, 'YYYY/MM/DD, h:mm a').unix())
+            return message.warning('Bạn chưa thay đổi gì cả!')
+          await this.props.onSendingSellingDelivery(deliveryData)
+          await this.setState({ loading: false })
         }
-        if (transactions.selldetail.delivery.datecomplete === moment(values.deliveryDate, 'YYYY/MM/DD, h:mm a').unix()
-          && transactions.selldetail.delivery.room === document.getElementById('room').value
-          && transactions.selldetail.delivery.tax === document.getElementById('tax').value
-          && transactions.selldetail.delivery.datein === moment(values.startDate, 'YYYY/MM/DD, h:mm a').unix())
-          return message.warning('Bạn chưa thay đổi gì cả!')
-        this.props.onSendingDelivery(deliveryData)
+        else if (this.props.transaction.typetransaction === 3) {
+          await this.setState({ loading: true })
+          console.log('Received values of form: ', values);
+          deliveryData = {
+            datecomplete: moment(values.deliveryDate, 'YYYY/MM/DD, h:mm a').unix(),
+            apartmentcode: transactions.code,
+            room: Number(document.getElementById('room').value),
+            datein: moment(values.startDate, 'YYYY/MM/DD, h:mm a').unix(),
+            tax: Number(document.getElementById('tax').value),
+            complete: true,
+            updateTime: moment().unix(),
+            _id: this.props.transaction._id,
+            id: this.props.transaction.rentdetail._id,
+          }
+          if (transactions.rentdetail.delivery.datecomplete === moment(values.deliveryDate, 'YYYY/MM/DD, h:mm a').unix()
+            && transactions.rentdetail.delivery.room === document.getElementById('room').value
+            && transactions.rentdetail.delivery.tax === document.getElementById('tax').value
+            && transactions.rentdetail.delivery.datein === moment(values.startDate, 'YYYY/MM/DD, h:mm a').unix())
+            return message.warning('Bạn chưa thay đổi gì cả!')
+          await this.props.onSendingRentingDelivery(deliveryData)
+          await this.setState({ loading: false })
+        }
       }
     });
   };
   render() {
     const { getFieldDecorator } = this.props.form
     var { transactions } = this.props
+    const { loading } = this.state
     return (
-      <div className="container">
-        <Form onSubmit={this.handleSubmit}>
-          <div className="row">
-            <div className="col-md-4 col-lg-4 col-xs-12">
-              <Form.Item label="Mã căn hộ: ">
-                {getFieldDecorator('estateCode', {
-                  initialValue: transactions.code,
-                  rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
-                })(
-                  <Input style={{ width: "100%" }} disabled />
-                )}
-              </Form.Item>
+      this.props.transaction.typetransaction === 1 ?
+        <div className="container">
+          <Form onSubmit={this.handleSubmit}>
+            <div className="row">
+              <div className="col-md-4 col-lg-4 col-xs-12">
+                <Form.Item label="Mã căn hộ: ">
+                  {getFieldDecorator('estateCode', {
+                    initialValue: transactions.code,
+                    rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
+                  })(
+                    <Input style={{ width: "100%" }} disabled />
+                  )}
+                </Form.Item>
+              </div>
+              <div className="col-md-4 col-lg-4 col-xs-12">
+                <Form.Item label="Số phòng (nếu có): ">
+                  <InputNumber style={{ width: "100%" }} defaultValue={transactions.selldetail.delivery.room} id="room" />
+                </Form.Item>
+              </div>
             </div>
-            <div className="col-md-4 col-lg-4 col-xs-12">
-              <Form.Item label="Số phòng (nếu có): ">
-                <InputNumber style={{ width: "100%" }} defaultValue={transactions.selldetail.delivery.room} id="room" />
-              </Form.Item>
+            <div className="row">
+              <div className="col-md-4 col-lg-4 col-xs-12">
+                <Form.Item label="Ngày giao bất động sản (thực tế): ">
+                  {getFieldDecorator('deliveryDate', {
+                    initialValue: moment(moment.unix(transactions.selldetail.delivery.datecomplete).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
+                    rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
+                  })(
+                    <DatePicker style={{ width: "100%" }} />
+                  )}
+                </Form.Item>
+              </div>
+              <div className="col-md-4 col-lg-4 col-xs-12">
+                <Form.Item label="Ngày dọn vào ở: ">
+                  {getFieldDecorator('startDate', {
+                    initialValue: moment(moment.unix(transactions.selldetail.delivery.datein).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
+                    rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
+                  })(
+                    <DatePicker style={{ width: "100%" }} />
+                  )}
+                </Form.Item>
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-md-4 col-lg-4 col-xs-12">
-              <Form.Item label="Ngày giao bất động sản (thực tế): ">
-                {getFieldDecorator('deliveryDate', {
-                  initialValue: moment(moment.unix(transactions.selldetail.delivery.datecomplete).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
-                  rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
-                })(
-                  <DatePicker style={{ width: "100%" }} />
-                )}
-              </Form.Item>
+            <div className="row">
+              <div className="col-md-5 col-lg-5 col-xs-12">
+                <Form.Item label="Phí hàng tháng (nếu có): ">
+                  <InputNumber style={{ width: "100%" }} defaultValue={transactions.selldetail.delivery.tax} id="tax" />
+                </Form.Item>
+              </div>
+              <div className="col-md-3 col-lg-3 col-xs-12">
+                <Form.Item>
+                  <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
+                    {loading && (
+                      <i
+                        className="fa fa-refresh fa-spin"
+                        style={{ marginRight: "5px" }}
+                      />
+                    )}
+                    {loading && <span>Đang thực thi...</span>}
+                    {!loading && <span>Chấp nhận</span>}
+                  </Button>
+                </Form.Item>
+              </div>
             </div>
-            <div className="col-md-4 col-lg-4 col-xs-12">
-              <Form.Item label="Ngày dọn vào ở: ">
-                {getFieldDecorator('startDate', {
-                  initialValue: moment(moment.unix(transactions.selldetail.delivery.datein).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
-                  rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
-                })(
-                  <DatePicker style={{ width: "100%" }} />
-                )}
-              </Form.Item>
+          </Form>
+        </div>
+        :
+        <div className="container">
+          <Form onSubmit={this.handleSubmit}>
+            <div className="row">
+              <div className="col-md-4 col-lg-4 col-xs-12">
+                <Form.Item label="Mã căn hộ: ">
+                  {getFieldDecorator('estateCode', {
+                    initialValue: transactions.code,
+                    rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
+                  })(
+                    <Input style={{ width: "100%" }} disabled />
+                  )}
+                </Form.Item>
+              </div>
+              <div className="col-md-4 col-lg-4 col-xs-12">
+                <Form.Item label="Số phòng (nếu có): ">
+                  <InputNumber style={{ width: "100%" }} defaultValue={transactions.rentdetail.delivery.room} id="room" />
+                </Form.Item>
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-md-5 col-lg-5 col-xs-12">
-              <Form.Item label="Phí hàng tháng (nếu có): ">
-                <InputNumber style={{ width: "100%" }} defaultValue={transactions.selldetail.delivery.tax} id="tax" />
-              </Form.Item>
+            <div className="row">
+              <div className="col-md-4 col-lg-4 col-xs-12">
+                <Form.Item label="Ngày giao bất động sản (thực tế): ">
+                  {getFieldDecorator('deliveryDate', {
+                    initialValue: moment(moment.unix(transactions.rentdetail.delivery.datecomplete).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
+                    rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
+                  })(
+                    <DatePicker style={{ width: "100%" }} />
+                  )}
+                </Form.Item>
+              </div>
+              <div className="col-md-4 col-lg-4 col-xs-12">
+                <Form.Item label="Ngày dọn vào ở: ">
+                  {getFieldDecorator('startDate', {
+                    initialValue: moment(moment.unix(transactions.rentdetail.delivery.datein).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
+                    rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
+                  })(
+                    <DatePicker style={{ width: "100%" }} />
+                  )}
+                </Form.Item>
+              </div>
             </div>
-            {/* <div className="col-md-5 col-lg-5 col-xs-12">
-              <Form.Item label="Các trang bị có sẵn: ">
-                {getFieldDecorator('deliveryDate', {
-                  rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
-                })(
-                  <TextArea
-                    style={{ width: "100%" }}
-                  >
-                  </TextArea>
-                )}
-              </Form.Item>
-            </div> */}
-            <div className="col-md-3 col-lg-3 col-xs-12">
-              <Form.Item>
-                <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }}>
-                  Xác nhận
-                </Button>
-              </Form.Item>
+            <div className="row">
+              <div className="col-md-5 col-lg-5 col-xs-12">
+                <Form.Item label="Phí hàng tháng (nếu có): ">
+                  <InputNumber style={{ width: "100%" }} defaultValue={transactions.rentdetail.delivery.tax} id="tax" />
+                </Form.Item>
+              </div>
+              <div className="col-md-3 col-lg-3 col-xs-12">
+                <Form.Item>
+                  <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
+                    {loading && (
+                      <i
+                        className="fa fa-refresh fa-spin"
+                        style={{ marginRight: "5px" }}
+                      />
+                    )}
+                    {loading && <span>Đang thực thi...</span>}
+                    {!loading && <span>Chấp nhận</span>}
+                  </Button>
+                </Form.Item>
+              </div>
             </div>
-          </div>
-        </Form>
-      </div>
+          </Form>
+        </div>
     )
   }
 }
@@ -129,7 +215,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onGettingTransactionDetail: (id, type) => dispatch(transAction.actGettingTransactionDetailRequest(id, type)),
-    onSendingDelivery: (deliveryData) => dispatch(transAction.actPostingDeliveryRequest(deliveryData))
+    onSendingSellingDelivery: (deliveryData) => dispatch(transAction.actPostingDeliveryRequest(deliveryData)),
+    onSendingRentingDelivery: (deliveryData) => dispatch(transAction.actPostingRentingDeliveryRequest(deliveryData))
   }
 }
 

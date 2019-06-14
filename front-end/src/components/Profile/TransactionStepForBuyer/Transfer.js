@@ -3,8 +3,9 @@ import { Descriptions, Modal } from 'antd'
 import { Image } from 'react-bootstrap'
 import * as transAction from '../../../actions/transactionRequest'
 import { connect } from 'react-redux'
+import { Modal } from 'antd'
 
-class Confirmation extends Component {
+class Transfer extends Component {
     constructor(props) {
         super(props)
 
@@ -47,9 +48,9 @@ class Confirmation extends Component {
             transactionDetail.typetransaction === 1 ?
                 <div className="container">
                     <div className="col-lg-8 col-md-8 col-sm-12">
-                        <Descriptions title="Hình ảnh xác thực từ chính quyền địa phương" column={1}>
-                            <Descriptions.Item label="Hình ảnh xác thực từ chính quyền địa phương">
-                                {transactionDetail.selldetail.confirmation.image}
+                        <Descriptions title="Hình ảnh xác thực từ chủ căn hộ" column={1}>
+                            <Descriptions.Item label="Hình ảnh xác thực từ chủ căn hộ">
+                                {this.onShowImageList(transactionDetail.selldetail.transfer.image)}
                             </Descriptions.Item>
                         </Descriptions>
                     </div>
@@ -60,9 +61,9 @@ class Confirmation extends Component {
                 :
                 <div className="container">
                     <div className="col-lg-8 col-md-8 col-sm-12">
-                        <Descriptions title="Hình ảnh xác thực từ chính quyền địa phương" column={1}>
-                            <Descriptions.Item label="Hình ảnh xác thực từ chính quyền địa phương">
-                                {transactionDetail.rentdetail.confirmation.image}
+                        <Descriptions title="Hình ảnh xác thực từ chủ căn hộ" column={1}>
+                            <Descriptions.Item label="Hình ảnh xác thực từ chủ căn hộ">
+                                {this.onShowImageList(transactionDetail.rentdetail.transfer.image)}
                             </Descriptions.Item>
                         </Descriptions>
                     </div>
@@ -73,6 +74,7 @@ class Confirmation extends Component {
         )
     }
 }
+
 const mapStateToProps = (state) => {
     return {
         transactionDetail: state.transaction
@@ -85,5 +87,5 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Confirmation)
+export default connect(mapStateToProps, mapDispatchToProps)(Transfer)
 

@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Descriptions, Modal } from 'antd'
 import { Image } from 'react-bootstrap'
+import * as transAction from '../../../actions/transactionRequest'
+import { connect } from 'react-redux'
 
-export default class Legality extends Component {
+class Legality extends Component {
     constructor(props) {
         super(props)
 
@@ -10,6 +12,10 @@ export default class Legality extends Component {
             previewImage: false,
             previewUrl: ''
         }
+    }
+
+    componentDidMount = () => {
+        this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
     }
 
     onHandleCancel = () => {
@@ -40,20 +46,20 @@ export default class Legality extends Component {
     }
     render() {
         var { previewImage, previewUrl } = this.state
+        var { transactionDetail } = this.props
         return (
             <div className="container">
                 <div className="col-lg-8 col-md-8 col-sm-12">
                     <Descriptions title="Kiểm tra tính pháp lý của bất động sản" column={1}>
                         <Descriptions label="Hình ảnh xác thực từ chính quyền địa phương: ">
-
+                            {this.onShowImageList(transactionDetail.selldetail.legality.government)}
                         </Descriptions>
                         <Descriptions label="Hình ảnh xác thực từ hợp đồng mua bán: ">
-
+                            {this.onShowImageList(transactionDetail.selldetail.legality.contract)}
                         </Descriptions>
                         <Descriptions label="Hình ảnh xác thực từ giấy chứng nhận quyền sử dụng đất: ">
-
+                            {this.onShowImageList(transactionDetail.selldetail.legality.certificate)}
                         </Descriptions>
-
                     </Descriptions>
                 </div>
                 <Modal visible={previewImage} footer={null} onCancel={this.onHandleCancel} width="800px" style={{ height: "500px" }}>
@@ -63,3 +69,17 @@ export default class Legality extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        transactionDetail: state.transaction
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onGettingTransactionDetail: (id, type) => dispatch(transAction.actGettingTransactionDetailRequest(id, type))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Legality)

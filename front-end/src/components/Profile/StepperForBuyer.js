@@ -1,4 +1,4 @@
-import { Steps, Button, message, Form, Icon, Input, Checkbox, Progress, InputNumber, Select, DatePicker } from 'antd';
+import { Steps, Button, Form, Input, Progress, Select } from 'antd';
 import React from 'react'
 import Deal from './TransactionStepForBuyer/Deal'
 import Legality from './TransactionStepForBuyer/Legality'
@@ -7,7 +7,7 @@ import Contract from './TransactionStepForBuyer/Contract'
 import Confirmation from './TransactionStepForBuyer/Confirmation'
 import Tax from './TransactionStepForBuyer/Tax'
 import Delivery from './TransactionStepForBuyer/Delivery'
-import * as transAction from '../../actions/transactionRequest'
+// import * as transAction from '../../actions/transactionRequest'
 import {connect} from 'react-redux'
 
 const Step = Steps.Step;
@@ -50,15 +50,10 @@ class StepperForBuyer extends React.Component {
     };
 
     render() {
-        const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
+        // const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
         const { current } = this.state;
-        var {transaction } = this.props
-        // const totalPriceError = isFieldTouched('TotalPrice') && getFieldError('TotalPrice');
-        // const depositError = isFieldTouched('deposit') && getFieldError('deposit');
-        // const paymentMethodError = isFieldTouched('paymentMethod') && getFieldError('paymentMethod');
-        // const payNumberError = isFieldTouched('payNumber') && getFieldError('payNumber');
-        // console.log(document.getElementById("MoreInformation").value)
-        const steps = [
+        var { transaction } = this.props
+        const steps = transaction.typetransaction === 1 ? [
             {
                 title: 'Thỏa thuận mua ban đầu',
                 content: (
@@ -68,28 +63,49 @@ class StepperForBuyer extends React.Component {
             {
                 title: 'Kiểm tra tính pháp lý của bất động sản',
                 content: (
-                    <Legality />
+                    <Legality transaction={transaction}/>
                 ),
             },
             {
                 title: 'Đặt cọc',
-                content: <Deposit />,
+                content: <Deposit transaction={transaction}/>,
             },
             {
                 title: 'Ký hợp đồng',
-                content: <Contract />,
+                content: <Contract transaction={transaction}/>,
             },
             {
                 title: 'Công chứng hợp đồng',
-                content: <Confirmation />,
+                content: <Confirmation transaction={transaction}/>,
             },
             {
                 title: 'Đóng thuế',
-                content: <Tax />,
+                content: <Tax transaction={transaction}/>,
             },
             {
                 title: 'Giao bất động sản',
-                content: <Delivery />,
+                content: <Delivery transaction={transaction}/>,
+            },
+        ] : [
+            {
+                title: 'Thỏa thuận mua ban đầu',
+                content: <Deal transaction={transaction} />
+            },
+            {
+                title: 'Đặt cọc',
+                content: <Deposit transaction={transaction} />,
+            },
+            {
+                title: 'Ký hợp đồng',
+                content: <Contract transaction={transaction} />,
+            },
+            {
+                title: 'Công chứng hợp đồng',
+                content: <Confirmation transaction={transaction} />,
+            },
+            {
+                title: 'Giao bất động sản',
+                content: <Delivery transaction={transaction} />,
             },
         ];
         return (

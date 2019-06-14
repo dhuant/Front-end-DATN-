@@ -256,7 +256,7 @@ class EditUI extends Component {
             var { estateUserInfo } = nextProps
             var codelist = []
             estateUserInfo.codelist.map((tag, index) => {
-                if (tag.code !== 'dummy') {
+                if (tag.code !== 'dummy' && tag.sold === false) {
                     codelist.push(tag.code)
                 }
             })

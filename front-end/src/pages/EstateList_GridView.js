@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {GRID} from '../constants/ViewType'
 
-export class EstateListGridView extends Component {
+class EstateListGridView extends Component {
   onRedirectHome = (e) => {
     e.preventDefault();
     this.props.history.push("/");
