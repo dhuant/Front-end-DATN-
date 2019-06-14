@@ -17,12 +17,17 @@ export const actGetInfoUserCompany = (id) => {
         dispatch(action.actSaveListEmployees(res.data.company.employees))
       })
       .catch(err => {
-        if (err.response.data.status === 401) {
-          localStorage.removeItem('company')
-          dispatch(actionAuth.actCheckAuth(false))
+        if (err.response) {
+          if (err.response.data.status === 401) {
+            localStorage.removeItem('company')
+            dispatch(actionAuth.actCheckAuth(false))
+          }
+          else {
+            message.error('Lỗi, không lấy được dữ liệu!')
+          }
         }
         else {
-          message.error('Lỗi, không lấy được dữ liệu!')
+          message.error('Lỗi, kiểm tra lại đường truyền hoặc server!')
         }
       })
   };
@@ -39,10 +44,18 @@ export const reqGetInfoEmployee = (id, page) => {
         // dispatch(action.actSaveListEmployees(res.data.company.employees))
       })
       .catch(err => {
-        console.log(err.response)
-        if (err.response.data.status === 401) {
-          localStorage.removeItem('company')
-          dispatch(actionAuth.actCheckAuth(false))
+        if (err.response) {
+          console.log(err.response)
+          if (err.response.data.status === 401) {
+            localStorage.removeItem('company')
+            dispatch(actionAuth.actCheckAuth(false))
+          }
+          else{
+            message.error('Có lỗi xảy ra!')
+          }
+        }
+        else {
+          message.error('Lỗi, kiểm tra lại đường truyền hoặc server!')
         }
       })
   };
