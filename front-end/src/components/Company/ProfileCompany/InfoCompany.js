@@ -75,7 +75,7 @@ class InfoCompany extends Component {
                 <div className="user-account-box">
                     <div className="header clearfix" >
                         <div className="edit-profile-photo">
-                            <img style={{ width: "150px", height: "150px" }} src={localStorage.getItem('avatar') !== '' ? localStorage.getItem('avatar') : userInfoCompany.avatar} alt="agent-1" className="img-responsive" />
+                            <img style={{ width: "150px", height: "150px" }} src={localStorage.getItem('avatar') ? localStorage.getItem('avatar') : userInfoCompany.avatar} alt="agent-1" className="img-responsive" />
                             <div className="change-photo-btn">
                                 <div className="photoUpload">
                                     <Dropzone
