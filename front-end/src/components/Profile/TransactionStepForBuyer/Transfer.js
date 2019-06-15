@@ -26,7 +26,7 @@ class Transfer extends Component {
     onShowImageList = (images) => {
         var result = null
         if (images && images.length > 0)
-            result = images.map((index, image) => {
+            result = images.map((image, index) => {
                 return (
                     <Image
                         key={index}

@@ -8,7 +8,8 @@ import Confirmation from './TransactionStepForBuyer/Confirmation'
 import Tax from './TransactionStepForBuyer/Tax'
 import Delivery from './TransactionStepForBuyer/Delivery'
 // import * as transAction from '../../actions/transactionRequest'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 const Step = Steps.Step;
 const Option = Select.Option;
@@ -27,24 +28,24 @@ class StepperForBuyer extends React.Component {
         const current = this.state.current + 1;
         this.setState({
             current,
-            percent: Number((this.state.percent + 100 / 7).toFixed(2))
+            percent: this.props.transaction.typetransaction === 1 ? Number((this.state.percent + 100 / 8).toFixed(2)) : Number(this.state.percent + 20)
         });
     }
 
     prev() {
         const current = this.state.current - 1;
-        this.setState({ current, percent: Number((this.state.percent - 100 / 7).toFixed(2)) });
+        this.setState({ current, percent: this.props.transaction.typetransaction === 1 ? Number((this.state.percent + 100 / 8).toFixed(2)) : Number(this.state.percent + 20) });
     }
     hasErrors = (fieldsError) => {
         return Object.keys(fieldsError).some(field => fieldsError[field]);
     }
 
-    handleSubmit = e => {
-        e.preventDefault();
+    handleSubmit = () => {
         this.setState({ percent: 100 })
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                this.props.history.push('/mytransactions')
             }
         });
     };
@@ -57,39 +58,14 @@ class StepperForBuyer extends React.Component {
             {
                 title: 'Thỏa thuận mua ban đầu',
                 content: (
-                    <Deal transaction={transaction}/>
+                    <Deal transaction={transaction} />
                 )
             },
             {
                 title: 'Kiểm tra tính pháp lý của bất động sản',
                 content: (
-                    <Legality transaction={transaction}/>
+                    <Legality transaction={transaction} />
                 ),
-            },
-            {
-                title: 'Đặt cọc',
-                content: <Deposit transaction={transaction}/>,
-            },
-            {
-                title: 'Ký hợp đồng',
-                content: <Contract transaction={transaction}/>,
-            },
-            {
-                title: 'Công chứng hợp đồng',
-                content: <Confirmation transaction={transaction}/>,
-            },
-            {
-                title: 'Đóng thuế',
-                content: <Tax transaction={transaction}/>,
-            },
-            {
-                title: 'Giao bất động sản',
-                content: <Delivery transaction={transaction}/>,
-            },
-        ] : [
-            {
-                title: 'Thỏa thuận mua ban đầu',
-                content: <Deal transaction={transaction} />
             },
             {
                 title: 'Đặt cọc',
@@ -104,10 +80,35 @@ class StepperForBuyer extends React.Component {
                 content: <Confirmation transaction={transaction} />,
             },
             {
+                title: 'Đóng thuế',
+                content: <Tax transaction={transaction} />,
+            },
+            {
                 title: 'Giao bất động sản',
                 content: <Delivery transaction={transaction} />,
             },
-        ];
+        ] : [
+                {
+                    title: 'Thỏa thuận mua ban đầu',
+                    content: <Deal transaction={transaction} />
+                },
+                {
+                    title: 'Đặt cọc',
+                    content: <Deposit transaction={transaction} />,
+                },
+                {
+                    title: 'Ký hợp đồng',
+                    content: <Contract transaction={transaction} />,
+                },
+                {
+                    title: 'Công chứng hợp đồng',
+                    content: <Confirmation transaction={transaction} />,
+                },
+                {
+                    title: 'Giao bất động sản',
+                    content: <Delivery transaction={transaction} />,
+                },
+            ];
         return (
             <div className="container">
                 <div className="row">
@@ -137,7 +138,7 @@ class StepperForBuyer extends React.Component {
                                 </Button>
                             )}
                             {current === steps.length - 1 && (
-                                <Button style={{ marginLeft: "10px" }} type="primary" onClick={this.handleSubmit}>
+                                <Button style={{ marginLeft: "10px" }} type="primary" onClick={() => this.handleSubmit()}>
                                     <i className="fa fa-check" style={{ marginRight: "3px" }}></i> Hoàn tất
                                 </Button>
                             )}
@@ -154,14 +155,14 @@ const WrappedForm = Form.create()(StepperForBuyer)
 
 const mapStateToProps = (state) => {
     return {
-        
+
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        
+
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WrappedForm)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WrappedForm))

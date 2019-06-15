@@ -25,7 +25,7 @@ class Confirmation extends Component {
     onShowImageList = (images) => {
         var result = null
         if (images && images.length > 0)
-            result = images.map((index, image) => {
+            result = images.map((image, index) => {
                 return (
                     <Image
                         key={index}
@@ -49,12 +49,12 @@ class Confirmation extends Component {
                     <div className="col-lg-8 col-md-8 col-sm-12">
                         <Descriptions title="Hình ảnh xác thực từ chính quyền địa phương" column={1}>
                             <Descriptions.Item label="Hình ảnh xác thực từ chính quyền địa phương">
-                                {transactionDetail.selldetail.confirmation.image}
+                                {this.onShowImageList(transactionDetail.selldetail.confirmation.image)}
                             </Descriptions.Item>
                         </Descriptions>
                     </div>
                     <Modal visible={previewImage} footer={null} onCancel={this.onHandleCancel} width="800px" style={{ height: "500px" }}>
-                        <img alt="example" src={previewUrl} style={{ width: "750px", height: "500px" }} />
+                        <img alt="example" src={previewUrl} style={{ width: "750px", height: "750px" }} />
                     </Modal>
                 </div>
                 :
@@ -62,12 +62,12 @@ class Confirmation extends Component {
                     <div className="col-lg-8 col-md-8 col-sm-12">
                         <Descriptions title="Hình ảnh xác thực từ chính quyền địa phương" column={1}>
                             <Descriptions.Item label="Hình ảnh xác thực từ chính quyền địa phương">
-                                {transactionDetail.rentdetail.confirmation.image}
+                                {this.onShowImageList(transactionDetail.rentdetail.confirmation.image)}
                             </Descriptions.Item>
                         </Descriptions>
                     </div>
                     <Modal visible={previewImage} footer={null} onCancel={this.onHandleCancel} width="800px" style={{ height: "500px" }}>
-                        <img alt="example" src={previewUrl} style={{ width: "750px", height: "500px" }} />
+                        <img alt="example" src={previewUrl} style={{ width: "750px", height: "750px" }} />
                     </Modal>
                 </div>
         )

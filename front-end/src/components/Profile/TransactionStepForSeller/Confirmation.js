@@ -39,7 +39,7 @@ class Confirmation extends Component {
             this.setState({
                 governmentArray: this.props.transactions.selldetail.confirmation.image,
             })
-        else if (this.props.transaction.typetransaction === 3) {
+        else if (this.props.transaction.typetransaction === 2) {
             this.setState({
                 governmentArray: this.props.transactions.rentdetail.confirmation.image,
             })
@@ -159,10 +159,11 @@ class Confirmation extends Component {
                     complete: true
                 }
 
-                this.props.onSendingSellingConfirmation(governmentData)
+                await this.props.onSendingSellingConfirmation(governmentData)
+                await this.setState({loading: false})
             })
         }
-        else if (this.props.transaction.typetransaction === 3) {
+        else if (this.props.transaction.typetransaction === 2) {
             return new Promise(async () => {
                 await Promise.all(this.state.governmentArray.map(image => {
                     if (image.url) {
@@ -180,7 +181,8 @@ class Confirmation extends Component {
                     complete: true
                 }
 
-                this.props.onSendingRentingConfirmation(governmentData)
+                await this.props.onSendingRentingConfirmation(governmentData)
+                await this.setState({loading: false})
             })
         }
 
@@ -192,11 +194,9 @@ class Confirmation extends Component {
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
                 try {
-                    this.setState({ loading: true })
+                    await this.setState({ loading: true })
                     await this.onUploadingGovernmentImages(this.state.governmentListImagesBeforeUpload);
                     await this.onSendingData(uploadList, transactions);
-                    this.setState({ loading: false })
-
                 } catch (error) {
                     message.error(error)
                 }

@@ -10,7 +10,7 @@ class Deposit extends Component {
 
         this.state = {
             depositTime: 0,
-            ratio: 0,
+            total: 0,
             loading: false
         }
     }
@@ -34,8 +34,20 @@ class Deposit extends Component {
         this.setState({ depositTime: formatDate })
     }
 
-    onChangeRatio = (value) => {
-        this.setState({ ratio: value })
+    onChangeTotal = (value) => {
+        this.setState({ total: value })
+    }
+
+    onHandleDeposit = (rule, value, callback) => {
+        if (value <= this.props.transactions.rentdetail.deal.deposit)
+            callback()
+        else callback(`Số tiền này phải nhỏ hơn số tiền đặt cọc đã thỏa thuận (${this.props.transactions.rentdetail.deal.deposit} ${this.props.transactions.project.unit})`)
+    }
+
+    onHandleSellingDeposit = (rule, value, callback) => {
+        if (value <= this.props.transactions.selldetail.deal.deposit)
+            callback()
+        else callback(`Số tiền này phải nhỏ hơn số tiền đặt cọc đã thỏa thuận (${this.props.transactions.selldetail.deal.deposit} ${this.props.transactions.project.unit})`)
     }
     handleSubmit = e => {
         e.preventDefault();
@@ -47,9 +59,11 @@ class Deposit extends Component {
                     console.log('Received values of form: ', values);
                     var detail = [
                         {
-                            ratio: values.depositRatio,
+                            ratio: Number(values.depositRatio),
                             description: values.depositContent,
-                            createTime: (Number(this.state.depositTime) === Number(this.props.transactions.selldetail.deposit.detail[0].createTime) || Number(this.state.depositTime) === 0) ? Number(this.props.transactions.selldetail.deposit.detail[0].createTime) : Number(this.state.depositTime)
+                            createTime: this.state.depositTime === 0 && this.props.transactions.selldetail.deposit.detail[0] !== undefined
+                                ? this.props.transactions.selldetail.deposit.detail[0].createTime
+                                : this.state.depositTime
                         }
                     ]
                     depositData = {
@@ -60,21 +74,24 @@ class Deposit extends Component {
                         _id: this.props.transaction._id,
                         id: this.props.transaction.selldetail._id,
                     }
-                    if (this.props.transactions.selldetail.deposit.detail[0].ratio === values.depositRatio
+                    if (this.props.transactions.selldetail.deposit.detail[0] !== undefined &&
+                        this.props.transactions.selldetail.deposit.detail[0].ratio === values.depositRatio
                         && this.props.transactions.selldetail.deposit.detail[0].description === values.depositContent
                         && this.props.transactions.selldetail.deposit.detail[0].createTime === detail[0].createTime)
                         return message.warning('Bạn chưa thay đổi gì cả!')
                     await this.props.onSendingSellingDeposit(depositData)
                     await this.setState({ loading: false })
                 }
-                else if (this.props.transaction.typetransaction === 3) {
+                else if (this.props.transaction.typetransaction === 2) {
                     this.setState({ loading: true })
                     console.log('Received values of form: ', values);
                     var detail = [
                         {
-                            ratio: values.depositRatio,
+                            ratio: Number(values.depositRatio),
                             description: values.depositContent,
-                            createTime: (Number(this.state.depositTime) === Number(this.props.transactions.rentdetail.deposit.detail[0].createTime) || Number(this.state.depositTime) === 0) ? Number(this.props.transactions.rentdetail.deposit.detail[0].createTime) : Number(this.state.depositTime)
+                            createTime: this.state.depositTime === 0 && this.props.transactions.rentdetail.deposit.detail[0] !== undefined
+                                ? this.props.transactions.rentdetail.deposit.detail[0].createTime
+                                : this.state.depositTime
                         }
                     ]
                     depositData = {
@@ -85,7 +102,8 @@ class Deposit extends Component {
                         _id: this.props.transaction._id,
                         id: this.props.transaction.rentdetail._id,
                     }
-                    if (this.props.transactions.rentdetail.deposit.detail[0].ratio === values.depositRatio
+                    if (this.props.transactions.rentdetail.deposit.detail[0] !== undefined &&
+                        this.props.transactions.rentdetail.deposit.detail[0].ratio === values.depositRatio
                         && this.props.transactions.rentdetail.deposit.detail[0].description === values.depositContent
                         && this.props.transactions.rentdetail.deposit.detail[0].createTime === detail[0].createTime)
                         return message.warning('Bạn chưa thay đổi gì cả!')
@@ -105,12 +123,12 @@ class Deposit extends Component {
                     <Form onSubmit={this.handleSubmit}>
                         <div className="row">
                             <div className="col-md-5 col-lg-5 col-xs-12">
-                                <Form.Item label="Tỉ lệ thanh toán (đơn vị: %): ">
-                                    {getFieldDecorator('depositRatio', {
-                                        initialValue: transactions.selldetail.deposit.detail[0] === undefined ? 0 : transactions.selldetail.deposit.detail[0].ratio,
+                                <Form.Item label="Số tiền đã thanh toán: ">
+                                    {getFieldDecorator('total', {
+                                        initialValue: transactions.selldetail.deposit.detail[0] === undefined ? 0 : (transactions.selldetail.deposit.detail[0].ratio * transactions.selldetail.deal.deposit) / 100 + ' ' + transactions.project.unit,
                                         rules: [
                                             { required: true, message: 'Trường này chưa được nhập!' },
-                                            // { validator: this.onCheckingDepositAmount }
+                                            { validator: this.onHandleSellingDeposit }
                                         ],
                                     })(
                                         <InputNumber
@@ -118,10 +136,7 @@ class Deposit extends Component {
                                             style={{ width: "100%" }}
                                             min={0}
                                             step={1}
-                                            max={100}
-                                            formatter={value => `${value}%`}
-                                            parser={value => value.replace('%', '')}
-                                            onChange={this.onChangeRatio}
+                                            onChange={this.onChangeTotal}
                                         />,
                                     )}
                                 </Form.Item>
@@ -173,9 +188,33 @@ class Deposit extends Component {
                         </div>
                         <div className="row">
                             <div className="col-md-3 col-lg-3 col-xs-12">
-                                <Form.Item label="Thành tiền: ">
-                                    {getFieldDecorator('total', {
-                                        initialValue: this.state.ratio === 0 || this.state.ratio > 100 ? null : (((this.state.ratio * transactions.project.price) / 100) >= 1000 ? Number((this.state.ratio * transactions.project.price) / 100000).toFixed(1) + ' Tỉ' : ((this.state.ratio * transactions.project.price) / 100) + ' ' + transactions.project.unit),
+                                <Form.Item label="Tỉ lệ thanh toán: ">
+                                    {getFieldDecorator('depositRatio', {
+                                        initialValue: this.state.total === 0 && transactions.selldetail.deposit.detail[0] !== undefined ? transactions.selldetail.deposit.detail[0].ratio : Number((this.state.total * 100) / transactions.selldetail.deal.deposit).toFixed(1),
+                                        rules: [
+                                            { required: true, message: 'Trường này chưa được nhập!' },
+                                            // { validator: this.onCheckingDepositAmount }
+                                        ],
+                                    })(
+                                        <InputNumber
+                                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                            style={{ width: "100%" }}
+                                            min={0}
+                                            step={1}
+                                            max={100}
+                                            formatter={value => `${value}%`}
+                                            parser={value => value.replace('%', '')}
+                                            // onChange={this.onChangeRatio}
+                                            readOnly
+                                        />,
+                                    )}
+                                </Form.Item>
+                            </div>
+
+                            <div className="col-md-3 col-lg-3 col-xs-12">
+                                <Form.Item label="Số tiền đặt cọc còn lại: ">
+                                    {getFieldDecorator('rest', {
+                                        initialValue: transactions.selldetail.deposit.detail[0] === undefined ? transactions.selldetail.deal.deposit - this.state.total : transactions.selldetail.deal.deposit,
                                         rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                                     })(
                                         <Input
@@ -209,12 +248,12 @@ class Deposit extends Component {
                     <Form onSubmit={this.handleSubmit}>
                         <div className="row">
                             <div className="col-md-5 col-lg-5 col-xs-12">
-                                <Form.Item label="Tỉ lệ thanh toán (đơn vị: %): ">
-                                    {getFieldDecorator('depositRatio', {
-                                        initialValue: transactions.rentdetail.deposit.detail[0] === undefined ? 0 : transactions.rentdetail.deposit.detail[0].ratio,
+                                <Form.Item label="Số tiền đã thanh toán: ">
+                                    {getFieldDecorator('total', {
+                                        initialValue: transactions.rentdetail.deposit.detail[0] === undefined ? 0 : (transactions.rentdetail.deposit.detail[0].ratio * transactions.rentdetail.deal.deposit) / 100 + ' ' + transactions.project.unit,
                                         rules: [
                                             { required: true, message: 'Trường này chưa được nhập!' },
-                                            // { validator: this.onCheckingDepositAmount }
+                                            { validator: this.onHandleDeposit }
                                         ],
                                     })(
                                         <InputNumber
@@ -222,10 +261,7 @@ class Deposit extends Component {
                                             style={{ width: "100%" }}
                                             min={0}
                                             step={1}
-                                            max={100}
-                                            formatter={value => `${value}%`}
-                                            parser={value => value.replace('%', '')}
-                                            onChange={this.onChangeRatio}
+                                            onChange={this.onChangeTotal}
                                         />,
                                     )}
                                 </Form.Item>
@@ -277,13 +313,23 @@ class Deposit extends Component {
                         </div>
                         <div className="row">
                             <div className="col-md-3 col-lg-3 col-xs-12">
-                                <Form.Item label="Thành tiền: ">
-                                    {getFieldDecorator('total', {
-                                        initialValue: this.state.ratio === 0 || this.state.ratio > 100 ? null : (((this.state.ratio * transactions.project.price) / 100) >= 1000 ? Number((this.state.ratio * transactions.project.price) / 100000).toFixed(1) + ' Tỉ' : ((this.state.ratio * transactions.project.price) / 100) + ' ' + transactions.project.unit),
-                                        rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
+                                <Form.Item label="Tỉ lệ thanh toán: ">
+                                    {getFieldDecorator('depositRatio', {
+                                        initialValue: this.state.total === 0 && transactions.rentdetail.deposit.detail[0] !== undefined ? transactions.rentdetail.deposit.detail[0].ratio : Number((this.state.total * 100) / transactions.rentdetail.deal.deposit).toFixed(1),
+                                        rules: [
+                                            { required: true, message: 'Trường này chưa được nhập!' },
+                                            // { validator: this.onCheckingDepositAmount }
+                                        ],
                                     })(
-                                        <Input
+                                        <InputNumber
+                                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                             style={{ width: "100%" }}
+                                            min={0}
+                                            step={1}
+                                            max={100}
+                                            formatter={value => `${value}%`}
+                                            parser={value => value.replace('%', '')}
+                                            // onChange={this.onChangeRatio}
                                             readOnly
                                         />,
                                     )}
@@ -322,7 +368,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onSendingSellingDeposit: (depositData) => dispatch(transAction.actPostingDepositRequest(depositData)),
         onGettingTransactionDetail: (id, type) => dispatch(transAction.actGettingTransactionDetailRequest(id, type)),
-        onSendingRentDeposit: (depositData) => dispatch(transAction.actPostingRentingDepositRequest(depositData))
+        onSendingRentingDeposit: (depositData) => dispatch(transAction.actPostingRentingDepositRequest(depositData))
     }
 }
 

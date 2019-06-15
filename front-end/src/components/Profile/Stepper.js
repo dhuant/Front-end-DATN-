@@ -10,6 +10,7 @@ import Delivery from './TransactionStepForSeller/Delivery'
 import Transfer from './TransactionStepForSeller/Transfer'
 import * as transAction from '../../actions/transactionRequest'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 const Step = Steps.Step;
 
@@ -19,18 +20,21 @@ class Stepper extends React.Component {
         this.state = {
             current: 0,
             percent: 0,
+            flag: false
         };
     }
 
     componentDidMount = () => {
         this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
     }
-    next = () => {
-        // await this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
+    next = async() => {
+        await this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
         console.log(this.props.transaction)
         if (this.props.transaction.typetransaction === 1) {
             switch (this.state.current) {
-                case 0: if (!this.props.transaction.selldetail.deal.complete) return null
+                case 0: if (!this.props.transaction.selldetail.deal.complete) {
+                    return null
+                }
                     break;
                 case 1: if (!this.props.transaction.selldetail.legality.complete) return null
                     break;
@@ -38,7 +42,7 @@ class Stepper extends React.Component {
                     break;
                 case 3: if (!this.props.transaction.selldetail.contract.complete) return null
                     break;
-                case 5: if (!this.props.transaction.selldetail.confirm.complete) return null
+                case 5: if (!this.props.transaction.selldetail.confirmation.complete) return null
                     break;
                 case 6: if (!this.props.transaction.selldetail.tax.complete) return null
                     break;
@@ -50,13 +54,15 @@ class Stepper extends React.Component {
         }
         else if (this.props.transaction.typetransaction === 2) {
             switch (this.state.current) {
-                case 0: if (this.props.transaction.rentdetail.deal.complete === false) return null
+                case 0: if (!this.props.transaction.rentdetail.deal.complete) {
+                    return null
+                }
                     break;
                 case 1: if (!this.props.transaction.rentdetail.deposit.complete) return null
                     break;
                 case 2: if (!this.props.transaction.rentdetail.contract.complete) return null
                     break;
-                case 3: if (!this.props.transaction.rentdetail.confirm.complete) return null
+                case 3: if (!this.props.transaction.rentdetail.confirmation.complete) return null
                     break;
                 case 4: if (!this.props.transaction.rentdetail.delivery.complete) return null
                     break;
@@ -67,20 +73,20 @@ class Stepper extends React.Component {
         const current = this.state.current + 1;
         this.setState({
             current,
-            percent: Number((this.state.percent + 100 / 7).toFixed(2))
+            percent: this.props.transaction.typetransaction === 1 ? Number((this.state.percent + 100 / 8).toFixed(2)) : Number(this.state.percent + 20)
         });
     }
 
     prev() {
         const current = this.state.current - 1;
-        this.setState({ current, percent: Number((this.state.percent - 100 / 7).toFixed(2)) });
+        this.setState({ current, percent: this.props.transaction.typetransaction === 1 ? Number((this.state.percent + 100 / 8).toFixed(2)) : Number(this.state.percent + 20) });
     }
     hasErrors = (fieldsError) => {
         return Object.keys(fieldsError).some(field => fieldsError[field]);
     }
 
-    handleComplete = e => {
-        e.preventDefault();
+    handleComplete = () => {
+        // event.preventDefault()
         this.setState({ percent: 100 })
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
@@ -187,7 +193,7 @@ class Stepper extends React.Component {
                                 </Button>
                             )}
                             {current === steps.length - 1 && (
-                                <Button style={{ marginLeft: "10px" }} type="primary" onClick={this.handleComplete}>
+                                <Button style={{ marginLeft: "10px" }} type="primary" onClick={() => this.handleComplete()}>
                                     <i className="fa fa-check" style={{ marginRight: "3px" }}></i> Hoàn tất
                                 </Button>
                             )}
@@ -214,4 +220,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WrappedForm)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WrappedForm))

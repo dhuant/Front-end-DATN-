@@ -177,10 +177,11 @@ class Contract extends Component {
                     return message.warning('Bạn chưa thay đổi gì cả!')
                 }
                 else console.log("Thay đổi")
-                this.props.onSendingSellingContract(contractData)
+                await this.props.onSendingSellingContract(contractData)
+                await this.setState({loading: false})
             })
         }
-        else if (this.props.transaction.typetransaction === 3) {
+        else if (this.props.transaction.typetransaction === 2) {
             return new Promise(async () => {
                 await Promise.all(this.state.contractArray.map(image => {
                     if (image.url) {
@@ -211,7 +212,8 @@ class Contract extends Component {
                     return message.warning('Bạn chưa thay đổi gì cả!')
                 }
                 else console.log("Thay đổi")
-                this.props.onSendingRentingContract(contractData)
+                await this.props.onSendingRentingContract(contractData)
+                await this.setState({loading: false})
             })
         }
 
@@ -226,7 +228,7 @@ class Contract extends Component {
                     await this.setState({ loading: true })
                     await this.onUploadingImages(this.state.listImagesBeforeUpload);
                     await this.onSendingData(uploadList, transactions, values);
-                    this.setState({ loading: false })
+                    // await this.setState({ loading: false })
                 } catch (error) {
                     message.error(error)
                 }
@@ -248,7 +250,7 @@ class Contract extends Component {
                             <div className="col-md-4 col-lg-4 col-xs-12">
                                 <Form.Item label="Ngày ký hợp đồng: ">
                                     {getFieldDecorator('contractSigningDate', {
-                                        initialValue: moment(moment.unix(transactions.selldetail.contract.datesign).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
+                                        initialValue: transactions.selldetail.contract.datesign === 0 ? null : moment(moment.unix(transactions.selldetail.contract.datesign).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
                                         rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                                     })(
                                         <DatePicker style={{ width: "100%" }} onChange={this.onChangeDate} />
@@ -258,7 +260,7 @@ class Contract extends Component {
                             <div className="col-md-4 col-lg-4 col-xs-12">
                                 <Form.Item label="Số hợp đồng: ">
                                     {getFieldDecorator('contractNumber', {
-                                        initialValue: transactions.selldetail.contract.number,
+                                        initialValue: transactions.selldetail.contract.number === 0 ? null : transactions.selldetail.contract.number,
                                         rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                                     })(
                                         <Input
@@ -333,7 +335,7 @@ class Contract extends Component {
                             <div className="col-md-4 col-lg-4 col-xs-12">
                                 <Form.Item label="Ngày ký hợp đồng: ">
                                     {getFieldDecorator('contractSigningDate', {
-                                        initialValue: moment(moment.unix(transactions.rentdetail.contract.datesign).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
+                                        initialValue: transactions.rentdetail.contract.datesign === 0 ? null : moment(moment.unix(transactions.rentdetail.contract.datesign).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
                                         rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                                     })(
                                         <DatePicker style={{ width: "100%" }} onChange={this.onChangeDate} />
@@ -343,7 +345,7 @@ class Contract extends Component {
                             <div className="col-md-4 col-lg-4 col-xs-12">
                                 <Form.Item label="Số hợp đồng: ">
                                     {getFieldDecorator('contractNumber', {
-                                        initialValue: transactions.rentdetail.contract.number,
+                                        initialValue: transactions.rentdetail.contract.number === 0 ? null : transactions.rentdetail.contract.number,
                                         rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                                     })(
                                         <Input
