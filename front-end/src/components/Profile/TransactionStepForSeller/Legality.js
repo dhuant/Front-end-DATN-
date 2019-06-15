@@ -389,7 +389,8 @@ class Legality extends Component {
                 && legalityInfo.certificate === transactions.selldetail.legality.certificate)
                 return message.warning("Bạn chưa thay đổi gì cả!")
 
-            this.props.onSendingLegality(legalityInfo)
+            await this.props.onSendingLegality(legalityInfo)
+            await this.setState({loading: false})
         })
     }
     handleSubmit = (e) => {
@@ -404,7 +405,7 @@ class Legality extends Component {
                     await this.onUploadingCertificateImages(this.state.certificateListImagesBeforeUpload)
                     await this.onUploadingGovernmentImages(this.state.governmentListImagesBeforeUpload)
                     await this.onSendingData(contractUploadList, certificateUploadList, governmentUploadList, transactions);
-                    await this.setState({ loading: false })
+                    
                 } catch (error) {
                     message.error(error)
                 }

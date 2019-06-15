@@ -41,7 +41,7 @@ class Delivery extends Component {
           await this.props.onSendingSellingDelivery(deliveryData)
           await this.setState({ loading: false })
         }
-        else if (this.props.transaction.typetransaction === 3) {
+        else if (this.props.transaction.typetransaction === 2) {
           await this.setState({ loading: true })
           console.log('Received values of form: ', values);
           deliveryData = {

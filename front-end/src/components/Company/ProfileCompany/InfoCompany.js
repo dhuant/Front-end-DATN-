@@ -1,9 +1,46 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {ADD_ACCOUNT, CHANGE_PASSWORD,LIST_EMPLOYEES, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY} from '../../../constants/Company/profileCompany'
+import { ADD_ACCOUNT, CHANGE_PASSWORD, LIST_EMPLOYEES, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY } from '../../../constants/Company/profileCompany'
+import Dropzone from 'react-dropzone'
+import request from 'superagent'
+import { message } from 'antd'
 
+const CLOUDINARY_UPLOAD_PRESET = 'nn6imhmo';
+const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dne3aha8f/image/upload';
 
 class InfoCompany extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            uploadedFile: null,
+            uploadedFileCloudinaryUrl: ''
+        }
+    }
+
+    onImageSelect(files) {
+        this.setState({
+            uploadedFile: files[0]
+        });
+        console.log(files)
+        this.handleImageUpload(files[0]);
+    }
+
+    handleImageUpload(file) {
+        console.log(file)
+        request
+            .post(CLOUDINARY_UPLOAD_URL)
+            .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+            .field('file', file)
+            .then(response => {
+                console.log(response)
+                this.setState({
+                    uploadedFileCloudinaryUrl: response.body.secure_url,
+                })
+            })
+            .catch(err => message.error(`Có lỗi xảy ra: ${err}`))
+    }
+
     onAddAccountEmployee = (e) => {
         e.preventDefault();
         this.props.history.push('/company/add-account-employee');
@@ -28,23 +65,38 @@ class InfoCompany extends Component {
         e.preventDefault()
         this.props.history.push('/company/transhistory')
     }
-    
+
     render() {
         let userInfoCompany = JSON.parse(localStorage.getItem('company'))
+        var { uploadedFileCloudinaryUrl } = this.state
+        if (uploadedFileCloudinaryUrl !== '') localStorage.setItem('avatar', uploadedFileCloudinaryUrl)
         return (
             <div>
                 <div className="user-account-box">
-                    <div className="header clearfix" style={{padding:'15px 15px 15px 15px'}}>
-                        <div style={{textAlign:'center', padding:'25px 25px 25px 25px'}}>
-                            <img style={{textAlign:'center'}} src={userInfoCompany.avatar} alt="agent-1" className="img-responsive" />
-                            {/* <img src='https://res.cloudinary.com/dne3aha8f/image/upload/v1559203321/ddtyciszy3oiwdjasrjh.png?fbclid=IwAR3RFWWiOrMw-sMiNigCXJMFEGdpYw_FUBa4PxZYZLTtHvjLaa1JjBpNGy0' alt="agent-1" className="img-responsive" /> */}
-                            
-                            {/* <div className="change-photo-btn">
+                    <div className="header clearfix" >
+                        <div className="edit-profile-photo">
+                            <img style={{ width: "150px", height: "150px" }} src={localStorage.getItem('avatar') !== '' ? localStorage.getItem('avatar') : userInfoCompany.avatar} alt="agent-1" className="img-responsive" />
+                            <div className="change-photo-btn">
                                 <div className="photoUpload">
-                                    <span><i className="fa fa-upload" /> Upload Photo</span>
-                                    <input type="file" className="upload" />
+                                    <Dropzone
+                                        onDrop={this.onImageSelect.bind(this)}
+                                        multiple={false}
+                                        accept="image/*">
+                                        {({ getRootProps, getInputProps }) => {
+                                            return (
+                                                <div
+                                                    {...getRootProps()}
+                                                >
+                                                    <input {...getInputProps()} />
+                                                    {
+                                                        <span><i className="fa fa-upload" /> Đổi ảnh đại diện</span>
+                                                    }
+                                                </div>
+                                            )
+                                        }}
+                                    </Dropzone>
                                 </div>
-                            </div> */}
+                            </div>
                         </div>
                         {/* <h3>{userInfoCompany.fullname}</h3> */}
                     </div>
@@ -80,7 +132,7 @@ class InfoCompany extends Component {
                                     <i className="flaticon-internet" />Lịch sử giao dịch
                                 </a>
                             </li>
-                            
+
                             <li>
                                 <a href="true">
                                     <i className="flaticon-sign-out-option" />Đăng xuất

@@ -24,9 +24,11 @@ class Contract extends Component {
     }
 
     onShowImageList = (images) => {
+        console.log(images)
         var result = null
         if (images && images.length > 0)
-            result = images.map((index, image) => {
+            result = images.map((image, index) => {
+                console.log(image.url)
                 return (
                     <Image
                         key={index}
@@ -84,7 +86,7 @@ class Contract extends Component {
                         </Descriptions>
                     </div>
                     <Modal visible={previewImage} footer={null} onCancel={this.onHandleCancel} width="800px" style={{ height: "500px" }}>
-                        <img alt="example" src={previewUrl} style={{ width: "750px", height: "500px" }} />
+                        <img alt="example" src={previewUrl} style={{ width: "750px", height: "750px" }} />
                     </Modal>
                 </div>
         )

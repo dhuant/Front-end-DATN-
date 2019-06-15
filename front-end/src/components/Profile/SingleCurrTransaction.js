@@ -32,7 +32,7 @@ class SingleCurrTransaction extends Component {
                 </td>
                 <td style={{ width: "200px" }}>
                   <div style={{ marginTop: "5px" }}>
-                    {transactionSingle.complete === false ? 
+                    {transactionSingle.status === 1 ? 
                       <Tag color="cyan">Đang trong quá trình giao dịch</Tag>
                     : <Tag color="lime">Đang chờ xác nhận</Tag>}
                     

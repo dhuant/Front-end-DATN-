@@ -34,7 +34,7 @@ class DetailCompany extends Component {
                     email: values.email,
                     phone: `${values.prefix} ${values.phone}`,
                     description: values.description,
-                    avatar: 'https://res.cloudinary.com/dne3aha8f/image/upload/v1559203321/ddtyciszy3oiwdjasrjh.png?fbclid=IwAR3RFWWiOrMw-sMiNigCXJMFEGdpYw_FUBa4PxZYZLTtHvjLaa1JjBpNGy0',
+                    avatar: localStorage.getItem('avatar') ? localStorage.getItem('avatar') : 'https://res.cloudinary.com/dne3aha8f/image/upload/v1559203321/ddtyciszy3oiwdjasrjh.png?fbclid=IwAR3RFWWiOrMw-sMiNigCXJMFEGdpYw_FUBa4PxZYZLTtHvjLaa1JjBpNGy0',
                     createTime: moment().unix(),
                     updateTime: moment().unix(),
                 }

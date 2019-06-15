@@ -153,7 +153,8 @@ class Transfer extends Component {
                 complete: true
             }
 
-            this.props.onSendingTransfer(transferData)
+            await this.props.onSendingTransfer(transferData)
+            await this.setState({loading: false})
         })
     }
     handleSubmit = (e) => {
@@ -166,7 +167,6 @@ class Transfer extends Component {
                     await this.setState({ loading: true })
                     await this.onUploadingOwnerImages(this.state.ownerListImagesBeforeUpload);
                     await this.onSendingData(uploadList, transactions);
-                    this.setState({ loading: false })
                 } catch (error) {
                     message.error(error)
                 }

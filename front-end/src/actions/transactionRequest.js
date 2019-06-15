@@ -175,6 +175,7 @@ export const actPostingTransferRequest = (transferInfo) => {
         return axios.post("http://localhost:3001/selldetail/transfer", transferInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingTransfer(res.data.transfer))
+                message.success("Thành công!")
             })
             .catch(error => {
                 message.error(`Có lỗi xảy ra: ${error}`)

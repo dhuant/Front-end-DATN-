@@ -3,8 +3,9 @@ import { withRouter } from 'react-router-dom';
 import { MY_PROPERTIES, MY_FOLLOWING, SUBMIT_ESTATE, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY, WAITING_REQUEST } from '../../constants/Profile'
 import Dropzone from 'react-dropzone'
 import request from 'superagent'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import * as actions from '../../actions/request'
+import { message } from 'antd'
 
 const CLOUDINARY_UPLOAD_PRESET = 'nn6imhmo';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dne3aha8f/image/upload';
@@ -28,22 +29,17 @@ class Info extends Component {
     }
     handleImageUpload(file) {
         console.log(file)
-        let upload = request.post(CLOUDINARY_UPLOAD_URL)
+        request
+            .post(CLOUDINARY_UPLOAD_URL)
             .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-            .field('file', file);
-
-        upload.end((err, response) => {
-            console.log(response)
-            if (err) {
-                console.error(err);
-            }
-
-            if (response.body.secure_url !== '') {
+            .field('file', file)
+            .then(response => {
+                console.log(response)
                 this.setState({
-                    uploadedFileCloudinaryUrl: response.body.secure_url
-                });
-            }
-        });
+                    uploadedFileCloudinaryUrl: response.body.secure_url,
+                })
+            })
+            .catch(err => message.error(`Có lỗi xảy ra: ${err}`))
     }
     onMyProperties = (e) => {
         e.preventDefault();
@@ -77,13 +73,13 @@ class Info extends Component {
         e.preventDefault()
         this.props.history.push('/waiting')
     }
-    componentDidMount =() => {
+    componentDidMount = () => {
         this.props.onGetUserInfo()
     }
     render() {
         let userInfo = JSON.parse(localStorage.getItem('res'))
         var { uploadedFileCloudinaryUrl } = this.state
-        let {user} = this.props
+        let { user } = this.props
         console.log(user)
         console.log(uploadedFileCloudinaryUrl)
         if (uploadedFileCloudinaryUrl !== '') localStorage.setItem('avatar', uploadedFileCloudinaryUrl)
@@ -195,15 +191,15 @@ class Info extends Component {
     }
 }
 
-const mapStateToProps =(state) => {
+const mapStateToProps = (state) => {
     return {
         user: state.user
     }
 }
 
-const mapDispatchToProps =(dispatch) => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        onGetUserInfo : () => dispatch(actions.actGetUserInfoRequest())
+        onGetUserInfo: () => dispatch(actions.actGetUserInfoRequest())
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Info));

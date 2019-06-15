@@ -18,7 +18,8 @@ class Deal extends Component {
         this.state = {
             dealdate: 0,
             typeofpay: 1,
-            loading: false
+            loading: false,
+            monthNumber: 0
         }
     }
 
@@ -43,7 +44,7 @@ class Deal extends Component {
                     await this.setState({ loading: true })
                     console.log('Received values of form: ', values);
                     var dealInfo = {
-                        total: Number(document.getElementById('TotalPrice').value),
+                        total: this.props.transaction.project.price,
                         deposit: Number(document.getElementById('deposit').value),
                         typeofpay: this.state.typeofpay === this.props.transactions.selldetail.deal.typeofpay ? Number(this.props.transactions.selldetail.deal.typeofpay) : Number(this.state.typeofpay),
                         datedeal: (Number(this.state.dealdate) === Number(this.props.transactions.selldetail.deal.datedeal) || Number(this.state.dealdate) === 0) ? Number(this.props.transactions.selldetail.deal.datedeal) : Number(this.state.dealdate),
@@ -73,22 +74,22 @@ class Deal extends Component {
                     await this.props.onSendingSellingDeal(dealInfo)
                     await this.setState({ loading: false })
                 }
-                else if (this.props.transaction.typetransaction === 3) {
+                else if (this.props.transaction.typetransaction === 2) {
                     await this.setState({ loading: true })
                     console.log('Received values of form: ', values);
-                    var dealInfo = {
-                        total: Number(document.getElementById('TotalPrice').value),
-                        deposit: Number(document.getElementById('deposit').value),
+                    var dealRentingInfo = {
+                        total: this.props.transactions.project.price,
+                        deposit: this.props.transaction.project.price * this.state.monthNumber,
                         typeofpay: this.state.typeofpay === this.props.transactions.rentdetail.deal.typeofpay ? Number(this.props.transactions.rentdetail.deal.typeofpay) : Number(this.state.typeofpay),
                         datedeal: (Number(this.state.dealdate) === Number(this.props.transactions.rentdetail.deal.datedeal) || Number(this.state.dealdate) === 0) ? Number(this.props.transactions.rentdetail.deal.datedeal) : Number(this.state.dealdate),
                         description: document.getElementById('moreInformation').value,
                         complete: true,
                         updateTime: moment().unix(),
-                        _id: this.props.transactions._id,
+                        transactionid: this.props.transactions._id,
                         id: this.props.transactions.rentdetail._id,
                     }
 
-                    var existedDealInfo = {
+                    var existedDealRentingInfo = {
                         total: Number(this.props.transactions.rentdetail.deal.total),
                         deposit: Number(this.props.transactions.rentdetail.deal.deposit),
                         typeofpay: Number(this.props.transactions.rentdetail.deal.typeofpay),
@@ -96,15 +97,14 @@ class Deal extends Component {
                         datedeal: Number(this.props.transactions.rentdetail.deal.datedeal)
                     }
 
-                    if (dealInfo.total === existedDealInfo.total
-                        && dealInfo.deposit === existedDealInfo.deposit
-                        && dealInfo.typeofpay === existedDealInfo.typeofpay
-                        && dealInfo.datedeal === existedDealInfo.datedeal
-                        && dealInfo.description === existedDealInfo.description) {
+                    if (dealRentingInfo.deposit === existedDealRentingInfo.deposit
+                        && dealRentingInfo.typeofpay === existedDealRentingInfo.typeofpay
+                        && dealRentingInfo.datedeal === existedDealRentingInfo.datedeal
+                        && dealRentingInfo.description === existedDealRentingInfo.description) {
                         return message.warning("Bạn chưa thay đổi gì cả!")
                     }
-
-                    await this.props.onSendingRentingDeal(dealInfo)
+                    console.log(dealRentingInfo)
+                    await this.props.onSendingRentingDeal(dealRentingInfo)
                     await this.setState({ loading: false })
                 }
             }
@@ -119,6 +119,9 @@ class Deal extends Component {
         var formatDate = moment(dateString, 'YYYY/MM/DD, h:mm a').unix()
         this.setState({ dealdate: formatDate })
     }
+    onChangeMonth = (value) => {
+        this.setState({ monthNumber: value })
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         var { transactions } = this.props
@@ -129,7 +132,7 @@ class Deal extends Component {
                     <Form onSubmit={this.handleSubmit}>
                         <div className="row">
                             <div className="col-md-4 col-lg-4 col-xs-12" >
-                                <Form.Item label={this.props.transaction.typeproject === 1 ? "Tổng giá trị (triệu đồng): " : `Tổng giá trị: `}>
+                                <Form.Item label={`Tổng giá trị: `}>
                                     {/* {getFieldDecorator('TotalPrice', {
                                         initialValue: transactions.selldetail.deal.total === 0 ? null : transactions.selldetail.deal.total,
                                         rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
@@ -145,7 +148,7 @@ class Deal extends Component {
                                     )} */}
                                     <InputNumber
                                         style={{ width: "100%" }}
-                                        formatter={value => `${value} ${this.props.transaction.project.unit}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                        formatter={value => this.props.transaction.project.price < 1000 ? `${value} ${this.props.transaction.project.unit}` : `${(value/1000).toFixed(1)} Tỉ`}
                                         parser={value => value.replace(`${this.props.transaction.project.unit}`, '')}
                                         id="TotalPrice"
                                         min={0}
@@ -218,7 +221,7 @@ class Deal extends Component {
                         <div className="row">
                             <div className="col-md-8 col-lg-8 col-xs-12">
                                 <Form.Item>
-                                    <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }}>
+                                    <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
                                         {loading && (
                                             <i
                                                 className="fa fa-refresh fa-spin"
@@ -237,11 +240,11 @@ class Deal extends Component {
                 <div className="container">
                     <Form onSubmit={this.handleSubmit}>
                         <div className="row">
-                            <div className="col-md-4 col-lg-4 col-xs-12" >
-                                <Form.Item label={this.props.transaction.typeproject === 1 ? "Tổng giá trị (triệu đồng): " : `Tổng giá trị: `}>
+                            <div className="col-md-3 col-lg-3 col-xs-12" >
+                                <Form.Item label={`Tổng giá trị: `}>
                                     <InputNumber
                                         style={{ width: "100%" }}
-                                        formatter={value => `${value} ${this.props.transaction.project.unit}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                        formatter={value => `${value} ${this.props.transaction.project.unit}`}
                                         parser={value => value.replace(`${this.props.transaction.project.unit}`, '')}
                                         id="TotalPrice"
                                         min={0}
@@ -250,20 +253,36 @@ class Deal extends Component {
                                     />,
                                 </Form.Item>
                             </div>
-                            <div className="col-md-4 col-lg-4 col-xs-12">
-                                <Form.Item label={`Tiền đặt cọc (${this.props.transaction.project.unit}): `}>
-                                    {getFieldDecorator('deposit', {
-                                        initialValue: transactions.rentdetail.deal.deposit === 0 ? null : transactions.rentdetail.deal.deposit,
+                            <div className="col-md-2 col-lg-2 col-xs-12">
+                                <Form.Item label={`Số tháng cọc: `}>
+                                    {getFieldDecorator('monthNumber', {
+                                        initialValue: transactions.rentdetail.deal.deposit === 0 ? 0 : transactions.rentdetail.deal.deposit / transactions.project.price,
                                         rules: [
                                             { required: true, message: 'Trường này chưa được nhập!' },
-                                            { validator: this.OnHandleDeposit }
                                         ],
                                     })(
                                         <InputNumber
                                             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                             style={{ width: "100%" }}
-                                            // defaultValue={transactions.rentdetail.deal.deposit}
-                                            id="deposit"
+                                            id="monthNumber"
+                                            onChange={this.onChangeMonth}
+                                            step={0.5}
+                                            min={0.5}
+                                        />,
+                                    )}
+                                </Form.Item>
+                            </div>
+                            <div className="col-md-3 col-lg-3 col-xs-12">
+                                <Form.Item label="Thành tiền: ">
+                                    {getFieldDecorator('total', {
+                                        initialValue: this.state.monthNumber === 0
+                                            ? transactions.rentdetail.deal.deposit + ' ' + transactions.project.unit
+                                            : this.state.monthNumber * transactions.project.price + ' ' + transactions.project.unit,
+                                        rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
+                                    })(
+                                        <Input
+                                            style={{ width: "100%" }}
+                                            readOnly
                                         />,
                                     )}
                                 </Form.Item>
@@ -313,7 +332,7 @@ class Deal extends Component {
                         <div className="row">
                             <div className="col-md-8 col-lg-8 col-xs-12">
                                 <Form.Item>
-                                    <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }}>
+                                    <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
                                         {loading && (
                                             <i
                                                 className="fa fa-refresh fa-spin"
@@ -344,7 +363,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onSendingSellingDeal: (dealInfo) => dispatch(transAction.actPostingDealRequest(dealInfo)),
         onGettingTransactionDetail: (id, type) => dispatch(transAction.actGettingTransactionDetailRequest(id, type)),
-        onSendingRentingDeal: (dealInfo) => dispatch(transAction.actPostingRentingDealRequest(dealInfo))
+        onSendingRentingDeal: (dealRentingInfo) => dispatch(transAction.actPostingRentingDealRequest(dealRentingInfo))
     }
 
 }
