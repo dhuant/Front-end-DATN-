@@ -3,7 +3,7 @@ import Company from '../../components/Contact/Company'
 import MainHeader from '../../components/MainHeader'
 import * as actions from '../../actions/Contact/requestContact';
 import { connect } from 'react-redux';
-
+import {Pagination} from 'antd'
 
 class ListCompaies extends Component {
     constructor(props) {
@@ -11,11 +11,11 @@ class ListCompaies extends Component {
         this.state ={
             page: 1,
         }
-        this.props.reqGetListCompanies(this.state.page);
+        this.props.reqGetListCompanies(this.props.match.params.page);
 
     }
     componentDidMount(){
-        this.props.reqGetListCompanies(this.state.page);
+        this.props.reqGetListCompanies(this.props.match.params.page);
     }
     render() {
         let {companies} = this.props;
@@ -23,18 +23,7 @@ class ListCompaies extends Component {
         let des =''
         let listCompanies = <h5 style={{marginLeft:'15px'}}>Hiện không có công ty nào</h5>;
 		if (companies.length > 0) {
-			// if (option === '1') {
-			// 	companies = companies.sort((a, b) => (a.price - b.price))
-			// }
-			// else if(option === '2'){
-			// 	companies = companies.sort((a, b) => (b.price - a.price))
-			// }
-			// else if(option === '3') {
-			// 	companies = companies.sort((a, b) => (a.area - b.area))
-			// }
-			// else if(option === '4') {
-			// 	companies = companies.sort((a, b) => (b.area - a.area))
-			// }
+			
 			des = `Hiện đang có ${companies.length} công ty đối tác trên hệ thống`
 			listCompanies = companies.map((company, index) => {
 				return (
@@ -80,6 +69,10 @@ class ListCompaies extends Component {
                         <div class="clearfix"></div>
                         <div className="row">
                             {listCompanies}
+                        </div>
+                        <div>
+                        {/* <Pagination current={this.state.current} pageSize={pageSize}onChange={this.onChange} total={total} /> */}
+
                         </div>
                     </div>
                 </div>

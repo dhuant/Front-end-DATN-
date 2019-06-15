@@ -49,12 +49,12 @@ class AgentDetail extends Component {
             company = info.company
         }
         let mobile = 'Đang cập nhật'
-        if (info.phone !== ' ') {
+        if (info.phone !== ' ' && info.phone !== "") {
             mobile = info.phone
         }
         let address = 'Đang cập nhật'
 
-        if (info.address !== ' ') {
+        if (info.address !== ' ' && info.address !== "") {
             address = info.address
         }
         return (
@@ -86,7 +86,7 @@ class AgentDetail extends Component {
                                     <div className="col-lg-5 col-md-6 col-sm-5 agent-theme">
                                         <img src={info.avatar} style={{ height: '280px', width: '290px' }} alt="agent-1" className="img-responsive" />
                                     </div>
-                                    <div className="col-lg-7 col-md-6 col-sm-7 agent-content clearfix">
+                                    <div className="col-lg-7 col-md-6 col-sm-7 agent-content" style={{padding:'20px 10px'}}>
                                         {/* <h5>Creative Director</h5> */}
                                         <h3>
                                             {info.fullname}
@@ -100,12 +100,12 @@ class AgentDetail extends Component {
                                                 </span>
                                                 {info.email}
                                             </li>
-                                            <li>
+                                            {/* <li>
                                                 <span>
                                                     <i className="fa fa-phone" />Công ty:
                                                 </span>
                                                 {company}
-                                            </li>
+                                            </li> */}
                                             <li>
                                                 <span>
                                                     <i className="fa fa-mobile" />Điện thoại:
@@ -117,6 +117,12 @@ class AgentDetail extends Component {
                                                     <i className="fa fa-map-marker" />Địa chỉ:
                                                 </span>
                                                 {address}
+                                            </li>
+                                            <li>
+                                                <span>
+                                                    <i className="fa fa-file" />Bài đăng:
+                                                </span>
+                                                {info.totalProject}
                                             </li>
                                         </ul>
 

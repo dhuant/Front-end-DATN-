@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter, Switch, Route, } from 'react-router-dom';
 import Login from './pages/Login';
 import Login2 from './pages/Login2';
-// import Home from './pages/Home';
+import Home from './pages/Home';
 import SubmitProperty from './pages/SubmitProperty'
 import Map from './pages/Map'
 import Profile from './pages/Profile'
@@ -52,6 +52,7 @@ class App extends Component {
         <div>
           <Switch>
             <Route exact path='/test' component={test} />
+            <Route exact path='/homee' component={Home} />
             <Route exact path='/' component={HomeMap} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/login2' component={Login2} />
@@ -82,7 +83,7 @@ class App extends Component {
             <Route exact path='/forgotpassword' component={ForgotPasswordEmployee}/>
             {/* Agent */}
             <Route exact path='/agents' component={ListAgents}/>
-            <Route exact path='/companies' component={ListCompaies}/>
+            <Route exact path='/companies/:page' component={ListCompaies}/>
             <Route exact path='/agentdetail/:id' component={AgentDetail}/>
             <Route exact path='/companydetail/:id' component={CompanyDetail}/>
             {/* ---------- */}
