@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/request';
 import AddressData from '../countries-flat.json'
 import { message } from 'antd';
+import {LIST_ESTATES} from '../constants/Navbar'
 
 
 const optionStyle = {
@@ -197,16 +198,16 @@ class EstateListListView extends Component {
         }
         return (
             <div>
-                <MainHeader />
+                <MainHeader component={LIST_ESTATES}/>
                 {/* Sub banner start */}
                 <div className="sub-banner overview-bgi">
                     <div className="overlay">
                         <div className="container">
                             <div className="breadcrumb-area">
-                                <h1>Properties Grid</h1>
+                                <h1>Danh sách bài đăng</h1>
                                 <ul className="breadcrumbs">
-                                    <li><a href="true" onClick={this.onRedirectHome}>Home</a></li>
-                                    <li className="active">Properties Grid</li>
+                                    <li><a href="true" onClick={this.onRedirectHome}>Trang chủ</a></li>
+                                    <li className="active">Danh sách bài đăng</li>
                                 </ul>
                             </div>
                         </div>
