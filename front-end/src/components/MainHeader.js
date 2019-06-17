@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {HOME, NEWS, ABOUT} from '../constants/Navbar'
+import {HOME, NEWS, ABOUT, LIST_ESTATES} from '../constants/Navbar'
 
 class MainHeader extends Component {
     constructor() {
@@ -35,6 +35,10 @@ class MainHeader extends Component {
     onLogin = (e) => {
         e.preventDefault();
         this.props.history.push('/login');
+    }
+    onListEstate = (e) => {
+        e.preventDefault();
+        this.props.history.push('/estatelistview')
     }
     onHandleProfile = (e) => {
         e.preventDefault();
@@ -155,6 +159,11 @@ class MainHeader extends Component {
                                     <li className={this.props.component === NEWS ? "active" : ""}>
                                         <a href="true" onClick={this.onNews}>
                                             Tin tức
+                                        </a>
+                                    </li>
+                                    <li className={this.props.component === LIST_ESTATES ? "active" : ""}>
+                                        <a href="true" onClick={this.onListEstate}>
+                                            Danh sách
                                         </a>
                                     </li>
                                     {/* <li className="dropdown mega-dropdown">
