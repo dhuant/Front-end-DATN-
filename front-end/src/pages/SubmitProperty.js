@@ -151,12 +151,12 @@ class SubmitProperty extends Component {
                         await this.props.history.goBack()
                     }
                     else if (res.status === 203) {
-                        message.error('Tài khoản của bạn đã đạt giới hạn đăng bài (5 bài). Vui lòng upgrade tài khoản để đăng nhiều hơn!')
+                        return message.error('Tài khoản của bạn đã đạt giới hạn đăng bài (5 bài). Vui lòng upgrade tài khoản để đăng nhiều hơn!')
                     }
                     else if (res.status === 204) {
-                        message.error('Tài khoản của bạn đã đạt giới hạn bài đăng (40 bài)')
+                        return message.error('Tài khoản của bạn đã đạt giới hạn bài đăng (40 bài)')
                     }
-                    else message.error('Đăng bài thất bại!');
+                    else return message.error('Đăng bài thất bại!');
                 });
         }
         await this.setState({ loading: false })
@@ -705,7 +705,7 @@ class SubmitProperty extends Component {
                                         {/* </div> */}
                                         <br></br>
                                         <div className="row">
-                                            <Button type="submit" variant="success" style={{ fontSize: "16px", padding: "15px 30px 15px 30px" }} onClick={this.onSubmit} className="btn button-md button-theme" disabled={loading}>
+                                            <Button type="submit" variant="success" style={{ fontSize: "16px", padding: "15px 30px 15px 30px" }} className="btn button-md button-theme" disabled={loading}>
                                                 {loading && (
                                                     <i
                                                         className="fa fa-refresh fa-spin"

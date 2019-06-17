@@ -137,12 +137,10 @@ export const actGetFollowingListRequest = () => {
       return axios.get(`http://localhost:3001/users/listSaved`, { headers: authHeader() }).then(res => {
         if (res.data.status === 200)
           dispatch(Action.actGetFollowingList(res.data.result.projects))
-        return message.success("Lấy danh sách theo dõi thành công!")
       })
         .catch(err => {
           if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
             return null
-          return message.error("Có lỗi xảy ra khi lấy danh sách theo dõi!")
         })
     }
   else return null
