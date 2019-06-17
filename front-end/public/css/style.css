@@ -7389,3 +7389,10 @@ table.manage-table .title-container .title span {
     transition: .5s;
     cursor: pointer;
 }
+
+.pull-right #follow:hover{
+    color: red;
+    transition: .5s;
+    cursor: pointer;
+    font-weight: bold
+}

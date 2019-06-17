@@ -86,16 +86,13 @@ class PropertiesDetail extends Component {
     }
     handleChange = selectedOption => {
         this.setState({ selectedOption });
-        console.log(`Option selected:`, selectedOption);
     };
     handleChangeRating = (starvalue) => {
         this.setState({ starValue: starvalue })
-        // return document.getElementsByClassName("ratingStar").value
     }
     componentDidMount = () => {
         this.props.onGetCommentsById(this.props.id)
         this.props.onGetFollowingList()
-        console.log(this.props.follow, "indidmount")
     }
     onShowImagesThumbnail = (images) => {
         if (images === undefined || images.length === 0) {
@@ -222,7 +219,7 @@ class PropertiesDetail extends Component {
         return comment
     }
 
-    onHandleFollowing = (estateInfo, check) => {
+    onHandleFollowing = async(estateInfo, check) => {
         if (localStorage.getItem('res') === null) {
             message.warning('Bạn cần đăng nhập trước!')
             return <Login />
@@ -241,7 +238,8 @@ class PropertiesDetail extends Component {
             console.log(this.props.follow)
         }
         else if (check === true) {
-            this.props.onUnfollowProject(unfollowInfo)
+            await this.props.onGetFollowingList()
+            await this.props.onUnfollowProject(unfollowInfo)
             console.log(this.props.follow)
         }
         else return null
@@ -282,13 +280,11 @@ class PropertiesDetail extends Component {
         });
     };
     onChange = (page) => {
-        this.setState({current: page})
+        this.setState({ current: page })
     }
     render() {
         const { getFieldDecorator } = this.props.form
         let { info, comments, follow } = this.props;
-        console.log(comments.length)
-        console.log(info)
         let check = false
         if (follow && follow.length > 0 && info) {
             for (var i = 0; i < follow.length; i++) {
@@ -303,12 +299,9 @@ class PropertiesDetail extends Component {
                 <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                     {/* Header */}
                     <div className="heading-properties clearfix sidebar-widget">
-                        <div className="pull-left">
+                        <div className="pull-left col-lg-8 col-md-8 col-sm-10 col-xs-10">
                             <h3>
                                 {info.name}
-                                <Button type="danger" onClick={() => this.onHandleFollowing(info, check)} style={{ top: "-0.2em", marginLeft: "10px" }} className="FollowButton">
-                                    <span>{check === true ? " Bỏ theo dõi" : "Theo dõi"}</span>
-                                </Button>
                             </h3>
                             <p>
                                 <i className="fa fa-map-marker" />
@@ -317,9 +310,22 @@ class PropertiesDetail extends Component {
                         </div>
                         <div className="pull-right">
                             <h3>
-                                <span>{info.price >= 1000 ? Number((info.price / 1000).toFixed(1)) : info.price}</span>
+                                <span>
+                                    {info.price >= 1000
+                                        ? Number((info.price / 1000).toFixed(1)) + ' ' + ((info.statusProject === 1 && info.price >= 1000) ? 'Tỉ' : info.unit)
+                                        : info.price + ' ' + ((info.statusProject === 1 && info.price >= 1000) ? 'Tỉ' : info.unit)}
+                                </span>
                             </h3>
-                            <h5>{(info.statusProject === 1 && info.price >= 1000) ? 'Tỉ' : info.unit}</h5>
+                            <i className={check === true ? "fa fa-star" : "fa fa-star-o"}
+                                style={check === true
+                                    ? { cursor: "pointer", color: "red", fontWeight: "bold", float: "right", fontSize: "18px" }
+                                    : { cursor: "pointer", float: "right", fontSize: "18px" }
+                                }
+                                id="follow"
+                                onClick={() => this.onHandleFollowing(info, check)}
+                            >
+                                <span style={{ marginLeft: "5px" }}>{check === true ? "Bỏ yêu thích" : "Yêu thích"}</span>
+                            </i>
                         </div>
                     </div>
                     {/* Properties detail slider start */}
@@ -532,11 +538,11 @@ class PropertiesDetail extends Component {
                                     </h1>
                                     </div>
                                     <div className="pull-right">
-                                        <Pagination 
-                                            size="small" 
-                                            current={this.state.current} 
-                                            total={comments.length} 
-                                            onChange={this.onChange} 
+                                        <Pagination
+                                            size="small"
+                                            current={this.state.current}
+                                            total={comments.length}
+                                            onChange={this.onChange}
                                             pageSize={pageSize}
                                         />
                                     </div>
