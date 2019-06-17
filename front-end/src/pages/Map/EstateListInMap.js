@@ -64,8 +64,7 @@ class EstateListInMap extends Component {
 			}
 			)
 		}
-		// console.log(estates);
-		// console.log(this.props.estates);
+		
 		return (
 			<div>
 				<div className="col-xs-12 col-sm-12 col-md-5 col-md-pull-7 col-lg-3 col-lg-pull-9 map-content-sidebar" >
@@ -111,57 +110,7 @@ class EstateListInMap extends Component {
 								</div>
 
 							</div>
-							{/* <div id="options-content" className="collapse">
-								<div className="row" >
-									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-										<div className="form-group">
-											<Select
-												placeholder="Bacony"
-												// value={selectedOption}
-												onChange={this.handleChange}
-												options={options}
-												menuPosition="fixed"
-											/>
-										</div>
-									</div>
-									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-										<div className="form-group">
-											<Select
-												placeholder="Garage"
-												// value={selectedOption}
-												onChange={this.handleChange}
-												options={options}
-												menuPosition="fixed"
-											/>
-										</div>
-									</div>
-								</div>
-								<div className="row">
-									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-										<div className="form-group">
-											<Select
-												placeholder="Bathrooms"
-												// value={selectedOption}
-												onChange={this.handleChange}
-												options={options}
-												menuPosition="fixed"
-											/>
-										</div>
-									</div>
-									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-										<div className="form-group">
-											<Select
-												placeholder="Bedrooms"
-												// value={selectedOption}
-												onChange={this.handleChange}
-												options={options}
-												menuPosition="fixed"
-											/>
-										</div>
-									</div>
-								</div>
-
-							</div> */}
+							
 						</div>
 
 						<div className="map-content-separater" />

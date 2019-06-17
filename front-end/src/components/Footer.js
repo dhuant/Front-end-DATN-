@@ -6,7 +6,7 @@ const Footer = () => {
             {
                 /* Footer start */
             }
-            ;<footer className="main-footer clearfix">
+            <footer className="main-footer clearfix">
                 <div className="container">
                     {/* Footer info*/}
                     <div className="footer-info">
