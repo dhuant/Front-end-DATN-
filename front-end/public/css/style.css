@@ -5577,7 +5577,7 @@ table.manage-table .title-container img {
     width: 20% !important;
     flex: 1.1;
     margin-right: 26px;
-    margin-top: 26px
+    margin-top: 10px
 }
 
 table.manage-table .title-container {
@@ -7383,6 +7383,10 @@ table.manage-table .title-container .title span {
     width: 100%;
     background: #95c41f;
     float: right
+}
+
+.transaction-button:hover {
+    background: #C00B18;
 }
 .transactionSingle:hover{
     background-color: #F7FBFB;

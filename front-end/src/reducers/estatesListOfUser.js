@@ -7,7 +7,7 @@ const estatesListOfUser = (state = initialState, action) => {
     switch (action.type) {
         case Types.GET_ESTATE_LIST_OF_USER:
             state = action.estatesListOfUser
-            console.log(state)
+            console.log(state, action)
             return [...state]
         case EDIT_USER_PROJECT:
             console.log(action, state)

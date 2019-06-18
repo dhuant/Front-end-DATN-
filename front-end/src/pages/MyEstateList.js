@@ -9,25 +9,29 @@ import { connect } from 'react-redux'
 import * as actions from '../actions/request';
 import { Pagination } from 'antd'
 
-const pageSize = 5
+const pageSize = 10
 class MyEstateList extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            current: 1
+            current: 1,
         }
     }
 
     componentDidMount = () => {
-        this.props.onGetEstateListOfUser('0')
+        this.props.onGetEstateListOfUser(`${this.state.current}`)
     }
 
-    onChange = (page) => {
-        this.setState({ current: page })
+    onChange = async(page) => {
+        console.log(page)
+        await this.setState({ current: page })
+        await this.props.onGetEstateListOfUser(`${page}`)
+        
     }
     render() {
         let { estatesListOfUser } = this.props
+        console.log(estatesListOfUser)
         return (
             <div>
                 <MainHeader />
@@ -64,11 +68,12 @@ class MyEstateList extends Component {
                                         {this.onShowEstateListOfUser(estatesListOfUser)}
                                     </tbody>
                                 </table>
+                                <br></br>
                                 <div className="pull-right">
                                     <Pagination
                                         // size="small"
                                         current={this.state.current}
-                                        total={estatesListOfUser.length}
+                                        total={JSON.parse(localStorage.getItem('res')).user.totalProject}
                                         onChange={this.onChange}
                                         pageSize={pageSize}
                                     />
@@ -85,9 +90,9 @@ class MyEstateList extends Component {
     }
     onShowEstateListOfUser = (estates) => {
         var result = null;
-        var currentList = estates.slice((this.state.current - 1) * pageSize, this.state.current * pageSize)
+        // var currentList = estates.slice((this.state.current - 1) * pageSize, this.state.current * pageSize)
         if (estates.length > 0) {
-            result = currentList.map((estate, index) => {
+            result = estates.map((estate, index) => {
                 return (
                     <SingleProperty key={index} estateListOfUser={estate} />
                 );
@@ -101,7 +106,7 @@ class MyEstateList extends Component {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetEstateListOfUser: () => dispatch(actions.actGetEstateListOfUserRequest())
+        onGetEstateListOfUser: (page) => dispatch(actions.actGetEstateListOfUserRequest(page))
     }
 }
 

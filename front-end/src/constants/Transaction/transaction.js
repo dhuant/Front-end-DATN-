@@ -3,6 +3,7 @@ export const CHANGE_STATUS = 'CHANGE_STATUS'
 export const TRANSACTION_HISTORY = 'TRANSACTION_HISTORY'
 export const TRANSACTION_DETAIL = 'TRANSACTION_DETAIL'
 export const TRANSACTION_COMPLETE = 'TRANSACTION_COMPLETE'
+export const TRANSACTION_CANCEL = 'TRANSACTION_CANCEL'
 //Chi tiết các bước trong giao dịch mua/bán bất động sản
 export const DEAL = 'DEAL'
 export const LEGALITY = 'LEGALITY'

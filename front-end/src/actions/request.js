@@ -25,7 +25,6 @@ export const actSearchMapRequest = info => {
   return dispatch => {
     return axios.post("http://localhost:3001/projects/searchmap", info)
       .then(res => {
-        console.log('search');
         dispatch(actMap.actSearchMap(res.data.projects));
       })
       .catch(error => {

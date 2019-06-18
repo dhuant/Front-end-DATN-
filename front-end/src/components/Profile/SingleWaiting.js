@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react'
 import { List, Avatar, Button, Modal, Select, Form } from 'antd';
 import { connect } from 'react-redux'

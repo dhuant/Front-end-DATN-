@@ -16,6 +16,8 @@ const desc = ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Tuyệt vời']
 class PropertiesDetail extends Component {
     constructor(props) {
         super(props);
+        console.log(props)
+        this.props.onGetEstateDetail(this.props.id)
         this.state = {
             selectedOption: null,
             starValue: 0,
@@ -23,6 +25,7 @@ class PropertiesDetail extends Component {
             isFollow: false,
             requestVisible: false,
             current: 1,
+            info: {},
             options: {
                 annotations: {
                     position: 'front'
@@ -92,8 +95,35 @@ class PropertiesDetail extends Component {
     }
     componentDidMount = () => {
         this.props.onGetCommentsById(this.props.id)
+        this.props.onGetEstateDetail(this.props.id)
         this.props.onGetFollowingList()
+        console.log(this.props.estateInfo)
     }
+
+    // getSnapshotBeforeUpdate = (prevProps, prevState) => {
+    //     console.log(prevProps.info)
+    //     console.log(this.props.info)
+    //     if (prevProps.info !== this.props.info)
+    //         return this.props.info
+    //     return null
+    // }
+
+    // componentDidUpdate = (prevProps, prevState, snapshot) => {
+    //     if (snapshot) {
+    //         console.log(this.props.info)
+    //         var relatedData = {
+    //             type: this.props.info.type,
+    //             statusProject: this.props.info.statusProject,
+    //             area: `0-${(this.props.info.area) * 2}`,
+    //             price: `0-${(this.props.info.price) * 1.5}`,
+    //             radius: 10,
+    //             lat: this.props.info.lat,
+    //             long: this.props.info.long
+    //         }
+
+    //     }
+    // }
+
     onShowImagesThumbnail = (images) => {
         if (images === undefined || images.length === 0) {
             return null
@@ -219,7 +249,7 @@ class PropertiesDetail extends Component {
         return comment
     }
 
-    onHandleFollowing = async(estateInfo, check) => {
+    onHandleFollowing = async (estateInfo, check) => {
         if (localStorage.getItem('res') === null) {
             message.warning('Bạn cần đăng nhập trước!')
             return <Login />
@@ -284,7 +314,8 @@ class PropertiesDetail extends Component {
     }
     render() {
         const { getFieldDecorator } = this.props.form
-        let { info, comments, follow } = this.props;
+        let { info, comments, follow, related, estateInfo } = this.props;
+        console.log(estateInfo)
         let check = false
         if (follow && follow.length > 0 && info) {
             for (var i = 0; i < follow.length; i++) {
@@ -355,12 +386,12 @@ class PropertiesDetail extends Component {
                         {/* Property description start */}
                         <div className="panel-box properties-panel-box Property-description">
                             <ul className="nav nav-tabs">
-                                <li className="active">
+                                <li className="active col-md-4 col-lg-4 col-xs-6">
                                     <a href="#tab1default" data-toggle="tab" aria-expanded="true">
                                         Mô tả chi tiết
                                     </a>
                                 </li>
-                                <li className>
+                                <li className="col-md-4 col-lg-4 col-xs-6">
                                     <a
                                         href="#tab2default"
                                         data-toggle="tab"
@@ -369,18 +400,9 @@ class PropertiesDetail extends Component {
                                         Thông tin liên hệ
                                     </a>
                                 </li>
-                                <li className>
-                                    <a
-                                        href="#tab5default"
-                                        data-toggle="tab"
-                                        aria-expanded="false"
-                                    >
-                                        Video
-                                    </a>
-                                </li>
-                                <li className style={{ top: "4px", left: "20px" }}>
+                                <li className="col-md-4 col-lg-4 col-xs-12" style={{ top: "4px", left: "20px" }}>
                                     <div className="form-group mb-0">
-                                        <button className="transaction-button" onClickCapture={this.onShowRequestModal}>Tiến hành giao dịch<i className="fa fa-bitcoin" style={{ marginLeft: "5px" }}></i></button>
+                                        <button className="transaction-button" onClickCapture={this.onShowRequestModal} style={{ backgroundColor: "#E70919" }}>Tiến hành giao dịch</button>
                                     </div>
                                 </li>
                             </ul>
@@ -445,40 +467,7 @@ class PropertiesDetail extends Component {
                                             {/* Properties condition end */}
                                         </div>
 
-                                        <div className="tab-pane fade" id="tab4default">
-                                            {/* Floor Plans start */}
-                                            <div className="floor-plans">
-                                                <h1>
-                                                    <span>Floor </span> Plans
-                        </h1>
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <strong>Size</strong>
-                                                            </td>
-                                                            <td>
-                                                                <strong>Rooms</strong>
-                                                            </td>
-                                                            <td>
-                                                                <strong>2 Bathrooms</strong>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>1600</td>
-                                                            <td>3</td>
-                                                            <td>2</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                <img
-                                                    src="img/properties/floor-plans.html"
-                                                    alt="floor-plans"
-                                                    className="img-responsive"
-                                                />
-                                            </div>
-                                            {/* Floor Plans end */}
-                                        </div>
+
                                         <div className="tab-pane fade" id="tab5default">
                                             {/* Inside properties start  */}
                                             <div className="inside-properties">
@@ -509,7 +498,7 @@ class PropertiesDetail extends Component {
                             {/* Main Title 2 */}
                             <div className="main-title-2">
                                 <h1>
-                                    <span>Location</span>
+                                    <span>Vị trí</span>
                                 </h1>
                             </div>
                             <MapOfDetailEstate info={info} />
@@ -601,7 +590,7 @@ class PropertiesDetail extends Component {
                     </div>
                     {/* Properties details section end */}
                 </div>
-                <Sidebar info={info} />
+                <Sidebar related={related} />
                 <Modal
                     title="Gửi yêu cầu giao dịch"
                     style={{ top: 20 }}
@@ -684,14 +673,18 @@ const mapDispathToProp = (dispatch) => {
         onFollowProject: (data, project) => dispatch(actions.actFollowProjectRequest(data, project)),
         onGetFollowingList: () => dispatch(actions.actGetFollowingListRequest()),
         onUnfollowProject: (data) => dispatch(actions.actUnfollowProjectRequest(data)),
-        onSendingRequest: (data) => dispatch(transAction.actAddingWaitingRequest(data))
+        onSendingRequest: (data) => dispatch(transAction.actAddingWaitingRequest(data)),
+        onSearchRelatedEstate: (data) => dispatch(actions.actSearchMapRequest(data)),
+        onGetEstateDetail: (id) => dispatch(actions.actGetEstateRequest(id))
     }
 }
 const mapStateToProp = (state) => {
     return {
         comments: state.comments,
         follow: state.follow,
-        waiting: state.waiting
+        waiting: state.waiting,
+        related: state.estates,
+        estateInfo: state.estateInfo
     }
 }
 

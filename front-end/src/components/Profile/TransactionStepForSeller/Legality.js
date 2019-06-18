@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import { connect } from 'react-redux'
