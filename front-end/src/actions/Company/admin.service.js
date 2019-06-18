@@ -8,6 +8,7 @@ export const adminService ={
     changeLockEmployee,
     editEmployee,
     changePermissionEmployee,
+    deleteEmployee,
 };
 
 function addAccount(account) {
@@ -82,6 +83,20 @@ function changeLockEmployee(data){
 function editEmployee(data){
     return new Promise((resolve,reject) => {
         axios.post(`${config.API_URL}/company/editemployee`, data, { headers: authCompany() })
+        .then(res => {
+            if(res.data.status === 200) {
+                resolve(res.data);
+            } else {
+                reject(res.data)
+            } 
+        })
+        .catch(err => reject(err.response))
+    });
+}
+
+function deleteEmployee(data) {
+    return new Promise((resolve,reject) => {
+        axios.post(`${config.API_URL}/company/deleteemployee`, data, { headers: authCompany() })
         .then(res => {
             if(res.data.status === 200) {
                 resolve(res.data);

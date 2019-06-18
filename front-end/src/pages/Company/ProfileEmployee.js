@@ -44,6 +44,65 @@ class ProfileEmployee extends Component {
             this.showConfirmChangePermission()
         }
     }
+    onCheckDel = async () => {
+        await this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page)
+        let auth = this.props.auth;
+        if (auth === false) {
+            // message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
+            this.props.history.push('/company/login')
+        }
+        else if (auth === true) {
+            this.showConFirmDeleteEmployee()
+        }
+    }
+    showConFirmDeleteEmployee = () => {
+        confirm({
+            title: 'Bạn có chắc chắc muốn xóa nhân viên này?',
+            onOk: () => {
+                this.setState({
+                    disable: true
+                })
+                let data = {
+                    id: this.props.match.params.id
+                }
+                console.log(data)
+                message.loading('Đang xử lý yêu cầu, vui lòng chờ trong giây lát', 2)
+                    .then(() => {
+                        adminService.deleteEmployee(data)
+                            .then(res => {
+                                if (res.status === 200) {
+                                    message.success('Xóa nhân viên thành công');
+                                }
+                                this.props.history.push('/company/list-employees')
+                            })
+                            .catch(err => {
+                                if (err) {
+                                    if (err.data.status === 401) {
+                                        localStorage.removeItem('company')
+                                        message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
+                                        this.props.history.push('/company/login')
+                                    }
+                                    else {
+                                        message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                    }
+                                }
+                                else {
+                                    message.error('Lỗi. Phiền bạn kiểm tra lại đường truyền!')
+
+                                }
+                                this.setState({
+                                    disable: false,
+                                })
+
+                            })
+                    });
+                console.log(this.state.disable)
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    }
     showConfirmChangePermission = () => {
         let changePermission = !this.props.info.permission;
 
@@ -74,7 +133,7 @@ class ProfileEmployee extends Component {
                                     this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page)
                                 })
                                 .catch(err => {
-                                    if(err){
+                                    if (err) {
                                         if (err.data.status === 401) {
                                             localStorage.removeItem('company')
                                             message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
@@ -84,17 +143,16 @@ class ProfileEmployee extends Component {
                                             message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
                                         }
                                     }
-                                    else{
+                                    else {
                                         message.error('Lỗi. Phiền bạn kiểm tra lại đường truyền!')
-                                        
+
                                     }
                                     this.setState({
                                         disable: false,
                                     })
-                                    
+
                                 })
                         });
-                    console.log('Ok');
                     console.log(this.state.disable)
                 },
                 onCancel() {
@@ -128,7 +186,7 @@ class ProfileEmployee extends Component {
                                     // req.push('/company/profile-admin')
                                 })
                                 .catch(err => {
-                                    if(err){
+                                    if (err) {
                                         if (err.data.status === 401) {
                                             localStorage.removeItem('company')
                                             message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
@@ -138,13 +196,13 @@ class ProfileEmployee extends Component {
                                             message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
                                         }
                                     }
-                                    else{
+                                    else {
                                         message.error('Lỗi. Phiền bạn kiểm tra lại đường truyền!')
                                     }
                                     this.setState({
                                         disable: false,
                                     })
-                                    
+
                                 })
                         });
                     console.log(this.state.disable)
@@ -222,7 +280,7 @@ class ProfileEmployee extends Component {
                                     this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page)
                                 })
                                 .catch(err => {
-                                    if(err){
+                                    if (err) {
                                         if (err.data.status === 401) {
                                             localStorage.removeItem('company')
                                             message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại')
@@ -230,17 +288,17 @@ class ProfileEmployee extends Component {
                                         }
                                         else {
                                             message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
-                                            
+
                                         }
                                     }
-                                    else{
+                                    else {
                                         message.error('Lỗi. Phiền bạn kiểm tra lại đường truyền!')
 
                                     }
                                     this.setState({
                                         disable: false,
                                     })
-                                    
+
                                 })
                         });
                     console.log('Ok');
@@ -277,7 +335,7 @@ class ProfileEmployee extends Component {
                                     // req.push('/company/profile-admin')
                                 })
                                 .catch(err => {
-                                    if(err){
+                                    if (err) {
                                         if (err.data.status === 401) {
                                             localStorage.removeItem('company')
                                             message.error('Bạn đã hết phiên đăng nhập. Vui lòng đăng nhập lại!')
@@ -287,7 +345,7 @@ class ProfileEmployee extends Component {
                                             message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại!')
                                         }
                                     }
-                                    else{
+                                    else {
                                         message.error('Lỗi. Phiền bạn kiểm tra lại đường truyền!')
                                     }
                                     this.setState({
@@ -485,6 +543,15 @@ class ProfileEmployee extends Component {
                     Chỉnh sửa tài khoản
             </Button>
 
+            let btnDel =
+                <Button
+                    type="default"
+                    style={{ margin: '5px 0 5px 0', width: '157px' }}
+                    disabled={this.state.disable}
+                    onClick={this.onCheckDel}
+                >
+                    Xóa nhân viên
+            </Button>
             let verify = <Tag style={{ fontSize: '13px' }} color='red'>Chưa kích hoạt</Tag>
             if (info.verify === true) {
                 verify = <Tag style={{ fontSize: '13px' }} color='geekblue'>Đã kích hoạt</Tag>
@@ -496,6 +563,14 @@ class ProfileEmployee extends Component {
                     >
                         Chỉnh sửa tài khoản
                 </Button>
+                btnDel =
+                    <Button
+                        type="default"
+                        style={{ margin: '5px 0 5px 0', width: '157px' }}
+                        disabled
+                    >
+                        Xóa nhân viên
+            </Button>
             }
             let lock = <Tag style={{ fontSize: '13px' }} color='red'>Tài khoản bị khóa</Tag>
             if (info.lock === false) {
@@ -505,27 +580,27 @@ class ProfileEmployee extends Component {
             let btnPer =
                 <Button
                     type="default"
-                    style={{ margin: '5px 0 5px 0', width: '157px', height:'52px', backgroundColor:'lightgreen' }}
+                    style={{ margin: '5px 0 5px 0', width: '157px', height: '52px', backgroundColor: '#9a973b' }}
                     disabled={this.state.disable}
                     onClick={this.onCheckAuthPermission}
                 >
-                    <p style={{whiteSpace: ' pre-line', color:'brown'}}>
-                    Phải kiểm duyệt bài đăng
+                    <p style={{ whiteSpace: ' pre-line', color: 'white' }}>
+                        Phải kiểm duyệt bài đăng
                     </p>
                 </Button>
             if (info.permission === false) {
                 btnPer =
                     <Button
                         type="default"
-                        style={{ margin: '5px 0 5px 0', width: '157px', height:'52px', backgroundColor:'lightgreen' }}
+                        style={{ margin: '5px 0 5px 0', width: '157px', height: '52px', backgroundColor: '#7d6f7c'}}
                         disabled={this.state.disable}
                         onClick={this.onCheckAuthPermission}
                     >
-                        <p style={{whiteSpace: ' pre-line', color:'brown'}}>
+                        <p style={{ whiteSpace: ' pre-line', color: 'white' }}>
                             Cho phép đăng
                         bài không cần duyệt
                         </p>
-                </Button>
+                    </Button>
             }
             return (
                 <div>
@@ -606,13 +681,15 @@ class ProfileEmployee extends Component {
                                                     justifyContent: 'center'
                                                 }}>
                                                 <div>
-                                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                                                    >
+                                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                         <div>
                                                             {btnPer}
                                                         </div>
                                                         <div>
                                                             {btn}
+                                                        </div>
+                                                        <div>
+                                                            {btnDel}
                                                         </div>
                                                         <Modal
                                                             title="Basic Modal"
@@ -624,10 +701,10 @@ class ProfileEmployee extends Component {
                                                             footer={[
                                                                 <Button key="back" onClick={this.handleCancel}>
                                                                     Hủy
-                                                </Button>,
+                                                                </Button>,
                                                                 <Button key="submit" type="primary" onClick={this.handleSubmit}>
                                                                     Chỉnh sửa
-                                                </Button>,
+                                                                </Button>,
                                                             ]}
                                                         >
                                                             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
