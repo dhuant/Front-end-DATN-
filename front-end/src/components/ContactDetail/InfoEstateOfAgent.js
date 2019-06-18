@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {Tag} from 'antd'
+import { Tag } from 'antd'
 import moment from 'moment'
 
 class InfoEstateOfAgent extends Component {
@@ -19,7 +19,7 @@ class InfoEstateOfAgent extends Component {
                                 {/* <div className="property-tag button alt featured">Featured</div>
                                 <div className="property-tag button sale">For Sale</div>
                                 <div className="property-price">$150,000</div> */}
-                                <img style={{height:'244px'}} src={project.url[0]} alt="fp-list" className="img-responsive hp-1" />
+                                <img style={{ height: '244px' }} src={project.url[0]} alt="fp-list" className="img-responsive hp-1" />
                                 {/* <div className="property-overlay">
                                     
                                 </div> */}
@@ -27,7 +27,7 @@ class InfoEstateOfAgent extends Component {
                         </div>
                         <div className="col-lg-8 col-md-8 col-sm-8 col-xs-12 property-content ">
                             {/* title */}
-                            <h2 className="title" style={{marginTop:'8px', fontSize:'17px'}}>
+                            <h2 className="title" style={{ marginTop: '8px', fontSize: '17px' }}>
                                 <a href="true">{project.name}</a>
                             </h2>
                             <p style={{
@@ -36,16 +36,17 @@ class InfoEstateOfAgent extends Component {
                                 textOverflow: "ellipsis",
                                 lineHeight: '16px',
                                 WebkitLineClamp: '2',
-                                display:'webkit-box',
+                                display: 'webkit-box',
                                 WebkitBoxOrient: 'vertical',
-                                height:'32px'}}>{project.info}</p>
+                                height: '32px'
+                            }}>{project.info}</p>
                             {/* Property address */}
                             <h6 style={{ fontSize: '13px' }}>
                                 <b>Địa chỉ:</b> {project.address}
-                        </h6>
+                            </h6>
                             <h6 style={{ fontSize: '13px' }}>
                                 <b>Diện tích:</b> {project.area}
-                        </h6>
+                            </h6>
 
                             {/* Property footer */}
                             <div className="property-footer">
@@ -53,14 +54,14 @@ class InfoEstateOfAgent extends Component {
                                     <a href="true"><i className="fa fa-user" />{project.fullname}</a>
                                 </span>
                                 <span className="right">
-                                <Tag style={{ fontSize: '13px' }} color='green'>
-                                    <p style={{ fontSize: '13px',margin:'auto', color:'green', textAlign: 'center'}}><strong>Đăng ngày:</strong>{moment.unix(project.updateTime).format('DD/MM/YYYY')}</p></Tag>
-                            </span>
+                                    <Tag style={{ fontSize: '13px' }} color='green'>
+                                        <p style={{ fontSize: '13px', margin: 'auto', color: 'green', textAlign: 'center' }}><strong>Đăng ngày:</strong>{moment.unix(project.updateTime).format('DD/MM/YYYY')}</p></Tag>
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </Link> 
+            </Link>
         );
     }
 }

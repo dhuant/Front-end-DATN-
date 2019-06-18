@@ -11,9 +11,17 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/request';
 import AddressData from '../countries-flat.json'
 import { message } from 'antd';
-import {LIST_ESTATES} from '../constants/Navbar'
+import { LIST_ESTATES } from '../constants/Navbar'
+import { Pagination } from 'antd'
 
-
+const pageSize = 5
+const Options = [
+	{ value: '0', label: 'Thông thường' },
+	{ value: '1', label: 'Giá thấp nhất' },
+	{ value: '2', label: 'Giá cao nhất' },
+	{ value: '3', label: 'Diện tích nhỏ nhất' },
+	{ value: '4', label: 'Diện tích lớn nhất' }
+];
 const optionStyle = {
     fontSize: '12px',
     overflow: "scroll",
@@ -72,12 +80,21 @@ class EstateListListView extends Component {
             prices: Price[Deal[0].value],
             area: Area[0].value,
             loading: false,
+            option: Options[0].value,
 
             city: '',
             ward: '',
             province: '',
+            current: 1,
         }
     }
+    //=== onchange cho pagination
+    onChange = page => {
+        console.log(page);
+        this.setState({
+            current: page,
+        });
+    };
     //===============
     handleDealChange = (e) => {
         let target = e.target;
@@ -150,13 +167,13 @@ class EstateListListView extends Component {
                 loading: true
             })
             let address = ''
-            if(this.state.ward !== '' && this.state.city!=='' ){
+            if (this.state.ward !== '' && this.state.city !== '') {
                 address = `${this.state.ward}, ${this.state.city}, ${this.state.province},`
             }
-            else if(this.state.ward === '' && this.state.city!=='' ){
+            else if (this.state.ward === '' && this.state.city !== '') {
                 address = `${this.state.city}, ${this.state.province},`
             }
-            else if(this.state.ward === '' && this.state.city ===''){
+            else if (this.state.ward === '' && this.state.city === '') {
                 address = `${this.state.province},`
             }
             const data = {
@@ -168,7 +185,7 @@ class EstateListListView extends Component {
 
             }
             await this.props.actSearchEstate(data)
-            this.setState({loading:false})
+            this.setState({ loading: false })
             console.log(data)
         }
 
@@ -179,6 +196,12 @@ class EstateListListView extends Component {
     }
 
     render() {
+        let { option } = this.state;
+        let total = 1
+        let list = []
+        let current = this.state.current
+        let offset = (current - 1) * pageSize;
+        let des = 'Hiện chưa có bài đăng'
         let { type, deal, prices, price, area, city, ward, province } = this.state;
         let estates = this.props.estates
         console.log(estates)
@@ -189,8 +212,23 @@ class EstateListListView extends Component {
         // let estates = this.props.estates;
         // console.log(estates);
         let estatesList = null;
-        if (estates) {
-            estatesList = estates.map((estate, index) => {
+        if (estates.length > 0) {
+            if (option === '1') {
+				estates = estates.sort((a, b) => (a.price - b.price))
+			}
+			else if(option === '2'){
+				estates = estates.sort((a, b) => (b.price - a.price))
+			}
+			else if(option === '3') {
+				estates = estates.sort((a, b) => (a.area - b.area))
+			}
+			else if(option === '4') {
+				estates = estates.sort((a, b) => (b.area - a.area))
+			}
+            des = `Có ${estates.length} bài đăng`
+            total = estates.length
+            list = estates.slice(offset, current * pageSize)
+            estatesList = list.map((estate, index) => {
                 return (
                     <SingleEstateListView key={index} estate={estate} />
                 )
@@ -198,7 +236,7 @@ class EstateListListView extends Component {
         }
         return (
             <div>
-                <MainHeader component={LIST_ESTATES}/>
+                <MainHeader component={LIST_ESTATES} />
                 {/* Sub banner start */}
                 <div className="sub-banner overview-bgi">
                     <div className="overlay">
@@ -216,7 +254,7 @@ class EstateListListView extends Component {
                 {/* Sub Banner end */}
 
                 {/* Properties section body start */}
-                <div className="properties-section-body content-area" style={{ backgroundColor: '#ebebeb', marginTop:'-30px' }}>
+                <div className="properties-section-body content-area" style={{ backgroundColor: '#ebebeb', marginTop: '-30px' }}>
                     <div className="container">
                         <div className="properties-map-search" style={{ backgroundColor: '#5d1070' }}>
                             <div className="properties-map-search-content" style={{ paddingTop: '15px' }}>
@@ -258,6 +296,7 @@ class EstateListListView extends Component {
                                                     <select className="form-control"
                                                         name="province"
                                                         id="province"
+                                                        value={province}
                                                         required
                                                         onChange={this.onHandleChangeAddress}
                                                         style={optionStyle}
@@ -275,6 +314,7 @@ class EstateListListView extends Component {
                                                         id="city"
                                                         onChange={this.onHandleChangeAddress}
                                                         style={optionStyle}
+                                                        value={city}
                                                     >
                                                         <option style={{ display: "none" }}>---Chọn quận/huyện---</option>
                                                         {cityList.map((single, indexx) => <option key={indexx} value={single}>{single}</option>)}
@@ -288,9 +328,9 @@ class EstateListListView extends Component {
                                                     <select className="form-control"
                                                         name="ward"
                                                         id="ward"
-                                                        required
                                                         onChange={this.onHandleChangeAddress}
                                                         style={optionStyle}
+                                                        value={ward}
                                                     >
                                                         <option style={{ display: "none" }}>---Chọn xã/phường---</option>
                                                         {wardList.map((single, indexx) => <option key={indexx} value={single}>{single}</option>)}
@@ -339,28 +379,6 @@ class EstateListListView extends Component {
                                             </div>
 
                                         </div>
-                                        {/* <div
-                                        className="col-lg-2 col-md-2 col-sm-12  col-xs-12"
-                                        style={{
-                                            height: '90px',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            position: 'relative'
-                                        }}>
-
-                                        <div>
-                                            <button
-                                                onClick={this.onSearchMap}
-                                                type="button" class="btn btn-success"
-                                                style={{ width: '100px' }}
-                                            >
-                                                Tìm kiếm
-                                    </button>
-                                        </div>
-
-                                    </div> */}
-
                                     </div>
                                 </form>
                             </div>
@@ -371,43 +389,43 @@ class EstateListListView extends Component {
                                 {/* Option bar start */}
                                 <div className="option-bar">
                                     <div className="row">
-                                        <div className="col-lg-6 col-md-5 col-sm-5 col-xs-2">
+                                        <div className="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                                             <h4>
                                                 <span className="heading-icon">
                                                     <i className="fa fa-th-list" />
                                                 </span>
-                                                <span className="hidden-xs">Properties List</span>
+                                                <span className="hidden-xs">Danh sách bài đăng</span>
                                             </h4>
                                         </div>
-                                        <ViewChangingButton component={LIST} />
+                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <div className="form-group" style ={{margin:'7px 5px 7px 5px'}} >
+                                                <select className="form-control"
+                                                    name="option"
+                                                    value={option}
+                                                    onChange={this.handleOnChange}
+                                                    id="opt"
+                                                    style={{ fontSize: '12px' }}
+                                                >
+                                                    {Options.map((option, index) => <option key={index} value={option.value}>{option.label}</option>)}
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {/* <ViewChangingButton component={LIST} /> */}
                                     </div>
                                 </div>
                                 {/* Option bar end */}
+                                <h4 style={{marginTop:'-20px'}}>{des}</h4>
                                 <div className="clearfix" />
                                 {/* Property start */}
                                 {estatesList}
                                 {/* Property end */}
                                 {/* Page navigation start */}
-                                <nav aria-label="Page navigation">
-                                    <ul className="pagination">
-                                        <li>
-                                            <a href="properties-list-leftside.html" aria-label="Previous">
-                                                <span aria-hidden="true">«</span>
-                                            </a>
-                                        </li>
-                                        <li className="active"><a href="#">1 <span className="sr-only">(current)</span></a></li>
-                                        <li><a href="properties-list-leftside.html">2</a></li>
-                                        <li><a href="properties-list-fullwidth.html">3</a></li>
-                                        <li>
-                                            <a href="properties-list-fullwidth.html" aria-label="Next">
-                                                <span aria-hidden="true">»</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
+                                <Pagination current={this.state.current} pageSize={pageSize} onChange={this.onChange} total={total} />
+
                                 {/* Page navigation end*/}
                             </div>
-                            <Sidebar />
+                            {/* <Sidebar /> */}
                         </div>
                     </div>
                 </div>
@@ -433,4 +451,4 @@ const mapStateToProp = (state) => {
         estates: state.searchEstate
     }
 }
-export default connect(mapStateToProp,mapDispathToProp)(withRouter(EstateListListView));
+export default connect(mapStateToProp, mapDispathToProp)(withRouter(EstateListListView));
