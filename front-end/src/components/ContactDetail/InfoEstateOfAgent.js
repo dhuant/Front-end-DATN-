@@ -8,6 +8,10 @@ class InfoEstateOfAgent extends Component {
     render() {
         let { project } = this.props;
         let url = `/properties/${project._id}`
+        let status = "Bán" 
+        if(project.statusProject === 3){
+            status = "Cho thuê"
+        }
 
         return (
             <Link to={url}>
@@ -16,8 +20,8 @@ class InfoEstateOfAgent extends Component {
                         <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 col-pad">
                             {/* Property img */}
                             <div className="property-img">
-                                {/* <div className="property-tag button alt featured">Featured</div>
-                                <div className="property-tag button sale">For Sale</div>
+                                <div className="property-tag button alt featured">{status}</div>
+                                {/* <div className="property-tag button sale">For Sale</div>
                                 <div className="property-price">$150,000</div> */}
                                 <img style={{ height: '244px' }} src={project.url[0]} alt="fp-list" className="img-responsive hp-1" />
                                 {/* <div className="property-overlay">
