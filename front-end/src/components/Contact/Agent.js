@@ -42,7 +42,7 @@ class Agent extends Component {
                         {/* Agent box 2start */}
                         <div className="agent-2 clearfix" style={{ height: '231.3px' }}>
                             <div className="col-lg-5 col-md-5 col-sm-4 agent-theme-2">
-                                <img src={agent.avatar} alt="team-2" className="img-responsive" />
+                                <img src={agent.avatar} alt="team-2" className="img-responsive" style={{height:'231.5px', width:'231.5px'}}/>
                                 {/* social list */}
 
                             </div>

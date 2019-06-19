@@ -8,7 +8,7 @@ import * as actions from '../actions/request';
 // import { Select } from 'antd';
 import { connect } from 'react-redux';
 import MainHeader from '../components/MainHeader'
-
+import { message, Modal, Form, Input, Button } from 'antd'
 
 class Login extends Component {
     constructor() {
@@ -19,7 +19,8 @@ class Login extends Component {
             error: '',
             isAuthenticated: false,
             user: null,
-            token: ''
+            token: '',
+            disable: false,
         };
     }
     onResetPassword = (e) => {
@@ -54,40 +55,80 @@ class Login extends Component {
 
     }
 
-    signIn = (e) => {
+    handleSubmit = e => {
         e.preventDefault();
-        var headers = {
-
-            "Access-Control-Allow-Origin": "*",
-        }
-        console.log(document.getElementById("email").value)
-        axios.post('http://localhost:3001/users/login', {
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value
-        })
-            .then(res => {
-                // console.log(res.data);
-                if (res.data.status === 200) {
-                    console.log(res.data);
-                    // delete res.data.status;
-                    localStorage.setItem('res', JSON.stringify(res.data));
-                    this.props.actGetInfoUser(res.data.id);
-
-                    // console.log(res.data.result);
-                    //this.props.history.push(`/profile/${res.data.id}`);
-                    this.props.history.goBack();
-
-                } else {
-                    this.setState({
-                        error: 'Auth failed!!'
-                    });
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                this.setState({
+                    disable: true,
+                })
+                let data = {
+                    email: values.email,
+                    password: values.password
                 }
-            })
-            .catch((err) => {
-                console.log("AXIOS ERROR: ", err);
-            });
-    }
+                console.log(data)
+                message.loading('Vui lòng chờ trong giây lát', 1)
+                    .then(() => {
+                        axios.post(`${Config.API_URL}/users/login`, data)
+                            .then(res => {
+                                if (res.status === 200) {
+                                    message.success("Đăng nhập thành công");
+                                    localStorage.setItem('res', JSON.stringify(res.data));
+                                    this.props.actGetInfoUser(res.data.id);
+                                    this.props.history.goBack();
+                                }
+                            })
+                            .catch(err => {
+                                if (err) {
+                                    if (err.response.data.status === 401) {
+                                        message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+                                    }
+                                    else {
+                                        message.error('Lỗi. Phiền bạn kiểm tra lại')
+                                    }
+                                }
+                                else {
+                                    message.error('Lỗi. Phiền bạn kiểm tra lại đường truyền')
+                                }
+
+                                this.setState({
+                                    disable: false,
+                                })
+                            })
+                    });
+            }
+            else {
+                this.setState({
+                    disable: false,
+                })
+            }
+        });
+    };
+
     render() {
+        const { getFieldDecorator } = this.props.form;
+        const formItemLayout = {
+            // labelCol: {
+            //     xs: { span: 24 },
+            //     sm: { span: 6 },
+            // },
+            wrapperCol: {
+                xs: { span: 24 },
+                sm: { span: 24 },
+            },
+        };
+        const tailFormItemLayout = {
+            wrapperCol: {
+                xs: {
+                    span: 24,
+                    offset: 0,
+                },
+                sm: {
+                    span: 24,
+                    offset: 0,
+                },
+            },
+        };
         let content = !!this.state.isAuthenticated ?
             (
                 <div>
@@ -112,7 +153,7 @@ class Login extends Component {
                                 onClick={renderProps.onClick}
                                 type="submit"
                                 className="button-google btn-block"
-                            // style={{ border: "solid 1px black" }}
+                                disabled={this.state.disable}
                             >
                                 <img src="/images/icons/icon-google.png" alt="GOOGLE" style={{ marginRight: "10px", width: "18px" }} />
                                 Đăng nhập với Google
@@ -125,13 +166,13 @@ class Login extends Component {
             );
         return (
             <div>
-                <MainHeader/>
-                <div className="content-area">
+                <MainHeader />
+                <div className="content-area" style={{ backgroundColor: 'lightgray' }}>
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12">
                                 {/* Form content box start */}
-                                <div className="form-content-box">
+                                <div className="form-content-box" style={{ textAlign: 'unset' }}>
                                     {/* details */}
                                     <div className="details">
                                         {/* Main title */}
@@ -141,81 +182,65 @@ class Login extends Component {
                                             </h1>
                                         </div>
                                         {/* Form start */}
-                                        <form>
-                                            {/* <div style={{ marginBottom: '10px' }}>
-                                            <a className="btn-google m-b-20" href>
-                                                <img src="images/icons/icon-google.png" alt="GOOGLE" />
-                                                Google
-                                            </a>
-                                        </div> */}
-                                            <div className="form-group">
-                                                <input
-                                                    // onChange={this.handleEmailChange}
-                                                    type="email"
-                                                    id="email"
-                                                    name="email"
-                                                    className="input-text"
-                                                    placeholder="Nhập Email"
-                                                    required
-                                                />
-                                            </div>
-                                            <div className="form-group">
-                                                <input
-                                                    // onChange={this.handlePasswordChange}
-                                                    type="password"
-                                                    id="password"
-                                                    name="Password"
-                                                    className="input-text"
-                                                    placeholder="Mật khẩu"
-                                                    required
-                                                />
-                                            </div>
-                                            <div className="checkbox">
-                                                <div className="ez-checkbox pull-left">
-                                                    <label>
-                                                        <input type="checkbox" className="ez-hide" />
-                                                        Nhớ tài khoản
-                                            </label>
-                                                </div>
+
+                                        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+                                            <Form.Item style={{ paddingRight: '20px', paddingLeft: '20px' }} hasFeedback>
+                                                {getFieldDecorator('email', {
+                                                    rules: [
+                                                        {
+                                                            type: 'email',
+                                                            message: 'Văn bản không đúng định dạng email',
+                                                        },
+                                                        {
+                                                            required: true,
+                                                            message: 'Vui lòng nhập email vào ô văn bản',
+                                                        },
+                                                    ],
+                                                })(<Input
+                                                    placeholder='Email*'
+                                                    style={{ marginRight: '30px' }} />)}
+                                            </Form.Item>
+                                            <Form.Item style={{ paddingRight: '20px', paddingLeft: '20px' }} hasFeedback>
+                                                {getFieldDecorator('password', {
+                                                    rules: [
+                                                        {
+                                                            required: true,
+                                                            message: 'Vui lòng nhập mật khẩu!',
+                                                        },
+
+                                                    ],
+                                                })(<Input.Password
+                                                    placeholder='Mật khẩu*'
+                                                    style={{ marginRight: '30px' }} />)}
+                                            </Form.Item>
+                                            <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'right', marginTop: '-30px' }}>
                                                 <a
                                                     onClick={this.onResetPassword}
-                                                    className="link-not-important pull-right"
                                                 >
-                                                    Quên mật khẩu
+                                                    Quên mật khẩu?
                                             </a>
-                                                <div className="clearfix" />
-                                            </div>
-                                            <div className="form-group">
-                                                <button
-                                                    onClick={this.signIn}
-                                                    type="submit"
-                                                    className="button-md button-theme btn-block"
-                                                >
+                                            </Form.Item>
+
+                                            <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', marginTop: '-30px' }}>
+                                                <Button style={{ width: '100%' }} type="primary" size='large' htmlType="submit" disabled={this.state.disable}>
                                                     Đăng nhập
-                                            </button>
-                                                <br />
-                                                <button
-                                                    onClick={this.onLoginCompany}
-                                                    type="submit"
-                                                    className="button-md button-theme btn-block"
-                                                    style={{ backgroundColor: 'red' }}
-                                                >
+                                                </Button>
+
+                                            </Form.Item>
+                                            <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', }}>
+                                                <Button style={{ width: '100%' }} type="danger" size='large' disabled={this.state.disable} onClick={this.onLoginCompany}>
                                                     Đăng nhập bằng tài khoản công ty
-                                            </button>
-                                                <br />
-                                                <div className="App">
-                                                    {content}
-                                                </div>
-                                            </div>
-                                        </form>
+                                                </Button>
+
+                                            </Form.Item>
+                                            <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', height: '47px' }}>
+                                                {content}
+                                            </Form.Item>
+                                        </Form>
                                         {/* Form end */}
                                     </div>
                                     {/* Footer */}
-                                    <div className="footer">
-                                        <span>
-                                            New to Tempo? <a href="signup.html">Sign up now</a>
-                                        </span>
-                                    </div>
+
                                 </div>
                                 {/* Form content box end */}
                             </div>
@@ -237,4 +262,4 @@ const mapStateToProp = (state) => {
 
     }
 }
-export default connect(mapStateToProp, mapDispathToProp)(withRouter(Login));
+export default connect(mapStateToProp, mapDispathToProp)(withRouter(Form.create()((Login))));

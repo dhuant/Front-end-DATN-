@@ -4,29 +4,45 @@ import SidebarAgentDetail from '../../components/ContactDetail/SidebarAgentDetai
 import InfoEstateOfAgent from '../../components/ContactDetail/InfoEstateOfAgent';
 import * as actions from '../../actions/Contact/requestContact';
 import { connect } from 'react-redux';
+const Options = [
+    { value: '0', label: 'Thông thường' },
+    { value: '1', label: 'Bất động sản bán' },
+    { value: '2', label: 'Bất động sản cho thuê' },
+];
+
 class AgentDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
             page: 1,
+            option: Options[0].value,
         }
     }
+    handleOnChange = (e) => {
+		let target = e.target;
+		let name = target.name;
+		let value = target.value;
+		this.setState({
+			[name]: value,
+		});
+	}
     componentDidMount() {
         this.props.reqGetInfoAgent(this.props.match.params.id, this.state.page);
     }
     render() {
+        let { option } = this.state;
         let { info, projects } = this.props;
         console.log(info);
         console.log(projects);
         let des = 'Hiện chưa có bài đăng'
         let listProjects = ''
         if (projects.length > 0) {
-            // if (option === '1') {
-            // 	agents = agents.sort((a, b) => (a.price - b.price))
-            // }
-            // else if(option === '2'){
-            // 	agents = agents.sort((a, b) => (b.price - a.price))
-            // }
+            if (option === '1') {
+                projects = projects.filter(project => project.statusProject === 1);
+            }
+            else if (option === '2') {
+                projects = projects.filter(project => project.statusProject === 3)
+            }
             // else if(option === '3') {
             // 	agents = agents.sort((a, b) => (a.area - b.area))
             // }
@@ -86,7 +102,7 @@ class AgentDetail extends Component {
                                     <div className="col-lg-5 col-md-6 col-sm-5 agent-theme">
                                         <img src={info.avatar} style={{ height: '280px', width: '290px' }} alt="agent-1" className="img-responsive" />
                                     </div>
-                                    <div className="col-lg-7 col-md-6 col-sm-7 agent-content" style={{padding:'20px 10px'}}>
+                                    <div className="col-lg-7 col-md-6 col-sm-7 agent-content" style={{ padding: '20px 10px' }}>
                                         {/* <h5>Creative Director</h5> */}
                                         <h3>
                                             {info.fullname}
@@ -140,58 +156,16 @@ class AgentDetail extends Component {
                                     </p> */}
 
                                     <br />
-                                    <div className="panel-box">
-                                        <ul className="nav nav-tabs">
-                                            <li className="active"><a href="#tab1default" data-toggle="tab" aria-expanded="true">Thông tin thêm</a></li>
-                                            <li className><a href="#tab2default" data-toggle="tab" aria-expanded="false">Bằng cấp</a></li>
-                                        </ul>
-                                        <div className="panel with-nav-tabs panel-default">
-                                            <div className="panel-body">
-                                                <div className="tab-content">
-                                                    <div className="tab-pane fade active in" id="tab1default">
-                                                        <div className="row">
-                                                            <div className="col-md-6 col-sm-6">
-                                                                <ul className="additional-details-list">
-                                                                    <li><span>Ngày tham gia:</span>2017</li>
-                                                                    <li><span>Tổng số nhân viên:</span>100</li>
-                                                                    <li><span>Tổng số bài đăng:</span>20</li>
-                                                                </ul>
-                                                            </div>
-                                                            <div className="col-md-6 col-sm-6">
-                                                                <ul className="additional-details-list">
-                                                                    <li><span>Properties Rented:</span>26</li>
-                                                                    <li><span>Average Price:</span>$180,000</li>
-                                                                    <li><span>Website:</span><a href="true">www.sparker.com</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="tab-pane fade features" id="tab2default">
-                                                        <div className="row">
-                                                            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                                                <div className="attachments">
-                                                                    <a href="true"><i className="fa fa-file-o" />Resume</a>
-                                                                    <br /><br />
-                                                                    <a href="true"><i className="fa fa-file-o" />Brochure</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                                 {/* Recently properties start */}
                                 <div className="recently-properties">
                                     {/* Main title */}
-                                    <div className="main-title-2">
-                                        <h4><span>{des}</span> </h4>
-                                    </div>
+                                    
                                     {/* Option bar start */}
                                     <div className="option-bar">
                                         <div className="row">
-                                            <div className="col-lg-6 col-md-5 col-sm-5 col-xs-2">
+                                            <div className="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                                                 <h4>
                                                     <span className="heading-icon">
                                                         <i className="fa fa-th-list" />
@@ -199,18 +173,25 @@ class AgentDetail extends Component {
                                                     <span className="hidden-xs">Danh sách bài đăng</span>
                                                 </h4>
                                             </div>
-                                            <div className="col-lg-6 col-md-7 col-sm-7 col-xs-10 cod-pad">
-                                                <div className="sorting-options">
-                                                    <select className="sorting">
-                                                        <option>New To Old</option>
-                                                        <option>Old To New</option>
-                                                        <option>Properties (High To Low)</option>
-                                                        <option>Properties (Low To High)</option>
-                                                    </select>
+                                            
+                                            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12" style={{ padding: '7px 5px 7px 30px' }}>
+                                                <div className="form-group" style={{ marginRight: '20px' }}  >
+                                                    <select className="form-control"
+                                                        name="option"
+                                                        value={option}
+                                                        onChange={this.handleOnChange}
+                                                        id="opt"
+                                                        style={{ fontSize: '12px' }}
+                                                    >
+                                                        {Options.map((option, index) => <option key={index} value={option.value}>{option.label}</option>)}
 
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div className="main-title-2">
+                                        <h4><span>{des}</span> </h4>
                                     </div>
                                     {/* Option bar end */}
                                     <div className="clearfix" />

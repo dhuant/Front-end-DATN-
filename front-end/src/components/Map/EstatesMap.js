@@ -2,7 +2,7 @@ import React from "react";
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow, Circle } from "react-google-maps";
 import EstateMarker from "./EstateMarker";
 // import { connect } from 'react-redux';
-import compass from '../../marker/compass.png'
+import placeholder from '../../marker/placeholder.png'
 
 const EstatesMap = withScriptjs(withGoogleMap((props) => {
 
@@ -26,7 +26,8 @@ const EstatesMap = withScriptjs(withGoogleMap((props) => {
   return (
     <GoogleMap
       ref={props.onMapMounted}
-      defaultZoom={13}
+      // defaultZoom={13}
+      zoom={14}
       center={{ lat: props.center.lat, lng: props.center.lng }}
       // onCenterChanged={props.handleMapChanged}
       onDragEnd={props.handleMapChanged}
@@ -41,7 +42,7 @@ const EstatesMap = withScriptjs(withGoogleMap((props) => {
       </Circle>
       {markers}
       {props.isMarkerCurrentLocationShown && <Marker
-        icon={compass}
+        icon={placeholder}
         position={{ lat: props.currentLocation.lat, lng: props.currentLocation.lng }}
       >
         <InfoWindow

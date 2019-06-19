@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { MY_PROPERTIES, MY_FOLLOWING, SUBMIT_ESTATE, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY, WAITING_REQUEST } from '../../constants/Profile'
+import { MY_PROPERTIES, MY_FOLLOWING, SUBMIT_ESTATE, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY, WAITING_REQUEST, CHANGE_PASSWORD } from '../../constants/Profile'
 import Dropzone from 'react-dropzone'
 import request from 'superagent'
 import { connect } from 'react-redux'
@@ -89,6 +89,17 @@ class Info extends Component {
     }
     render() {
         let userInfo = JSON.parse(localStorage.getItem('res'))
+        console.log(userInfo)
+        let changePasswordd = ''
+        if(userInfo.user.statusAccount === 2){
+            changePasswordd = 
+            <li>
+            <a href="true" onClick={this.onChangePassword} className={this.props.component === CHANGE_PASSWORD ? "active" : ""}>
+                <i className="fa fa-edit" />Đổi mật khẩu
+            </a>
+        </li>
+        }
+        var { uploadedFileCloudinaryUrl } = this.state
         let { user } = this.props
         console.log(user)
         return (
@@ -129,6 +140,7 @@ class Info extends Component {
                                     <i className="flaticon-social" />Thông tin cơ bản
                                 </a>
                             </li>
+                            {changePasswordd}
                             <li>
                                 <a href="true" onClick={this.onMyProperties} className={this.props.component === MY_PROPERTIES ? "active" : ""}>
                                     <i className="flaticon-apartment" />Danh sách bài đăng

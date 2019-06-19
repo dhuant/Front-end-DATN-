@@ -3,38 +3,60 @@ import Company from '../../components/Contact/Company'
 import MainHeader from '../../components/MainHeader'
 import * as actions from '../../actions/Contact/requestContact';
 import { connect } from 'react-redux';
-import {Pagination} from 'antd'
+import { Pagination } from 'antd'
 
+const Options = [
+    { value: '0', label: 'Sắp xếp theo' },
+    { value: '1', label: 'Đã tham gia lâu' },
+    { value: '2', label: 'Mới tham gia' },
+
+];
 class ListCompaies extends Component {
     constructor(props) {
         super(props);
-        this.state ={
+        this.state = {
             page: 1,
+            option: Options[0].value,
         }
         this.props.reqGetListCompanies(this.props.match.params.page);
 
     }
-    componentDidMount(){
+    handleOnChange = (e) => {
+		let target = e.target;
+		let name = target.name;
+		let value = target.value;
+		this.setState({
+			[name]: value,
+		});
+	}
+    componentDidMount() {
         this.props.reqGetListCompanies(this.props.match.params.page);
     }
     render() {
-        let {companies} = this.props;
+        let { option } = this.state;
+        let { companies } = this.props;
         console.log(companies);
-        let des =''
-        let listCompanies = <h5 style={{marginLeft:'15px'}}>Hiện không có công ty nào</h5>;
-		if (companies.length > 0) {
-			
-			des = `Hiện đang có ${companies.length} công ty đối tác trên hệ thống`
-			listCompanies = companies.map((company, index) => {
-				return (
-					<Company
-						key={index}
-						company={company}
-					/>
-				)
-			}
-			)
-		}
+        let des = ''
+        let listCompanies = <h5 style={{ marginLeft: '15px' }}>Hiện không có công ty nào</h5>;
+        if (companies.length > 0) {
+            if (option === '1') {
+                companies = companies.sort((a, b) => (a.createTime - b.createTime))
+            }
+            else if (option === '2') {
+                companies = companies.sort((a, b) => (b.createTime - a.createTime))
+            }
+
+            des = `Hiện đang có ${companies.length} công ty đối tác trên hệ thống`
+            listCompanies = companies.map((company, index) => {
+                return (
+                    <Company
+                        key={index}
+                        company={company}
+                    />
+                )
+            }
+            )
+        }
         return (
             <div>
                 <MainHeader />
@@ -44,7 +66,7 @@ class ListCompaies extends Component {
                         {/* option bar start */}
                         <div className="option-bar">
                             <div className="row">
-                                <div className="col-lg-6 col-md-5 col-sm-5 col-xs-2">
+                                <div className="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                     <h4>
                                         <span className="heading-icon">
                                             <i className="fa fa-th-list" />
@@ -52,15 +74,18 @@ class ListCompaies extends Component {
                                         <span className="hidden-xs">Danh sách công ty</span>
                                     </h4>
                                 </div>
-                                <div className="col-lg-6 col-md-7 col-sm-7 col-xs-10 cod-pad">
-                                    <div className="sorting-options">
-                                        <select className="sorting">
-                                            <option>New To Old</option>
-                                            <option>Old To New</option>
-                                            <option>Properties (High To Low)</option>
-                                            <option>Properties (Low To High)</option>
+                                <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12" style={{ padding: '7px 5px 7px 30px' }}>
+                                    <div className="form-group" style={{ marginRight: '20px' }}  >
+                                        <select className="form-control"
+                                            name="option"
+                                            value={option}
+                                            onChange={this.handleOnChange}
+                                            id="opt"
+                                            style={{ fontSize: '12px' }}
+                                        >
+                                            {Options.map((option, index) => <option key={index} value={option.value}>{option.label}</option>)}
+
                                         </select>
-                                        
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +96,7 @@ class ListCompaies extends Component {
                             {listCompanies}
                         </div>
                         <div>
-                        {/* <Pagination current={this.state.current} pageSize={pageSize}onChange={this.onChange} total={total} /> */}
+                            {/* <Pagination current={this.state.current} pageSize={pageSize}onChange={this.onChange} total={total} /> */}
 
                         </div>
                     </div>

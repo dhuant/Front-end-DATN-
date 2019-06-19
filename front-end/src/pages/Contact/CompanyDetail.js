@@ -6,14 +6,22 @@ import * as actions from '../../actions/Contact/requestContact';
 import { connect } from 'react-redux';
 import Employee from '../../components/Contact/Employee';
 import { Pagination } from 'antd';
+import moment from 'moment'
 const pageSize = 5
+const Options = [
+    { value: '0', label: 'Sắp xếp theo' },
+    { value: '1', label: 'Ít bài đăng nhất' },
+    { value: '2', label: 'Nhiều bài đăng nhất' },
+
+];
 class CompanyDetail extends Component {
     constructor(props) {
         super(props);
         this.props.reqGetInfoCompany(this.props.match.params.id);
         this.state = {
             current: 1,
-            pageEmployee: []
+            pageEmployee: [],
+            option: Options[0].value,
         }
     }
     onChange = page => {
@@ -22,6 +30,14 @@ class CompanyDetail extends Component {
             current: page,
         });
     };
+    handleOnChange = (e) => {
+        let target = e.target;
+        let name = target.name;
+        let value = target.value;
+        this.setState({
+            [name]: value,
+        });
+    }
     componentDidMount() {
         this.props.reqGetInfoCompany(this.props.match.params.id);
         // let employees = this.props.employees;
@@ -34,18 +50,25 @@ class CompanyDetail extends Component {
         // })
     }
     render() {
+        let { option } = this.state;
         let company = this.props.info;
         let { employees, totalPage } = this.props;
         let total = 1
-        let list =[]
+        let list = []
         let current = this.state.current
         let offset = (current - 1) * pageSize;
         let des = 'Hiện chưa có nhân viên'
         let listEmployees = 'Không có nhân viên'
         if (employees.length > 0) {
+            if (option === '1') {
+                employees = employees.sort((a, b) => (a.totalProject - b.totalProject))
+            }
+            else if (option === '2') {
+                employees = employees.sort((a, b) => (b.totalProject - a.totalProject))
+            }
             total = employees.length
             des = `Hiện đang có ${employees.length} nhân viên`
-            list = employees.slice(offset,current * pageSize)
+            list = employees.slice(offset, current * pageSize)
             listEmployees = list.map((employee, index) => {
                 return (
                     <Employee
@@ -109,23 +132,25 @@ class CompanyDetail extends Component {
                                                 </span>
                                                 {company.email}
                                             </li>
+
                                             <li>
                                                 <span>
-                                                    <i className="fa fa-phone" />Office:
-                                                </span>
-                                                +55 4XX-634-7071
-                                            </li>
-                                            <li>
-                                                <span>
-                                                    <i className="fa fa-mobile" />Mobile:
+                                                    <i className="fa fa-mobile" />Điện thoại:
                                                 </span>
                                                 {mobile}
                                             </li>
                                             <li>
                                                 <span>
-                                                    <i className="fa fa-map-marker" />Điện thoại:
+                                                    <i className="fa fa-map-marker" />Địa chỉ:
                                                 </span>
                                                 {address}
+                                            </li>
+                                            <li>
+                                                <span>
+                                                <i className="fa fa-calendar" />Tham gia:
+                                                    
+                                                </span>
+                                                {moment.unix(company.createTime).format('DD/MM/YYYY')}
                                             </li>
                                         </ul>
                                     </div>
@@ -137,51 +162,11 @@ class CompanyDetail extends Component {
                                         <h1><span>Mô tả</span></h1>
                                     </div>
                                     <p>
-                                        Mô tả thông tin ở đây
+                                        {company.description}
                                     </p>
 
                                     <br />
-                                    <div className="panel-box">
-                                        <ul className="nav nav-tabs">
-                                            <li className="active"><a href="#tab1default" data-toggle="tab" aria-expanded="true">Thông tin thêm</a></li>
-                                            <li className><a href="#tab2default" data-toggle="tab" aria-expanded="false">Giấy tờ</a></li>
-                                        </ul>
-                                        <div className="panel with-nav-tabs panel-default">
-                                            <div className="panel-body">
-                                                <div className="tab-content">
-                                                    <div className="tab-pane fade active in" id="tab1default">
-                                                        <div className="row">
-                                                            <div className="col-md-6 col-sm-6">
-                                                                <ul className="additional-details-list">
-                                                                    <li><span>Ngày tham gia:</span>2017</li>
-                                                                    <li><span>Tổng số nhân viên:</span>100</li>
-                                                                    <li><span>Tổng số bài đăng:</span>20</li>
-                                                                </ul>
-                                                            </div>
-                                                            <div className="col-md-6 col-sm-6">
-                                                                <ul className="additional-details-list">
-                                                                    <li><span>Properties Rented:</span>26</li>
-                                                                    <li><span>Average Price:</span>$180,000</li>
-                                                                    <li><span>Website:</span><a href="true">www.sparker.com</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="tab-pane fade features" id="tab2default">
-                                                        <div className="row">
-                                                            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                                                                <div className="attachments">
-                                                                    <a href="true"><i className="fa fa-file-o" />Resume</a>
-                                                                    <br /><br />
-                                                                    <a href="true"><i className="fa fa-file-o" />Brochure</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                                 {/* Recently properties start */}
                                 <div className="recently-properties">
@@ -192,7 +177,7 @@ class CompanyDetail extends Component {
                                     {/* Option bar start */}
                                     <div className="option-bar">
                                         <div className="row">
-                                            <div className="col-lg-6 col-md-5 col-sm-5 col-xs-2">
+                                            <div className="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                                                 <h4>
                                                     <span className="heading-icon">
                                                         <i className="fa fa-th-list" />
@@ -200,17 +185,20 @@ class CompanyDetail extends Component {
                                                     <span className="hidden-xs">Danh sách nhân viên</span>
                                                 </h4>
                                             </div>
-                                            <div className="col-lg-6 col-md-7 col-sm-7 col-xs-10 cod-pad">
-                                                <div className="sorting-options">
-                                                    <select className="sorting">
-                                                        <option>Mới tham gia</option>
-                                                        <option>Bất động sản thuê</option>
-                                                        <option>Properties (High To Low)</option>
-                                                        <option>Properties (Low To High)</option>
-                                                    </select>
+                                            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12" style={{ padding: '7px 5px 7px 30px' }}>
+                                    <div className="form-group" style={{ marginRight: '20px' }}>
+                                        <select className="form-control"
+                                            name="option"
+                                            value={option}
+                                            onChange={this.handleOnChange}
+                                            id="opt"
+                                            style={{ fontSize: '12px' }}
+                                        >
+                                            {Options.map((option, index) => <option key={index} value={option.value}>{option.label}</option>)}
 
-                                                </div>
-                                            </div>
+                                        </select>
+                                    </div>
+                                </div>
                                         </div>
                                     </div>
                                     {/* Option bar end */}
@@ -219,8 +207,8 @@ class CompanyDetail extends Component {
                                     <div className="row">
                                         {listEmployees}
                                     </div>
-                                    <div style ={{textAlign:'center'}}>
-                                    <Pagination current={this.state.current} pageSize={pageSize}onChange={this.onChange} total={total} />
+                                    <div style={{ textAlign: 'center' }}>
+                                        <Pagination current={this.state.current} pageSize={pageSize} onChange={this.onChange} total={total} />
 
                                     </div>
                                 </div>
