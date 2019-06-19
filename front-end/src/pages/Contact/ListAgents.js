@@ -5,11 +5,18 @@ import Footer from '../../components/Footer'
 import * as actions from '../../actions/Contact/requestContact';
 import { connect } from 'react-redux';
 
+const Options = [
+    { value: '0', label: 'Sắp xếp theo' },
+    { value: '1', label: 'Ít bài đăng nhất' },
+    { value: '2', label: 'Nhiều bài đăng nhất' },
+
+];
 class ListAgents extends Component {
     constructor(props) {
         super(props);
         this.state = {
             page: 1,
+            option: Options[0].value,
         }
         this.props.reqGetListAgents(this.state.page);
 
@@ -17,18 +24,28 @@ class ListAgents extends Component {
     componentDidMount() {
         this.props.reqGetListAgents(this.state.page);
     }
+    handleOnChange = (e) => {
+        let target = e.target;
+        let name = target.name;
+        let value = target.value;
+        this.setState({
+            [name]: value,
+        });
+    }
     render() {
+        let { option } = this.state;
+        console.log(option)
         let { agents } = this.props;
         console.log(agents);
         let des = ''
         let listAgents = <h5 style={{ marginLeft: '15px' }}>Không có nhà môi giới nào</h5>;
         if (agents.length > 0) {
-            // if (option === '1') {
-            // 	agents = agents.sort((a, b) => (a.price - b.price))
-            // }
-            // else if(option === '2'){
-            // 	agents = agents.sort((a, b) => (b.price - a.price))
-            // }
+            if (option === '1') {
+                agents = agents.sort((a, b) => (a.totalProject - b.totalProject))
+            }
+            else if (option === '2') {
+                agents = agents.sort((a, b) => (b.totalProject - a.totalProject))
+            }
             // else if(option === '3') {
             // 	agents = agents.sort((a, b) => (a.area - b.area))
             // }
@@ -55,7 +72,7 @@ class ListAgents extends Component {
                         {/* option bar start */}
                         <div className="option-bar">
                             <div className="row">
-                                <div className="col-lg-6 col-md-5 col-sm-5 col-xs-2">
+                                <div className="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                     <h4>
                                         <span className="heading-icon">
                                             <i className="fa fa-th-list" />
@@ -63,15 +80,18 @@ class ListAgents extends Component {
                                         <span className="hidden-xs">Danh sách nhà môi giới</span>
                                     </h4>
                                 </div>
-                                <div className="col-lg-6 col-md-7 col-sm-7 col-xs-10 cod-pad">
-                                    <div className="sorting-options">
-                                        <select className="sorting">
-                                            <option>New To Old</option>
-                                            <option>Old To New</option>
-                                            <option>Properties (High To Low)</option>
-                                            <option>Properties (Low To High)</option>
-                                        </select>
+                                <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12" style={{ padding: '7px 5px 7px 30px' }}>
+                                    <div className="form-group" style={{ marginRight: '20px' }}>
+                                        <select className="form-control"
+                                            name="option"
+                                            value={option}
+                                            onChange={this.handleOnChange}
+                                            id="opt"
+                                            style={{ fontSize: '12px' }}
+                                        >
+                                            {Options.map((option, index) => <option key={index} value={option.value}>{option.label}</option>)}
 
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +100,7 @@ class ListAgents extends Component {
                         <div class="clearfix"></div>
                         <div><h4>{des}</h4></div>
                         <div className="row">
-                                {listAgents}
+                            {listAgents}
                         </div>
                     </div>
                 </div>
