@@ -72,6 +72,22 @@ export const actCompleteTransaction = (transactionId) => {
             })
     }
 }
+
+export const actCancelTransaction = (transactionData) => {
+    return dispatch => {
+        return axios.post("http://localhost:3001/transaction/cancel", transactionData, { headers: authHeader() })
+            .then(res => {
+                if(res.data.status === 200){
+                    dispatch(Action.actCancelTransaction(res.data))
+                    message.success("Hủy bỏ giao dịch thành công!")
+                }
+                
+            })
+            .catch(error => {
+                message.error(`Có lỗi xảy ra: ${error}`)
+            })
+    }
+}
 //API for Selling
 export const actPostingDealRequest = (dealInfo) => {
     return dispatch => {

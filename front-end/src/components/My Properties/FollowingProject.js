@@ -43,11 +43,11 @@ class FollowingProject extends Component {
       projectid: id
     }
     confirm({
-      title: 'Are you sure unfollow this post?',
+      title: 'Bạn có đồng ý bỏ yêu thích bài đăng này không?',
       //   content: 'Data deleted can not be restored!',
-      okText: 'Yes, Unfollow it',
+      okText: 'Đồng ý',
       okType: 'danger',
-      cancelText: 'No',
+      cancelText: 'Hủy bỏ',
       onOk: () => {
         this.props.onUnfollowProject(info)
         console.log(this.props.follow)

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {HOME, NEWS, ABOUT, LIST_ESTATES} from '../constants/Navbar'
+import { HOME, NEWS, ABOUT, LIST_ESTATES } from '../constants/Navbar'
+import { PROFILE, MY_PROPERTIES, MY_FOLLOWING, MY_TRANSACTION, MY_TRANSACTION_HISTORY, WAITING_REQUEST } from '../constants/Profile'
 
 class MainHeader extends Component {
     constructor() {
@@ -50,72 +51,63 @@ class MainHeader extends Component {
         }
 
     }
+
+    onProfile = (e) => {
+        e.preventDefault()
+        this.props.history.push(`/profile`)
+    }
+
+    onMyProperty = (e) => {
+        e.preventDefault()
+        this.props.history.push(`/myproperties`)
+    }
+
+    onMyFollowing = (e) => {
+        e.preventDefault()
+        this.props.history.push(`/myfollowing`)
+    }
+
+    onMyTransaction = (e) => {
+        e.preventDefault()
+        this.props.history.push(`/mytransactions`)
+    }
+
+    onTransactionHistory = (e) => {
+        e.preventDefault()
+        this.props.history.push(`/transhistory`)
+    }
+
+    onWaitingList = (e) => {
+        e.preventDefault()
+        this.props.history.push(`/waiting`)
+    }
     onSignOut = (e) => {
         e.preventDefault();
         this.props.history.push('/');
         localStorage.removeItem('res');
     }
 
-
+    onGetName = (name) => {
+        if (name.indexOf(' ') !== -1)
+            return name.slice(0, name.indexOf(' '))
+        else return name
+    }
     onAfterLogin = (token) => {
         if (token !== null)
-            return (<React.Fragment>
-                <li>
-                    <a href="true" onClick={this.onHandleProfile} className="button" style={{ marginRight: '5px' }}>
-                        <i className="fa fa-user" /> Tài khoản
-                    </a>
-                </li>
-                <li>
-                    <a href="true" onClick={this.onSignOut} className="button-signout" style={{ marginRight: '5px', color: 'red', border: '1px solid red' }}>
-                        <i className="fa fa-sign-out" /> Đăng xuất
-                    </a>
-                </li>
-            </React.Fragment>);
+            return null
         else if (token === null)
             return (
                 <li>
                     <a href="true" onClick={this.onLogin} className="button" style={{ marginRight: '5px' }}>
                         <i className="fa fa-sign-in" /> Đăng nhập
-                                                </a>
+                    </a>
                 </li>
-
             );
     }
 
-    // componentDidMount =() => {
-    //     let token = localStorage.getItem('res');
-    //     this.setState({
-    //         token: token
-    //     })
-    // }
-
-    // getSnapshotBeforeUpdate = (prevState) => {
-    //     if(prevState.token !== JSON.parse(localStorage.getItem('res')))
-    //     return this.state.token
-        
-    // }
-
-    // componentDidUpdate = (snapshot) => {
-    //     if(snapshot)
-    //     {
-    //         this.setState({
-    //             token: JSON.parse(localStorage.getItem('res'))
-    //         })
-    //     }
-    // }
     render() {
         var token = localStorage.getItem('res')
         console.log(token)
-        // if(token.id){
-        //     this.setState({
-        //         username: token.username
-        //     })
-        // }
-        // else {
-        //     this.setState({
-        //         username: token.w3.ig
-        //     })
-        // }dd
         return (
             <div>
                 <header className="main-header">
@@ -166,129 +158,6 @@ class MainHeader extends Component {
                                             Danh sách
                                         </a>
                                     </li>
-                                    {/* <li className="dropdown mega-dropdown">
-                                        <a
-                                            href="true"
-                                            className="dropdown-toggle"
-                                            data-toggle="dropdown"
-                                        >
-                                            Pages <span className="caret" />
-                                        </a>
-                                        <ul className="dropdown-menu mega-dropdown-menu row">
-                                            <li className="col-lg-3 col-md-3 col-sm-6">
-                                                <ul>
-                                                    <li className="dropdown-header">Pages</li>
-                                                    <li>
-                                                        <a href="about.html">About 1</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="about-2.html">About 2</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="services-1.html">Services 1</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="services-2.html">Services 2</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="pricing-tables.html">Pricing Tables 1</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="pricing-tables-2.html">
-                                                            Pricing Tables 2
-                              </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="pricing-tables-3.html">
-                                                            Pricing Tables 3
-                              </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li className="col-lg-3 col-md-3 col-sm-6">
-                                                <ul>
-                                                    <li className="dropdown-header">Pages</li>
-                                                    <li>
-                                                        <a href="faq.html">Faq 1</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="faq-2.html">Faq 2</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="gallery-1.html">Gallery 1</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="gallery-2.html">Gallery 2</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="gallery-3.html">Gallery 3</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="properties-comparison.html">
-                                                            Properties Comparison
-                              </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="search-brand.html">Search Brand</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li className="col-lg-3 col-md-3 col-sm-6">
-                                                <ul>
-                                                    <li className="dropdown-header">Pages</li>
-                                                    <li>
-                                                        <a href="contact.html">Contact 1</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="contact-2.html">Contact 2</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="contact-3.html">Contact 3</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="typography.html">Typography</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="elements.html">Elements</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="icon.html">Icon</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="404.html">Pages 404</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li className="col-lg-3 col-md-3 col-sm-6">
-                                                <ul>
-                                                    <li className="dropdown-header">Pages</li>
-                                                    <li>
-                                                        <a href="user-profile.html">User profile</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="my-properties.html">My Properties</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="favorited-properties.html">
-                                                            Favorited properties
-                              </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="true" onClick={this.onSubmitProperty}>Submit Property</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="login.html">Login</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="signup.html">Signup</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="forgot-password.html">Forgot Password</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li> */}
                                     <li className="dropdown">
                                         <a
                                             href="true"
@@ -296,21 +165,67 @@ class MainHeader extends Component {
                                             data-toggle="dropdown"
                                             data-submenu
                                             aria-expanded="false"
+                                            onClick={this.onProfile}
                                         >
                                             Danh bạ <span className="caret" />
                                         </a>
                                         <ul className="dropdown-menu">
                                             <li >
                                                 <a onClick={this.onContactAgent} href="true" tabIndex={0}>Nhà môi giới</a>
-                                                
+
                                             </li>
                                             <li >
                                                 <a onClick={this.onContactCompany} href="true" tabIndex={0}>Công ty</a>
-                                                
+
                                             </li>
-                                            
+
                                         </ul>
                                     </li>
+                                    {
+                                        localStorage.getItem('res')
+                                            ?
+                                            <li className="dropdown">
+                                                <a
+                                                    href="true"
+                                                    tabIndex={0}
+                                                    data-toggle="dropdown"
+                                                    data-submenu
+                                                    aria-expanded="false"
+                                                >
+                                                    Xin chào, {this.onGetName(JSON.parse(localStorage.getItem('res')).user.fullname)} <span className="caret" />
+                                                </a>
+                                                <ul className="dropdown-menu">
+                                                    <li >
+                                                        <a onClick={this.onProfile} href="true" tabIndex={0}>Chỉnh sửa thông tin cơ bản</a>
+
+                                                    </li>
+                                                    <li >
+                                                        <a onClick={this.onMyProperty} href="true" tabIndex={0}>Bài đăng của tôi</a>
+                                                    </li>
+                                                    <li >
+                                                        <a onClick={this.onMyFollowing} href="true" tabIndex={0}>Bài đăng yêu thích</a>
+
+                                                    </li>
+                                                    <li >
+                                                        <a onClick={this.onMyTransaction} href="true" tabIndex={0}>Giao dịch hiện hành</a>
+
+                                                    </li>
+                                                    <li >
+                                                        <a onClick={this.onTransactionHistory} href="true" tabIndex={0}>Lịch sử giao dịch</a>
+
+                                                    </li>
+                                                    <li >
+                                                        <a onClick={this.onWaitingList} href="true" tabIndex={0}>Danh sách yêu cầu</a>
+
+                                                    </li>
+                                                    <li >
+                                                        <a onClick={this.onSignOut} href="true" tabIndex={0}>Đăng xuất</a>
+
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            : null
+                                    }
                                 </ul>
                                 <ul className="nav navbar-nav navbar-right rightside-navbar">
                                     <li>
@@ -320,11 +235,6 @@ class MainHeader extends Component {
                                     </li>
 
                                     {this.onAfterLogin(token)}
-                                    {/* <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                        <ul className="top-social-media pull-right">
-                                            
-                                        </ul>
-                                    </div> */}
                                 </ul>
                             </div>
                         </nav>

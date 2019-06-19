@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react'
 import { Button, Tag } from 'antd'
 import { Link } from 'react-router-dom'
@@ -18,7 +19,7 @@ class SingleCurrTransaction extends Component {
             <tbody className="transactionSingle">
               <tr>
                 <td className="title-container" style={{ width: "500px" }}>
-                  <img src='/images/Home.png' alt="my-properties-1" className="img-responsive hidden-xs" />
+                  <img src={transactionSingle.project.url[0]} alt="my-properties-1" className="img-responsive hidden-xs" />
                   <div className="title">
                     <h4 style={{ color: "#84ad1d", fontSize: "20px" }}>{transactionSingle.project.name}</h4>
                     <span><i className="fa fa-user-circle-o" />{transactionSingle.project.investor}</span>

@@ -23,6 +23,9 @@ const transaction = (state = initialState, action) => {
             console.log(action)
             state = action.transactionId
             return {...state}
+        case Types.TRANSACTION_CANCEL:
+            console.log(action)
+            return {...state}
         default: return { ...state };
     }
 

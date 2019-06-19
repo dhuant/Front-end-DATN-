@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux'

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import Footer from '../components/Footer';
 import { connect } from 'react-redux';
@@ -509,7 +510,7 @@ class SubmitProperty extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="main-title-2">
+                                        {/* <div className="main-title-2">
                                             <h1>
                                                 <span>Địa</span> chỉ
                                             </h1>
@@ -524,7 +525,7 @@ class SubmitProperty extends Component {
                                                         name="street"
                                                         id="street"
                                                         placeholder="Nhập số nhà/đường"
-                                                        // onChange={this.onHandleChange}
+                                                        
                                                         required
                                                     />
                                                 </div>
@@ -559,8 +560,7 @@ class SubmitProperty extends Component {
                                                         style={{ overflowY: "scroll" }}
                                                     >
                                                         {cityList.map((single, indexx) => <option key={indexx} value={single}>{single}</option>)}
-                                                        {/* {this.parseCityData(AddressData, document.getElementById('city').value)} */}
-
+                                    
                                                     </select>
                                                 </div>
                                             </div>
@@ -579,7 +579,7 @@ class SubmitProperty extends Component {
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> */}
                                         <div style={{ paddingBottom: '80px' }}>
                                             <MapSearching
                                                 google={this.props.google}

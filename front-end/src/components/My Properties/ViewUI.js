@@ -38,7 +38,7 @@ class ViewUI extends Component {
         var result = null;
         if (images.length > 0) {
             result = images.map((image, index) => {
-                var percent = 100/(index + 1)
+                var percent = 100 / (index + 1)
                 console.log(percent)
                 return (
                     <li
@@ -101,13 +101,6 @@ class ViewUI extends Component {
         let { estateUserInfo } = this.props
         console.log(estateUserInfo)
         let urlArray = estateUserInfo.url
-        let publicIdArray = estateUserInfo.publicId
-        // console.log(JSON.stringify(estateUserInfo.url))
-        // urlArray = this.OnSplitString(estateUserInfo.url)
-        // let urlArray = this.OnSplitString(estateUserInfo.url)
-        // publicIdArray = this.OnSplitString(estateUserInfo.publicId)
-        console.log(urlArray)
-        console.log(publicIdArray)
         return (
             <div>
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -122,9 +115,12 @@ class ViewUI extends Component {
                         </div>
                         <div className="pull-right">
                             <h3>
-                                <span>{estateUserInfo.price}</span>
+                                <span>
+                                    {estateUserInfo.price >= 1000
+                                        ? Number((estateUserInfo.price / 1000).toFixed(1)) + ' ' + ((estateUserInfo.statusProject === 1 && estateUserInfo.price >= 1000) ? 'Tỉ' : estateUserInfo.unit)
+                                        : estateUserInfo.price + ' ' + ((estateUserInfo.statusProject === 1 && estateUserInfo.price >= 1000) ? 'Tỉ' : estateUserInfo.unit)}
+                                </span>
                             </h3>
-                            <h5>Per Manth</h5>
                         </div>
                     </div>
                     {/* Properties details section start */}
@@ -155,46 +151,19 @@ class ViewUI extends Component {
                         {/* Property description start */}
                         <div className="panel-box properties-panel-box Property-description">
                             <ul className="nav nav-tabs">
-                                <li className="active">
+                                <li className="active col-md-6 col-lg-6 col-xs-6">
                                     <a href="#tab1default" data-toggle="tab" aria-expanded="true">
-                                        Description
-                  </a>
+                                        Mô tả chi tiết
+                                    </a>
                                 </li>
-                                <li>
+                                <li className="col-md-6 col-lg-6 col-xs-6">
                                     <a
                                         href="#tab2default"
                                         data-toggle="tab"
-                                        aria-expanded="false"
+                                        aria-expanded="true"
                                     >
-                                        Condition
-                  </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="#tab3default"
-                                        data-toggle="tab"
-                                        aria-expanded="false"
-                                    >
-                                        Amenities
-                  </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="#tab4default"
-                                        data-toggle="tab"
-                                        aria-expanded="false"
-                                    >
-                                        Floor Plans
-                  </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="#tab5default"
-                                        data-toggle="tab"
-                                        aria-expanded="false"
-                                    >
-                                        Video
-                  </a>
+                                        Thông tin liên hệ
+                                    </a>
                                 </li>
                             </ul>
                             <div className="panel with-nav-tabs panel-default">
@@ -203,7 +172,7 @@ class ViewUI extends Component {
                                         <div className="tab-pane fade active in" id="tab1default">
                                             <div className="main-title-2">
                                                 <h1>
-                                                    <span>Description</span>
+                                                    <span>Mô tả chi tiết</span>
                                                 </h1>
                                             </div>
                                             <p>{estateUserInfo.info}</p>
@@ -214,175 +183,49 @@ class ViewUI extends Component {
                                             <div className="properties-condition">
                                                 <div className="main-title-2">
                                                     <h1>
-                                                        <span>Condition</span>
+                                                        <span>Thông tin liên hệ</span>
                                                     </h1>
                                                 </div>
                                                 <div className="row">
-                                                    <div className="col-md-4 col-sm-4 col-xs-12">
+                                                    <div className="col-md-3 col-sm-3 col-xs-12">
                                                         <ul className="condition">
                                                             <li>
-                                                                <i className="fa fa-check-square" />3 Beds
-                              </li>
+                                                                <i className="fa fa-user" />Tên người liên hệ:
+                                                            </li>
                                                             <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Bathroom
-                              </li>
+                                                                <i className="fa fa-phone" />
+                                                                Số điện thoại:
+                                                            </li>
+                                                            <li>
+                                                                <i className="fa fa-envelope" />
+                                                                Email:
+                                                            </li>
+                                                            <li>
+                                                                <i className="fa fa-address-card" />
+                                                                Địa chỉ:
+                                                            </li>
                                                         </ul>
                                                     </div>
-                                                    <div className="col-md-4 col-sm-4 col-xs-12">
-                                                        <ul className="condition">
+                                                    <div className="col-md-9 col-sm-9 col-xs-12">
+                                                        <ul className="condition" style={{ fontWeight: "bold" }}>
                                                             <li>
-                                                                <i className="fa fa-check-square" />
-                                                                4800 sq ft
-                              </li>
+                                                                {estateUserInfo.fullname === null ? 'Không có' : estateUserInfo.fullname}
+                                                            </li>
                                                             <li>
-                                                                <i className="fa fa-check-square" />
-                                                                TV
-                              </li>
+                                                                {estateUserInfo.phone === null ? 'Không có ' : estateUserInfo.phone}
+                                                            </li>
+                                                            <li>
+                                                                {estateUserInfo.email === null ? 'Không có ' : estateUserInfo.email}
+                                                            </li>
+                                                            <li>
+                                                                {estateUserInfo.address === null ? 'Không có ' : estateUserInfo.address}
+                                                            </li>
                                                         </ul>
                                                     </div>
-                                                    <div className="col-md-4 col-sm-4 col-xs-12">
-                                                        <ul className="condition">
-                                                            <li>
-                                                                <i className="fa fa-check-square" />1 Garage
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Balcony
-                              </li>
-                                                        </ul>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                             {/* Properties condition end */}
-                                        </div>
-                                        <div className="tab-pane fade technical" id="tab3default">
-                                            {/* Properties amenities start */}
-                                            <div className="properties-amenities">
-                                                <div className="main-title-2">
-                                                    <h1>
-                                                        <span>Amenities</span>
-                                                    </h1>
-                                                </div>
-                                                <div className="row">
-                                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                        <ul className="amenities">
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Air conditioning
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Balcony
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Pool
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                TV
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Gym
-                              </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                        <ul className="amenities">
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Wifi
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Parking
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Double Bed
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Iron
-                              </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                        <ul className="amenities">
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Telephone
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Jacuzzi
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Alarm
-                              </li>
-                                                            <li>
-                                                                <i className="fa fa-check-square" />
-                                                                Garage
-                              </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/* Properties amenities end */}
-                                        </div>
-                                        <div className="tab-pane fade" id="tab4default">
-                                            {/* Floor Plans start */}
-                                            <div className="floor-plans">
-                                                <h1>
-                                                    <span>Floor </span> Plans
-                        </h1>
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <strong>Size</strong>
-                                                            </td>
-                                                            <td>
-                                                                <strong>Rooms</strong>
-                                                            </td>
-                                                            <td>
-                                                                <strong>2 Bathrooms</strong>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>1600</td>
-                                                            <td>3</td>
-                                                            <td>2</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                <img
-                                                    src="img/properties/floor-plans.html"
-                                                    alt="floor-plans"
-                                                    className="img-responsive"
-                                                />
-                                            </div>
-                                            {/* Floor Plans end */}
-                                        </div>
-                                        <div className="tab-pane fade" id="tab5default">
-                                            {/* Inside properties start  */}
-                                            <div className="inside-properties">
-                                                {/* Main Title 2 */}
-                                                <div className="main-title-2">
-                                                    <h1>
-                                                        <span>Video</span>
-                                                    </h1>
-                                                </div>
-                                                <iframe
-                                                    title="."
-                                                    src="https://www.youtube.com/embed/5e0LxrLSzok"
-                                                    allowFullScreen
-                                                />
-                                            </div>
-                                            {/* Inside properties end */}
                                         </div>
                                     </div>
                                 </div>
@@ -397,35 +240,13 @@ class ViewUI extends Component {
                             {/* Main Title 2 */}
                             <div className="main-title-2">
                                 <h1>
-                                    <span>Location</span>
+                                    <span>Vị trí</span>
                                 </h1>
                             </div>
                             <MapOfDetailEstate info={estateUserInfo} />
                         </div>
                     </div>
                     {/* Location end */}
-                    {/* Properties details section start */}
-                    {/* <div className="Properties-details-section sidebar-widget"> */}
-                    {/* Properties comments start */}
-                    {/* <div className="properties-comments mb-40"> */}
-                    {/* Comments section start */}
-                    {/* <div className="comments-section"> */}
-                    {/* Main Title 2 */}
-                    {/* <div className="main-title-2">
-                                    <h1>
-                                        <span>Comments </span> Section
-                  </h1>
-                                </div>
-                                <ul className="comments">
-                                    {this.ShowComments(comments)}
-                                </ul>
-                            </div> */}
-                    {/* Comments section end */}
-                    {/* </div> */}
-                    {/* Properties comments end */}
-
-                    {/* </div> */}
-                    {/* Properties details section end */}
                 </div>
 
             </div>

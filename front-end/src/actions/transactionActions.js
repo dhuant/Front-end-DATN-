@@ -36,6 +36,13 @@ export const actCompletingTransaction = (transactionId) => {
         transactionId: transactionId
     }
 }
+
+export const actCancelTransaction = (transaction) => {
+    return {
+        type: Types.TRANSACTION_CANCEL,
+        transaction: transaction
+    }
+}
 // Selling Transaction API
 export const actPostingDeal = (deal) => {
     return {

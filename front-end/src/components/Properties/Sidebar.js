@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/role-has-required-aria-props */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -6,6 +7,7 @@ import React, { Component } from 'react';
 import moment from 'moment'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/request'
+import SingleHintProperty from './SingleHintProperty'
 
 class Sidebar extends Component {
   constructor() {
@@ -14,41 +16,29 @@ class Sidebar extends Component {
       selectedOption: null,
     };
   }
-  // componentDidMount = () => {
-  //   this.props.actFetchEstatesRequest
-  // }
+  componentDidMount = () => {
+    // console.log(this.props.info)
+  }
   handleChange = (selectedOption) => {
     this.setState({ selectedOption });
     console.log(`Option selected:`, selectedOption);
   }
-  ShowRelatedEstate = (estates, selectedEstate) => {
+  ShowRelatedEstate = (estates) => {
     var result = null;
     if (estates.length > 0) {
       result = estates.map((estate) => {
-        if (estate._id !== selectedEstate._id)
-          return (
-            <div className="media">
-              <div className="media-left">
-                <img className="media-object" src={estate.url[0] ? estate.url[0] : "/img/properties/small-properties-1.jpg"} alt="small-properties-1" />
-              </div>
-              <div className="media-body">
-                <h3 className="media-heading">
-                  <a href="properties-details.html">{estate.name}</a>
-                </h3>
-                <p>{moment.unix(estate.updateTime).format('DD/MM/YYYY, h:mm a')}</p>
-                <div className="price">
-                  {estate.price} tỉ
-                </div>
-              </div>
-            </div>
-          );
-      });
+        return (
+          <SingleHintProperty info={estate} />
+        );
+      })
+
     }
     return result;
   }
+
   render() {
-    let { estates, info } = this.props
-    console.log(info)
+    let { estates, related } = this.props
+    console.log(related)
     console.log(estates)
     return (
       <div>
@@ -60,7 +50,7 @@ class Sidebar extends Component {
               <div className="main-title-2">
                 <h1><span>Tình hình</span> giao dịch</h1>
               </div>
-              
+
             </div>
             {/* Search contents sidebar end */}
             {/* Popular posts start */}
@@ -68,7 +58,7 @@ class Sidebar extends Component {
               <div className="main-title-2">
                 <h1><span>Bất động sản </span> liên quan</h1>
               </div>
-              {this.ShowRelatedEstate(estates, info)}
+              {this.ShowRelatedEstate(related)}
             </div>
             {/* Category posts start */}
             <div className="sidebar-widget category-posts">

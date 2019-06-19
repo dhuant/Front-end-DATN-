@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Steps, Button, Form, Input, Progress, Select } from 'antd';
 import React from 'react'
 import Deal from './TransactionStepForBuyer/Deal'

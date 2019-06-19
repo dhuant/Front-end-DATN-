@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* global google */
 import React, { Component } from 'react';
 import EstatesMap from '../../components/Map/EstatesMap'
