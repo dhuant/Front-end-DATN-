@@ -6,18 +6,10 @@ import * as actions from '../../actions/request';
 import { } from 'react-google-maps'
 import Searching from './Searching'
 
-const colStyle = {
-    paddingRight: '5px',
-    paddingLeft: '5px',
-    marginLeft: '10px',
-    marginRight: '10px'
-}
 const optionStyle = {
     fontSize: '12px'
 }
-const fomrGroupStyle = {
-    paddingRight: '13px', marginLeft: '3px', marginRight: '7px', marginBottom: '10px'
-}
+
 const Deal = [
     { value: '1', label: 'Bất động sản bán' },
     { value: '3', label: 'Bất động sản cho thuê' }];
@@ -102,8 +94,6 @@ class EstateMapContainer extends Component {
             isMarkerCenterShown: false,
             place: {},
         }
-        console.log(this.state.prices);
-        console.log(this.state.price)
 
     }
     handleProvinceChange = (e) => {
@@ -142,7 +132,6 @@ class EstateMapContainer extends Component {
 
     handleChangeState = (selectedOption) => {
         this.setState({ selectedOption });
-
     }
 
     showCurrentLocation = () => {
@@ -164,6 +153,7 @@ class EstateMapContainer extends Component {
                         },
                         isMarkerCurrentLocationShown: true,
                         isMarkerCenterShown: false,
+                       
                     });
                     console.log("get current location");
                     console.log(this.state.currentLatLng);
@@ -187,25 +177,6 @@ class EstateMapContainer extends Component {
             console.log('error')
         }
     }
-
-    // getSnapshotBeforeUpdate(prevProps, prevState) {
-    //     if (prevState.currentLatLng.lat !== this.state.currentLatLng.lat) {
-    //         console.log("different")
-    //         return this.state.currentLatLng
-    //     }
-    //     return null
-    // }
-    // componentDidUpdate(prevProps, prevState, snapshot) {
-    //     if (snapshot) {
-    //         let info = {
-    //             radius: 5,
-    //             lat: this.state.currentLatLng.lat.toString(),
-    //             long: this.state.currentLatLng.lng.toString(),
-    //         }
-    //         console.log(info);
-    //         this.props.actFetchEstatesRequest(info);
-    //     }
-    // }
 
     closeOtherMarkers = (uid) => {
         this.setState({ activeMarker: uid })
@@ -331,13 +302,13 @@ class EstateMapContainer extends Component {
     render() {
         let { currentLatLng, type, deal, prices, price, area, radius } = this.state;
         const { estates } = this.props;
-        console.log(" ----- render")
-        console.log(estates);
-        console.log(this.state.isMarkerCurrentLocationShown);
-        console.log(" ----- End render")
-        console.log(type);
-        console.log(price);
-        console.log(this.state.center);
+        // console.log(" ----- render")
+        // console.log(estates);
+        // console.log(this.state.isMarkerCurrentLocationShown);
+        // console.log(" ----- End render")
+        // console.log(type);
+        // console.log(price);
+        // console.log(this.state.center);
         
         return (
             <div>
@@ -463,6 +434,7 @@ class EstateMapContainer extends Component {
                             onMapMounted={this.handleMapMounted}
                             handleMapChanged={this.handleMapChanged}
                             radius={radius}
+                            // zoom={this.state.zoomChange}
                         // onZoomChange={this.onZoomChange}
                         // handleMapFullyLoaded={this.handleMapFullyLoaded}
                         >
@@ -503,7 +475,6 @@ const mapDispathToProp = (dispatch) => {
     }
 }
 const mapStateToProp = (state) => {
-    // console.log(state);
     return {
         estates: state.estates,
     }

@@ -73,7 +73,7 @@ class EstateListInMap extends Component {
 
 						<div className="clearfix" />
 					</div>
-					<div className="properties-map-search" style={{height: "85vh", overflow: "scroll"}}>
+					<div className="properties-map-search" style={{overflow: "scroll"}}>
 						<div className="properties-map-search-content">
 							<div className="row">
 								{/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -116,13 +116,12 @@ class EstateListInMap extends Component {
 						<div className="map-content-separater" />
 						<div className="clearfix" />
 						<div className="title-area">
-							<h2 className="pull-left">Properties</h2>
+							<h2 className="pull-left">Danh sách tin đăng</h2>
 							<br />
 							<div className="clearfix" />
 						</div>
-						<div className="fetching-properties" >
+						<div className="fetching-properties" style={{height:'85vh'}}>
 							{listEstates}
-
 						</div>
 					</div>
 				</div>

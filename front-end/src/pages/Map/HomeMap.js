@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import MainHeader from '../../components/MainHeader';
 import EstateMapContainer from './EstateMapContainer';
 import EstateListInMap from './EstateListInMap';
-// import * as actions from '../../actions/request';
-// import { connect } from 'react-redux';
 class HomeMap extends Component {
     constructor(props) {
         super(props);
@@ -40,16 +38,4 @@ class HomeMap extends Component {
     }
 }
 
-// const mapDispathToProp = (dispatch) => {
-//     return {
-//         actFetchEstatesRequest: (info) => dispatch(actions.actFetchEstatesRequest(info))
-//     }
-// }
-// const mapStateToProp = (state) => {
-//     return {
-//         estates: state.estates,
-//         location: state.location
-//     }
-// }
-// export default connect(mapStateToProp, mapDispathToProp)(HomeMap);
 export default HomeMap;
