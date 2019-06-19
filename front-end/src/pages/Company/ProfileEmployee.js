@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 // import moment from 'moment'
 import { withRouter } from 'react-router-dom'
 import * as actionAuth from '../../actions/auth'
+import { SingleEstate } from '../../components/Employee Estate/SingleEstate';
 
 const { Option } = Select;
 const confirm = Modal.confirm;
@@ -366,7 +367,7 @@ class ProfileEmployee extends Component {
     componentDidMount() {
         console.log(this.props.match.params.id)
         this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page);
-        console.log('did')
+
     }
     onCheckFullName = (rule, value, callback) => {
         const reg = /\d|^[a-z]|^\s|[A-z]{8}|\S{8}|[`~!@#$%^&*()(\-)_=+[(\]){};:'",<.>/?\\|]/
@@ -471,6 +472,9 @@ class ProfileEmployee extends Component {
                     phoneTmp = info.phone
                 }
             }
+            else {
+                phoneTmp = ''
+            }
             console.log(phoneTmp)
             const { getFieldDecorator } = this.props.form;
             const prefixSelector = getFieldDecorator('prefix', {
@@ -503,25 +507,20 @@ class ProfileEmployee extends Component {
                     },
                 },
             };
-            let des = 'Hiện chưa có bài đăng';
+            let listProjects = ''
+            let des = 'Hiện chưa có bài đăng'
             if (projects.length > 0) {
                 des = `Có ${projects.length} bài đăng`
+                listProjects = projects.map((project, index) => {
+                    return (
+                        <SingleEstate
+                            key={index}
+                            estateListOfUser={project}
+                        />
+                    )
+                }
+                )
             }
-            // let listProjects = '';
-            console.log(info);
-            console.log(projects);
-
-            // 	des = `Hiện đang có ${projects.length} bài đăng`
-            // 	listProjects = projects.map((project, index) => {
-            // 		return (
-            // 			<InfoEstateOfAgent
-            // 				key={index}
-            // 				project={project}
-            // 			/>
-            // 		)
-            // 	}
-            // 	)
-            // }
 
             let mobile = 'Đang cập nhật'
             if (info.phone !== '') {
@@ -592,7 +591,7 @@ class ProfileEmployee extends Component {
                 btnPer =
                     <Button
                         type="default"
-                        style={{ margin: '5px 0 5px 0', width: '157px', height: '52px', backgroundColor: '#7d6f7c'}}
+                        style={{ margin: '5px 0 5px 0', width: '157px', height: '52px', backgroundColor: '#7d6f7c' }}
                         disabled={this.state.disable}
                         onClick={this.onCheckAuthPermission}
                     >
@@ -811,7 +810,7 @@ class ProfileEmployee extends Component {
                                                 <h4><span>{des}</span> </h4>
                                             </div>
                                             <div className="row">
-
+                                                {listProjects}
                                             </div>
                                         </div>
                                     </div>

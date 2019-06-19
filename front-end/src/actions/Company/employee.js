@@ -5,3 +5,10 @@ export const actGetInfoEmployee = (employee) => {
         employee: employee
     }
 }
+
+export const actGetListProjectOfEmployee = (projects) => {
+    return{
+        type: types.GET_LIST_PROJECT_OF_EMPLOYEE,
+        projects: projects
+    }
+}

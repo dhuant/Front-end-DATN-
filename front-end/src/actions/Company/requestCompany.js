@@ -41,7 +41,7 @@ export const reqGetInfoEmployee = (id, page) => {
         console.log(res);
         dispatch(actionAuth.actCheckAuth(true))
         dispatch(actionEmployee.actGetInfoEmployee(res.data.info));
-        // dispatch(action.actSaveListEmployees(res.data.company.employees))
+        dispatch(actionEmployee.actGetListProjectOfEmployee(res.data.projects))
       })
       .catch(err => {
         if (err.response) {
