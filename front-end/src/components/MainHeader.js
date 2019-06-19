@@ -87,6 +87,11 @@ class MainHeader extends Component {
         localStorage.removeItem('res');
     }
 
+    onChangePassword=(e) => {
+        e.preventDefault();
+        this.props.history.push('/changepassword');
+    }
+
     onGetName = (name) => {
         if (name.indexOf(' ') !== -1)
             return name.slice(0, name.indexOf(' '))
@@ -199,6 +204,13 @@ class MainHeader extends Component {
                                                         <a onClick={this.onProfile} href="true" tabIndex={0}>Chỉnh sửa thông tin cơ bản</a>
 
                                                     </li>
+                                                    {JSON.parse(localStorage.getItem('res')).user.statusAccount === 2 ?
+                                                        <li>
+                                                            <a href="true" onClick={this.onChangePassword} tabIndex={0} >
+                                                            Đổi mật khẩu
+                                                            </a>
+                                                        </li>: null
+                                                        }
                                                     <li >
                                                         <a onClick={this.onMyProperty} href="true" tabIndex={0}>Bài đăng của tôi</a>
                                                     </li>
