@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import SingleCurrTransaction from '../components/Profile/SingleCurrTransaction'
 import * as transAction from '../actions/transactionRequest'
+import {Empty} from 'antd'
 
 class MyTransaction extends Component {
   componentDidMount = () => {
@@ -73,7 +74,7 @@ class MyTransaction extends Component {
       });
     }
     else if (transaction.length === 0 || transaction === undefined) {
-      result = (<tr><td>Hiện bạn chưa có giao dịch nào!</td></tr>)
+      result = (<Empty />)
     }
     return result;
   }

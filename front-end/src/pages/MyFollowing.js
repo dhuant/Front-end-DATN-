@@ -8,11 +8,27 @@ import FollowingProject from '../components/My Properties/FollowingProject'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Login from '../pages/Login'
+import {Empty, Pagination} from 'antd'
 
+const pageSize = 10
 class MyFollowing extends Component {
+    constructor(props) {
+      super(props)
+    
+      this.state = {
+         current: 1
+      }
+    }
+    
     componentDidMount = () => {
         this.props.onGetFollowingList()
     }
+
+    onChange = (page) => {
+        console.log(page)
+        this.setState({ current: page })
+    }
+
     onUnfollowProject = (data) => {
         this.props.onUnfollowProject(data)
     }
@@ -56,6 +72,18 @@ class MyFollowing extends Component {
                                         {this.ShowFollowingList(follow)}
                                     </tbody>
                                 </table>
+                                <br></br>
+                                <div className="pull-right">
+                                    {follow.length !== 0 ?
+                                        <Pagination
+                                            // size="small"
+                                            current={this.state.current}
+                                            total={follow.length}
+                                            onChange={this.onChange}
+                                            pageSize={pageSize}
+                                        />
+                                        : null}
+                                </div>
                                 {/* table end */}
                             </div>
                         </div>
@@ -80,7 +108,7 @@ class MyFollowing extends Component {
             });
         }
         else if (follow.length === 0 || follow === undefined) {
-            result = (<tr><td>Hiện bạn chưa theo dõi bài đăng nào!</td></tr>)
+            result = (<Empty />)
         }
         return result;
     }

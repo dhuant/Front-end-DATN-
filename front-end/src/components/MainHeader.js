@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { HOME, NEWS, ABOUT, LIST_ESTATES } from '../constants/Navbar'
-import { PROFILE, MY_PROPERTIES, MY_FOLLOWING, MY_TRANSACTION, MY_TRANSACTION_HISTORY, WAITING_REQUEST } from '../constants/Profile'
+// import { PROFILE, MY_PROPERTIES, MY_FOLLOWING, MY_TRANSACTION, MY_TRANSACTION_HISTORY, WAITING_REQUEST } from '../constants/Profile'
 
 class MainHeader extends Component {
     constructor() {

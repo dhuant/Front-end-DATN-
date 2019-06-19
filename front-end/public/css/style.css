@@ -7388,12 +7388,16 @@ table.manage-table .title-container .title span {
 .transaction-button:hover {
     background: #C00B18;
 }
-.transactionSingle:hover{
-    background-color: #F7FBFB;
+.transaction-title:hover{
+    color: #145A32;
     transition: .5s;
     cursor: pointer;
 }
 
+.transactionSingle .action i:hover{
+    color: orangered;
+    transition: .5s
+}
 .pull-right #follow:hover{
     color: red;
     transition: .5s;

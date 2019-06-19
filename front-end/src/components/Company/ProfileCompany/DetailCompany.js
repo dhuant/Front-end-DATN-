@@ -3,6 +3,7 @@ import { Form, Input, Button, Select, message } from 'antd';
 import moment from 'moment'
 import { connect } from 'react-redux';
 import { adminService } from '../../../actions/Company/admin.service'
+import * as companyActions from '../../../actions/Company/requestCompany'
 import { withRouter } from 'react-router-dom'
 
 const { Option } = Select;
@@ -15,18 +16,21 @@ class DetailCompany extends Component {
             description: '',
             address: '',
             disable: true,
+            loading: false
         };
     }
+
     onCancel = (e) => {
         e.preventDefault();
         this.props.history.push('/company/profile-admin')
     }
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
+        this.props.form.validateFieldsAndScroll(async (err, values) => {
             if (!err) {
-                this.setState({
+                await this.setState({
                     disable: true,
+                    loading: true
                 })
                 let account = {
                     companyname: values.companyname,
@@ -34,21 +38,25 @@ class DetailCompany extends Component {
                     email: values.email,
                     phone: `${values.prefix} ${values.phone}`,
                     description: values.description,
-                    avatar: localStorage.getItem('avatar') ? localStorage.getItem('avatar') : 'https://res.cloudinary.com/dne3aha8f/image/upload/v1559203321/ddtyciszy3oiwdjasrjh.png?fbclid=IwAR3RFWWiOrMw-sMiNigCXJMFEGdpYw_FUBa4PxZYZLTtHvjLaa1JjBpNGy0',
+                    avatar: this.props.userCompany.avatar ? this.props.userCompany.avatar : localStorage.getItem('res').avatar,
                     createTime: moment().unix(),
                     updateTime: moment().unix(),
                 }
                 console.log(values);
                 console.log(account);
                 // this.props.form.resetFields([fullname])
-                message.loading('Đang thêm tài khoản, vui lòng chờ trong giây lát', 2.5)
+                message.loading('Đang cập nhật thông tin', 0.5)
                     .then(() => {
-                        adminService.addAccount(account)
+                        adminService.editCompany(account)
                             .then(res => {
-                                if (res.status === 201) {
-                                    message.success('Thêm tài khoản nhân viên thành công');
+                                if (res.status === 200) {
+                                    message.success('Cập nhật thông tin thành công!');
                                 }
                                 this.props.history.push('/company/profile-admin')
+                                this.setState({
+                                    disable: false,
+                                    loading: false
+                                })
                             })
                             .catch(err => {
                                 console.log(err)
@@ -68,7 +76,8 @@ class DetailCompany extends Component {
         });
     };
     onCheckCompanyName = (rule, value, callback) => {
-        const reg = /^[a-z]|^\s|[A-z]{8}|\S{8}|[`~!@#$%^&*()(\-)_=+[(\]){};:'",<.>/?\\|]/
+        const reg = /^[a-z]|^\s|[A-z]{8}|\S{8}|[`~!@#$%^&*()(\-)_=+[(\]){};:'"<>/?\\|]/
+        console.log(value)
         // chữ cái viết thường, 
         //bắt đầu bằng khoảng trắng, 8 kí tự liền nhau (tên: Nghiêng), kí tự đặc biệt
         if ((!Number.isNaN(value) && reg.test(value)) || value === '' || value.length < 4) {
@@ -89,8 +98,11 @@ class DetailCompany extends Component {
     };
     componentDidMount() {
         this.setState({ disable: false })
+        this.props.onGettingCompanyInfo()
+
     }
     render() {
+        const { loading } = this.state
         console.log(this.state.disable);
         const { getFieldDecorator } = this.props.form;
         const prefixSelector = getFieldDecorator('prefix', {
@@ -124,6 +136,18 @@ class DetailCompany extends Component {
             },
         };
         let { company } = this.props;
+        let phoneTmp = ''
+        if (company !== {}) {
+            phoneTmp = `${company.phone}`
+            // let str = "42 3"
+            let n = phoneTmp.search(" ")
+            if (n !== -1) {
+                phoneTmp = phoneTmp.slice(n + 1)
+            }
+            else {
+                phoneTmp = company.phone
+            }
+        }
         console.log(company);
         return (
             <div>
@@ -221,7 +245,7 @@ class DetailCompany extends Component {
                                         validator: this.onCheckPhoneNumber,
                                     },
                                 ],
-                                initialValue: company.phone
+                                initialValue: phoneTmp
                             })(<Input
                                 addonBefore={prefixSelector}
                                 //onChange={this.onChange} 
@@ -240,10 +264,17 @@ class DetailCompany extends Component {
                             />)}
                         </Form.Item>
                         <Form.Item {...tailFormItemLayout} style={{ textAlign: 'right', paddingRight: '20px' }}>
-                            <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit" disabled={this.state.disable}>
-                                Cập nhật
+                            <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit" disabled={loading}>
+                                {loading && (
+                                    <i
+                                        className="fa fa-refresh fa-spin"
+                                        style={{ marginRight: "5px" }}
+                                    />
+                                )}
+                                {loading && <span>Đang cập nhật...</span>}
+                                {!loading && <span>Cập nhật</span>}
                             </Button>
-                            <Button type="danger" onClick={this.onCancel}>
+                            <Button type="danger" onClick={this.onCancel} disabled={loading}>
                                 Hủy
                             </Button>
                         </Form.Item>
@@ -256,6 +287,7 @@ class DetailCompany extends Component {
 
 const mapDispathToProp = (dispatch) => {
     return {
+        onGettingCompanyInfo: () => dispatch(companyActions.actGetInfoUserCompany())
     }
 }
 const mapStateToProp = (state) => {

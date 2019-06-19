@@ -1,56 +1,258 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import * as actions from '../../actions/request'
+import { Form, Input, Button, Select, message } from 'antd';
+
+const { Option } = Select;
 
 class Detail extends Component {
-    componentDidMount =() => {
-        this.props.onGetEstateListOfUser()
-        this.props.onGetUserInfo()
-    }
-    onSubmit = (e) => {
-        e.preventDefault()
-        var updateInfo = {
-            fullname: document.getElementById('fullname').value,
-            address: document.getElementById('address').value,
-            phone: document.getElementById('phone').value,
-            description: document.getElementById('description').value,
-            avatar: localStorage.getItem('avatar') ? localStorage.getItem('avatar') : JSON.parse(localStorage.getItem('res')).user.avatar,
-            statusAccount: 2,
-            // totalProject: this.props.estatesListOfUser.length
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            loading: false
         }
-        this.props.onEditUserInfo(updateInfo)
     }
 
+    componentDidMount = () => {
+        this.props.onGetUserInfo()
+    }
+    // onSubmit = (e) => {
+    //     e.preventDefault()
+    //     var updateInfo = {
+    //         fullname: document.getElementById('fullname').value,
+    //         address: document.getElementById('address').value,
+    //         phone: document.getElementById('phone').value,
+    //         description: document.getElementById('description').value,
+    //         avatar: localStorage.getItem('avatar') ? localStorage.getItem('avatar') : JSON.parse(localStorage.getItem('res')).user.avatar,
+    //         statusAccount: 2,
+    //         // totalProject: this.props.estatesListOfUser.length
+    //     }
+    //     this.props.onEditUserInfo(updateInfo)
+    // }
+
+    handleSubmit = e => {
+        e.preventDefault();
+        this.props.form.validateFieldsAndScroll(async (err, values) => {
+            if (!err) {
+                this.setState({
+                    loading: true
+                })
+                let account = {
+                    fullname: values.fullname,
+                    address: values.address,
+                    email: values.email,
+                    phone: `${values.prefix} ${values.phone}`,
+                    identify: values.identify,
+                    description: values.description,
+                    avatar: this.props.user.avatar ? this.props.user.avatar : JSON.parse(localStorage.getItem('res')).user.avatar
+                }
+                await this.props.onEditUserInfo(account)
+                this.setState({ loading: false })
+            }
+        });
+    };
+
+    onCheckingName = (rule, value, callback) => {
+        const reg = /^[a-z]|^\s|[A-z]{8}|\S{8}|[`~!@#$%^&*()(\-)_=+[(\]){};:'"<>/?\\|]/
+        console.log(value)
+        // chữ cái viết thường, 
+        //bắt đầu bằng khoảng trắng, 8 kí tự liền nhau (tên: Nghiêng), kí tự đặc biệt
+        if ((!Number.isNaN(value) && reg.test(value)) || value === '' || value.length < 4) {
+            callback('Vui lòng nhập đúng tên!');
+        }
+        else {
+            callback()
+        }
+    }
+    onCheckPhoneNumber = (rule, value, callback) => {
+        const reg = /^[1-9]?([1-9][0-9]*)?$/;
+        if ((!Number.isNaN(value) && reg.test(value) && value.length === 9)) {
+            callback();
+        }
+        else {
+            callback('Vui lòng nhập đúng số điện thoại!')
+        }
+    };
+
+    onCheckIdentify = (rule, value, callback) => {
+        const reg = /^[0-9]?([1-9][0-9]*)?$/;
+        if ((!Number.isNaN(value) && reg.test(value) && value.length === 9)) {
+            callback();
+        }
+        else {
+            callback('Vui lòng nhập đúng số CMND!')
+        }
+    };
+
     render() {
-        let { user, userUpdated } = this.props;
-        console.log(user);
-        console.log(userUpdated)
-        console.log(userUpdated.user)
+        const { loading } = this.state
+        const { user } = this.props
+        const { getFieldDecorator } = this.props.form;
+        const prefixSelector = getFieldDecorator('prefix', {
+            initialValue: '84',
+        })(
+            <Select style={{ width: 70 }}>
+                <Option value="84">+84</Option>
+                <Option value="86">+86</Option>
+            </Select>,
+        );
+        const formItemLayout = {
+            labelCol: {
+                xs: { span: 24 },
+                sm: { span: 8 },
+            },
+            wrapperCol: {
+                xs: { span: 24 },
+                sm: { span: 14 },
+            },
+        };
+        const tailFormItemLayout = {
+            wrapperCol: {
+                xs: {
+                    span: 22,
+                    offset: 0,
+                },
+                sm: {
+                    span: 22,
+                    offset: 0,
+                },
+            },
+        };
+        let phoneTmp = ''
+        if (user !== {}) {
+            phoneTmp = `${user.phone}`
+            // let str = "42 3"
+            let n = phoneTmp.search(" ")
+            if (n !== -1) {
+                phoneTmp = phoneTmp.slice(n + 1)
+            }
+            else {
+                phoneTmp = user.phone
+            }
+        }
         return (
             <div>
                 <div className="my-address">
                     <div className="main-title-2">
                         <h1><span>Thông tin</span> cơ bản</h1>
                     </div>
-                    <form action="http://themevessel-item.s3-website-us-east-1.amazonaws.com/nest/index.html" method="POST">
-                        <div className="form-group">
-                            <label>Tên đầy đủ</label>
-                            <input type="text" className="input-text" name="fullname" id="fullname" placeholder="Nhập tên của bạn..." defaultValue={userUpdated.fullname !== '' ? userUpdated.fullname : JSON.parse(localStorage.getItem('res')).user.fullname} />
-                        </div>
-                        <div className="form-group">
-                            <label>Địa chỉ</label>
-                            <input type="text" className="input-text" name="address" id="address" placeholder="Nhập địa chỉ của bạn..." defaultValue={userUpdated.address !== '' ? userUpdated.address : ' '} required/>
-                        </div>
-                        <div className="form-group">
-                            <label>Số điện thoại</label>
-                            <input type="text" className="input-text" name="phone" id="phone" placeholder="+55 4XX-634-7071" defaultValue={userUpdated.phone === '' ? ' ' : userUpdated.phone} required/>
-                        </div>
-                        <div className="form-group">
-                            <label>Giới thiệu bản thân</label>
-                            <textarea className="input-text" name="description" id="description" placeholder="Viết thêm gì đó về bạn..." defaultValue={userUpdated.description === '' ? ' ' : userUpdated.description}></textarea>
-                        </div>
-                        <a href="true" className="btn button-md button-theme" onClick={this.onSubmit}>Lưu thay đổi</a>
-                    </form>
+                    <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+                        <Form.Item label="Tên đầy đủ" style={{ paddingRight: '20px' }} hasFeedback>
+                            {getFieldDecorator('fullname', {
+                                rules: [
+                                    {
+                                        min: 10,
+                                        required: true,
+                                        message: 'Vui lòng nhập tên công ty',
+                                    },
+                                    {
+                                        validator: this.onCheckingName,
+                                    }
+                                ],
+                                initialValue: user.fullname
+                            })(<Input
+                                //onChange={this.onChange} 
+
+                                style={{ marginRight: '30px' }}
+                                placeholder="Nhập tên đầy đủ (Bắt đầu bằng chữ in hoa)"
+                                maxLength={50}
+                            />)}
+                        </Form.Item>
+                        <Form.Item label="Địa chỉ" style={{ paddingRight: '20px' }} hasFeedback>
+                            {getFieldDecorator('address', {
+                                rules: [
+                                    {
+                                        min: 10,
+                                        required: true,
+                                        message: 'Vui lòng nhập địa chỉ!',
+                                    },
+                                    {
+                                        validator: this.onCheckingName,
+                                    },
+                                ],
+                                initialValue: user.address
+                            })(<Input
+                                //onChange={this.onChange} 
+                                style={{ marginRight: '30px' }}
+                                placeholder="Nhập địa chỉ (Bắt đầu bằng chữ in hoa)"
+                                maxLength={100} />)}
+                        </Form.Item>
+                        <Form.Item label="E-mail" style={{ paddingRight: '20px' }} hasFeedback>
+                            {getFieldDecorator('email', {
+                                rules: [
+                                    {
+                                        type: 'email',
+                                        message: 'Không đúng định dạng email',
+                                    },
+                                    {
+                                        required: true,
+                                        message: 'Vui lòng nhập email!',
+                                    },
+                                ],
+                                initialValue: user.email
+                            })(<Input style={{ marginRight: '30px' }} />)}
+                        </Form.Item>
+                        <Form.Item label="Số điện thoại" style={{ paddingRight: '20px' }} hasFeedback>
+                            {getFieldDecorator('phone', {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: 'Vui lòng nhập số điện thoại của nhân viên!',
+                                    },
+                                    {
+                                        validator: this.onCheckPhoneNumber,
+                                    },
+                                ],
+                                initialValue: phoneTmp
+                            })(<Input
+                                addonBefore={prefixSelector}
+                                //onChange={this.onChange} 
+                                style={{ marginRight: '30px' }}
+                                placeholder="Nhập 9 chữ số sau số 0"
+                                maxLength={9} />)}
+                        </Form.Item>
+                        <Form.Item label="Số CMND/thẻ căn cước/Passport" style={{ paddingRight: '20px' }} hasFeedback>
+                            {getFieldDecorator('identify', {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: 'Vui lòng nhập CMND/thẻ căn cước/passport của bạn!',
+                                    },
+                                    {
+                                        validator: this.onCheckIdentify,
+                                    },
+                                ],
+                                initialValue: user.identify !== null ? user.identify : ' '
+                            })(<Input
+                                //onChange={this.onChange} 
+                                style={{ marginRight: '30px' }}
+                                placeholder="Nhập 9 chữ số sau số 0"
+                                maxLength={9} />)}
+                        </Form.Item>
+                        <Form.Item label="Mô tả bản thân" style={{ paddingRight: '20px' }}>
+                            {getFieldDecorator('description', {
+                                initialValue: user.description
+
+                            })(<Input.TextArea
+                                //onChange={this.onChange} 
+                                style={{ marginRight: '30px' }}
+                                placeholder="Nhập mô tả (Bắt đầu bằng chữ in hoa)"
+                            />)}
+                        </Form.Item>
+                        <Form.Item {...tailFormItemLayout} style={{ textAlign: 'right', paddingRight: '20px' }}>
+                            <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit" disabled={loading}>
+                                {loading && (
+                                    <i
+                                        className="fa fa-refresh fa-spin"
+                                        style={{ marginRight: "5px" }}
+                                    />
+                                )}
+                                {loading && <span>Đang cập nhật...</span>}
+                                {!loading && <span>Cập nhật</span>}
+                            </Button>
+                        </Form.Item>
+                    </Form>
                 </div>
             </div>
         );
@@ -59,15 +261,14 @@ class Detail extends Component {
 
 const mapDispathToProp = (dispatch) => {
     return {
-        onGetEstateListOfUser: () => dispatch(actions.actGetEstateListOfUserRequest()),
         onEditUserInfo: (data) => dispatch(actions.actEditUserInfoRequest(data)),
         onGetUserInfo: () => dispatch(actions.actGetUserInfoRequest())
     }
 }
 const mapStateToProp = (state) => {
     return {
-        estatesListOfUser: state.estatesListOfUser,
-        userUpdated: state.user
+        user: state.user
     }
 }
-export default connect(mapStateToProp, mapDispathToProp)(Detail)
+const WrappedFormDetail = Form.create()(Detail)
+export default connect(mapStateToProp, mapDispathToProp)(WrappedFormDetail)

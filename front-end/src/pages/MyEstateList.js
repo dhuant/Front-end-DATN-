@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import MainHeader from '../components/MainHeader';
 import { connect } from 'react-redux'
 import * as actions from '../actions/request';
-import { Pagination } from 'antd'
+import { Pagination, Empty } from 'antd'
 
 const pageSize = 10
 class MyEstateList extends Component {
@@ -23,11 +23,11 @@ class MyEstateList extends Component {
         this.props.onGetEstateListOfUser(`${this.state.current}`)
     }
 
-    onChange = async(page) => {
+    onChange = async (page) => {
         console.log(page)
         await this.setState({ current: page })
         await this.props.onGetEstateListOfUser(`${page}`)
-        
+
     }
     render() {
         let { estatesListOfUser } = this.props
@@ -70,13 +70,15 @@ class MyEstateList extends Component {
                                 </table>
                                 <br></br>
                                 <div className="pull-right">
-                                    <Pagination
-                                        // size="small"
-                                        current={this.state.current}
-                                        total={JSON.parse(localStorage.getItem('res')).user.totalProject}
-                                        onChange={this.onChange}
-                                        pageSize={pageSize}
-                                    />
+                                    {estatesListOfUser.length !== 0 ?
+                                        <Pagination
+                                            // size="small"
+                                            current={this.state.current}
+                                            total={JSON.parse(localStorage.getItem('res')).user.totalProject}
+                                            onChange={this.onChange}
+                                            pageSize={pageSize}
+                                        />
+                                        : null}
                                 </div>
                                 {/* table end */}
                             </div>
@@ -99,7 +101,7 @@ class MyEstateList extends Component {
             });
         }
         else if (estates.length === 0 || estates === undefined) {
-            result = (<span>Hiện không có bài đăng nào!</span>)
+            result = (<Empty />)
         }
         return result;
     }

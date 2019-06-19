@@ -4,6 +4,10 @@ import { ADD_ACCOUNT, CHANGE_PASSWORD, LIST_EMPLOYEES, PROFILE, MY_TRANSACTION, 
 import Dropzone from 'react-dropzone'
 import request from 'superagent'
 import { message } from 'antd'
+import { connect } from 'react-redux'
+import * as companyActions from '../../../actions/Company/requestCompany'
+import { adminService } from '../../../actions/Company/admin.service'
+import moment from 'moment'
 
 const CLOUDINARY_UPLOAD_PRESET = 'nn6imhmo';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dne3aha8f/image/upload';
@@ -14,8 +18,13 @@ class InfoCompany extends Component {
 
         this.state = {
             uploadedFile: null,
-            uploadedFileCloudinaryUrl: ''
+            uploadedFileCloudinaryUrl: '',
+            loading: false
         }
+    }
+
+    componentDidMount = () => {
+        this.props.onGettingCompanyInfo()
     }
 
     onImageSelect(files) {
@@ -26,9 +35,8 @@ class InfoCompany extends Component {
         this.handleImageUpload(files[0]);
     }
 
-    handleImageUpload(file) {
-        console.log(file)
-        request
+    async handleImageUpload(file) {
+        await request
             .post(CLOUDINARY_UPLOAD_URL)
             .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
             .field('file', file)
@@ -39,6 +47,29 @@ class InfoCompany extends Component {
                 })
             })
             .catch(err => message.error(`Có lỗi xảy ra: ${err}`))
+        var profileData = {
+            companyname: this.props.userCompany.companyname,
+            address: this.props.userCompany.address,
+            email: this.props.userCompany.email,
+            phone: this.props.userCompany.phone,
+            description: this.props.userCompany.description,
+            avatar: this.state.uploadedFileCloudinaryUrl ? this.state.uploadedFileCloudinaryUrl : this.props.userCompany.avatar,
+            createTime: this.props.userCompany.createTime,
+            updateTime: moment().unix()
+        }
+        console.log(profileData)
+        await adminService.editCompany(profileData)
+            .then(async res => {
+                if(res.status === 200){
+                    await this.props.onGettingCompanyInfo()
+                }
+                this.props.history.push('/company/profile-admin')
+            })
+            .catch(err => {
+                console.log(err)
+                message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
+            })
+
     }
 
     onAddAccountEmployee = (e) => {
@@ -68,14 +99,14 @@ class InfoCompany extends Component {
 
     render() {
         let userInfoCompany = JSON.parse(localStorage.getItem('company'))
-        var { uploadedFileCloudinaryUrl } = this.state
-        if (uploadedFileCloudinaryUrl !== '') localStorage.setItem('avatar', uploadedFileCloudinaryUrl)
+        console.log(userInfoCompany)
+        console.log(this.props.userCompany)
         return (
             <div>
                 <div className="user-account-box">
                     <div className="header clearfix" >
                         <div className="edit-profile-photo">
-                            <img style={{ width: "150px", height: "150px" }} src={localStorage.getItem('avatar') ? localStorage.getItem('avatar') : userInfoCompany.avatar} alt="agent-1" className="img-responsive" />
+                            <img style={{ width: "150px", height: "150px" }} src={this.props.userCompany.avatar ? this.props.userCompany.avatar : '/img/avatar/avatar-1.jpg'} alt="agent-1" className="img-responsive" />
                             <div className="change-photo-btn">
                                 <div className="photoUpload">
                                     <Dropzone
@@ -146,4 +177,16 @@ class InfoCompany extends Component {
     }
 }
 
-export default (withRouter(InfoCompany));
+const mapStateToProps = (state) => {
+    return {
+        userCompany: state.userCompany
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onGettingCompanyInfo: () => dispatch(companyActions.actGetInfoUserCompany())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(InfoCompany));

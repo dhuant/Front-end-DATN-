@@ -33,14 +33,14 @@ export const actSearchMapRequest = info => {
             dispatch(actMap.actSearchMap([]));
             message.warning('Không có bất động sản quanh khu vực này')
           }
-          else{
+          else {
             message.error('Có lỗi xảy ra!')
           }
         }
-        else{
+        else {
           message.error('Có lỗi xảy ra. Vui lòng kiểm tra lại đường truyền hoặc lỗi do server!')
         }
-        
+
       })
   }
 }
@@ -131,18 +131,16 @@ export const actGetEstateListOfUserRequest = (page) => {
 }
 
 export const actGetFollowingListRequest = () => {
-  if (authHeader !== null)
-    return dispatch => {
-      return axios.get(`http://localhost:3001/users/listSaved`, { headers: authHeader() }).then(res => {
-        if (res.data.status === 200)
-          dispatch(Action.actGetFollowingList(res.data.result.projects))
+  return dispatch => {
+    return axios.get(`http://localhost:3001/users/listSaved`, { headers: authHeader() }).then(res => {
+      if (res.data.status === 200)
+        dispatch(Action.actGetFollowingList(res.data.result.projects))
+    })
+      .catch(err => {
+        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
+          return null
       })
-        .catch(err => {
-          if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
-            return null
-        })
-    }
-  else return null
+  }
 }
 
 export const actUnfollowProjectRequest = (data) => {
@@ -237,7 +235,7 @@ export const actEditUserInfoRequest = (data) => {
     axios.post(`http://localhost:3001/users/edit`, data, { headers: authHeader() })
       .then(res => {
         console.log(res)
-        if (res.data.status === 200 && res) {
+        if (res.status === 200) {
           dispatch(Action.actEditUserInfo(res.data.user))
           message.success("Cập nhật thông tin thành công!")
         }
@@ -285,7 +283,7 @@ export const actDeleteCommentRequest = (id, data) => {
 
 export const reqSearchEstate = (data) => {
   return dispatch => {
-    axios.post(`http://localhost:3001/projects/searchprojects`,data)
+    axios.post(`http://localhost:3001/projects/searchprojects`, data)
       .then(res => {
         if (res.data.status === 200) {
           console.log(res)
@@ -293,11 +291,11 @@ export const reqSearchEstate = (data) => {
         }
       })
       .catch(err => {
-        if(err){
+        if (err) {
           message.warning('Không có bất động sản bạn cần tìm')
           dispatch(actSearch.actSearchEstate([]))
         }
-        else{
+        else {
           message.error('Lỗi, vui lòng kiểm tra lại đường truyền!')
         }
       })
