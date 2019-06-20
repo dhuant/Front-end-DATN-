@@ -161,7 +161,7 @@ export class SingleEstate extends Component {
           </div>
           <div className="col-lg-1 col-md-1 col-sm-1 col-xs-12" style={{paddingRight:'30px'}}>
             <div style={{ textAlign: 'center', marginRight:'15px', marginTop:'30px'}}>
-              <div style={{ marginBottom: "5px" }} className="view">
+              <div style={{ marginBottom: "5px" }}>
                 <i
                   className="fa fa-eye"
                   style={{ cursor: "pointer", width: "20px", height: "20px" }}
@@ -174,7 +174,7 @@ export class SingleEstate extends Component {
               </div>
 
               <Link
-                to={`myproperties/edit/${estateListOfUser._id}`}
+                to={`/company/edit-estate/${estateListOfUser._id}`}
                 target="_blank"
               >
                 <div style={{ marginBottom: "5px" }}>
