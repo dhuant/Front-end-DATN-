@@ -40,6 +40,10 @@ class HeaderCompany extends Component {
         e.preventDefault();
         this.props.history.push('/company/add-account-employee');
     }
+    onListEmployee = (e) => {
+        e.preventDefault();
+        this.props.history.push('/company/list-employees')
+    }
     onSignOut = (e) => {
         e.preventDefault();
         localStorage.removeItem('company');
@@ -50,11 +54,7 @@ class HeaderCompany extends Component {
     onAfterLogin = (token) => {
         if (token !== null)
             return (<React.Fragment>
-                <li>
-                    <a href="true" onClick={this.onHandleProfile} className="button" style={{ marginRight: '5px' }}>
-                        <i className="fa fa-user" /> Tài khoản
-                    </a>
-                </li>
+                
                 <li>
                     <a href="true" onClick={this.onSignOut} className="button-signout" style={{ marginRight: '5px', color: 'red', border: '1px solid red' }}>
                         <i className="fa fa-sign-out" /> Đăng xuất
@@ -120,28 +120,12 @@ class HeaderCompany extends Component {
                                             Thêm nhân viên
                                         </a>
                                     </li>
-                                    <li className="dropdown mega-dropdown">
-                                        <a
-                                            href="true"
-                                            className="dropdown-toggle"
-                                            data-toggle="dropdown"
-                                        >
-                                            Pages <span className="caret" />
+                                    <li className={this.props.component ===  ABOUT? "active" : ""}>
+                                        <a href="true" onClick={this.onListEmployee}>
+                                            Danh sách nhân viên
                                         </a>
-                                        
                                     </li>
-                                    <li className="dropdown">
-                                        <a
-                                            href="true"
-                                            tabIndex={0}
-                                            data-toggle="dropdown"
-                                            data-submenu
-                                            aria-expanded="false"
-                                        >
-                                            Blog<span className="caret" />
-                                        </a>
-                                        
-                                    </li>
+                                    
                                 </ul>
                                 <ul className="nav navbar-nav navbar-right rightside-navbar">
                                     {/* <li>

@@ -73,7 +73,7 @@ export const actCompleteTransaction = (transactionId) => {
     }
 }
 
-export const actCancelTransaction = (transactionData) => {
+export const actCancelTransactionRequest = (transactionData) => {
     return dispatch => {
         return axios.post("http://localhost:3001/transaction/cancel", transactionData, { headers: authHeader() })
             .then(res => {

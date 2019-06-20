@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { HOME, NEWS, ABOUT, LIST_ESTATES } from '../constants/Navbar'
-import { PROFILE, MY_PROPERTIES, MY_FOLLOWING, MY_TRANSACTION, MY_TRANSACTION_HISTORY, WAITING_REQUEST } from '../constants/Profile'
+// import { PROFILE, MY_PROPERTIES, MY_FOLLOWING, MY_TRANSACTION, MY_TRANSACTION_HISTORY, WAITING_REQUEST } from '../constants/Profile'
 
 class MainHeader extends Component {
     constructor() {
@@ -85,6 +85,11 @@ class MainHeader extends Component {
         e.preventDefault();
         this.props.history.push('/');
         localStorage.removeItem('res');
+    }
+
+    onChangePassword=(e) => {
+        e.preventDefault();
+        this.props.history.push('/changepassword');
     }
 
     onGetName = (name) => {
@@ -200,6 +205,13 @@ class MainHeader extends Component {
                                                         <a onClick={this.onProfile} href="true" tabIndex={0}>Chỉnh sửa thông tin cơ bản</a>
 
                                                     </li>
+                                                    {JSON.parse(localStorage.getItem('res')).user.statusAccount === 2 ?
+                                                        <li>
+                                                            <a href="true" onClick={this.onChangePassword} tabIndex={0} >
+                                                            Đổi mật khẩu
+                                                            </a>
+                                                        </li>: null
+                                                        }
                                                     <li >
                                                         <a onClick={this.onMyProperty} href="true" tabIndex={0}>Bài đăng của tôi</a>
                                                     </li>

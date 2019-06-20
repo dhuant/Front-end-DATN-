@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 const h6Style = {
-    fontFamily: 'cursive',
+    // fontFamily: 'cursive',
     marginTop: '4px',
     marginBottom: '1px',
     lineHeight: 'unset',
@@ -34,7 +34,7 @@ class InfoEstate extends Component {
                     <div className="property map-properties-list clearfix" style={{ padding: '3px 3px 5px 5px' }}>
                         <div style={{ margin: '2px 0px 4px 4px' }}>
                             <h6 style={{
-                                fontFamily: 'cursive',
+                                // fontFamily: 'cursive',
                                 marginTop: '2px',
                                 marginBottom: '2px',
                                 lineHeight: 'unset',
@@ -64,7 +64,7 @@ class InfoEstate extends Component {
                                 fontWeight: 'bold'
                             }}> {estate.name}</h6> Property address */}
                             <h6 style={h6Style}>
-                                <b>Giá: </b> {estate.price / 1000} tỉ
+                                <b>Giá: </b> {estate.price >=1000 && estate.statusProject === 1 ? (estate.price/1000).toFixed(2) + ' Tỉ' : `${estate.price} ${estate.unit}`}
                             </h6>
                             <h6 style={h6Style}>
                                 <b>Diện tích: </b> {estate.area} m2

@@ -9,7 +9,7 @@ const user = (state = initialState, action) => {
             console.log(state);
             return { ...state };
         case EDIT_USER_INFO:
-            state = action.estatesListOfUser
+            state = action.user
             console.log(state, action)
             return { ...state }
         case GET_USER_INFO:

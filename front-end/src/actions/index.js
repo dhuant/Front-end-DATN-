@@ -111,10 +111,10 @@ export const actDeleteProject = (estatesListOfUser, data) => {
     }
 }
 
-export const actEditUserInfo = (estatesListOfUser) => {
+export const actEditUserInfo = (user) => {
     return {
         type: EDIT_USER_INFO,
-        estatesListOfUser: estatesListOfUser,
+        user: user,
     }
 }
 

@@ -12,20 +12,20 @@ const Footer = () => {
                     <div className="footer-info">
                         <div className="row">
                             {/* About us */}
-                            <div className="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                            <div className="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                                 <div className="footer-item">
                                     <div className="main-title-2">
-                                        <h1>Contact Us</h1>
+                                        <h1>Liên hệ với chúng tôi</h1>
                                     </div>
                                     <p>
-                                        Lorem Ipsum is simply dummy text of the printing and
-                                        typesetting industry. Lorem Ipsum has been the
-                                        industry's printing and
+                                        Chúng tôi là sinh viên khóa K15 Trường đại học Khoa học Tự nhiên 
+                                        TP.Hồ Chí Minh. Mọi chi tiết thắc mắc, liên hệ quảng cáo, xin vui lòng liên hệ với thông tin đượ
+                                        mô tả bên dưới.
             </p>
                                     <ul className="personal-info">
                                         <li>
                                             <i className="fa fa-map-marker" />
-                                            Address: 20/F Green Road, Dhanmondi, Dhaka
+                                            Địa chỉ: 227 Nguyễn Văn Cừ, phường 7, quận 5, TP. Hồ Chí Minh
               </li>
                                         <li>
                                             <i className="fa fa-envelope" />
@@ -35,7 +35,7 @@ const Footer = () => {
                                         </li>
                                         <li>
                                             <i className="fa fa-phone" />
-                                            Phone:{" "}
+                                            Điện thoại:{" "}
                                             <a href="tel:+55-417-634-7071">+55 4XX-634-7071</a>
                                         </li>
                                         <li>
@@ -53,40 +53,26 @@ const Footer = () => {
                                     </div>
                                     <ul className="links">
                                         <li>
-                                            <a href="index.html">Home</a>
+                                            <a href="index.html">Trang chủ</a>
                                         </li>
                                         <li>
-                                            <a href="about.html">About Us</a>
+                                            <a href="about.html">Về chúng tôi</a>
                                         </li>
                                         <li>
-                                            <a href="contact.html">Contact Us</a>
+                                            <a href="contact.html">Liên hệ</a>
                                         </li>
                                         <li>
-                                            <a href="blog-single-sidebar-right.html">Blog</a>
+                                            <a href="blog-single-sidebar-right.html">Bài viết</a>
                                         </li>
                                         <li>
-                                            <a href="blog-single-sidebar-right.html">Services</a>
+                                            <a href="blog-single-sidebar-right.html">Dịch vụ</a>
                                         </li>
-                                        <li>
-                                            <a href="properties-list-rightside.html">
-                                                properties Listing
-                </a>
-                                        </li>
-                                        <li>
-                                            <a href="properties-grid-rightside.html">
-                                                properties Grid
-                </a>
-                                        </li>
-                                        <li>
-                                            <a href="properties-details.html">
-                                                properties Details
-                </a>
-                                        </li>
+                                       
                                     </ul>
                                 </div>
                             </div>
                             {/* Recent cars */}
-                            <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                            {/* <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                 <div className="footer-item popular-posts">
                                     <div className="main-title-2">
                                         <h1>Popular Posts</h1>
@@ -146,17 +132,16 @@ const Footer = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                             {/* Subscribe */}
-                            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div className="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                                 <div className="footer-item">
                                     <div className="main-title-2">
-                                        <h1>Subscribe</h1>
+                                        <h1>Đăng kí</h1>
                                     </div>
                                     <div className="newsletter clearfix">
                                         <p>
-                                            Excepteur sint occaecat cupidatat non proident, sunt
-                                            in culpa qui officia deserunt mollit anim id
+                                            Đăng kí tài khoản email của bạn để nhận được thông báo mới nhất của chúng tôi
               </p>
                                         <form action="#" method="post">
                                             <div className="form-group">
@@ -174,7 +159,7 @@ const Footer = () => {
                                                     type="submit"
                                                     className="button-sm button-theme btn-block"
                                                 >
-                                                    Subscribe
+                                                    Đăng kí
                   </button>
                                             </div>
                                         </form>

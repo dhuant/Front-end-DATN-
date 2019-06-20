@@ -94,6 +94,7 @@ function editEmployee(data){
     });
 }
 
+
 function deleteEmployee(data) {
     return new Promise((resolve,reject) => {
         axios.post(`${config.API_URL}/company/deleteemployee`, data, { headers: authCompany() })
