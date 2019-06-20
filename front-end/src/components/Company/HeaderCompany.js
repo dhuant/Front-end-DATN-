@@ -54,11 +54,7 @@ class HeaderCompany extends Component {
     onAfterLogin = (token) => {
         if (token !== null)
             return (<React.Fragment>
-                <li>
-                    <a href="true" onClick={this.onHandleProfile} className="button" style={{ marginRight: '5px' }}>
-                        <i className="fa fa-user" /> Tài khoản
-                    </a>
-                </li>
+                
                 <li>
                     <a href="true" onClick={this.onSignOut} className="button-signout" style={{ marginRight: '5px', color: 'red', border: '1px solid red' }}>
                         <i className="fa fa-sign-out" /> Đăng xuất
