@@ -154,6 +154,7 @@ class Login extends Component {
                                 type="submit"
                                 className="button-google btn-block"
                                 disabled={this.state.disable}
+                                name='googleLoginButton'
                             >
                                 <img src="/images/icons/icon-google.png" alt="GOOGLE" style={{ marginRight: "10px", width: "18px" }} />
                                 Đăng nhập với Google
@@ -198,7 +199,7 @@ class Login extends Component {
                                                     ],
                                                 })(<Input
                                                     placeholder='Email*'
-                                                    style={{ marginRight: '30px' }} />)}
+                                                    style={{ marginRight: '30px' }} name='inputLogin'/>)}
                                             </Form.Item>
                                             <Form.Item style={{ paddingRight: '20px', paddingLeft: '20px' }} hasFeedback>
                                                 {getFieldDecorator('password', {
@@ -211,7 +212,7 @@ class Login extends Component {
                                                     ],
                                                 })(<Input.Password
                                                     placeholder='Mật khẩu*'
-                                                    style={{ marginRight: '30px' }} />)}
+                                                    style={{ marginRight: '30px' }} name='inputPass' />)}
                                             </Form.Item>
                                             <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'right', marginTop: '-30px' }}>
                                                 <a
@@ -222,13 +223,13 @@ class Login extends Component {
                                             </Form.Item>
 
                                             <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', marginTop: '-30px' }}>
-                                                <Button style={{ width: '100%' }} type="primary" size='large' htmlType="submit" disabled={this.state.disable}>
+                                                <Button style={{ width: '100%' }} type="primary" size='large' htmlType="submit" disabled={this.state.disable} name='normalLoginButton'>
                                                     Đăng nhập
                                                 </Button>
 
                                             </Form.Item>
                                             <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', }}>
-                                                <Button style={{ width: '100%' }} type="danger" size='large' disabled={this.state.disable} onClick={this.onLoginCompany}>
+                                                <Button style={{ width: '100%' }} type="danger" size='large' disabled={this.state.disable} onClick={this.onLoginCompany} name='companyLoginButton'>
                                                     Đăng nhập bằng tài khoản công ty
                                                 </Button>
 

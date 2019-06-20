@@ -98,7 +98,7 @@ class MainHeader extends Component {
         else if (token === null)
             return (
                 <li>
-                    <a href="true" onClick={this.onLogin} className="button" style={{ marginRight: '5px' }}>
+                    <a href="true" onClick={this.onLogin} className="button" style={{ marginRight: '5px' }} name='loginButton'>
                         <i className="fa fa-sign-in" /> Đăng nhập
                     </a>
                 </li>
@@ -184,17 +184,18 @@ class MainHeader extends Component {
                                     {
                                         localStorage.getItem('res')
                                             ?
-                                            <li className="dropdown">
+                                            <li className="dropdown" name='dropdownAccount'>
                                                 <a
                                                     href="true"
                                                     tabIndex={0}
                                                     data-toggle="dropdown"
                                                     data-submenu
                                                     aria-expanded="false"
+                                                    name='accountDetail'
                                                 >
                                                     Xin chào, {this.onGetName(JSON.parse(localStorage.getItem('res')).user.fullname)} <span className="caret" />
                                                 </a>
-                                                <ul className="dropdown-menu">
+                                                <ul className="dropdown-menu" >
                                                     <li >
                                                         <a onClick={this.onProfile} href="true" tabIndex={0}>Chỉnh sửa thông tin cơ bản</a>
 
@@ -229,7 +230,7 @@ class MainHeader extends Component {
                                 </ul>
                                 <ul className="nav navbar-nav navbar-right rightside-navbar">
                                     <li>
-                                        <a href="true" onClick={this.onSubmitProperty} className="button" style={{ marginRight: '5px' }}>
+                                        <a href="true" onClick={this.onSubmitProperty} className="button" style={{ marginRight: '5px' }} name='submitProjectButton'>
                                             Đăng bài
                                         </a>
                                     </li>

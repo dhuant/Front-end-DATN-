@@ -49,7 +49,7 @@ class Detail extends Component {
                             <label>Giới thiệu bản thân</label>
                             <textarea className="input-text" name="description" id="description" placeholder="Viết thêm gì đó về bạn..." defaultValue={userUpdated.description === '' ? ' ' : userUpdated.description}></textarea>
                         </div>
-                        <a href="true" className="btn button-md button-theme" onClick={this.onSubmit}>Lưu thay đổi</a>
+                        <a href="true" className="btn button-md button-theme" onClick={this.onSubmit} name='SaveChangesBtn'>Lưu thay đổi</a>
                     </form>
                 </div>
             </div>

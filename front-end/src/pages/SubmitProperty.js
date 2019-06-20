@@ -705,7 +705,7 @@ class SubmitProperty extends Component {
                                         {/* </div> */}
                                         <br></br>
                                         <div className="row">
-                                            <Button type="submit" variant="success" style={{ fontSize: "16px", padding: "15px 30px 15px 30px" }} className="btn button-md button-theme" disabled={loading}>
+                                            <Button type="submit" variant="success" style={{ fontSize: "16px", padding: "15px 30px 15px 30px" }} className="btn button-md button-theme" disabled={loading} name='submitProperty'>
                                                 {loading && (
                                                     <i
                                                         className="fa fa-refresh fa-spin"
