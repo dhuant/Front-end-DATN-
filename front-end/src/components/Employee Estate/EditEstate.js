@@ -8,7 +8,7 @@ import { Image, Button } from 'react-bootstrap'
 import { message, Modal } from 'antd'
 import moment from 'moment'
 import MapSearching from '../Map/MapSearching'
-import MainHeader from '../MainHeader'
+import HeaderCompany from '../Company/HeaderCompany'
 import Footer from '../Footer'
 import { Link } from 'react-router-dom'
 import Dropzone from 'react-dropzone'
@@ -353,7 +353,7 @@ class EditUI extends Component {
         console.log(status)
         return (
             <div>
-                <MainHeader />
+                <HeaderCompany />
                 {
                     /* Sub banner start */
                 }
