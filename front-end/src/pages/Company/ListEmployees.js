@@ -121,7 +121,7 @@ class ListEmployees extends Component {
                                 <div className="breadcrumb-area">
                                     <h1>Danh sách nhân viên</h1>
                                     <ul className="breadcrumbs">
-                                        <li><Link to="/">Trang chủ</Link></li>
+                                        <li><Link to="/company/profile-admin">Trang chủ</Link></li>
                                         <li className="active">Danh sách nhân viên</li>
                                     </ul>
                                 </div>
