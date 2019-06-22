@@ -3,6 +3,8 @@ import { authHeader } from "../constants/authHeader";
 import axios from "axios";
 import { message } from 'antd'
 
+// const abortController = new AbortController() 
+
 export const actCreatingTransactionRequest = infoToCreate => {
     return dispatch => {
         return axios.post("http://localhost:3001/transaction/create", infoToCreate, { headers: authHeader() })
@@ -13,6 +15,7 @@ export const actCreatingTransactionRequest = infoToCreate => {
                 }
             })
             .catch(error => {
+                if(error.name === 'AbortError') return
                 message.error(`Có lỗi xảy ra: ${error}`)
             })
     };
@@ -61,11 +64,11 @@ export const actCompleteTransaction = (transactionId) => {
     return dispatch => {
         return axios.post("http://localhost:3001/transaction/complete", transactionId, { headers: authHeader() })
             .then(res => {
-                if(res.data.status === 200){
+                if (res.data.status === 200) {
                     dispatch(Action.actCompletingTransaction(res.data.transactionid))
                     message.success("Giao dịch đang chờ xác nhận!")
                 }
-                
+
             })
             .catch(error => {
                 message.error(`Có lỗi xảy ra: ${error}`)
@@ -77,11 +80,11 @@ export const actCancelTransactionRequest = (transactionData) => {
     return dispatch => {
         return axios.post("http://localhost:3001/transaction/cancel", transactionData, { headers: authHeader() })
             .then(res => {
-                if(res.data.status === 200){
+                if (res.data.status === 200) {
                     dispatch(Action.actCancelTransaction(res.data))
                     message.success("Hủy bỏ giao dịch thành công!")
                 }
-                
+
             })
             .catch(error => {
                 message.error(`Có lỗi xảy ra: ${error}`)

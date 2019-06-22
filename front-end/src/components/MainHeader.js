@@ -196,6 +196,7 @@ class MainHeader extends Component {
                                                     data-toggle="dropdown"
                                                     data-submenu
                                                     aria-expanded="false"
+                                                    style={{color: "#95c41f"}}
                                                 >
                                                     Xin chào, {this.onGetName(JSON.parse(localStorage.getItem('res')).user.fullname)} <span className="caret" />
                                                 </a>

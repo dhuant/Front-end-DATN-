@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { GoogleLogin } from 'react-google-login';
 import * as Config from '../constants/Config'
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import * as actions from '../actions/request';
 // import { Select } from 'antd';
 import { connect } from 'react-redux';
@@ -11,8 +11,9 @@ import MainHeader from '../components/MainHeader'
 import { message, Modal, Form, Input, Button } from 'antd'
 
 class Login extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        console.log(props)
         this.state = {
             email: '',
             password: '',
@@ -165,89 +166,91 @@ class Login extends Component {
                 </div>
             );
         return (
-            <div>
-                <MainHeader />
-                <div className="content-area" style={{ backgroundColor: 'lightgray' }}>
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-12">
-                                {/* Form content box start */}
-                                <div className="form-content-box" style={{ textAlign: 'unset' }}>
-                                    {/* details */}
-                                    <div className="details">
-                                        {/* Main title */}
-                                        <div className="main-title">
-                                            <h1>
-                                                <span>Đăng nhập</span>
-                                            </h1>
-                                        </div>
-                                        {/* Form start */}
+            !localStorage.getItem('res') ?
+                (<div>
+                    <MainHeader />
+                    <div className="content-area" style={{ backgroundColor: 'lightgray' }}>
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-lg-12">
+                                    {/* Form content box start */}
+                                    <div className="form-content-box" style={{ textAlign: 'unset' }}>
+                                        {/* details */}
+                                        <div className="details">
+                                            {/* Main title */}
+                                            <div className="main-title">
+                                                <h1>
+                                                    <span>Đăng nhập</span>
+                                                </h1>
+                                            </div>
+                                            {/* Form start */}
 
-                                        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-                                            <Form.Item style={{ paddingRight: '20px', paddingLeft: '20px' }} hasFeedback>
-                                                {getFieldDecorator('email', {
-                                                    rules: [
-                                                        {
-                                                            type: 'email',
-                                                            message: 'Văn bản không đúng định dạng email',
-                                                        },
-                                                        {
-                                                            required: true,
-                                                            message: 'Vui lòng nhập email vào ô văn bản',
-                                                        },
-                                                    ],
-                                                })(<Input
-                                                    placeholder='Email*'
-                                                    style={{ marginRight: '30px' }} />)}
-                                            </Form.Item>
-                                            <Form.Item style={{ paddingRight: '20px', paddingLeft: '20px' }} hasFeedback>
-                                                {getFieldDecorator('password', {
-                                                    rules: [
-                                                        {
-                                                            required: true,
-                                                            message: 'Vui lòng nhập mật khẩu!',
-                                                        },
+                                            <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+                                                <Form.Item style={{ paddingRight: '20px', paddingLeft: '20px' }} hasFeedback>
+                                                    {getFieldDecorator('email', {
+                                                        rules: [
+                                                            {
+                                                                type: 'email',
+                                                                message: 'Văn bản không đúng định dạng email',
+                                                            },
+                                                            {
+                                                                required: true,
+                                                                message: 'Vui lòng nhập email vào ô văn bản',
+                                                            },
+                                                        ],
+                                                    })(<Input
+                                                        placeholder='Email*'
+                                                        style={{ marginRight: '30px' }} />)}
+                                                </Form.Item>
+                                                <Form.Item style={{ paddingRight: '20px', paddingLeft: '20px' }} hasFeedback>
+                                                    {getFieldDecorator('password', {
+                                                        rules: [
+                                                            {
+                                                                required: true,
+                                                                message: 'Vui lòng nhập mật khẩu!',
+                                                            },
 
-                                                    ],
-                                                })(<Input.Password
-                                                    placeholder='Mật khẩu*'
-                                                    style={{ marginRight: '30px' }} />)}
-                                            </Form.Item>
-                                            <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'right', marginTop: '-30px' }}>
-                                                <a
-                                                    onClick={this.onResetPassword}
-                                                >
-                                                    Quên mật khẩu?
+                                                        ],
+                                                    })(<Input.Password
+                                                        placeholder='Mật khẩu*'
+                                                        style={{ marginRight: '30px' }} />)}
+                                                </Form.Item>
+                                                <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'right', marginTop: '-30px' }}>
+                                                    <a
+                                                        onClick={this.onResetPassword}
+                                                    >
+                                                        Quên mật khẩu?
                                             </a>
-                                            </Form.Item>
+                                                </Form.Item>
 
-                                            <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', marginTop: '-30px' }}>
-                                                <Button style={{ width: '100%' }} type="primary" size='large' htmlType="submit" disabled={this.state.disable}>
-                                                    Đăng nhập
+                                                <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', marginTop: '-30px' }}>
+                                                    <Button style={{ width: '100%' }} type="primary" size='large' htmlType="submit" disabled={this.state.disable}>
+                                                        Đăng nhập
                                                 </Button>
 
-                                            </Form.Item>
-                                            <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', }}>
-                                                <Button style={{ width: '100%' }} type="danger" size='large' disabled={this.state.disable} onClick={this.onLoginCompany}>
-                                                    Đăng nhập bằng tài khoản công ty
+                                                </Form.Item>
+                                                <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', }}>
+                                                    <Button style={{ width: '100%' }} type="danger" size='large' disabled={this.state.disable} onClick={this.onLoginCompany}>
+                                                        Đăng nhập bằng tài khoản công ty
                                                 </Button>
 
-                                            </Form.Item>
-                                            <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', height: '47px' }}>
-                                                {content}
-                                            </Form.Item>
-                                        </Form>
-                                        {/* Form end */}
+                                                </Form.Item>
+                                                <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', height: '47px' }}>
+                                                    {content}
+                                                </Form.Item>
+                                            </Form>
+                                            {/* Form end */}
+                                        </div>
+                                        {/* Footer */}
+
                                     </div>
-                                    {/* Footer */}
-
+                                    {/* Form content box end */}
                                 </div>
-                                {/* Form content box end */}
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div>)
+                : <Redirect to={"/"}/>
         );
     }
 }

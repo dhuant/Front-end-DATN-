@@ -3,6 +3,7 @@ import * as Types from '../../constants/Transaction/transaction'
 var initialState = [];
 
 const transaction = (state = initialState, action) => {
+    var index = -1
     switch (action.type) {
         case Types.CREATE_TRANSACTION:
             console.log(action, state)
@@ -18,14 +19,17 @@ const transaction = (state = initialState, action) => {
         case Types.TRANSACTION_HISTORY:
             console.log(action, state)
             state = action.transaction
-            return [ ...state ]
+            return [...state]
         case Types.TRANSACTION_COMPLETE:
             console.log(action)
             state = action.transactionId
-            return {...state}
+            return { ...state }
         case Types.TRANSACTION_CANCEL:
             console.log(action)
-            return {...state}
+            index = state.findIndex(transaction => { return transaction._id === action.transaction })
+            state.splice(index, 1)
+            console.log(state)
+            return [...state]
         default: return { ...state };
     }
 

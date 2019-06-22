@@ -1,6 +1,6 @@
 import * as Types from '../../constants/Transaction/waiting'
 
-var initialState = [];
+var initialState = {};
 
 const waiting = (state = initialState, action) => {
     switch (action.type) {

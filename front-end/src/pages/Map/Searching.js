@@ -30,7 +30,7 @@ export default class Searching extends Component {
             id="autocomplete"
             placeholder="Nhập địa chỉ chi tiết ở đây..."
             type="text"
-            style={{width: '100%', height: '34px', border: '2px solid #84ad1d', borderRadius: '5px', fontSize:'12px'}}
+            style={{width: '100%', height: '34px', border: '1px solid #D0D3D4', fontSize:'12px', boxShadow: "0 2px 2px rgba(0,0,0,0.10), 0 2px 2px rgba(0,0,0,0.1)", borderRadius: "5px", paddingLeft: "8px"}}
           />
         );
       }

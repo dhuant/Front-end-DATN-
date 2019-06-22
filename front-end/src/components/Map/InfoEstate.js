@@ -30,8 +30,7 @@ class InfoEstate extends Component {
         return (
             <Link to={url} target="_blank">
                 <div className="row">
-
-                    <div className="property map-properties-list clearfix" style={{ padding: '3px 3px 5px 5px' }}>
+                    <div className="property map-properties-list clearfix" style={{ padding: '0px 5px' }}>
                         <div style={{ margin: '2px 0px 4px 4px' }}>
                             <h6 style={{
                                 // fontFamily: 'cursive',

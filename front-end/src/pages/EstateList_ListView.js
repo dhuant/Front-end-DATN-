@@ -16,11 +16,11 @@ import { Pagination } from 'antd'
 
 const pageSize = 5
 const Options = [
-	{ value: '0', label: 'Thông thường' },
-	{ value: '1', label: 'Giá thấp nhất' },
-	{ value: '2', label: 'Giá cao nhất' },
-	{ value: '3', label: 'Diện tích nhỏ nhất' },
-	{ value: '4', label: 'Diện tích lớn nhất' }
+    { value: '0', label: 'Thông thường' },
+    { value: '1', label: 'Giá thấp nhất' },
+    { value: '2', label: 'Giá cao nhất' },
+    { value: '3', label: 'Diện tích nhỏ nhất' },
+    { value: '4', label: 'Diện tích lớn nhất' }
 ];
 const optionStyle = {
     fontSize: '12px',
@@ -214,17 +214,17 @@ class EstateListListView extends Component {
         let estatesList = null;
         if (estates.length > 0) {
             if (option === '1') {
-				estates = estates.sort((a, b) => (a.price - b.price))
-			}
-			else if(option === '2'){
-				estates = estates.sort((a, b) => (b.price - a.price))
-			}
-			else if(option === '3') {
-				estates = estates.sort((a, b) => (a.area - b.area))
-			}
-			else if(option === '4') {
-				estates = estates.sort((a, b) => (b.area - a.area))
-			}
+                estates = estates.sort((a, b) => (a.price - b.price))
+            }
+            else if (option === '2') {
+                estates = estates.sort((a, b) => (b.price - a.price))
+            }
+            else if (option === '3') {
+                estates = estates.sort((a, b) => (a.area - b.area))
+            }
+            else if (option === '4') {
+                estates = estates.sort((a, b) => (b.area - a.area))
+            }
             des = `Có ${estates.length} bài đăng`
             total = estates.length
             list = estates.slice(offset, current * pageSize)
@@ -398,7 +398,7 @@ class EstateListListView extends Component {
                                             </h4>
                                         </div>
                                         <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <div className="form-group" style ={{margin:'7px 5px 7px 5px'}} >
+                                            <div className="form-group" style={{ margin: '7px 5px 7px 5px' }} >
                                                 <select className="form-control"
                                                     name="option"
                                                     value={option}
@@ -415,13 +415,13 @@ class EstateListListView extends Component {
                                     </div>
                                 </div>
                                 {/* Option bar end */}
-                                <h4 style={{marginTop:'-20px'}}>{des}</h4>
+                                <h4 style={{ marginTop: '-20px' }}>{des}</h4>
                                 <div className="clearfix" />
                                 {/* Property start */}
                                 {estatesList}
                                 {/* Property end */}
                                 {/* Page navigation start */}
-                                <Pagination current={this.state.current} pageSize={pageSize} onChange={this.onChange} total={total} />
+                                {estatesList !== null ? <Pagination current={this.state.current} pageSize={pageSize} onChange={this.onChange} total={total} /> : null}
 
                                 {/* Page navigation end*/}
                             </div>

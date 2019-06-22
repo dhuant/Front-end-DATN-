@@ -66,29 +66,28 @@ class FollowingProject extends Component {
     return (
       <div>
         <tr>
-          <td className="title-container" style={{ width: "500px" }}>
+          <td className="title-container followSingle" style={{ width: "800px" }}>
             <img src='/images/Home.png' alt="my-properties-1" className="img-responsive hidden-xs" />
             <div className="title">
-              <h4 style={{ color: "#84ad1d", fontSize: "20px" }}>{projectInfo.name}
+              <h4 style={{ color: "#84ad1d", fontSize: "20px", cursor: "pointer" }} onClick={() => this.setState({ visibleViewFollow: true, visibleUnfollow: false })}>{projectInfo.name}
                 <i className="fa fa-heartbeat"
-                  style={{ cursor: "pointer", marginLeft: "10px", color: "red"}}
+                  style={{ cursor: "pointer", marginLeft: "10px", color: "red" }}
                   onClick={this.showUnfollowConfirm} id={projectInfo._id}
                 >
-                  
                 </i>
               </h4>
               <span><i className="fa fa-user-circle-o" />{projectInfo.investor}</span>
               <span><i className="fa fa-map-marker" style={{ width: "10px", marginLeft: "2px" }} /> {projectInfo.address} </span>
               {/* <span className="table-property-price"><i className="fa fa-money" />{projectInfo.price}</span> */}
               <span className="hidden-xs"><i className="fa fa-calendar-check-o" />{moment.unix(projectInfo.updateTime).format('DD/MM/YYYY, h:mm a')}</span>
+              <span>
+                <i className="fa fa-money" style={{ marginRight: "5px" }}></i>
+                {projectInfo.price >= 1000 && projectInfo.statusProject === 1
+                  ? (projectInfo.price / 1000).toFixed(2) + ' Tỉ' : projectInfo.price + ' ' + projectInfo.unit}
+              </span>
             </div>
           </td>
-          <td style={{ width: "300px" }}>
-            <div className="properties-meta-date">
-              <span className="hidden-xs">{projectInfo.price} {projectInfo.unit}</span>
-            </div>
-          </td>
-          <td className="action" style={{ width: "200px" }}>
+          {/* <td className="action" style={{ width: "200px" }}>
             <div style={{ marginBottom: "5px" }} className="view">
               <i className="fa fa-eye"
                 style={{ cursor: "pointer", width: "30px", height: "30px" }}
@@ -97,7 +96,7 @@ class FollowingProject extends Component {
                 <span style={{ marginLeft: "5px" }}>Xem</span>
               </i>
             </div>
-          </td>
+          </td> */}
         </tr>
 
         <Modal

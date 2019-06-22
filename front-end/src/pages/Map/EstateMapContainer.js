@@ -313,8 +313,8 @@ class EstateMapContainer extends Component {
         
         return (
             <div>
-                <div className="properties-map-search" style={{ backgroundColor: '#5d1070' }}>
-                    <div className="properties-map-search-content" style={{ paddingTop: '5px' }}>
+                <div className="properties-map-search" style={{ backgroundColor: '#f4f4f2' }}>
+                    <div className="properties-map-search-content" style={{ paddingTop: '12px' }}>
                         <div className="row">
                             <div className="col-lg-10 col-md-10 col-sm-12 col-xs-12">
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12" >

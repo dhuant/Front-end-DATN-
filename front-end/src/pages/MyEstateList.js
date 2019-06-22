@@ -7,31 +7,53 @@ import { Link } from 'react-router-dom'
 import MainHeader from '../components/MainHeader';
 import { connect } from 'react-redux'
 import * as actions from '../actions/request';
-import { Pagination, Empty } from 'antd'
+import { Pagination, Empty, Spin, Icon } from 'antd'
 
+const Options = [
+    { value: '0', label: 'Thông thường' },
+    { value: '1', label: 'Bất động sản bán' },
+    { value: '2', label: 'Bất động sản cho thuê' },
+];
+const antIcon = <Icon type="loading" style={{ fontSize: 40 }} spin />
 const pageSize = 10
+
 class MyEstateList extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
             current: 1,
+            option: Options[0].value,
+            loading: false
         }
     }
 
-    componentDidMount = () => {
-        this.props.onGetEstateListOfUser(`${this.state.current}`)
+    handleOnChange = (e) => {
+        let target = e.target;
+        let name = target.name;
+        let value = target.value;
+        this.setState({
+            [name]: value,
+        });
+    }
+
+    componentDidMount = async () => {
+        await this.setState({ loading: true })
+        await this.props.onGetEstateListOfUser(`${this.state.current}`)
+        await this.setState({ loading: false })
     }
 
     onChange = async (page) => {
         console.log(page)
-        await this.setState({ current: page })
+        await this.setState({ current: page, loading: true })
         await this.props.onGetEstateListOfUser(`${page}`)
-
+        await this.setState({ loading: false })
     }
     render() {
         let { estatesListOfUser } = this.props
+        let { option } = this.state
         console.log(estatesListOfUser)
+
         return (
             <div>
                 <MainHeader />
@@ -62,12 +84,35 @@ class MyEstateList extends Component {
                                 <div className="main-title-2">
                                     <h1><span>Bài đăng</span> của tôi</h1>
                                 </div>
+                                <br></br>
+                                <div className="form-group" style={{ marginRight: '20px', float: "right" }}  >
+                                    <select className="form-control"
+                                        name="option"
+                                        value={option}
+                                        onChange={this.handleOnChange}
+                                        id="opt"
+                                        style={{ fontSize: '12px', width: "200px" }}
+                                    >
+                                        <option style={{ display: "none" }}>---Chọn trạng thái---</option>
+                                        {Options.map((option, index) => <option key={index} value={option.value}>{option.label}</option>)}
+                                    </select>
+                                </div>
+
                                 {/* table start */}
-                                <table className="manage-table responsive-table">
-                                    <tbody>
-                                        {this.onShowEstateListOfUser(estatesListOfUser)}
+                                {this.state.loading ? <Spin
+                                    indicator={antIcon}
+                                    style={{
+                                        position: "absolute",
+                                        left: "50%",
+                                        top: "50%",
+                                        marginRight: "-50%",
+                                    }}
+                                /> :
+                                    <table className="manage-table responsive-table">
+                                        <tbody>
+                                            {this.onShowEstateListOfUser(estatesListOfUser)}}
                                     </tbody>
-                                </table>
+                                    </table>}
                                 <br></br>
                                 <div className="pull-right">
                                     {estatesListOfUser.length !== 0 ?
@@ -92,13 +137,23 @@ class MyEstateList extends Component {
     }
     onShowEstateListOfUser = (estates) => {
         var result = null;
-        // var currentList = estates.slice((this.state.current - 1) * pageSize, this.state.current * pageSize)
         if (estates.length > 0) {
+            if (this.state.option === '1') {
+                estates = estates.filter(project => project.statusProject === 1);
+            }
+            else if (this.state.option === '2') {
+                estates = estates.filter(project => project.statusProject === 3)
+            }
+            // des = `Hiện đang có ${estates.length} bài đăng`
             result = estates.map((estate, index) => {
                 return (
-                    <SingleProperty key={index} estateListOfUser={estate} />
-                );
-            });
+                    <SingleProperty
+                        key={index}
+                        estateListOfUser={estate}
+                    />
+                )
+            }
+            )
         }
         else if (estates.length === 0 || estates === undefined) {
             result = (<Empty />)

@@ -8,25 +8,31 @@ import { Link } from 'react-router-dom'
 import SingleWaiting from '../components/Profile/SingleWaiting'
 import * as actions from '../actions/request'
 import * as transActions from '../actions/transactionRequest'
-// import { Button } from 'antd'
+import { Empty, Icon, Spin } from 'antd'
+
+const antIcon = <Icon type="loading" style={{ fontSize: 40 }} spin />
 
 class WaitingRequest extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            project: ''
+            project: '',
+            loading: false
         }
     }
 
     onChange = (e) => {
-        this.setState({ project: e.target.value })
+        this.setState({ project: e.target.value, loading: true })
         this.props.onShowWaitingRequestList(e.target.value)
         this.props.onGettingEstateDetail(e.target.value)
+        this.setState({ loading: false })
     }
 
     componentDidMount = async () => {
+        await this.setState({ loading: true })
         await this.props.onGettingEstateListOfUser()
+        await this.setState({ loading: false })
     }
     render() {
         var { estatesListOfUser, waiting, estateDetail } = this.props
@@ -80,7 +86,16 @@ class WaitingRequest extends Component {
                                 {/* table start */}
                                 <table className="manage-table responsive-table">
                                     <tbody>
-                                        {this.ShowWaitingRequestList(waiting, estateDetail)}
+                                        {
+                                            this.state.loading ? <Spin
+                                                indicator={antIcon}
+                                                style={{
+                                                    position: "absolute",
+                                                    left: "50%",
+                                                    top: "50%",
+                                                    marginRight: "-50%",
+                                                }}
+                                            /> : this.ShowWaitingRequestList(waiting, estateDetail)}
                                     </tbody>
                                 </table>
                                 {/* table end */}
@@ -98,7 +113,7 @@ class WaitingRequest extends Component {
             console.log(estateDetail)
             var result = null;
             if (waiting.requests === undefined) {
-                result = (<tr><td>Danh sách yêu cầu hiện đang trống!</td></tr>)
+                result = (<Empty />)
             }
             else if (waiting.requests && waiting.requests.length > 0) {
                 result = waiting.requests.map((single, index) => {

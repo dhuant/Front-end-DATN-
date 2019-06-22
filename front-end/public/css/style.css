@@ -671,7 +671,7 @@ input[type=checkbox]:checked + label:before {
 }
 
 .navbar-nav > li {
-    z-index: 9999;
+    z-index: 999;
 }
 
 .dropdown-menu > li > a {
@@ -1264,8 +1264,10 @@ input[type=checkbox]:checked + label:before {
 }
 
 .property:hover {
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.10), 0 3px 3px 0 rgba(0, 0, 0, 0.10);
-    background-color: #b1f2b1
+    /* box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.10), 0 3px 3px 0 rgba(0, 0, 0, 0.10);
+    background-color: #b1f2b1 */
+    box-shadow: 0 5px 5px rgba(0,0,0,0.10), 0 5px 5px rgba(0,0,0,0.1);
+    left: 5px
 }
 
 .property-img {
@@ -7394,13 +7396,40 @@ table.manage-table .title-container .title span {
     cursor: pointer;
 }
 
-.transactionSingle .action i:hover{
-    color: orangered;
-    transition: .5s
-}
 .pull-right #follow:hover{
     color: red;
     transition: .5s;
     cursor: pointer;
     font-weight: bold
 }
+
+.containerTran:hover{
+   box-shadow: 0 10px 20px rgba(0,0,0,0.10), 0 15px 12px rgba(0,0,0,0.1)
+}
+.containerTran{
+    position: relative;
+    padding: 0xp 20px
+}
+
+.containerTran .transactionDelete:hover{
+    font-size: 40px;
+    font-weight: bold;
+    color: red;
+    transition: .5s;
+    cursor: pointer;
+}
+.containerTran:hover{
+    opacity: 1;
+}
+.followSingle:hover{ 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.10), 0 15px 12px rgba(0,0,0,0.1)
+ }
+ .projectSingle:hover{ 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.10), 0 15px 12px rgba(0,0,0,0.1)
+ }
+ .waitingSingle:hover{ 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.10), 0 15px 12px rgba(0,0,0,0.1)
+ }
+/* .map-properties-list:hover{
+    box-shadow: 0 10px 20px rgba(0,0,0,0.10), 0 15px 12px rgba(0,0,0,0.1)
+} */

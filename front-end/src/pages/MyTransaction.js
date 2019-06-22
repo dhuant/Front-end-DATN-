@@ -7,12 +7,43 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import SingleCurrTransaction from '../components/Profile/SingleCurrTransaction'
 import * as transAction from '../actions/transactionRequest'
-import {Empty} from 'antd'
+import { Empty, Icon, Spin, message } from 'antd'
+import * as action from '../actions/transactionActions'
+import axios from 'axios'
+import { authHeader } from '../constants/authHeader'
+
+const antIcon = <Icon type="loading" style={{ fontSize: 40 }} spin />
 
 class MyTransaction extends Component {
-  componentDidMount = () => {
-    this.props.onGetTransactionHistory('1')
+  // _isMounted = false
+  constructor() {
+    super()
+    this.state = {
+      loading: false
+    }
   }
+  
+
+  componentDidMount = () => {
+    this.setState({ loading: true })
+    console.log("outside")
+    this.props.onGetTransactionHistory('1') 
+    // axios.get(`http://localhost:3001/transaction/history/1`, { headers: authHeader() })
+    //   .then(res => {
+    //     if (this._isMounted) {
+    //       console.log("inside")
+    //       if (res.data.status === 200) {
+    //         this.props.onGetHistory(res.data.history)
+    //       }
+    //     }
+    //   })
+    //   .catch(error => {
+    //     message.error(`Có lỗi xảy ra: ${error}`)
+    //   })
+    this.setState({ loading: false })
+
+  }
+
   render() {
     var { transaction } = this.props
     return (
@@ -45,12 +76,22 @@ class MyTransaction extends Component {
                 <div className="main-title-2">
                   <h1><span>Giao dịch</span> của tôi</h1>
                 </div>
+                <br></br>
                 {/* table start */}
-                <table className="manage-table responsive-table">
-                  <tbody>
-                    {this.ShowTransactionList(transaction)}
-                  </tbody>
-                </table>
+                {this.state.loading ? <Spin
+                  indicator={antIcon}
+                  style={{
+                    position: "absolute",
+                    left: "50%",
+                    top: "50%",
+                    marginRight: "-50%",
+                  }}
+                /> :
+                  <table className="manage-table responsive-table">
+                    <tbody>
+                      {this.ShowTransactionList(transaction)}
+                    </tbody>
+                  </table>}
                 {/* table end */}
               </div>
             </div>
@@ -88,7 +129,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onGetTransactionHistory: (page) => dispatch(transAction.actGettingTransactionHistoryRequest(page))
+    onGetTransactionHistory: (page) => dispatch(transAction.actGettingTransactionHistoryRequest(page)),
+    onGetHistory: (data) => dispatch(action.actGetTransactionHistory(data))
   }
 }
 

@@ -111,92 +111,93 @@ class SingleWaiting extends Component {
   render() {
     var { waitingList, codelist, unit } = this.props
     const { loading } = this.state
-    console.log(codelist)
+    console.log(waitingList)
     const { getFieldDecorator } = this.props.form
     return (
-      <React.Fragment>
-        <tr>
-          <List
-            itemLayout="horizontal"
-            dataSource={waitingList.requests}
-            renderItem={(waitingRequestSingle, index) => (
-              <List.Item>
-                <List.Item.Meta
-                  avatar={<Avatar src={waitingRequestSingle.user.avatar} />}
-                  description={
-                    <span>
-                      <p style={{ fontWeight: "bold" }}>{waitingRequestSingle.user.fullname}
-                        <p style={{ fontWeight: "lighter" }}>{moment.unix(waitingRequestSingle.createTime).format('DD/MM/YYYY, h:mm a')}</p>
-                      </p> đã gửi yêu cầu giao dịch bất động sản với giá mong muốn {waitingRequestSingle.money} {unit}.
+      <div className="waitingSingle" style={{padding: "0px 20px"}}>
+        <React.Fragment>
+          <tr>
+            <List
+              itemLayout="horizontal"
+              dataSource={waitingList.requests}
+              renderItem={(waitingRequestSingle, index) => (
+                <List.Item>
+                  <List.Item.Meta
+                    avatar={<Avatar src={waitingRequestSingle.user.avatar} />}
+                    description={
+                      <span>
+                        <p style={{ fontWeight: "bold" }}>{waitingRequestSingle.user.fullname}
+                          <p style={{ fontWeight: "lighter" }}>{moment.unix(waitingRequestSingle.createTime).format('DD/MM/YYYY, h:mm a')}</p>
+                        </p> đã gửi yêu cầu giao dịch bất động sản với giá mong muốn {waitingRequestSingle.money} {unit}.
                       <div style={{ float: "right" }}>
-                        <div className="comment-meta-reply"
-                          style={{ marginRight: "5px" }}
-                          onClick={() => this.onHandleAcceptingRequest(waitingList, waitingRequestSingle, index)}>
-                          <a>{loading && (
-                            <i
-                              className="fa fa-refresh fa-spin"
-                              style={{ marginRight: "5px" }}
-                            />
-                          )}
-                            {loading && <span>Đang chấp nhận...</span>}
-                            {!loading && <span>Đồng ý</span>}
-                          </a>
+                          <div className="comment-meta-reply"
+                            style={{ marginRight: "5px" }}
+                            onClick={() => this.onHandleAcceptingRequest(waitingList, waitingRequestSingle, index)}>
+                            <a>{loading && (
+                              <i
+                                className="fa fa-refresh fa-spin"
+                                style={{ marginRight: "5px" }}
+                              />
+                            )}
+                              {loading && <span>Đang chấp nhận...</span>}
+                              {!loading && <span>Đồng ý</span>}
+                            </a>
+                          </div>
+                          <div className="comment-meta-reply" style={{ backgroundColor: "red" }}>
+                            <a>Hủy bỏ</a>
+                          </div>
                         </div>
-                        <div className="comment-meta-reply" style={{ backgroundColor: "red" }}>
-                          <a>Hủy bỏ</a>
-                        </div>
-                      </div>
-                    </span>}
-                />
-              </List.Item>
-            )}
-          />,
+                      </span>}
+                  />
+                </List.Item>
+              )}
+            />,
         </tr>
-        <Modal
-          title="Chọn mã căn hộ"
-          style={{ top: 20 }}
-          visible={this.state.visible}
-          // onOk={() => this.setModal1Visible(false)}
-          onCancel={this.onHandleCancel}
-          footer={null}
-          closable={true}
-        >
-          <Form onSubmit={this.handleSubmit}>
-            <div className="row">
-              <div className="col-md-12 col-lg-12 col-xs-12">
-                <Form.Item label="Chọn mã căn hộ: ">
-                  {getFieldDecorator('code', {
-                    rules: [
-                      { required: true, message: 'Bạn chưa chọn mã căn hộ nào!' },
-                    ],
-                  })(
-                    <Select style={{ width: "100%" }} id="code">
-                      {codelist.map((code, index) => <Option key={index} value={index}>{`${code.code}`}</Option>)}
-                    </Select>
-                  )}
-                </Form.Item>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-12 col-lg-12 col-xs-12">
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
-                    {loading && (
-                      <i
-                        className="fa fa-refresh fa-spin"
-                        style={{ marginRight: "5px" }}
-                      />
+          <Modal
+            title="Chọn mã căn hộ"
+            style={{ top: 20 }}
+            visible={this.state.visible}
+            // onOk={() => this.setModal1Visible(false)}
+            onCancel={this.onHandleCancel}
+            footer={null}
+            closable={true}
+          >
+            <Form onSubmit={this.handleSubmit}>
+              <div className="row">
+                <div className="col-md-12 col-lg-12 col-xs-12">
+                  <Form.Item label="Chọn mã căn hộ: ">
+                    {getFieldDecorator('code', {
+                      rules: [
+                        { required: true, message: 'Bạn chưa chọn mã căn hộ nào!' },
+                      ],
+                    })(
+                      <Select style={{ width: "100%" }} id="code">
+                        {codelist.map((code, index) => <Option key={index} value={index}>{`${code.code}`}</Option>)}
+                      </Select>
                     )}
-                    {loading && <span>Đang chấp nhận...</span>}
-                    {!loading && <span>Chấp nhận</span>}
-                  </Button>
-                </Form.Item>
+                  </Form.Item>
+                </div>
               </div>
-            </div>
-          </Form>
-        </Modal>
-      </React.Fragment>
-
+              <div className="row">
+                <div className="col-md-12 col-lg-12 col-xs-12">
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
+                      {loading && (
+                        <i
+                          className="fa fa-refresh fa-spin"
+                          style={{ marginRight: "5px" }}
+                        />
+                      )}
+                      {loading && <span>Đang chấp nhận...</span>}
+                      {!loading && <span>Chấp nhận</span>}
+                    </Button>
+                  </Form.Item>
+                </div>
+              </div>
+            </Form>
+          </Modal>
+        </React.Fragment>
+      </div>
     )
   }
 }

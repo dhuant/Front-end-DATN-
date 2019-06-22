@@ -78,59 +78,56 @@ export class SingleProperty extends Component {
     let { estateListOfUser } = this.props
     let { visibleView } = this.state
     return (
-      <div>
-        <table className="manage-table responsive-table">
-          <tbody>
-            <tr>
-              <td className="title-container" style={{ width: "700px" }}>
-                <img src={estateListOfUser.url[0]} alt="my-properties-1" className="img-responsive hidden-xs" style={{width: "150px", height: "150px"}}/>
-                <div className="title">
-                  <h4 style={{ color: "#84ad1d", fontSize: "20px" }}>{estateListOfUser.name}</h4>
-                  <span><i className="fa fa-user-circle-o" />{estateListOfUser.investor}</span>
-                  <span><i className="fa fa-map-marker" style={{ width: "10px", marginLeft: "2px" }} /> {estateListOfUser.address} </span>
-                  {/* <span className="table-property-price"><i className="fa fa-money" />{estateListOfUser.price}</span> */}
-                  <span className="hidden-xs">
-                    <i className="fa fa-calendar-check-o" />
-                    {moment.unix(estateListOfUser.updateTime).format('DD/MM/YYYY')}
-                    <span className="hidden-xs" style={{fontWeight: "lighter", color: "#BA4A00", fontSize: "18px"}}>
-                      <i className="fa fa-money" style={{fontSize: "12px"}}/>
-                      {estateListOfUser.price >= 1000 && estateListOfUser.statusProject === 1
-                        ? `${Number(estateListOfUser.price / 1000).toFixed(1)} Tỉ`
-                        : `${estateListOfUser.price} ${estateListOfUser.unit}`}
-                    </span>
-                  </span>
-                </div>
-              </td>
+      <div className="projectSingle" style={{padding: "0px 20px"}}>
 
-              <td className="action" style={{ width: "200px" }}>
-                <div style={{ marginBottom: "5px" }} className="view">
-                  <i className="fa fa-eye"
-                    style={{ cursor: "pointer", width: "20px", height: "20px" }}
-                    onClick={() => this.setState({ visibleView: true, visibleEdit: false })}
-                  >
-                    <span style={{ marginLeft: "5px" }}>Xem</span>
-                  </i>
-                </div>
+        <tr>
+          <td className="title-container" style={{ width: "700px" }}>
+            <img src={estateListOfUser.url[0]} alt="my-properties-1" className="img-responsive hidden-xs" style={{ width: "150px", height: "150px", marginLeft: "10px" }} />
+            <div className="title">
+              <h4 style={{ color: "#84ad1d", fontSize: "20px", cursor: "pointer" }} onClick={() => this.setState({ visibleView: true, visibleEdit: false })}>{estateListOfUser.name}</h4>
+              <span><i className="fa fa-user-circle-o" />{estateListOfUser.investor}</span>
+              <span><i className="fa fa-map-marker" style={{ width: "10px", marginLeft: "2px" }} /> {estateListOfUser.address} </span>
+              {/* <span className="table-property-price"><i className="fa fa-money" />{estateListOfUser.price}</span> */}
+              <span className="hidden-xs">
+                <i className="fa fa-calendar-check-o" />
+                {moment.unix(estateListOfUser.updateTime).format('DD/MM/YYYY')}
+                <span className="hidden-xs" style={{ fontWeight: "lighter", color: "#BA4A00", fontSize: "18px" }}>
+                  <i className="fa fa-money" style={{ fontSize: "12px" }} />
+                  {estateListOfUser.price >= 1000 && estateListOfUser.statusProject === 1
+                    ? `${Number(estateListOfUser.price / 1000).toFixed(1)} Tỉ`
+                    : `${estateListOfUser.price} ${estateListOfUser.unit}`}
+                </span>
+              </span>
+            </div>
+          </td>
 
-                <Link to={`myproperties/edit/${estateListOfUser._id}`} target="_blank">
-                  <i className="fa fa-pencil" style={{ cursor: "pointer", width: "20px", height: "20px" }} >
-                    <span style={{ marginLeft: "5px" }}>Sửa</span>
-                  </i>
-                </Link>
+          <td className="action" style={{ width: "200px", marginRight: "10px" }}>
+            <div style={{ marginBottom: "5px" }} className="view">
+              <i className="fa fa-eye"
+                style={{ cursor: "pointer", width: "20px", height: "20px" }}
+                onClick={() => this.setState({ visibleView: true, visibleEdit: false })}
+              >
+                <span style={{ marginLeft: "5px" }}>Xem</span>
+              </i>
+            </div>
 
-                <div style={{ marginTop: "25px" }} className="remove">
-                  <i className="fa fa-remove"
-                    style={{ cursor: "pointer", width: "20px", height: "20px" }}
-                    onClick={() => this.showDeleteConfirm(estateListOfUser)}
-                    id={estateListOfUser._id}
-                  >
-                    <span style={{ marginLeft: "5px" }}>Xóa</span>
-                  </i>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+            <Link to={`myproperties/edit/${estateListOfUser._id}`} target="_blank">
+              <i className="fa fa-pencil" style={{ cursor: "pointer", width: "20px", height: "20px" }} >
+                <span style={{ marginLeft: "5px" }}>Sửa</span>
+              </i>
+            </Link>
+
+            <div style={{ marginTop: "25px" }} className="remove">
+              <i className="fa fa-remove"
+                style={{ cursor: "pointer", width: "20px", height: "20px" }}
+                onClick={() => this.showDeleteConfirm(estateListOfUser)}
+                id={estateListOfUser._id}
+              >
+                <span style={{ marginLeft: "5px" }}>Xóa</span>
+              </i>
+            </div>
+          </td>
+        </tr>
 
         <Modal
           visible={visibleView}

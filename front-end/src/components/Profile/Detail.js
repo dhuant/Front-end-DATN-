@@ -47,6 +47,28 @@ class Detail extends Component {
                     description: values.description,
                     avatar: this.props.user.avatar ? this.props.user.avatar : JSON.parse(localStorage.getItem('res')).user.avatar
                 }
+
+                let currentAccount = {
+                    fullname: this.props.user.fullname,
+                    address: this.props.user.address,
+                    email: this.props.user.email,
+                    phone: this.props.user.phone,
+                    identify: this.props.user.identify,
+                    description: this.props.user.description,
+                    avatar: this.props.user.avatar
+                }
+
+                if (account.fullname === currentAccount.fullname
+                    || account.address === currentAccount.address
+                    || account.email === currentAccount.email
+                    || account.phone === currentAccount.phone
+                    || account.identify === currentAccount.identify
+                    || account.description === currentAccount.description
+                    || account.avatar === currentAccount.avatar) {
+                    await this.setState({ loading: false })
+                    return message.warning('Bạn chưa thay đổi gì cả!')
+                }
+
                 await this.props.onEditUserInfo(account)
                 this.setState({ loading: false })
             }
@@ -54,12 +76,22 @@ class Detail extends Component {
     };
 
     onCheckingName = (rule, value, callback) => {
-        const reg = /^[a-z]|^\s|[A-z]{8}|\S{8}|[`~!@#$%^&*()(\-)_=+[(\]){};:'"<>/?\\|]/
+        const reg = /^[a-z]|^\s|[A-z]{8}|\S{8}|[`~!@#$%^&*()(\-)_=+[(\]){};:'"</>?\\|]/
         console.log(value)
         // chữ cái viết thường, 
         //bắt đầu bằng khoảng trắng, 8 kí tự liền nhau (tên: Nghiêng), kí tự đặc biệt
         if ((!Number.isNaN(value) && reg.test(value)) || value === '' || value.length < 4) {
             callback('Vui lòng nhập đúng tên!');
+        }
+        else {
+            callback()
+        }
+    }
+    onCheckingAddress = (rule, value, callback) => {
+        const reg = /^[a-z]|^\s|[A-z]{8}|\S{8}|[`~!@#$%^&*()(\-)_=+[(\]){};:'"<>?\\|]/
+        console.log(value)
+        if ((!Number.isNaN(value) && reg.test(value)) || value === '' || value.length < 4) {
+            callback('Vui lòng nhập đúng địa chỉ!');
         }
         else {
             callback()
@@ -168,7 +200,7 @@ class Detail extends Component {
                                         message: 'Vui lòng nhập địa chỉ!',
                                     },
                                     {
-                                        validator: this.onCheckingName,
+                                        validator: this.onCheckingAddress,
                                     },
                                 ],
                                 initialValue: user.address
@@ -176,7 +208,7 @@ class Detail extends Component {
                                 //onChange={this.onChange} 
                                 style={{ marginRight: '30px' }}
                                 placeholder="Nhập địa chỉ (Bắt đầu bằng chữ in hoa)"
-                                maxLength={100} />)}
+                                max={150} />)}
                         </Form.Item>
                         <Form.Item label="E-mail" style={{ paddingRight: '20px' }} hasFeedback>
                             {getFieldDecorator('email', {

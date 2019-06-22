@@ -10,7 +10,7 @@ import moment from 'moment'
 import Chart from 'react-apexcharts'
 import Login from '../../pages/Login'
 
-const pageSize = 2
+const pageSize = 5
 const desc = ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Tuyệt vời'];
 
 class PropertiesDetail extends Component {
