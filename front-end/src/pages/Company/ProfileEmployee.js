@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
 import HeaderCompany from '../../components/Company/HeaderCompany';
 import * as actions from '../../actions/Company/requestCompany';
-import { message, Button, Modal, Form, Input, Select, Tag, Spin } from 'antd'
+import { message, Button, Modal, Form, Input, Select, Tag, Spin, Pagination } from 'antd'
 import { adminService } from '../../actions/Company/admin.service'
 import { connect } from 'react-redux';
 // import moment from 'moment'
 import { withRouter } from 'react-router-dom'
 import * as actionAuth from '../../actions/auth'
+import { SingleEstate } from '../../components/Employee Estate/SingleEstate';
 
 const { Option } = Select;
 const confirm = Modal.confirm;
+const pageSize = 5
+const Options = [
+    { value: '0', label: 'Sắp xếp theo' },
+    { value: '1', label: 'Bất động sản bán' },
+    { value: '2', label: 'Bất động sản cho thuê' },
+
+];
 
 class ProfileEmployee extends Component {
     constructor(props) {
@@ -19,8 +27,24 @@ class ProfileEmployee extends Component {
             visible1: false,
             visible2: false,
             lock: false,
-            disable: false
+            disable: false,
+            current: 1,
+            option: Options[0].value,
         }
+    }
+    onChange = page => {
+        console.log(page);
+        this.setState({
+            current: page,
+        });
+    };
+    handleOnChange = (e) => {
+        let target = e.target;
+        let name = target.name;
+        let value = target.value;
+        this.setState({
+            [name]: value,
+        });
     }
     onCheckAuthEdit = async () => {
         await this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page)
@@ -366,7 +390,7 @@ class ProfileEmployee extends Component {
     componentDidMount() {
         console.log(this.props.match.params.id)
         this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page);
-        console.log('did')
+
     }
     onCheckFullName = (rule, value, callback) => {
         const reg = /\d|^[a-z]|^\s|[A-z]{8}|\S{8}|[`~!@#$%^&*()(\-)_=+[(\]){};:'",<.>/?\\|]/
@@ -471,6 +495,14 @@ class ProfileEmployee extends Component {
                     phoneTmp = info.phone
                 }
             }
+            else {
+                phoneTmp = ''
+            }
+            let { option } = this.state;
+            let total = 1
+            let list = []
+            let current = this.state.current
+            let offset = (current - 1) * pageSize;
             console.log(phoneTmp)
             const { getFieldDecorator } = this.props.form;
             const prefixSelector = getFieldDecorator('prefix', {
@@ -503,25 +535,27 @@ class ProfileEmployee extends Component {
                     },
                 },
             };
-            let des = 'Hiện chưa có bài đăng';
+            let listProjects = ''
+            let des = 'Hiện chưa có bài đăng'
             if (projects.length > 0) {
+                if (option === '1') {
+                    projects = projects.filter(project => project.statusProject === 1);
+                }
+                else if (option === '2') {
+                    projects = projects.filter(project => project.statusProject === 3)
+                }
+                list = projects.slice(offset, current * pageSize)
                 des = `Có ${projects.length} bài đăng`
+                listProjects = list.map((project, index) => {
+                    return (
+                        <SingleEstate
+                            key={index}
+                            estateListOfUser={project}
+                        />
+                    )
+                }
+                )
             }
-            // let listProjects = '';
-            console.log(info);
-            console.log(projects);
-
-            // 	des = `Hiện đang có ${projects.length} bài đăng`
-            // 	listProjects = projects.map((project, index) => {
-            // 		return (
-            // 			<InfoEstateOfAgent
-            // 				key={index}
-            // 				project={project}
-            // 			/>
-            // 		)
-            // 	}
-            // 	)
-            // }
 
             let mobile = 'Đang cập nhật'
             if (info.phone !== '') {
@@ -592,7 +626,7 @@ class ProfileEmployee extends Component {
                 btnPer =
                     <Button
                         type="default"
-                        style={{ margin: '5px 0 5px 0', width: '157px', height: '52px', backgroundColor: '#7d6f7c'}}
+                        style={{ margin: '5px 0 5px 0', width: '157px', height: '52px', backgroundColor: '#7d6f7c' }}
                         disabled={this.state.disable}
                         onClick={this.onCheckAuthPermission}
                     >
@@ -785,7 +819,7 @@ class ProfileEmployee extends Component {
                                             {/* Option bar start */}
                                             <div className="option-bar">
                                                 <div className="row">
-                                                    <div className="col-lg-6 col-md-5 col-sm-5 col-xs-2">
+                                                    <div className="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                                         <h4>
                                                             <span className="heading-icon">
                                                                 <i className="fa fa-th-list" />
@@ -793,14 +827,18 @@ class ProfileEmployee extends Component {
                                                             <span className="hidden-xs">Danh sách bài đăng</span>
                                                         </h4>
                                                     </div>
-                                                    <div className="col-lg-6 col-md-7 col-sm-7 col-xs-10 cod-pad">
-                                                        <div className="sorting-options">
-                                                            <select className="sorting">
-                                                                <option>Bài đăng bán bất động sản</option>
-                                                                <option>Bài đăng cho thuê bất động sản</option>
+                                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12" style={{ padding: '7px 5px 7px 30px' }}>
+                                                        <div className="form-group" style={{ marginRight: '20px' }}  >
+                                                            <select className="form-control"
+                                                                name="option"
+                                                                value={option}
+                                                                onChange={this.handleOnChange}
+                                                                id="opt"
+                                                                style={{ fontSize: '12px' }}
+                                                            >
+                                                                {Options.map((option, index) => <option key={index} value={option.value}>{option.label}</option>)}
 
                                                             </select>
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -811,6 +849,10 @@ class ProfileEmployee extends Component {
                                                 <h4><span>{des}</span> </h4>
                                             </div>
                                             <div className="row">
+                                                {listProjects}
+                                            </div>
+                                            <div style={{ textAlign: 'center' }}>
+                                                <Pagination current={this.state.current} pageSize={pageSize} onChange={this.onChange} total={total} />
 
                                             </div>
                                         </div>

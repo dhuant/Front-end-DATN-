@@ -162,9 +162,9 @@ class AddAccount extends Component {
                         <div className="overlay">
                             <div className="container">
                                 <div className="breadcrumb-area">
-                                    <h1>My Properties</h1>
+                                    <h1>Thêm tài khoản nhân viên</h1>
                                     <ul className="breadcrumbs">
-                                        <li><Link to="/">Home</Link></li>
+                                        <li><Link to="/company/profile-admin">Trang chủ</Link></li>
                                         <li className="active">Thêm tài khoản nhân viên</li>
                                     </ul>
                                 </div>

@@ -140,7 +140,7 @@ class ChangePasswordCompany extends Component {
                                 <div className="breadcrumb-area">
                                     <h1>Đổi mật khẩu</h1>
                                     <ul className="breadcrumbs">
-                                        <li><Link to="/">Trang chủ</Link></li>
+                                        <li><Link to="/company/profile-admin">Trang chủ</Link></li>
                                         <li className="active">Đổi mật khẩu</li>
                                     </ul>
                                 </div>

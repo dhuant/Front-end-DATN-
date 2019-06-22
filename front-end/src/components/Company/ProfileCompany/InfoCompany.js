@@ -34,6 +34,11 @@ class InfoCompany extends Component {
         console.log(files)
         this.handleImageUpload(files[0]);
     }
+    onSignOut =(e)=> {
+        e.preventDefault();
+        localStorage.removeItem('company');
+        this.props.history.push('/company/login')
+    }
 
     async handleImageUpload(file) {
         await request
@@ -153,19 +158,10 @@ class InfoCompany extends Component {
                                     <i className="flaticon-shape" />Danh sách nhân viên
                                 </a>
                             </li>
-                            <li>
-                                <a href="true" onClick={this.onShowMyTransactions} className={this.props.component === MY_TRANSACTION ? "active" : ""}>
-                                    <i className="flaticon-monitor" />Giao dịch hiện hành
-                                </a>
-                            </li>
-                            <li>
-                                <a href="true" onClick={this.onShowTransactionHistory} className={this.props.component === MY_TRANSACTION_HISTORY ? "active" : ""}>
-                                    <i className="flaticon-internet" />Lịch sử giao dịch
-                                </a>
-                            </li>
+                            
 
                             <li>
-                                <a href="true">
+                                <a href="true" onClick={this.onSignOut}>
                                     <i className="flaticon-sign-out-option" />Đăng xuất
                                 </a>
                             </li>

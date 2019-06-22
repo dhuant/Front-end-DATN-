@@ -45,6 +45,7 @@ import ChangePasswordCompany from './pages/Company/ChangePasswordCompany'
 import ForgotPasswordCompany from './pages/Company/ForgotPasswordCompany'
 import ProfileEmployee from './pages/Company/ProfileEmployee'
 import InputNumber from './components/Company/InputNumber';
+import EditEstate from './components/Employee Estate/EditEstate'
 class App extends Component {
   render() {
     return (
@@ -97,6 +98,7 @@ class App extends Component {
             <Route exact path='/company/changepassword' component={ChangePasswordCompany}/>
             <Route exact path='/company/forgotpassword' component={ForgotPasswordCompany}/>
             <Route exact path='/company/info-employee/:id/:page' component={ProfileEmployee}/>
+            <Route exact path='/company/edit-estate/:id' component={EditEstate}/>
             {/* End route cho company */}
             <Route exact path='' component={NotFound} />
 

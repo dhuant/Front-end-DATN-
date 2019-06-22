@@ -25,7 +25,9 @@ class Login extends Component {
         if (localStorage.getItem('company')) {
             this.props.history.push('/company/profile-admin')
         }
-
+        else if(localStorage.getItem('res')){
+            this.props.history.push('/')
+        }
     }
     
     onResetPassword = (e) => {
@@ -165,7 +167,7 @@ class Login extends Component {
                                             </Form.Item>
 
                                             <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', marginTop: '-30px' }}>
-                                                <Button style={{ width: '100%' }} type="primary" size='large' htmlType="submit" disabled={this.state.disable}>
+                                                <Button style={{ width: '100%' }} type="primary" size='large' htmlType="submit" disabled={this.state.disable} name='companyLoginButton'>
                                                     Đăng nhập
                                                 </Button>
 

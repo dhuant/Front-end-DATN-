@@ -155,6 +155,7 @@ class Login extends Component {
                                 type="submit"
                                 className="button-google btn-block"
                                 disabled={this.state.disable}
+                                name='googleLoginButton'
                             >
                                 <img src="/images/icons/icon-google.png" alt="GOOGLE" style={{ marginRight: "10px", width: "18px" }} />
                                 Đăng nhập với Google
@@ -185,53 +186,53 @@ class Login extends Component {
                                             </div>
                                             {/* Form start */}
 
-                                            <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-                                                <Form.Item style={{ paddingRight: '20px', paddingLeft: '20px' }} hasFeedback>
-                                                    {getFieldDecorator('email', {
-                                                        rules: [
-                                                            {
-                                                                type: 'email',
-                                                                message: 'Văn bản không đúng định dạng email',
-                                                            },
-                                                            {
-                                                                required: true,
-                                                                message: 'Vui lòng nhập email vào ô văn bản',
-                                                            },
-                                                        ],
-                                                    })(<Input
-                                                        placeholder='Email*'
-                                                        style={{ marginRight: '30px' }} />)}
-                                                </Form.Item>
-                                                <Form.Item style={{ paddingRight: '20px', paddingLeft: '20px' }} hasFeedback>
-                                                    {getFieldDecorator('password', {
-                                                        rules: [
-                                                            {
-                                                                required: true,
-                                                                message: 'Vui lòng nhập mật khẩu!',
-                                                            },
+                                        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+                                            <Form.Item style={{ paddingRight: '20px', paddingLeft: '20px' }} hasFeedback>
+                                                {getFieldDecorator('email', {
+                                                    rules: [
+                                                        {
+                                                            type: 'email',
+                                                            message: 'Văn bản không đúng định dạng email',
+                                                        },
+                                                        {
+                                                            required: true,
+                                                            message: 'Vui lòng nhập email vào ô văn bản',
+                                                        },
+                                                    ],
+                                                })(<Input
+                                                    placeholder='Email*'
+                                                    style={{ marginRight: '30px' }} name='inputLogin'/>)}
+                                            </Form.Item>
+                                            <Form.Item style={{ paddingRight: '20px', paddingLeft: '20px' }} hasFeedback>
+                                                {getFieldDecorator('password', {
+                                                    rules: [
+                                                        {
+                                                            required: true,
+                                                            message: 'Vui lòng nhập mật khẩu!',
+                                                        },
 
-                                                        ],
-                                                    })(<Input.Password
-                                                        placeholder='Mật khẩu*'
-                                                        style={{ marginRight: '30px' }} />)}
-                                                </Form.Item>
-                                                <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'right', marginTop: '-30px' }}>
-                                                    <a
-                                                        onClick={this.onResetPassword}
-                                                    >
-                                                        Quên mật khẩu?
+                                                    ],
+                                                })(<Input.Password
+                                                    placeholder='Mật khẩu*'
+                                                    style={{ marginRight: '30px' }} name='inputPass' />)}
+                                            </Form.Item>
+                                            <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'right', marginTop: '-30px' }}>
+                                                <a
+                                                    onClick={this.onResetPassword}
+                                                >
+                                                    Quên mật khẩu?
                                             </a>
                                                 </Form.Item>
 
-                                                <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', marginTop: '-30px' }}>
-                                                    <Button style={{ width: '100%' }} type="primary" size='large' htmlType="submit" disabled={this.state.disable}>
-                                                        Đăng nhập
+                                            <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', marginTop: '-30px' }}>
+                                                <Button style={{ width: '100%' }} type="primary" size='large' htmlType="submit" disabled={this.state.disable} name='normalLoginButton'>
+                                                    Đăng nhập
                                                 </Button>
 
-                                                </Form.Item>
-                                                <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', }}>
-                                                    <Button style={{ width: '100%' }} type="danger" size='large' disabled={this.state.disable} onClick={this.onLoginCompany}>
-                                                        Đăng nhập bằng tài khoản công ty
+                                            </Form.Item>
+                                            <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', }}>
+                                                <Button style={{ width: '100%' }} type="danger" size='large' disabled={this.state.disable} onClick={this.onLoginCompany} name='companyLoginButton'>
+                                                    Đăng nhập bằng tài khoản công ty
                                                 </Button>
 
                                                 </Form.Item>
