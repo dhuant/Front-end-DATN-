@@ -512,14 +512,14 @@ class PropertiesDetail extends Component {
                             {/* Comments section start */}
                             <div className="comments-section">
                                 {/* Main Title 2 */}
-                                <div className="main-title-2">
+                                {/* <div className="main-title-2">
                                     <h1>
                                         <span>Bình luận và</span> đánh giá
                                     </h1>
                                 </div>
                                 <div className="row" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                     <Chart options={this.state.options} series={this.state.series} type="donut" width="400" />
-                                </div>
+                                </div> */}
                                 <div className="main-title-2">
                                     <div className="pull-left">
                                         <h1>

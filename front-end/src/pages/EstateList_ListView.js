@@ -163,7 +163,7 @@ class EstateListListView extends Component {
             message.warning('Bạn chưa chọn khu vực cần tìm kiếm!')
         }
         else {
-            this.setState({
+            await this.setState({
                 loading: true
             })
             let address = ''
@@ -185,7 +185,7 @@ class EstateListListView extends Component {
 
             }
             await this.props.actSearchEstate(data)
-            this.setState({ loading: false })
+            await this.setState({ loading: false })
             console.log(data)
         }
 
@@ -202,7 +202,7 @@ class EstateListListView extends Component {
         let current = this.state.current
         let offset = (current - 1) * pageSize;
         let des = 'Hiện chưa có bài đăng'
-        let { type, deal, prices, price, area, city, ward, province } = this.state;
+        let { type, deal, prices, price, area, city, ward, province, loading } = this.state;
         let estates = this.props.estates
         console.log(estates)
         var provinceList = this.parseProvinceData(AddressData)
@@ -254,9 +254,9 @@ class EstateListListView extends Component {
                 {/* Sub Banner end */}
 
                 {/* Properties section body start */}
-                <div className="properties-section-body content-area" style={{ backgroundColor: '#ebebeb', marginTop: '-30px' }}>
+                <div className="properties-section property-big content-area" style={{ backgroundColor: '#ebebeb', marginTop: '-30px' }}>
                     <div className="container">
-                        <div className="properties-map-search" style={{ backgroundColor: '#5d1070' }}>
+                        <div className="properties-map-search" style={{ backgroundColor: 'rgb(244, 244, 242)' }}>
                             <div className="properties-map-search-content" style={{ paddingTop: '15px' }}>
                                 <form onSubmit={this.onHandleSubmit}>
                                     <div className="row">
@@ -369,12 +369,19 @@ class EstateListListView extends Component {
                                                 {/* <div className="form-group" > */}
                                                 <button
                                                     onClick={this.onSearchMap}
-                                                    type="submit" class="btn btn-success"
+                                                    type="submit" className="btn btn-success"
                                                     style={{ width: '100%', height: '40px' }}
-                                                    disabled={this.state.loading}
+                                                    disabled={loading}
                                                 >
-                                                    Tìm kiếm
-                                            </button>
+                                                    {loading && (
+                                                        <i
+                                                            className="fa fa-refresh fa-spin"
+                                                            style={{ marginRight: "5px" }}
+                                                        />
+                                                    )}
+                                                    {loading && <span>Đang tìm kiếm...</span>}
+                                                    {!loading && <span>Tìm kiếm</span>}
+                                                </button>
                                                 {/* </div> */}
                                             </div>
 
@@ -385,11 +392,11 @@ class EstateListListView extends Component {
                         </div>
                         <br />
                         <div className="row">
-                            <div className="col-lg-8 col-md-8 col-xs-12">
+                            <div className="col-lg-12">
                                 {/* Option bar start */}
                                 <div className="option-bar">
                                     <div className="row">
-                                        <div className="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                        <div className="col-lg-6 col-md-6 col-sm-6 col-xs-2">
                                             <h4>
                                                 <span className="heading-icon">
                                                     <i className="fa fa-th-list" />
@@ -397,7 +404,7 @@ class EstateListListView extends Component {
                                                 <span className="hidden-xs">Danh sách bài đăng</span>
                                             </h4>
                                         </div>
-                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div className="col-lg-6 col-md-6 col-sm-6 col-xs-10 col-pad">
                                             <div className="form-group" style={{ margin: '7px 5px 7px 5px' }} >
                                                 <select className="form-control"
                                                     name="option"
@@ -421,7 +428,7 @@ class EstateListListView extends Component {
                                 {estatesList}
                                 {/* Property end */}
                                 {/* Page navigation start */}
-                                {estatesList !== null ? <Pagination current={this.state.current} pageSize={pageSize} onChange={this.onChange} total={total} /> : null}
+                                {estatesList !== null ? <Pagination current={this.state.current} pageSize={pageSize} onChange={this.onChange} total={total} style={{ float: "right" }} /> : null}
 
                                 {/* Page navigation end*/}
                             </div>

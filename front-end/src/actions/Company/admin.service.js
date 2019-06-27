@@ -9,6 +9,7 @@ export const adminService ={
     editEmployee,
     changePermissionEmployee,
     deleteEmployee,
+    editCompany
 };
 
 function addAccount(account) {
@@ -94,6 +95,19 @@ function editEmployee(data){
     });
 }
 
+function editCompany(data){
+    return new Promise((resolve,reject) => {
+        axios.post(`${config.API_URL}/company/edit`, data, { headers: authCompany() })
+        .then(res => {
+            if(res.data.status === 200) {
+                resolve(res.data);
+            } else {
+                reject(res.data)
+            } 
+        })
+        .catch(err => reject(err.response))
+    });
+} 
 
 function deleteEmployee(data) {
     return new Promise((resolve,reject) => {

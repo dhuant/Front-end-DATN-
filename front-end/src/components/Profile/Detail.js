@@ -59,12 +59,12 @@ class Detail extends Component {
                 }
 
                 if (account.fullname === currentAccount.fullname
-                    || account.address === currentAccount.address
-                    || account.email === currentAccount.email
-                    || account.phone === currentAccount.phone
-                    || account.identify === currentAccount.identify
-                    || account.description === currentAccount.description
-                    || account.avatar === currentAccount.avatar) {
+                    && account.address === currentAccount.address
+                    && account.email === currentAccount.email
+                    && account.phone === currentAccount.phone
+                    && account.identify === currentAccount.identify
+                    && account.description === currentAccount.description
+                    && account.avatar === currentAccount.avatar) {
                     await this.setState({ loading: false })
                     return message.warning('Bạn chưa thay đổi gì cả!')
                 }
