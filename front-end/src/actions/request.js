@@ -5,10 +5,11 @@ import callApi from "./../utils/apiCaller";
 import { authHeader } from "../constants/authHeader";
 import axios from "axios";
 import { message } from 'antd'
+import * as config from '../constants/Config'
 
 export const actFetchEstatesRequest = info => {
   return dispatch => {
-    return axios.post("http://localhost:3001/projects/home", info)
+    return axios.post(`${config.API_URL}/projects/home`, info)
       .then(res => {
         console.log("request")
         dispatch(Action.actFetchEstates(res.data.projects));
@@ -23,7 +24,7 @@ export const actFetchEstatesRequest = info => {
 //--------- SearchMap
 export const actSearchMapRequest = info => {
   return dispatch => {
-    return axios.post("http://localhost:3001/projects/searchmap", info)
+    return axios.post(`${config.API_URL}/projects/searchmap`, info)
       .then(res => {
         dispatch(actMap.actSearchMap(res.data.projects));
       })
@@ -73,7 +74,7 @@ export const actGetListEstatesFromFormSearch = data => {
 export const actGetUserInfoRequest = () => {
   return dispatch => {
     return axios
-      .get(`http://localhost:3001/users/info/`, { headers: authHeader() })
+      .get(`${config.API_URL}/users/info/`, { headers: authHeader() })
       .then(res => {
         dispatch(Action.actGetUserInfo(res.data));
         console.log(res.data);
@@ -116,7 +117,7 @@ export const actGetCommentsByIdRequest = (id) => {
 
 export const actGetEstateListOfUserRequest = (page) => {
   return dispatch => {
-    return axios.get(`http://localhost:3001/users/danhsachproject/${page}`, { headers: authHeader() }).then(res => {
+    return axios.get(`${config.API_URL}/users/danhsachproject/${page}`, { headers: authHeader() }).then(res => {
       if (res.data.status === 200)
         dispatch(Action.actGetEstateListOfUser(res.data.projects))
       console.log(res);
@@ -132,7 +133,7 @@ export const actGetEstateListOfUserRequest = (page) => {
 
 export const actGetFollowingListRequest = () => {
   return dispatch => {
-    return axios.get(`http://localhost:3001/users/listSaved`, { headers: authHeader() }).then(res => {
+    return axios.get(`${config.API_URL}/users/listSaved`, { headers: authHeader() }).then(res => {
       if (res.data.status === 200)
         dispatch(Action.actGetFollowingList(res.data.result.projects))
     })
@@ -145,7 +146,7 @@ export const actGetFollowingListRequest = () => {
 
 export const actUnfollowProjectRequest = (data) => {
   return dispatch => {
-    return axios.post(`http://localhost:3001/users/unfollow`, data, { headers: authHeader() }).then(res => {
+    return axios.post(`${config.API_URL}/users/unfollow`, data, { headers: authHeader() }).then(res => {
       console.log(res.data.status)
       if (res.data.status === 201) {
         dispatch(Action.actUnfollowProject(res.data, data))
@@ -163,7 +164,7 @@ export const actUnfollowProjectRequest = (data) => {
 export const actFollowProjectRequest = (data, project) => {
   console.log(project)
   return dispatch => {
-    return axios.post(`http://localhost:3001/users/follow`, data, { headers: authHeader() }).then(res => {
+    return axios.post(`${config.API_URL}/users/follow`, data, { headers: authHeader() }).then(res => {
       if (res.data.status === 409)
         return message.warning("Bạn đã từng theo dõi bài đăng này trước đó rồi!")
       else if (res.data.status === 201) {
@@ -182,7 +183,7 @@ export const actFollowProjectRequest = (data, project) => {
 export const actPostingCommentRequest = (data, user) => {
   console.log(user)
   return dispatch => {
-    return axios.post(`http://localhost:3001/comment`, data, { headers: authHeader() }).then(res => {
+    return axios.post(`${config.API_URL}/comment`, data, { headers: authHeader() }).then(res => {
       if (res.data.status === 201 || res.status === 201) {
         dispatch(Action.actPostComment(res.data.comment, user))
         return message.success("Đăng bình luận thành công!")
@@ -198,7 +199,7 @@ export const actPostingCommentRequest = (data, user) => {
 
 export const actDeleteProjectRequest = (id, data) => {
   return dispatch => {
-    axios.delete(`http://localhost:3001/projects/${id}`, { headers: authHeader() })
+    axios.delete(`${config.API_URL}/projects/${id}`, { headers: authHeader() })
       .then(res => {
         console.log(res);
         if (res.data.status === 200 && res) {
@@ -217,7 +218,7 @@ export const actDeleteProjectRequest = (id, data) => {
 
 export const actEditUserProjectRequest = (data, id) => {
   return dispatch => {
-    axios.post(`http://localhost:3001/projects/edit/${id}`, data, { headers: authHeader() })
+    axios.post(`${config.API_URL}/projects/edit/${id}`, data, { headers: authHeader() })
       .then(res => {
         console.log(res);
         if (res.status === 200 || res.data.status === 200) {
@@ -232,7 +233,7 @@ export const actEditUserProjectRequest = (data, id) => {
 
 export const actEditUserInfoRequest = (data) => {
   return dispatch => {
-    axios.post(`http://localhost:3001/users/edit`, data, { headers: authHeader() })
+    axios.post(`${config.API_URL}/users/edit`, data, { headers: authHeader() })
       .then(res => {
         console.log(res)
         if (res.status === 200) {
@@ -251,7 +252,7 @@ export const actEditUserInfoRequest = (data) => {
 
 export const actEditCommentRequest = (id, data) => {
   return dispatch => {
-    axios.post(`http://localhost:3001/comment/edit/${id}`, data, { headers: authHeader() })
+    axios.post(`${config.API_URL}/comment/edit/${id}`, data, { headers: authHeader() })
       .then(res => {
         if (res.data.status === 200 && res) {
           dispatch(Action.actEditComment(res.data.comment, data))
@@ -267,7 +268,7 @@ export const actEditCommentRequest = (id, data) => {
 
 export const actDeleteCommentRequest = (id, data) => {
   return dispatch => {
-    axios.delete(`http://localhost:3001/comment/${id}`, { headers: authHeader() })
+    axios.delete(`${config.API_URL}/comment/${id}`, { headers: authHeader() })
       .then(res => {
         if (res.data.status === 200) {
           dispatch(Action.actDeleteComment(id, data))
@@ -283,7 +284,7 @@ export const actDeleteCommentRequest = (id, data) => {
 
 export const reqSearchEstate = (data) => {
   return dispatch => {
-    axios.post(`http://localhost:3001/projects/searchprojects`, data)
+    axios.post(`${config.API_URL}/projects/searchprojects`, data)
       .then(res => {
         if (res.data.status === 200) {
           console.log(res)

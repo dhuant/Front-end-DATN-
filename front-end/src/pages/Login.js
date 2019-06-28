@@ -47,7 +47,7 @@ class Login extends Component {
             mode: 'cors',
             cache: 'default'
         };
-        fetch('http://localhost:3001/users/auth/google', options).then(r => r.json()
+        fetch(`${Config.API_URL}/users/auth/google`, options).then(r => r.json()
             .then(json => {
                 console.log(json)
                 localStorage.setItem('res', JSON.stringify(json))

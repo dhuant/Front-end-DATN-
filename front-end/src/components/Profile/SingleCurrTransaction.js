@@ -8,6 +8,7 @@ import * as transAction from '../../actions/transactionRequest'
 import axios from 'axios'
 import * as actions from '../../actions/transactionActions'
 import { authHeader } from '../../constants/authHeader'
+import * as config from '../../constants/Config'
 
 const confirm = Modal.confirm
 
@@ -45,7 +46,7 @@ class SingleCurrTransaction extends Component {
         }
         
         // this.props.onCancelTransaction(deleteData) 
-        axios.post(`http://localhost:3001/transaction/cancel`, deleteData, { headers: authHeader() })
+        axios.post(`${config.API_URL}/transaction/cancel`, deleteData, { headers: authHeader() })
           .then(res => {
             if (res.data.status === 200) {
               this.props.onCancel(this.props.transactionSingle._id)
