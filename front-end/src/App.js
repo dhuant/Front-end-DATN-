@@ -24,6 +24,7 @@ import MyTransaction from './pages/MyTransaction'
 import TransHistory from './pages/TransHistory'
 import TransactionDetail from './pages/TransactionDetail'
 import WaitingRequest from './pages/WaitingRequest'
+import AboutUs from './pages/AboutUs.js'
 
 import VerifyEmployee from './pages/Verify/VerifyEmployee'
 import VerifyCompany from './pages/Verify/VerifyCompany'
@@ -76,6 +77,7 @@ class App extends Component {
             <Route exact path='/mytransactions/:id/:type' component={TransactionDetail} />
             <Route exact path='/transhistory' component={TransHistory} />
             <Route exact path='/waiting' component={WaitingRequest} />
+            <Route exact path='/about' component={AboutUs}/>
             <Route exact path='/testing' component={Test} />
 
             <Route exact path='/verifyemployee/:idc/:ide/:hash'component={VerifyEmployee}/>

@@ -9,6 +9,7 @@ import * as actionAuth from '../../actions/auth'
 import { connect } from 'react-redux';
 import { message, Modal, Form, Input, Button } from 'antd'
 import MainHeader from '../../components/MainHeader'
+import Footer from '../../components/Footer';
 //=== tai khoan
 // thaodien@gmail.com
 // 5yPQAn
@@ -183,6 +184,7 @@ class Login extends Component {
                         </div>
                     </div>
                 </div>
+                <Footer/>
             </div>
         );
     }
