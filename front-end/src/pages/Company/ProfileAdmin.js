@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/Company/requestCompany';
 import { Link } from 'react-router-dom';
 import { PROFILE } from '../../constants/Company/profileCompany';
-import Footer from '../../components/Footer'
+// import Footer from '../../components/Footer'
 import InfoCompany from '../../components/Company/ProfileCompany/InfoCompany'
 import DetailCompany from '../../components/Company/ProfileCompany/DetailCompany'
 import { message, Spin } from 'antd'
@@ -69,7 +69,7 @@ class ProfileAdmin extends Component {
                             </div>
                         </div>
                     </div>
-                    <Footer />
+                    {/* <Footer /> */}
                 </div>
             );
         }

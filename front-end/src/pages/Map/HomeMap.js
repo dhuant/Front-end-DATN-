@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MainHeader from '../../components/MainHeader';
 import EstateMapContainer from './EstateMapContainer';
 import EstateListInMap from './EstateListInMap';
+import Footer from '../../components/Footer';
 class HomeMap extends Component {
     constructor(props) {
         super(props);
@@ -33,6 +34,7 @@ class HomeMap extends Component {
                     </div>
                     <EstateListInMap />
                 </div>
+                <Footer/>
             </div>
         );
     }

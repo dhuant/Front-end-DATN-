@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ADD_ACCOUNT } from '../../constants/Company/profileCompany'
 import InfoCompany from '../../components/Company/ProfileCompany/InfoCompany'
-import Footer from '../../components/Footer'
+// import Footer from '../../components/Footer'
 import HeaderCompany from '../../components/Company/HeaderCompany'
 import { Link } from 'react-router-dom'
 import { message } from 'antd'
@@ -249,7 +249,7 @@ class AddAccount extends Component {
                             </div>
                         </div>
                         {/* My Propertiess end */}
-                        <Footer />
+                        {/* <Footer /> */}
                     </div>
                 </div>
             );

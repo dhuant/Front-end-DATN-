@@ -8,6 +8,11 @@ class AboutUs extends Component {
         e.preventDefault();
         this.props.history.push('/');
     }
+    componentDidMount(){
+        if(localStorage.getItem('company')){
+            this.props.history.push('/company/profile-admin')
+        }
+    }
     render() {
         return (
             <div>
@@ -155,7 +160,7 @@ class AboutUs extends Component {
                                         <div className="item content clearfix">
                                             <div className="col-lg-4 col-md-5 col-sm-5 col-xs-12">
                                                 <div className="avatar">
-                                                    <img src="https://res.cloudinary.com/huantd/image/upload/v1561784350/avatar/Dat_yt6ipr.jpg" alt="avatar-1" className="img-responsive" />
+                                                    <img src="https://res.cloudinary.com/huantd/image/upload/v1561790444/avatar/dat_z4ytnp.jpg" alt="avatar-1" className="img-responsive" />
                                                 </div>
                                             </div>
                                             <div className="col-lg-8 col-md-7 col-sm-7 col-xs-12">

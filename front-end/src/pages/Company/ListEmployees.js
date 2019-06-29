@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import HeaderCompany from '../../components/Company/HeaderCompany'
-import Footer from '../../components/Footer'
+// import Footer from '../../components/Footer'
 import InfoCompany from '../../components/Company/ProfileCompany/InfoCompany'
 import { LIST_EMPLOYEES } from '../../constants/Company/profileCompany'
 // import FollowingProject from '../components/My Properties/FollowingProject'
@@ -161,7 +161,7 @@ class ListEmployees extends Component {
                         </div>
                     </div>
                     {/* My Propertiess end */}
-                    <Footer />
+                    {/* <Footer /> */}
                 </div>
             );
         }
