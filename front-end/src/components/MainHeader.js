@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { HOME, NEWS, ABOUT, LIST_ESTATES } from '../constants/Navbar'
 // import { PROFILE, MY_PROPERTIES, MY_FOLLOWING, MY_TRANSACTION, MY_TRANSACTION_HISTORY, WAITING_REQUEST } from '../constants/Profile'
+// const src = "https://res.cloudinary.com/huantd/image/upload/v1561783181/logo/logo_RE-01_fteok3.png"
 
 class MainHeader extends Component {
     constructor() {
         super();
         this.state = {
             username: null,
-            token: 'abc'
+            token: 'abc',
+            src: "https://res.cloudinary.com/huantd/image/upload/v1561783181/logo/logo_RE-01_fteok3.png"
         };
     }
 
@@ -20,6 +22,10 @@ class MainHeader extends Component {
     onRedirectHome = (e) => {
         e.preventDefault();
         this.props.history.push('/');
+    }
+    onAboutUs =(e) => {
+        e.preventDefault();
+        this.props.history.push('/about')
     }
     onNews = (e) => {
         e.preventDefault();
@@ -109,10 +115,15 @@ class MainHeader extends Component {
                 </li>
             );
     }
-
+    componentDidMount(){
+        this.setState({
+            src: "https://res.cloudinary.com/huantd/image/upload/v1561783181/logo/logo_RE-01_fteok3.png"
+        })
+    }
     render() {
         var token = localStorage.getItem('res')
         console.log(token)
+        let src = this.state.src
         return (
             <div>
                 <header className="main-header">
@@ -132,7 +143,7 @@ class MainHeader extends Component {
                                     <span className="icon-bar" />
                                 </button>
                                 <a href="true" onClick={this.onRedirectHome} className="logo">
-                                    <img src="/img/logos/logo.png" alt="logo" />
+                                    <img style={{height:'60px', width:'120px',marginTop:'-10px'}}src={src} alt="logo" />
                                 </a>
                             </div>
                             {/* Collect the nav links, forms, and other content for toggling */}
@@ -149,7 +160,7 @@ class MainHeader extends Component {
                                         </a>
                                     </li>
                                     <li className={this.props.component === ABOUT ? "active" : ""}>
-                                        <a href="true" onClick={this.onRedirectHome}>
+                                        <a href="true" onClick={this.onAboutUs}>
                                             Về chúng tôi
                                         </a>
                                     </li>
@@ -170,7 +181,7 @@ class MainHeader extends Component {
                                             data-toggle="dropdown"
                                             data-submenu
                                             aria-expanded="false"
-                                            onClick={this.onProfile}
+                                            
                                         >
                                             Danh bạ <span className="caret" />
                                         </a>
