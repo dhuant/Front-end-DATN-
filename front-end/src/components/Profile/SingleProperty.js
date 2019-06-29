@@ -77,11 +77,18 @@ export class SingleProperty extends Component {
   render() {
     let { estateListOfUser } = this.props
     let { visibleView } = this.state
+    let status = ' Chưa kiểm duyệt '
+    if (estateListOfUser) {
+      if (estateListOfUser.verify === true) {
+        status = ' Đã kiểm duyệt '
+      }
+    }
     return (
-      <div className="projectSingle" style={{padding: "0px 20px"}}>
-
+      <div className="projectSingle" style={{ padding: "0px 20px" }}>
+        <div className="property-tag button alt featured" style={{ marginLeft: '30px', color: 'white', width:'120px',textAlign:'center' }}>{status}</div>
         <tr>
           <td className="title-container" style={{ width: "700px" }}>
+
             <img src={estateListOfUser.url[0]} alt="my-properties-1" className="img-responsive hidden-xs" style={{ width: "150px", height: "150px", marginLeft: "10px" }} />
             <div className="title">
               <h4 style={{ color: "#84ad1d", fontSize: "20px", cursor: "pointer" }} onClick={() => this.setState({ visibleView: true, visibleEdit: false })}>{estateListOfUser.name}</h4>
