@@ -15,8 +15,14 @@ class Properties extends Component {
         }
     }
     componentDidMount(){
-        this.props.actGetEstateRequest(this.props.match.params.id);
-        console.log(this.props.match.params.id);
+        if(localStorage.getItem('company')){
+            this.props.history.push('/company/profile-admin')
+        }
+        else{
+            this.props.actGetEstateRequest(this.props.match.params.id);
+            console.log(this.props.match.params.id);
+        }
+        
     }
     render() {
 
@@ -35,10 +41,10 @@ class Properties extends Component {
                     <div className="overlay">
                         <div className="container">
                             <div className="breadcrumb-area">
-                                <h1>Properties Detail</h1>
+                                <h1>Chi tiết bài đăng</h1>
                                 <ul className="breadcrumbs">
-                                    <li><Link to="/">Home</Link></li>
-                                    <li className="active">Properties Detail</li>
+                                    <li><Link to="/">Trang chủ</Link></li>
+                                    <li className="active">Chi tiết bài đăng</li>
                                 </ul>
                             </div>
                         </div>

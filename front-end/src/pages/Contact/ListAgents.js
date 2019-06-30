@@ -21,8 +21,17 @@ class ListAgents extends Component {
         this.props.reqGetListAgents(this.state.page);
 
     }
+    onRedirectHome = (e) => {
+        e.preventDefault();
+        this.props.history.push('/');
+    }
     componentDidMount() {
-        this.props.reqGetListAgents(this.state.page);
+        if (localStorage.getItem('company')) {
+            this.props.history.push('/company/profile-admin')
+        }
+        else {
+            this.props.reqGetListAgents(this.state.page);
+        }
     }
     handleOnChange = (e) => {
         let target = e.target;
@@ -67,6 +76,19 @@ class ListAgents extends Component {
             <div>
                 <MainHeader />
                 {/* Agent section start */}
+                <div className="sub-banner overview-bgi">
+                    <div className="overlay">
+                        <div className="container">
+                            <div className="breadcrumb-area">
+                                <h1>Danh sách nhà môi giới</h1>
+                                <ul className="breadcrumbs">
+                                    <li><a href="true" onClick={this.onRedirectHome}>Trang chủ</a></li>
+                                    <li className="active">Danh sách nhà môi giới</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div className="agent-section content-area" style={{ backgroundColor: '#ebebeb' }}>
                     <div className="container">
                         {/* option bar start */}

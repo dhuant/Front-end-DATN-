@@ -28,9 +28,18 @@ class ListCompaies extends Component {
 		this.setState({
 			[name]: value,
 		});
-	}
+    }
+    onRedirectHome = (e) => {
+        e.preventDefault();
+        this.props.history.push('/');
+    }
     componentDidMount() {
-        this.props.reqGetListCompanies(this.props.match.params.page);
+        if(localStorage.getItem('company')){
+            this.props.history.push('/company/profile-admin')
+        }
+        else{
+            this.props.reqGetListCompanies(this.props.match.params.page);
+        }
     }
     render() {
         let { option } = this.state;
@@ -61,6 +70,19 @@ class ListCompaies extends Component {
             <div>
                 <MainHeader />
                 {/* Agent section start */}
+                <div className="sub-banner overview-bgi">
+                    <div className="overlay">
+                        <div className="container">
+                            <div className="breadcrumb-area">
+                                <h1>Danh sách công ty</h1>
+                                <ul className="breadcrumbs">
+                                    <li><a href="true" onClick={this.onRedirectHome}>Trang chủ</a></li>
+                                    <li className="active">Danh sách công ty</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div className="agent-section content-area" style={{ backgroundColor: '#ebebeb' }}>
                     <div className="container">
                         {/* option bar start */}
