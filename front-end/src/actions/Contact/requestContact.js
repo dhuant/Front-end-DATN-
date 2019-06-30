@@ -15,6 +15,8 @@ export const reqGetListAgents = (page) => {
       .then(res => {
         console.log(res);
         dispatch(actionAgent.actGetListAgents(res.data.result));
+        dispatch(actionTotalPage.actSaveTotalPage(res.data.count))
+
 
       })
       .catch(err => {
@@ -53,6 +55,7 @@ export const reqGetListCompanies = (page) => {
       .then(res => {
         console.log(res);
         dispatch(actionCompany.actGetListCompanies(res.data.result));
+        dispatch(actionTotalPage.actSaveTotalPage(res.data.count))
       })
       .catch(err => {
         console.log(err.respone)

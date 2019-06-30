@@ -4,6 +4,7 @@ import MainHeader from '../../components/MainHeader'
 import * as actions from '../../actions/Contact/requestContact';
 import { connect } from 'react-redux';
 import { Pagination } from 'antd'
+const pageSize = 10
 
 const Options = [
     { value: '0', label: 'Sắp xếp theo' },
@@ -16,11 +17,18 @@ class ListCompaies extends Component {
         super(props);
         this.state = {
             page: 1,
+            current: 1,
             option: Options[0].value,
         }
         this.props.reqGetListCompanies(this.props.match.params.page);
 
     }
+    onChange = page => {
+        console.log(page);
+        this.setState({
+            current: page,
+        });
+    };
     handleOnChange = (e) => {
 		let target = e.target;
 		let name = target.name;
@@ -44,6 +52,8 @@ class ListCompaies extends Component {
     render() {
         let { option } = this.state;
         let { companies } = this.props;
+        let current = this.state.current
+        let total = this.props.totalPage
         console.log(companies);
         let des = ''
         let listCompanies = <h5 style={{ marginLeft: '15px' }}>Hiện không có công ty nào</h5>;
@@ -118,8 +128,11 @@ class ListCompaies extends Component {
                             {listCompanies}
                         </div>
                         <div>
-                            {/* <Pagination current={this.state.current} pageSize={pageSize}onChange={this.onChange} total={total} /> */}
+                        <div style={{ textAlign: 'center' }}>
+                                        <Pagination current={current} pageSize={pageSize} onChange={this.onChange} total={total} />
 
+                                    </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -136,7 +149,8 @@ const mapDispathToProp = (dispatch) => {
 }
 const mapStateToProp = (state) => {
     return {
-        companies: state.companies
+        companies: state.companies,
+        totalPage: state.totalPage
     }
 }
 
