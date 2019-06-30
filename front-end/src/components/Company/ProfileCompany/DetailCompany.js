@@ -151,7 +151,7 @@ class DetailCompany extends Component {
         console.log(company);
         return (
             <div>
-                <div className="my-address" style={{ padding: '0px 30px' }}>
+                <div className="my-address" style={{ padding: '0px 0px' }}>
                     <div className="main-title-2">
                         <h1><span>Thông tin tài khoản</span></h1>
                     </div>

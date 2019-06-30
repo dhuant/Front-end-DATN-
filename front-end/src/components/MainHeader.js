@@ -34,7 +34,7 @@ class MainHeader extends Component {
     }
     onContactAgent = (e) => {
         e.preventDefault();
-        this.props.history.push('/agents')
+        this.props.history.push('/agents/1')
     }
     onContactCompany = (e) => {
         e.preventDefault();

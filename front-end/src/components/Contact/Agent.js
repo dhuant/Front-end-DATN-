@@ -34,7 +34,7 @@ class Agent extends Component {
                     <strong>Điện thoại:</strong>{agent.phone}
                 </li>
         }
-        let url = `/agentdetail/${agent._id}`
+        let url = `/agentdetail/${agent._id}/1`
         return (
             <Link to={url}>
                 <div>

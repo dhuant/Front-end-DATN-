@@ -29,9 +29,9 @@ class AddAccount extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
+        this.props.form.validateFieldsAndScroll(async(err, values) => {
             if (!err) {
-                this.setState({
+                await this.setState({
                     disable: true,
                 })
                 let account = {
@@ -47,17 +47,20 @@ class AddAccount extends Component {
                 console.log(values);
                 console.log(account);
                 // this.props.form.resetFields([fullname])
-                message.loading('Đang thêm tài khoản, vui lòng chờ trong giây lát', 2.5)
+                message.loading('Đang thêm tài khoản, vui lòng chờ trong giây lát', 2)
                     .then(() => {
                         adminService.addAccount(account)
                             .then(res => {
                                 if (res.status === 201) {
                                     message.success('Thêm tài khoản nhân viên thành công');
                                 }
+                                this.setState({
+                                    disable: false,
+                                })
                                 this.props.history.push('/company/list-employees')
                             })
                             .catch(err => {
-                                if(err){
+                                if (err) {
                                     if (err.data.status === 409) {
                                         message.error('Email đã tồn tại')
                                     }
@@ -70,7 +73,7 @@ class AddAccount extends Component {
                                         message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
                                     }
                                 }
-                                else{
+                                else {
                                     message.error('Lỗi. Phiền bạn kiểm tra lại đường truyền!')
                                 }
                                 this.setState({
@@ -174,7 +177,7 @@ class AddAccount extends Component {
                     {/* Sub Banner end */}
 
                     {/* My Propertiess start */}
-                    <div className="content-area-7 my-properties">
+                    <div className="content-area my-properties">
                         <div className="container">
                             <div className="row">
                                 <div className="col-lg-4 col-md-4 col-sm-12">
@@ -238,8 +241,15 @@ class AddAccount extends Component {
 
                                         <Form.Item {...tailFormItemLayout} style={{ textAlign: 'right', paddingRight: '20px' }}>
                                             <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit" disabled={this.state.disable}>
-                                                Tạo tài khoản
-                                                </Button>
+                                                {this.state.disable && (
+                                                    <i
+                                                        className="fa fa-refresh fa-spin"
+                                                        style={{ marginRight: "5px" }}
+                                                    />
+                                                )}
+                                                {this.state.disable && <span>Đang thêm tài khoản...</span>}
+                                                {!this.state.disable && <span>Thêm tài khoản</span>}
+                                            </Button>
                                             <Button type="danger" onClick={this.onCancel} disabled={this.state.disable}>
                                                 Hủy
                                                 </Button>

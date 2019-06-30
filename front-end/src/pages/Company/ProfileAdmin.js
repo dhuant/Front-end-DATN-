@@ -54,9 +54,6 @@ class ProfileAdmin extends Component {
                     {/* Sub Banner end */}
                     <div
                         className="content-area my-profile"
-                        style={{
-                            paddingTop: '20px'
-                        }}
                     >
                         <div className="container">
                             <div className="row">

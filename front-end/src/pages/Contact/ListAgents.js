@@ -4,6 +4,9 @@ import Agent from '../../components/Contact/Agent'
 import Footer from '../../components/Footer'
 import * as actions from '../../actions/Contact/requestContact';
 import { connect } from 'react-redux';
+import { Pagination } from 'antd';
+import {withRouter}from 'react-router-dom'
+const pageSize = 10
 
 const Options = [
     { value: '0', label: 'Sắp xếp theo' },
@@ -16,11 +19,19 @@ class ListAgents extends Component {
         super(props);
         this.state = {
             page: 1,
+            current: this.props.match.params.page,
             option: Options[0].value,
         }
-        this.props.reqGetListAgents(this.state.page);
-
+        this.props.reqGetListAgents(this.props.match.params.page);
     }
+    onChange = page => {
+        console.log(page);
+        this.setState({
+            current: page,
+        });
+        this.props.history.push(`/agents/${page}`);
+        this.props.reqGetListAgents(page);
+    };
     onRedirectHome = (e) => {
         e.preventDefault();
         this.props.history.push('/');
@@ -30,7 +41,7 @@ class ListAgents extends Component {
             this.props.history.push('/company/profile-admin')
         }
         else {
-            this.props.reqGetListAgents(this.state.page);
+            this.props.reqGetListAgents(this.props.match.params.page);
         }
     }
     handleOnChange = (e) => {
@@ -43,6 +54,8 @@ class ListAgents extends Component {
     }
     render() {
         let { option } = this.state;
+        let current = this.state.current
+        let total = this.props.totalPage
         console.log(option)
         let { agents } = this.props;
         console.log(agents);
@@ -55,13 +68,8 @@ class ListAgents extends Component {
             else if (option === '2') {
                 agents = agents.sort((a, b) => (b.totalProject - a.totalProject))
             }
-            // else if(option === '3') {
-            // 	agents = agents.sort((a, b) => (a.area - b.area))
-            // }
-            // else if(option === '4') {
-            // 	agents = agents.sort((a, b) => (b.area - a.area))
-            // }
-            des = `Hiện đang có ${agents.length} nhà môi giới đang hoạt động trên hệ thống`
+            
+            des = `Hiện đang có ${total} nhà môi giới đang hoạt động trên hệ thống`
             listAgents = agents.map((agent, index) => {
                 return (
                     <Agent
@@ -124,6 +132,10 @@ class ListAgents extends Component {
                         <div className="row">
                             {listAgents}
                         </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <Pagination current={current} pageSize={pageSize} onChange={this.onChange} total={total} />
+
+                        </div>
                     </div>
                 </div>
                 {/* Agent section end */}
@@ -141,8 +153,9 @@ const mapDispathToProp = (dispatch) => {
 }
 const mapStateToProp = (state) => {
     return {
-        agents: state.agents
+        agents: state.agents,
+        totalPage: state.totalPage
     }
 }
 
-export default connect(mapStateToProp, mapDispathToProp)(ListAgents);
+export default connect(mapStateToProp, mapDispathToProp)(withRouter(ListAgents));
