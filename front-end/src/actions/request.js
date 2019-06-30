@@ -53,7 +53,9 @@ export const actGetEstateRequest = id => {
       dispatch(Action.actGetEstate(res.data.project));
       console.log(res.data.project);
     })
-      .catch(err => { console.log(err) })
+      .catch(err => {
+        return message.error('Có lỗi xảy ra!')
+      })
   };
 };
 export const actGetListEstatesFromFormSearch = data => {
@@ -66,7 +68,9 @@ export const actGetListEstatesFromFormSearch = data => {
       dispatch(Action.actGetListEstateFromFromSearch(res.data.projects));
       console.log(res)
     })
-      .catch(err => { console.log(err) })
+      .catch(err => {
+        return message.error('Có lỗi xảy ra!')
+      })
   };
 };
 
@@ -79,7 +83,11 @@ export const actGetUserInfoRequest = () => {
         console.log(res.data);
       })
       .catch(err => {
-        message.error("Lấy thông tin tài khoản không thành công!")
+        if (err.response.data.status === 401) {
+          localStorage.removeItem('res')
+          return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else return message.error("Lấy thông tin tài khoản không thành công!")
       })
   };
 };
@@ -90,7 +98,9 @@ export const actGetNewsByTypeRequest = (type, page) => {
       dispatch(Action.actGetNewsByType(res.data.news));
       console.log(res.data.news);
     })
-      .catch(err => { console.log(err) })
+      .catch(err => {
+        return message.error('Có lỗi xảy ra!')
+      })
   };
 };
 
@@ -100,7 +110,9 @@ export const actGetNewsByIdRequest = id => {
       dispatch(Action.actGetNewsById(res.data.news));
       console.log(res.data.news);
     })
-      .catch(err => { console.log(err) })
+      .catch(err => {
+        return message.error('Có lỗi xảy ra!')
+      })
   };
 };
 
@@ -110,7 +122,9 @@ export const actGetCommentsByIdRequest = (id) => {
       dispatch(Action.actGetComments(res.data.comments));
       console.log(res)
     })
-      .catch(err => { console.log(err) })
+      .catch(err => {
+        return message.error('Có lỗi xảy ra!')
+      })
   }
 }
 
@@ -123,8 +137,10 @@ export const actGetEstateListOfUserRequest = (page) => {
       // return message.success("Lấy danh sách bài viết của tài khoản thành công!")
     })
       .catch(err => {
-        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
-          return message.warning("Bạn cần phải đăng nhập trước!")
+        if (err.response.data.status === 401) {
+          localStorage.removeItem('res')
+          return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
         return message.error("Có lỗi xảy ra khi lấy danh sách bài viết!")
       })
   }
@@ -137,8 +153,11 @@ export const actGetFollowingListRequest = () => {
         dispatch(Action.actGetFollowingList(res.data.result.projects))
     })
       .catch(err => {
-        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
-          return null
+        if (err.response.data.status === 401) {
+          localStorage.removeItem('res')
+          return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else return message.error('Có lỗi xảy ra!')
       })
   }
 }
@@ -153,8 +172,10 @@ export const actUnfollowProjectRequest = (data) => {
       }
     })
       .catch(err => {
-        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
-          return message.warning("Bạn cần phải đăng nhập trước!")
+        if (err.response.data.status === 401) {
+          localStorage.removeItem('res')
+          return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
         else return message.error("Có lỗi xảy ra khi bỏ theo dõi bài đăng!")
       })
   }
@@ -172,8 +193,10 @@ export const actFollowProjectRequest = (data, project) => {
       }
     })
       .catch(err => {
-        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
-          return message.warning("Bạn cần phải đăng nhập trước!")
+        if (err.response.data.status === 401) {
+          localStorage.removeItem('res')
+          return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
         return message.error("Có lỗi xảy ra khi theo dõi bài đăng!")
       })
   }
@@ -189,8 +212,10 @@ export const actPostingCommentRequest = (data, user) => {
       }
     })
       .catch(err => {
-        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
-          return message.warning("Bạn cần phải đăng nhập trước!")
+        if (err.response.data.status === 401) {
+          localStorage.removeItem('res')
+          return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
         return message.error("Có lỗi xảy ra khi đăng bình luận!")
       })
   }
@@ -208,8 +233,10 @@ export const actDeleteProjectRequest = (id, data) => {
         else return message.error('Có lỗi xảy ra!');
       })
       .catch(err => {
-        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
-          return message.warning("Bạn cần phải đăng nhập trước!")
+        if (err.response.data.status === 401) {
+          localStorage.removeItem('res')
+          return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
         return message.error('Có lỗi xảy ra khi xóa bài đăng!')
       })
   }
@@ -226,7 +253,13 @@ export const actEditUserProjectRequest = (data, id) => {
         }
         else return message.error('Cập nhật bài đăng thất bại');
       })
-      .catch(err => { return message.error("Có lỗi xảy ra!") })
+      .catch(err => {
+        if (err.response.data.status === 401) {
+          localStorage.removeItem('res')
+          return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else return message.error("Có lỗi xảy ra!")
+      })
   }
 }
 
@@ -242,8 +275,10 @@ export const actEditUserInfoRequest = (data) => {
         else return message.error("Có lỗi xảy ra khi cập nhật thông tin!")
       })
       .catch(err => {
-        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null)
-          return message.warning("Bạn cần phải đăng nhập trước!")
+        if (err.response.data.status === 401) {
+          localStorage.removeItem('res')
+          return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
         return message.error('Có lỗi xảy ra khi cập nhật thông tin!')
       })
   }
@@ -260,7 +295,11 @@ export const actEditCommentRequest = (id, data) => {
         else return message.error("Chỉnh sửa bình luận thất bại!")
       })
       .catch(err => {
-        message.error("Có lỗi xảy ra!")
+        if (err.response.data.status === 401) {
+          localStorage.removeItem('res')
+          return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else return message.error("Có lỗi xảy ra!")
       })
   }
 }
@@ -276,7 +315,11 @@ export const actDeleteCommentRequest = (id, data) => {
         else return message.error("Xóa bình luận thất bại!")
       })
       .catch(err => {
-        message.error("Có lỗi xảy ra!")
+        if (err.response.data.status === 401) {
+          localStorage.removeItem('res')
+          return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else return message.error("Có lỗi xảy ra!")
       })
   }
 }

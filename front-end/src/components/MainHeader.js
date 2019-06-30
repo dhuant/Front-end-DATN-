@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { HOME, NEWS, ABOUT, LIST_ESTATES } from '../constants/Navbar'
-import Logo from '../logo_RE-01.png'
+// import Logo from '../logo_RE-01.png'
 // import { PROFILE, MY_PROPERTIES, MY_FOLLOWING, MY_TRANSACTION, MY_TRANSACTION_HISTORY, WAITING_REQUEST } from '../constants/Profile'
 // const src = "https://res.cloudinary.com/huantd/image/upload/v1561783181/logo/logo_RE-01_fteok3.png"
 
@@ -79,10 +79,10 @@ class MainHeader extends Component {
         this.props.history.push(`/mytransactions`)
     }
 
-    onTransactionHistory = (e) => {
-        e.preventDefault()
-        this.props.history.push(`/transhistory`)
-    }
+    // onTransactionHistory = (e) => {
+    //     e.preventDefault()
+    //     this.props.history.push(`/transhistory`)
+    // }
 
     onWaitingList = (e) => {
         e.preventDefault()
@@ -229,13 +229,13 @@ class MainHeader extends Component {
 
                                                     </li>
                                                     <li >
-                                                        <a onClick={this.onMyTransaction} href="true" tabIndex={0}>Giao dịch hiện hành</a>
+                                                        <a onClick={this.onMyTransaction} href="true" tabIndex={0}>Giao dịch của tôi</a>
 
                                                     </li>
-                                                    <li >
+                                                    {/* <li >
                                                         <a onClick={this.onTransactionHistory} href="true" tabIndex={0}>Lịch sử giao dịch</a>
 
-                                                    </li>
+                                                    </li> */}
                                                     <li >
                                                         <a onClick={this.onWaitingList} href="true" tabIndex={0}>Danh sách yêu cầu</a>
 

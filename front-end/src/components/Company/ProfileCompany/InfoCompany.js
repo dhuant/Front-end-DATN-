@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { ADD_ACCOUNT, CHANGE_PASSWORD, LIST_EMPLOYEES, PROFILE, MY_TRANSACTION, MY_TRANSACTION_HISTORY } from '../../../constants/Company/profileCompany'
+import { ADD_ACCOUNT, CHANGE_PASSWORD, LIST_EMPLOYEES, PROFILE } from '../../../constants/Company/profileCompany'
 import Dropzone from 'react-dropzone'
 import request from 'superagent'
 import { message } from 'antd'

@@ -7,7 +7,7 @@ import Geocode from 'react-geocode'
 import SearchBox from '../../pages/Map/SearchBox'
 import * as actions from '../../actions/index'
 import { connect } from 'react-redux'
-import { message, Tooltip } from 'antd';
+import { message } from 'antd';
 Geocode.setApiKey("AIzaSyB9iQfFH9AdPXjCfzV-qwRZMA-l2VoJlRo");
 Geocode.enableDebug();
 

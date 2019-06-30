@@ -16,8 +16,11 @@ export const actCreatingTransactionRequest = infoToCreate => {
                 }
             })
             .catch(error => {
-                if(error.name === 'AbortError') return
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     };
 };
@@ -30,7 +33,11 @@ export const actGettingTransactionHistoryRequest = (page) => {
                 dispatch(Action.actGetTransactionHistory(res.data.history))
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -44,7 +51,11 @@ export const actGettingTransactionDetailRequest = (transactionId, transactionTyp
                 dispatch(Action.actGetTransactionDetail(res.data.transaction))
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -56,7 +67,11 @@ export const actChangingTransactionStatus = (transactionData) => {
                 dispatch(Action.actChangeStatus(res.data.active))
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -72,7 +87,11 @@ export const actCompleteTransaction = (transactionId) => {
 
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -88,7 +107,11 @@ export const actCancelTransactionRequest = (transactionData) => {
 
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -104,7 +127,11 @@ export const actPostingDealRequest = (dealInfo) => {
                 }
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -120,7 +147,11 @@ export const actPostingLegalityRequest = (legalityInfo) => {
                 }
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -133,7 +164,11 @@ export const actPostingDepositRequest = (depositInfo) => {
                 message.success('Thành công!')
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -146,7 +181,11 @@ export const actPostingContractRequest = (contractInfo) => {
                 message.success('Thành công!')
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -159,7 +198,11 @@ export const actPostingConfirmationRequest = (confirmationInfo) => {
                 message.success('Thành công!')
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -172,7 +215,11 @@ export const actPostingTaxRequest = (taxInfo) => {
                 message.success('Thành công!')
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -185,7 +232,11 @@ export const actPostingDeliveryRequest = (deliveryInfo) => {
                 message.success('Thành công!')
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -198,7 +249,11 @@ export const actPostingTransferRequest = (transferInfo) => {
                 message.success("Thành công!")
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -213,7 +268,11 @@ export const actGettingWaitingListRequest = (id) => {
                 dispatch(Action.actGettingRequestList(res.data.result))
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -235,7 +294,11 @@ export const actAddingWaitingRequest = (waitingData) => {
                     message.warning('Bạn đã gửi yêu cầu giao dịch trước đó rồi!')
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -247,7 +310,11 @@ export const actDeletingWaitingRequest = (waitingData) => {
                 dispatch(Action.actDeletingWaitingRequest(res.data))
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -264,7 +331,11 @@ export const actPostingRentingDealRequest = (dealInfo) => {
                 }
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -277,7 +348,11 @@ export const actPostingRentingDepositRequest = (depositInfo) => {
                 message.success('Thành công!')
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -290,7 +365,11 @@ export const actPostingRentingContractRequest = (contractInfo) => {
                 message.success('Thành công!')
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -303,7 +382,11 @@ export const actPostingRentingConfirmationRequest = (confirmationInfo) => {
                 message.success('Thành công!')
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }
@@ -316,7 +399,11 @@ export const actPostingRentingDeliveryRequest = (deliveryInfo) => {
                 message.success('Thành công!')
             })
             .catch(error => {
-                message.error(`Có lỗi xảy ra: ${error}`)
+                if (error.response.data.status === 401) {
+                    localStorage.removeItem('res')
+                    return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                else return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }

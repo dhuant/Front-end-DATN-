@@ -5,9 +5,9 @@ import Footer from '../components/Footer'
 import Info from '../components/Profile/Info'
 import { MY_FOLLOWING } from '../constants/Profile'
 import FollowingProject from '../components/My Properties/FollowingProject'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Login from '../pages/Login'
+// import Login from '../pages/Login'
 import { Empty, Pagination, Spin, Icon } from 'antd'
 
 const pageSize = 5
@@ -40,8 +40,8 @@ class MyFollowing extends Component {
     render() {
         let { follow } = this.props
         console.log(follow)
-        if (localStorage.getItem('res'))
-            return (
+        return (
+            localStorage.getItem('res') ?
                 <div>
                     <MainHeader />
                     {/* Sub banner start */}
@@ -106,9 +106,8 @@ class MyFollowing extends Component {
                     </div>
                     {/* My Propertiess end */}
                     <Footer />
-                </div>
-            )
-        else return <Login />
+                </div> : <Redirect to={`/login`} />
+        )
     }
 
     ShowFollowingList = (follow) => {

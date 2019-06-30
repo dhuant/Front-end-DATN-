@@ -3,7 +3,6 @@ import { Descriptions, Modal } from 'antd'
 import { Image } from 'react-bootstrap'
 import * as transAction from '../../../actions/transactionRequest'
 import { connect } from 'react-redux'
-import { Modal } from 'antd'
 
 class Transfer extends Component {
     constructor(props) {

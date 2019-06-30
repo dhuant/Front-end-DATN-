@@ -29,7 +29,7 @@ import AboutUs from './pages/AboutUs.js'
 import VerifyEmployee from './pages/Verify/VerifyEmployee'
 import VerifyCompany from './pages/Verify/VerifyCompany'
 import ForgotPasswordEmployee from './pages/Employee/ForgotPasswordEmployee'
-import Test from './pages/Map/test'
+// import Test from './pages/Map/test'
 
 //import component agent
 import ListAgents from './pages/Contact/ListAgents'

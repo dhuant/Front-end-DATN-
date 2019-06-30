@@ -4,7 +4,7 @@ import Footer from '../components/Footer'
 import Info from '../components/Profile/Info'
 import { WAITING_REQUEST } from '../constants/Profile'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import SingleWaiting from '../components/Profile/SingleWaiting'
 import * as actions from '../actions/request'
 import * as transActions from '../actions/transactionRequest'
@@ -38,74 +38,75 @@ class WaitingRequest extends Component {
         var { estatesListOfUser, waiting, estateDetail } = this.props
         console.log(estateDetail)
         return (
-            <div>
-                <MainHeader />
-                {/* Sub banner start */}
-                <div className="sub-banner overview-bgi">
-                    <div className="overlay">
-                        <div className="container">
-                            <div className="breadcrumb-area">
-                                <h1>Danh sách yêu cầu</h1>
-                                <ul className="breadcrumbs">
-                                    <li><Link to="/">Trang chủ</Link></li>
-                                    <li className="active">Danh sách yêu cầu</li>
-                                </ul>
+            localStorage.getItem('res') ?
+                <div>
+                    <MainHeader />
+                    {/* Sub banner start */}
+                    <div className="sub-banner overview-bgi">
+                        <div className="overlay">
+                            <div className="container">
+                                <div className="breadcrumb-area">
+                                    <h1>Danh sách yêu cầu</h1>
+                                    <ul className="breadcrumbs">
+                                        <li><Link to="/">Trang chủ</Link></li>
+                                        <li className="active">Danh sách yêu cầu</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                {/* Sub Banner end */}
+                    {/* Sub Banner end */}
 
-                {/* My Propertiess start */}
-                <div className="content-area-7 my-properties">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-4 col-md-4 col-sm-12">
-                                <Info component={WAITING_REQUEST} />
-                            </div>
-                            <div className="col-lg-8 col-md-8 col-sm-12">
-                                <div className="main-title-2">
-                                    <h1><span>Danh sách</span> yêu cầu giao dịch</h1>
+                    {/* My Propertiess start */}
+                    <div className="content-area-7 my-properties">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-lg-4 col-md-4 col-sm-12">
+                                    <Info component={WAITING_REQUEST} />
                                 </div>
-                                <div className="row">
-                                    <div className="col-md-5 col-lg-5 col-xs-12" style={{ float: "right" }}>
-                                        <label>
-                                            Bất động sản:
-                                        </label>
-                                        <select className="form-control"
-                                            name="type"
-                                            id="project"
-                                            onChange={this.onChange}
-                                        >
-                                            <option style={{ display: "none" }}>---Chọn bất động sản---</option>
-                                            {estatesListOfUser.map((estateName, index) => <option key={index} value={estateName._id}>{estateName.name}</option>)}
-                                        </select>
+                                <div className="col-lg-8 col-md-8 col-sm-12">
+                                    <div className="main-title-2">
+                                        <h1><span>Danh sách</span> yêu cầu giao dịch</h1>
                                     </div>
+                                    <div className="row">
+                                        <div className="col-md-5 col-lg-5 col-xs-12" style={{ float: "right" }}>
+                                            <label>
+                                                Bất động sản:
+                                        </label>
+                                            <select className="form-control"
+                                                name="type"
+                                                id="project"
+                                                onChange={this.onChange}
+                                            >
+                                                <option style={{ display: "none" }}>---Chọn bất động sản---</option>
+                                                {estatesListOfUser.map((estateName, index) => <option key={index} value={estateName._id}>{estateName.name}</option>)}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br></br>
+                                    {/* table start */}
+                                    <table className="manage-table responsive-table">
+                                        <tbody>
+                                            {
+                                                this.state.loading ? <Spin
+                                                    indicator={antIcon}
+                                                    style={{
+                                                        position: "absolute",
+                                                        left: "50%",
+                                                        top: "50%",
+                                                        marginRight: "-50%",
+                                                    }}
+                                                /> : this.ShowWaitingRequestList(waiting, estateDetail)}
+                                        </tbody>
+                                    </table>
+                                    {/* table end */}
                                 </div>
-                                <br></br>
-                                {/* table start */}
-                                <table className="manage-table responsive-table">
-                                    <tbody>
-                                        {
-                                            this.state.loading ? <Spin
-                                                indicator={antIcon}
-                                                style={{
-                                                    position: "absolute",
-                                                    left: "50%",
-                                                    top: "50%",
-                                                    marginRight: "-50%",
-                                                }}
-                                            /> : this.ShowWaitingRequestList(waiting, estateDetail)}
-                                    </tbody>
-                                </table>
-                                {/* table end */}
                             </div>
                         </div>
                     </div>
-                </div>
-                {/* My Propertiess end */}
-                <Footer />
-            </div>
+                    {/* My Propertiess end */}
+                    <Footer />
+                </div> : <Redirect to={`/login`} />
         )
     }
     ShowWaitingRequestList = (waiting, estateDetail) => {

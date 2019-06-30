@@ -3,7 +3,7 @@ import Company from '../../components/Contact/Company'
 import MainHeader from '../../components/MainHeader'
 import * as actions from '../../actions/Contact/requestContact';
 import { connect } from 'react-redux';
-import { Pagination } from 'antd'
+// import { Pagination } from 'antd'
 
 const Options = [
     { value: '0', label: 'Sắp xếp theo' },

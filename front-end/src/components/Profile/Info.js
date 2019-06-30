@@ -51,6 +51,7 @@ class Info extends Component {
         }
         console.log(profileData)
         await this.props.onEditUserInfo(profileData)
+        await this.props.onGetUserInfo()
     }
     onMyProperties = (e) => {
         e.preventDefault();
@@ -104,7 +105,6 @@ class Info extends Component {
             </a>
         </li>
         }
-        var { uploadedFileCloudinaryUrl } = this.state
         let { user } = this.props
         console.log(user)
         return (
@@ -158,14 +158,14 @@ class Info extends Component {
                             </li>
                             <li>
                                 <a href="true" onClick={this.onShowMyTransactions} className={this.props.component === MY_TRANSACTION ? "active" : ""}>
-                                    <i className="flaticon-monitor" />Giao dịch hiện hành
+                                    <i className="flaticon-monitor" />Giao dịch của tôi
                                 </a>
                             </li>
-                            <li>
+                            {/* <li>
                                 <a href="true" onClick={this.onShowTransactionHistory} className={this.props.component === MY_TRANSACTION_HISTORY ? "active" : ""}>
                                     <i className="flaticon-internet" />Lịch sử giao dịch
                                 </a>
-                            </li>
+                            </li> */}
                             <li>
                                 <a href="true" onClick={this.onShowWaitingRequest} className={this.props.component === WAITING_REQUEST ? "active" : ""}>
                                     <i className="fa fa-location-arrow" />Danh sách yêu cầu
