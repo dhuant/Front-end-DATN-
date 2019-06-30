@@ -78,7 +78,7 @@ class App extends Component {
             <Route exact path='/transhistory' component={TransHistory} />
             <Route exact path='/waiting' component={WaitingRequest} />
             <Route exact path='/about' component={AboutUs}/>
-            <Route exact path='/testing' component={Test} />
+            {/* <Route exact path='/testing' component={Test} /> */}
 
             <Route exact path='/verifyemployee/:idc/:ide/:hash'component={VerifyEmployee}/>
             <Route exact path='/verifycompany/:id/:hash'component={VerifyCompany}/>
