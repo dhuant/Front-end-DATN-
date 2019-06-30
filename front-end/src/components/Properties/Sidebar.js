@@ -11,7 +11,7 @@ import SingleHintProperty from './SingleHintProperty'
 import InfiniteScroll from 'react-infinite-scroller'
 import axios from 'axios'
 import { message, List, Spin } from 'antd';
-
+import * as config from '../../constants/Config'
 const count = 5
 
 class Sidebar extends Component {
@@ -60,7 +60,7 @@ class Sidebar extends Component {
   //   })
   // }
   fetchData = (callback) => {
-    axios.post("http://localhost:3001/projects/home", this.props.currentEstate)
+    axios.post(`${config.API_URL}/projects/home`, this.props.currentEstate)
       .then(res => {
         callback(res)
       })

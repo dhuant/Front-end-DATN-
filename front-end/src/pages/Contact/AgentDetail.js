@@ -4,6 +4,9 @@ import SidebarAgentDetail from '../../components/ContactDetail/SidebarAgentDetai
 import InfoEstateOfAgent from '../../components/ContactDetail/InfoEstateOfAgent';
 import * as actions from '../../actions/Contact/requestContact';
 import { connect } from 'react-redux';
+import { Pagination } from 'antd'
+const pageSize = 10
+
 const Options = [
     { value: '0', label: 'Thông thường' },
     { value: '1', label: 'Bất động sản bán' },
@@ -15,23 +18,41 @@ class AgentDetail extends Component {
         super(props);
         this.state = {
             page: 1,
+            current: this.props.match.params.page,
             option: Options[0].value,
+            id: this.props.match.params.id
         }
+        this.props.reqGetInfoAgent(this.props.match.params.id, this.props.match.params.page);
     }
+    onChange = page => {
+        console.log(page);
+        this.setState({
+            current: page,
+        });
+        this.props.history.push(`/agentdetail/${this.state.id}/${page}`);
+        this.props.reqGetInfoAgent(this.props.match.params.id, page);
+    };
     handleOnChange = (e) => {
-		let target = e.target;
-		let name = target.name;
-		let value = target.value;
-		this.setState({
-			[name]: value,
-		});
-	}
+        let target = e.target;
+        let name = target.name;
+        let value = target.value;
+        this.setState({
+            [name]: value,
+        });
+    }
     componentDidMount() {
-        this.props.reqGetInfoAgent(this.props.match.params.id, this.state.page);
+        if (localStorage.getItem('company')) {
+            this.props.history.push('/company/profile-admin')
+        }
+        else {
+            this.props.reqGetInfoAgent(this.props.match.params.id, this.props.match.params.page);
+        }
     }
     render() {
         let { option } = this.state;
         let { info, projects } = this.props;
+        let current = this.state.current
+        let total = this.props.totalPage
         console.log(info);
         console.log(projects);
         let des = 'Hiện chưa có bài đăng'
@@ -161,7 +182,7 @@ class AgentDetail extends Component {
                                 {/* Recently properties start */}
                                 <div className="recently-properties">
                                     {/* Main title */}
-                                    
+
                                     {/* Option bar start */}
                                     <div className="option-bar">
                                         <div className="row">
@@ -173,7 +194,7 @@ class AgentDetail extends Component {
                                                     <span className="hidden-xs">Danh sách bài đăng</span>
                                                 </h4>
                                             </div>
-                                            
+
                                             <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12" style={{ padding: '7px 5px 7px 30px' }}>
                                                 <div className="form-group" style={{ marginRight: '20px' }}  >
                                                     <select className="form-control"
@@ -198,6 +219,9 @@ class AgentDetail extends Component {
                                     <div className="row">
                                         {listProjects}
                                     </div>
+                                    <div style={{ textAlign: 'center' }}>
+                                        <Pagination current={current} pageSize={pageSize} onChange={this.onChange} total={total} />
+                                    </div>
                                 </div>
                                 {/* Partners block end */}
                             </div>
@@ -221,7 +245,8 @@ const mapDispathToProp = (dispatch) => {
 const mapStateToProp = (state) => {
     return {
         info: state.infoAgent,
-        projects: state.projectsOfAgent
+        projects: state.projectsOfAgent,
+        totalPage: state.totalPage
     }
 }
 export default connect(mapStateToProp, mapDispathToProp)(AgentDetail);

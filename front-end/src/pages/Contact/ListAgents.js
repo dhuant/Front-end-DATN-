@@ -5,6 +5,7 @@ import Footer from '../../components/Footer'
 import * as actions from '../../actions/Contact/requestContact';
 import { connect } from 'react-redux';
 import { Pagination } from 'antd';
+import {withRouter}from 'react-router-dom'
 const pageSize = 10
 
 const Options = [
@@ -18,17 +19,18 @@ class ListAgents extends Component {
         super(props);
         this.state = {
             page: 1,
-            current: 1,
+            current: this.props.match.params.page,
             option: Options[0].value,
         }
-        this.props.reqGetListAgents(this.state.page);
-
+        this.props.reqGetListAgents(this.props.match.params.page);
     }
     onChange = page => {
         console.log(page);
         this.setState({
             current: page,
         });
+        this.props.history.push(`/agents/${page}`);
+        this.props.reqGetListAgents(page);
     };
     onRedirectHome = (e) => {
         e.preventDefault();
@@ -39,7 +41,7 @@ class ListAgents extends Component {
             this.props.history.push('/company/profile-admin')
         }
         else {
-            this.props.reqGetListAgents(this.state.page);
+            this.props.reqGetListAgents(this.props.match.params.page);
         }
     }
     handleOnChange = (e) => {
@@ -66,13 +68,8 @@ class ListAgents extends Component {
             else if (option === '2') {
                 agents = agents.sort((a, b) => (b.totalProject - a.totalProject))
             }
-            // else if(option === '3') {
-            // 	agents = agents.sort((a, b) => (a.area - b.area))
-            // }
-            // else if(option === '4') {
-            // 	agents = agents.sort((a, b) => (b.area - a.area))
-            // }
-            des = `Hiện đang có ${agents.length} nhà môi giới đang hoạt động trên hệ thống`
+            
+            des = `Hiện đang có ${total} nhà môi giới đang hoạt động trên hệ thống`
             listAgents = agents.map((agent, index) => {
                 return (
                     <Agent
@@ -136,7 +133,7 @@ class ListAgents extends Component {
                             {listAgents}
                         </div>
                         <div style={{ textAlign: 'center' }}>
-                            <Pagination current={this.state.current} pageSize={pageSize} onChange={this.onChange} total={total} />
+                            <Pagination current={current} pageSize={pageSize} onChange={this.onChange} total={total} />
 
                         </div>
                     </div>
@@ -161,4 +158,4 @@ const mapStateToProp = (state) => {
     }
 }
 
-export default connect(mapStateToProp, mapDispathToProp)(ListAgents);
+export default connect(mapStateToProp, mapDispathToProp)(withRouter(ListAgents));

@@ -35,6 +35,7 @@ export const reqGetInfoAgent = (id, page) => {
         console.log(res);
         dispatch(actionAgent.actGetInfoAgent(res.data.info));
         dispatch(actionAgent.actGetListProjectOfAgent(res.data.projects));
+        dispatch(actionTotalPage.actSaveTotalPage(res.data.count))
       })
       .catch(err => {
         console.log(err.respone)
