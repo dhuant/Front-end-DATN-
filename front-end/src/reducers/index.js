@@ -13,6 +13,7 @@ import totalPage from './totalPage'
 import auth from './auth'
 import searchEstate from './searchEstate'
 import currentEstate from './currentEstate'
+import loading from './loading'
 //=====company
 import userCompany from './Company/userCompany'
 import employees from './Company/employees'
@@ -44,6 +45,7 @@ const appReducers = combineReducers({
     auth,
     searchEstate,
     currentEstate,
+    loading,
     // company
     userCompany,
     employees,

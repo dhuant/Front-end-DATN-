@@ -241,33 +241,6 @@ class EstateMapContainer extends Component {
         })
     }
 
-    // getMapBounds =()=> {
-    //     var mapBounds = this.map.getBounds();
-    //     console.log(mapBounds);
-    //     var xMapBounds = mapBounds.b;
-    //     var yMapBounds = mapBounds.f;
-    //     console.log(xMapBounds);
-    //     console.log(yMapBounds);
-
-
-    //     // this.xMapBounds.min = xMapBounds.b
-    //     // this.xMapBounds.max = xMapBounds.f
-
-    //     // this.yMapBounds.min = yMapBounds.f
-    //     // this.yMapBounds.max = yMapBounds.b
-    //   }
-    //===============Hàm cho Search==============
-    // getSnapshotBeforeUpdate(prevProps, prevState) {
-    //     if (prevState.place !== this.state.place) {
-    //         return this.state.place;
-    //     }
-    // }
-    // componentDidUpdate(prevProps, prevState, snapshot) {
-    //     if (snapshot) {
-    //         let info = this.state.place.geometry.location
-    //         console.log(JSON.stringify(info));
-    //     }
-    // }
     onPlaceSelected = (place) => {
         console.log('plc', place);
         if (place.geometry === undefined) {

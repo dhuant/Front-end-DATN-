@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 import * as actions from '../actions/request';
 import AddressData from '../countries-flat.json'
-import { message } from 'antd';
+import { message, Spin } from 'antd';
 import { LIST_ESTATES } from '../constants/Navbar'
 import { Pagination } from 'antd'
 
@@ -86,6 +86,8 @@ class EstateListListView extends Component {
             ward: '',
             province: '',
             current: 1,
+            strAddress:'',
+            clicked: false
         }
     }
     //=== onchange cho pagination
@@ -164,17 +166,18 @@ class EstateListListView extends Component {
         }
         else {
             await this.setState({
-                loading: true
+                loading: true,
+                clicked: true,
             })
             let address = ''
             if (this.state.ward !== '' && this.state.city !== '') {
-                address = `${this.state.ward}, ${this.state.city}, ${this.state.province},`
+                address = `${this.state.ward}, ${this.state.city}, ${this.state.province}`
             }
             else if (this.state.ward === '' && this.state.city !== '') {
-                address = `${this.state.city}, ${this.state.province},`
+                address = `${this.state.city}, ${this.state.province}`
             }
             else if (this.state.ward === '' && this.state.city === '') {
-                address = `${this.state.province},`
+                address = `${this.state.province}`
             }
             const data = {
                 statusProject: this.state.deal,
@@ -184,11 +187,14 @@ class EstateListListView extends Component {
                 address: address
 
             }
+            this.setState({
+                strAddress: address
+            })
             await this.props.actSearchEstate(data)
             await this.setState({ loading: false })
             console.log(data)
         }
-
+        this.setState({ loading: false })
     }
     onRedirectHome = (e) => {
         e.preventDefault();
@@ -205,8 +211,9 @@ class EstateListListView extends Component {
         let list = []
         let current = this.state.current
         let offset = (current - 1) * pageSize;
-        let des = 'Hiện chưa có bài đăng'
-        let { type, deal, prices, price, area, city, ward, province, loading } = this.state;
+        let des = 'Mời bạn tìm kiếm theo địa điểm cụ thể'
+        let noti = 'Hiện không có bài đăng'
+        let { type, deal, prices, price, area, city, ward, province, loading,strAddress, clicked } = this.state;
         let estates = this.props.estates
         console.log(estates)
         var provinceList = this.parseProvinceData(AddressData)
@@ -229,7 +236,7 @@ class EstateListListView extends Component {
             else if (option === '4') {
                 estates = estates.sort((a, b) => (b.area - a.area))
             }
-            des = `Có ${estates.length} bài đăng`
+            noti = `Có ${estates.length} bài đăng ở ${strAddress}`
             total = estates.length
             list = estates.slice(offset, current * pageSize)
             estatesList = list.map((estate, index) => {
@@ -237,6 +244,9 @@ class EstateListListView extends Component {
                     <SingleEstateListView key={index} estate={estate} />
                 )
             });
+        }
+        else if(estates.length === 0 && clicked===true){
+            noti = `Hiện không có bài đăng ở ${strAddress}`
         }
         return (
             <div>
@@ -372,19 +382,18 @@ class EstateListListView extends Component {
                                             <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" >
                                                 {/* <div className="form-group" > */}
                                                 <button
-                                                    onClick={this.onSearchMap}
                                                     type="submit" className="btn btn-success"
                                                     style={{ width: '100%', height: '40px' }}
                                                     disabled={loading}
                                                 >
                                                     {loading && (
-                                                        <i
-                                                            className="fa fa-refresh fa-spin"
-                                                            style={{ marginRight: "5px" }}
-                                                        />
-                                                    )}
-                                                    {loading && <span>Đang tìm kiếm...</span>}
-                                                    {!loading && <span>Tìm kiếm</span>}
+                                                    <i
+                                                        className="fa fa-refresh fa-spin"
+                                                        style={{ marginRight: "5px" }}
+                                                    />
+                                                )}
+                                                {loading && <span>Đang thêm tài khoản...</span>}
+                                                {!loading && <span>Thêm tài khoản</span>}
                                                 </button>
                                                 {/* </div> */}
                                             </div>
@@ -426,10 +435,11 @@ class EstateListListView extends Component {
                                     </div>
                                 </div>
                                 {/* Option bar end */}
-                                <h4 style={{ marginTop: '-20px' }}>{des}</h4>
+                                <h4 style={{ marginTop: '-20px' }}>{clicked===false ? des : noti}</h4>
                                 <div className="clearfix" />
                                 {/* Property start */}
-                                {estatesList}
+                                {loading === true ? <Spin/> : estatesList}
+                                {/* {estatesList} */}
                                 {/* Property end */}
                                 {/* Page navigation start */}
                                 {estatesList !== null ? <Pagination current={this.state.current} pageSize={pageSize} onChange={this.onChange} total={total} style={{ float: "right" }} /> : null}
@@ -459,7 +469,8 @@ const mapDispathToProp = (dispatch) => {
 }
 const mapStateToProp = (state) => {
     return {
-        estates: state.searchEstate
+        estates: state.searchEstate,
+        loading: state.loading
     }
 }
 export default connect(mapStateToProp, mapDispathToProp)(withRouter(EstateListListView));
