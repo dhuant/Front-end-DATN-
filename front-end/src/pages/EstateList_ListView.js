@@ -67,7 +67,11 @@ const Price = {
     3: [
         { value: '0', label: 'Chọn giá' },
         { value: '1-3', label: '< 3 triệu/tháng' },
-        { value: '3-5', label: '3-5 triệu' }
+        { value: '3-5', label: '3-5 triệu' },
+        { value: '5-10', label: '5-10 triệu' },
+        { value: '10-20', label: '10-20 triệu' },
+        { value: '20-50', label: '20-50 triệu' },
+        { value: '50-1000', label: '>50 triệu' }
     ],
 };
 class EstateListListView extends Component {
