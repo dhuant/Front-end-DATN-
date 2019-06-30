@@ -7,8 +7,23 @@ export const actGetInfoEmployee = (employee) => {
 }
 
 export const actGetListProjectOfEmployee = (projects) => {
-    return{
+    return {
         type: types.GET_LIST_PROJECT_OF_EMPLOYEE,
         projects: projects
+    }
+}
+
+export const actEditEmployeeProject = (projects) => {
+    return {
+        type: types.EDIT_EMPLOYEE_PROJECT,
+        projects: projects
+    }
+}
+
+export const actDeleteEmployeeProject = (projects, data) => {
+    return {
+        type: types.DELETE_EMPLOYEE_PROJECT,
+        projects: projects,
+        data: data
     }
 }

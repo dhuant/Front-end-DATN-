@@ -4,6 +4,7 @@ import axios from 'axios'
 import { authCompany } from "../../constants/Company/authCompany";
 import * as config from '../../constants/Config'
 import * as actionAuth from '../auth'
+import callApi from "../../utils/apiCaller";
 import { message } from 'antd';
 export const actGetInfoUserCompany = (id) => {
   return dispatch => {
@@ -50,7 +51,7 @@ export const reqGetInfoEmployee = (id, page) => {
             localStorage.removeItem('company')
             dispatch(actionAuth.actCheckAuth(false))
           }
-          else{
+          else {
             message.error('Có lỗi xảy ra!')
           }
         }
@@ -59,4 +60,30 @@ export const reqGetInfoEmployee = (id, page) => {
         }
       })
   };
+}
+
+export const actEditEmployeeProjectRequest = (id, data) => {
+  return dispatch => {
+    axios.post(`${config.API_URL}/company/editProject/${id}`, data, { headers: authCompany() })
+      .then(res => {
+        if (res.data.status === 200) {
+          dispatch(actionEmployee.actEditEmployeeProject(res.data))
+          message.success("Cập nhật bài đăng thành công!")
+        }
+      })
+      .catch(err => { message.error(`Có lỗi xảy ra: ${err}`) })
+  }
+}
+
+export const actDeleteEmployeeProjectRequest = (id, data) => {
+  return dispatch => {
+    axios.delete(`${config.API_URL}/company/${id}`, { data: data, headers: authCompany() })
+      .then(res => {
+        if (res.data.status === 200) {
+          dispatch(actionEmployee.actDeleteEmployeeProject(res.data, data))
+          message.success('Xóa bài đăng thành công!')
+        }
+      })
+      .catch(err => { message.error(`Có lỗi xảy ra: ${err}`) })
+  }
 }

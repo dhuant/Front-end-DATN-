@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import * as actions from '../../actions/request';
+import * as actionEmployee from '../../actions/Company/requestCompany'
 import axios from 'axios'
 import { authHeader } from '../../constants/authHeader';
 // import Button from 'react-bootstrap/Button'
@@ -43,7 +44,7 @@ const CLOUDINARY_UPLOAD_PRESET = 'nn6imhmo';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dne3aha8f/image/upload';
 const confirm = Modal.confirm;
 
-class EditUI extends Component {
+class EditEstate extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -81,6 +82,7 @@ class EditUI extends Component {
             unit: '',
             units: [],
             isShowCodeModal: false,
+            ownerid: '',
         };
     }
     componentDidMount = async () => {
@@ -101,7 +103,9 @@ class EditUI extends Component {
     onHandleCancelImage = () => {
         this.setState({ previewImage: false })
     }
+    onChange = () => {
 
+    }
     onUploadingImages = async (list) => {
         console.log(list)
         await Promise.all(list.map(async file => {
@@ -216,8 +220,8 @@ class EditUI extends Component {
     updateMyProperties = async (e) => {
         e.preventDefault()
         var uploadList = []
-        if (localStorage.getItem('res') === undefined || localStorage.getItem('res') === null) {
-            await message.warning("Bạn cần phải đăng nhập trước khi đăng bài!")
+        if (localStorage.getItem('company') === undefined || localStorage.getItem('company') === null) {
+            await message.warning("Bạn cần phải đăng nhập trước!")
         }
         else {
             await this.setState({ loading: true })
@@ -233,7 +237,7 @@ class EditUI extends Component {
             console.log(this.state.tags)
             console.log(codeArray)
             let info = {
-                name: (document.getElementById("name").value).toLowerCase(),
+                name: document.getElementById("name").value,
                 investor: document.getElementById('investor').value,
                 price: document.getElementById('price').value,
                 unit: this.props.estateUserInfo.unit,
@@ -243,7 +247,7 @@ class EditUI extends Component {
                 info: document.getElementById('description').value,
                 lat: this.props.address.markerPosition ? this.props.address.markerPosition.lat : this.state.lat,
                 long: this.props.address.markerPosition ? this.props.address.markerPosition.lng : this.state.long,
-                ownerid: JSON.parse(localStorage.getItem('res')).user._id,
+                ownerid: this.state.ownerid,
                 statusProject: this.props.estateUserInfo.statusProject,
                 updateTime: moment().unix(),
                 url: this.state.url,
@@ -256,7 +260,7 @@ class EditUI extends Component {
                 codelist: codeArray
             };
             console.log(info);
-            await this.props.onUpdateUserProject(info, info._id)
+            await this.props.onUpdateEmployeeProject(info._id, info)
             await this.setState({ loading: false })
             await this.props.history.goBack()
         }
@@ -267,7 +271,7 @@ class EditUI extends Component {
             var { estateUserInfo } = nextProps
             var codelist = []
             if(estateUserInfo.codelist !== null){
-                estateUserInfo.codelist.map((tag, index) => {
+                estateUserInfo.codelist.map((tag) => {
                     if (tag.code !== 'dummy' && tag.sold === false) {
                         codelist.push(tag.code)
                     }
@@ -293,7 +297,8 @@ class EditUI extends Component {
                 avatar: estateUserInfo.avatar,
                 _id: estateUserInfo._id,
                 unit: estateUserInfo.unit,
-                tags: codelist
+                tags: codelist,
+                ownerid: estateUserInfo.ownerid
             })
         }
     }
@@ -521,6 +526,7 @@ class EditUI extends Component {
                                                         name="description"
                                                         id="description"
                                                         placeholder="Nhập nội dung bài đăng ở đây..."
+                                                        onChange={this.onChange}
                                                         value={this.state.description}
                                                         required>
 
@@ -760,7 +766,7 @@ class EditUI extends Component {
 const mapDispathToProp = (dispatch) => {
     return {
         actGetEstateRequest: (info) => dispatch(actions.actGetEstateRequest(info)),
-        onUpdateUserProject: (data, id) => dispatch(actions.actEditUserProjectRequest(data, id))
+        onUpdateEmployeeProject: (id, data) => dispatch(actionEmployee.actEditEmployeeProjectRequest(id, data)),
     }
 }
 const mapStateToProp = (state) => {
@@ -768,7 +774,8 @@ const mapStateToProp = (state) => {
         user: state.user,
         address: state.address,
         estateUserInfo: state.estateInfo,
-        updatedProject: state.estateUserInfo
+        updatedProject: state.estateUserInfo,
+        projectsOfEmployee: state.projectsOfEmployee
     }
 }
-export default connect(mapStateToProp, mapDispathToProp)(EditUI);
+export default connect(mapStateToProp, mapDispathToProp)(EditEstate);

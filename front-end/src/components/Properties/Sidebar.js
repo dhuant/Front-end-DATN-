@@ -8,27 +8,129 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/request'
 import SingleHintProperty from './SingleHintProperty'
+import InfiniteScroll from 'react-infinite-scroller'
+import axios from 'axios'
+import { message, List, Spin } from 'antd';
+
+const count = 5
 
 class Sidebar extends Component {
   constructor() {
     super();
     this.state = {
       selectedOption: null,
+      data: [],
+      list: [],
+      loading: false,
+      hasMore: true,
+      initLoading: true,
+      page: 1
     };
   }
-  componentDidMount = () => {
-    // console.log(this.props.info)
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    if (prevProps.currentEstate.lat === undefined && this.props.currentEstate.lat) {
+      console.log(this.props.currentEstate)
+      return this.props.currentEstate.lat;
+    }
+    else return null
   }
-  handleChange = (selectedOption) => {
-    this.setState({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (snapshot) {
+      console.log(this.props.currentEstate)
+      // this.props.actFetchEstatesRequest(this.props.currentEstate)
+      this.fetchData(res => {
+        if (res.data.count > 30) {
+          const temp = res.data.projects.slice(0, 30)
+          this.setState({
+            data: temp
+          })
+        }
+
+      })
+    }
   }
+
+  // componentDidMount() {
+  //   this.fetchData(res => {
+  //     this.setState({
+  //       data: res.data.projects
+  //     })
+  //   })
+  // }
+  fetchData = (callback) => {
+    axios.post("http://localhost:3001/projects/home", this.props.currentEstate)
+      .then(res => {
+        callback(res)
+      })
+      .catch(error => {
+        message.error(error)
+      })
+  }
+
+  // fetchData = (callback) => {
+  //   console.log(this.state.page)
+  //   axios.get(`http://localhost:3001/projects/all/${this.state.page}`)
+  //     .then(res => {
+  //       this.setState({ page: this.state.page + 1 })
+  //       callback(res)
+  //     })
+  //     .catch(error => {
+  //       message.error(error)
+  //     })
+  // }
+
+  onLoadMore = () => {
+    this.setState({
+      loading: true,
+      list: this.state.data.concat([...new Array(count)].map(() => ({ loading: true, name: {} }))),
+    });
+    this.fetchData(res => {
+      const data = this.state.data.concat(res.data.projects);
+      this.setState(
+        {
+          data,
+          list: data,
+          loading: false,
+        },
+        () => {
+          // Resetting window's offsetTop so as to display react-virtualized demo underfloor.
+          // In real scene, you can using public method of react-virtualized:
+          // https://stackoverflow.com/questions/46700726/how-to-use-public-method-updateposition-of-react-virtualized
+          window.dispatchEvent(new Event('resize'));
+        },
+      );
+    });
+  };
+
+  handleInfiniteOnLoad = () => {
+    let { data } = this.state;
+    this.setState({
+      loading: true,
+    });
+    if (data.length > 20) {
+      this.setState({
+        hasMore: false,
+        loading: false,
+      });
+      return;
+    }
+    this.fetchData(res => {
+      data = data.concat(res.data.projects)
+      this.setState({
+        data,
+        loading: false,
+      });
+    });
+  }
+
   ShowRelatedEstate = (estates) => {
     var result = null;
     if (estates.length > 0) {
-      result = estates.map((estate) => {
+      result = estates.map((estate, index) => {
         return (
-          <SingleHintProperty info={estate} />
+          <SingleHintProperty info={estate} key={index} />
         );
       })
 
@@ -37,8 +139,21 @@ class Sidebar extends Component {
   }
 
   render() {
-    let { estates, related } = this.props
-    console.log(related)
+    // const { initLoading, loading, list } = this.state;
+    // const loadMore =
+    //   !initLoading && !loading ? (
+    //     <div
+    //       style={{
+    //         textAlign: 'center',
+    //         marginTop: 12,
+    //         height: 32,
+    //         lineHeight: '32px',
+    //       }}
+    //     >
+    //       <Button onClick={this.onLoadMore}>loading more</Button>
+    //     </div>
+    //   ) : null;
+    let { estates } = this.props
     console.log(estates)
     return (
       <div>
@@ -46,89 +161,52 @@ class Sidebar extends Component {
           {/* Sidebar start */}
           <div className="sidebar right">
             {/* Search contents sidebar start */}
-            <div className="sidebar-widget hidden-xs hidden-sm">
+            {/* <div className="sidebar-widget hidden-xs hidden-sm">
               <div className="main-title-2">
                 <h1><span>Tình hình</span> giao dịch</h1>
               </div>
 
-            </div>
+            </div> */}
             {/* Search contents sidebar end */}
             {/* Popular posts start */}
             <div className="sidebar-widget popular-posts">
               <div className="main-title-2">
-                <h1><span>Bất động sản </span> liên quan</h1>
+                <h1><span>Bất động sản </span> khác</h1>
               </div>
-              {this.ShowRelatedEstate(related)}
-            </div>
-            {/* Category posts start */}
-            <div className="sidebar-widget category-posts">
-              <div className="main-title-2">
-                <h1><span>Popular</span> Category</h1>
-              </div>
-              <ul className="list-unstyled list-cat">
-                <li><a href="#">Single Family </a> <span>(45)</span></li>
-                <li><a href="#">Apartment</a> <span>(21)</span></li>
-                <li><a href="#">Condo </a> <span>(23)</span></li>
-                <li><a href="#">Multi Family </a> <span>(19)</span></li>
-                <li><a href="#">Villa </a> <span>(19)</span></li>
-                <li><a href="#">Other</a> <span>(22)</span></li>
-              </ul>
-            </div>
-            {/* Social media start */}
-            <div className="social-media sidebar-widget clearfix">
-              {/* Main Title 2 */}
-              <div className="main-title-2">
-                <h1><span>Social</span> Media</h1>
-              </div>
-              {/* Social list */}
-              <ul className="social-list">
-                <li><a href="#" className="facebook-bg"><i className="fa fa-facebook" /></a></li>
-                <li><a href="#" className="twitter-bg"><i className="fa fa-twitter" /></a></li>
-                <li><a href="#" className="linkedin-bg"><i className="fa fa-linkedin" /></a></li>
-                <li><a href="#" className="google-bg"><i className="fa fa-google-plus" /></a></li>
-                <li><a href="#" className="rss-bg"><i className="fa fa-rss" /></a></li>
-              </ul>
-            </div>
-            {/* Mortgage calculator start */}
-            <div className="sidebar-widget contact-1 mortgage-calculator">
-              <div className="main-title-2">
-                <h1><span>Mortgage</span> Calculator</h1>
-              </div>
-              <div className="contact-form">
-                <form id="agent_form" action="http://themevessel-item.s3-website-us-east-1.amazonaws.com/nest/index.html" method="GET" encType="multipart/form-data">
-                  <div className="row">
-                    <div className="col-lg-12">
-                      <div className="form-group">
-                        <label className="form-label">Property Price</label>
-                        <input type="text" className="input-text" placeholder="$87.000" />
-                      </div>
+              <InfiniteScroll
+                initialLoad={false}
+                pageStart={0}
+                loadMore={this.handleInfiniteOnLoad}
+                hasMore={!this.state.loading && this.state.hasMore}
+                useWindow={false}
+              >
+                <List
+                  dataSource={this.state.data}
+                  renderItem={(item, index) => (
+                    <SingleHintProperty info={item} key={index} />
+                  )}
+                >
+                  {this.state.loading && this.state.hasMore && (
+                    <div className="demo-loading-container" style={{ position: "absolute", bottom: "40px", width: "100%", textAlign: "center" }}>
+                      <Spin />
                     </div>
-                    <div className="col-lg-12">
-                      <div className="form-group">
-                        <label className="form-label">Interest Rate (%)</label>
-                        <input type="text" className="input-text" placeholder="10%" />
-                      </div>
-                    </div>
-                    <div className="col-lg-12">
-                      <div className="form-group">
-                        <label className="form-label">Period In Months</label>
-                        <input type="text" className="input-text" placeholder="10 Months" />
-                      </div>
-                    </div>
-                    <div className="col-lg-12">
-                      <div className="form-group">
-                        <label className="form-label">Down Payment</label>
-                        <input type="text" className="input-text" placeholder="$36,300" />
-                      </div>
-                    </div>
-                    <div className="col-lg-12">
-                      <div className="form-group mb-0">
-                        <button className="search-button">Search</button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
+                  )}
+                </List>
+              </InfiniteScroll>
+              {/* <List
+                className="demo-loadmore-list"
+                loading={initLoading}
+                itemLayout="horizontal"
+                loadMore={loadMore}
+                dataSource={list}
+                renderItem={(item, index) => (
+                  <List.Item>
+                    <Skeleton avatar title={false} loading={item.loading} active>
+                      <SingleHintProperty info={item} key={index} />
+                    </Skeleton>
+                  </List.Item>
+                )}
+              /> */}
             </div>
           </div>
           {/* Sidebar end */}
@@ -141,7 +219,8 @@ class Sidebar extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    estates: state.estates
+    estates: state.estates,
+    currentEstate: state.currentEstate
   }
 }
 

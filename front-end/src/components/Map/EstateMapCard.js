@@ -34,8 +34,8 @@ const EstateMapCard = (props) => {
                     </div>
                     <div className="col-lg-8 col-md-8 col-sm-8 col-xs-12 property-content ">
                         <h6 style={h6Style}>
-                            <b>Giá: </b> {est.price / 1000} tỉ
-                            </h6>
+                            <b>Giá: </b> {est.price > 1000 && est.statusProject === 1 ? (est.price / 1000).toFixed(2) + ' Tỉ' : est.price + ' ' + est.unit}
+                        </h6>
                         <h6 style={h6Style}>
                             <b>Diện tích: </b> {est.area} m2
                             </h6>
@@ -43,8 +43,8 @@ const EstateMapCard = (props) => {
                             <b>Địa chỉ: </b> {est.address}
                         </h6>
                         <Link to={url} target="_blank">
-                                <Button variant="primary">Xem chi tiết</Button>
-                            </Link>
+                            <Button variant="primary">Xem chi tiết</Button>
+                        </Link>
                         {/* <Card.Body>
                             
                             <Card.Text>

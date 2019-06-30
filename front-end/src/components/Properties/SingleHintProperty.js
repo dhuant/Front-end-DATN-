@@ -7,7 +7,7 @@ export default class SingleHintProperty extends Component {
         return (
             <div className="media">
                 <div className="media-left">
-                    <img className="media-object" src={info.url[0]} alt="small-properties-1" />
+                    <img className="media-object" src={info.url[0]} alt="small-properties-1" style={{width: "90px", height: "63px"}}/>
                 </div>
                 <div className="media-body">
                     <h3 className="media-heading">

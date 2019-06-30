@@ -23,6 +23,13 @@ export const actGetListEstateFromFromSearch = (estates) => {
     }
 }
 
+export const actSaveCurrentEstate = (currentEstate) => {
+    return {
+        type: Types.GET_CURRENT_PROJECT,
+        currentEstate: currentEstate
+    }
+}
+
 export const actSaveInfoUser = (user) => {
     return {
         type: Types.SAVE_INFO_USER,

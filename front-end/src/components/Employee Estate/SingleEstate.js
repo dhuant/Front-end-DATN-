@@ -1,18 +1,15 @@
 /* eslint-disable */
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import ViewEstate from "./ViewEstate";
-import { authHeader } from "../../constants/authHeader";
-import { Modal, Button, message, Tag } from "antd";
-import axios from "axios";
-import * as actions from "../../actions/request";
+import { Modal, Button, Tag } from "antd";
+import * as actionEmployee from '../../actions/Company/requestCompany'
 import { connect } from "react-redux";
 // import { Button } from 'react-bootstrap'
 const confirm = Modal.confirm;
 
-export class SingleEstate extends Component {
+class SingleEstate extends Component {
   constructor(props) {
     super(props);
 
@@ -66,7 +63,11 @@ export class SingleEstate extends Component {
       okType: "danger",
       cancelText: "Hủy bỏ",
       onOk: () => {
-        this.props.onDeleteProject(estateInfo._id, estateInfo);
+        const data = {
+          userid: estateInfo.ownerid,
+          id: estateInfo._id
+        }
+        this.props.onDeleteEmployeeProject(estateInfo._id, data)
       },
       onCancel() {
         console.log("Cancel");
@@ -130,7 +131,7 @@ export class SingleEstate extends Component {
               <b>Giá:</b>{estateListOfUser.price >= 1000 &&
                 estateListOfUser.statusProject === 1
                 ? `${Number(estateListOfUser.price / 1000).toFixed(
-                  1
+                  2
                 )} Tỉ`
                 : `${estateListOfUser.price} ${estateListOfUser.unit}`}
             </h6>
@@ -159,8 +160,8 @@ export class SingleEstate extends Component {
               </span>
             </div>
           </div>
-          <div className="col-lg-1 col-md-1 col-sm-1 col-xs-12" style={{paddingRight:'30px'}}>
-            <div style={{ textAlign: 'center', marginRight:'15px', marginTop:'30px'}}>
+          <div className="col-lg-1 col-md-1 col-sm-1 col-xs-12" style={{ paddingRight: '30px' }}>
+            <div style={{ textAlign: 'center', marginRight: '15px', marginTop: '30px' }}>
               <div style={{ marginBottom: "5px" }}>
                 <i
                   className="fa fa-eye"
@@ -231,19 +232,16 @@ export class SingleEstate extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    projectListRedux: state.estateListOfUser
-  };
-};
+    projectListRedux: state.estateListOfUser,
+    projectsOfEmployee: state.projectsOfEmployee
+  }
+}
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onDeleteProject: (id, data) =>
-      dispatch(actions.actDeleteProjectRequest(id, data))
-  };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SingleEstate);
+    onDeleteEmployeeProject: (id, data) => dispatch(actionEmployee.actDeleteEmployeeProjectRequest(id, data))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SingleEstate);

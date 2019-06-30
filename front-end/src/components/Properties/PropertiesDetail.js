@@ -3,11 +3,12 @@ import Sidebar from "./Sidebar";
 import { connect } from "react-redux";
 import Comments from './Comments'
 import * as actions from '../../actions/request'
+import * as currentEstateAction from '../../actions/index'
 import * as transAction from '../../actions/transactionRequest'
 import MapOfDetailEstate from "./MapOfDetailEstate";
 import { Rate, message, Button, Pagination, Modal, Form, InputNumber, Input, Icon } from 'antd'
 import moment from 'moment'
-import Chart from 'react-apexcharts'
+// import Chart from 'react-apexcharts'
 import Login from '../../pages/Login'
 
 const pageSize = 5
@@ -25,7 +26,7 @@ class PropertiesDetail extends Component {
             isFollow: false,
             requestVisible: false,
             current: 1,
-            info: {},
+            estate: this.props.info,
             options: {
                 annotations: {
                     position: 'front'
@@ -97,32 +98,7 @@ class PropertiesDetail extends Component {
         this.props.onGetCommentsById(this.props.id)
         this.props.onGetEstateDetail(this.props.id)
         this.props.onGetFollowingList()
-        console.log(this.props.estateInfo)
     }
-
-    // getSnapshotBeforeUpdate = (prevProps, prevState) => {
-    //     console.log(prevProps.info)
-    //     console.log(this.props.info)
-    //     if (prevProps.info !== this.props.info)
-    //         return this.props.info
-    //     return null
-    // }
-
-    // componentDidUpdate = (prevProps, prevState, snapshot) => {
-    //     if (snapshot) {
-    //         console.log(this.props.info)
-    //         var relatedData = {
-    //             type: this.props.info.type,
-    //             statusProject: this.props.info.statusProject,
-    //             area: `0-${(this.props.info.area) * 2}`,
-    //             price: `0-${(this.props.info.price) * 1.5}`,
-    //             radius: 10,
-    //             lat: this.props.info.lat,
-    //             long: this.props.info.long
-    //         }
-
-    //     }
-    // }
 
     onShowImagesThumbnail = (images) => {
         if (images === undefined || images.length === 0) {
@@ -293,6 +269,26 @@ class PropertiesDetail extends Component {
             callback(`Số tiền bạn nhập phải nhỏ hơn giá trị của bất động sản (${this.props.info.price} ${this.props.info.unit})!`)
     }
 
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+		if (prevProps.estateInfo.lat === undefined && this.props.estateInfo.lat) {
+            console.log(this.props.estateInfo)
+			return this.props.estateInfo.lat;
+		}
+		else return null
+    }
+    
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (snapshot) {
+			var savedData = {
+                lat: this.props.estateInfo.lat,
+                long: this.props.estateInfo.long,
+                radius: 5
+            }
+            this.props.onSaveCurrentProject(savedData)
+            console.log(savedData)
+		}
+    }
+    
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields(async (err, values) => {
@@ -315,7 +311,7 @@ class PropertiesDetail extends Component {
     render() {
         const { getFieldDecorator } = this.props.form
         let { info, comments, follow, related, estateInfo } = this.props;
-        console.log(estateInfo)
+        console.log(this.props)
         let check = false
         if (follow && follow.length > 0 && info) {
             for (var i = 0; i < follow.length; i++) {
@@ -415,7 +411,7 @@ class PropertiesDetail extends Component {
                                                     <span>Mô tả chi tiết</span>
                                                 </h1>
                                             </div>
-                                            <p>{<div dangerouslySetInnerHTML={{ __html: info.info }} ></div>}</p>
+                                            <p>{info.info}</p>
                                             <br />
                                         </div>
                                         <div className="tab-pane fade features" id="tab2default">
@@ -675,7 +671,8 @@ const mapDispathToProp = (dispatch) => {
         onUnfollowProject: (data) => dispatch(actions.actUnfollowProjectRequest(data)),
         onSendingRequest: (data) => dispatch(transAction.actAddingWaitingRequest(data)),
         onSearchRelatedEstate: (data) => dispatch(actions.actSearchMapRequest(data)),
-        onGetEstateDetail: (id) => dispatch(actions.actGetEstateRequest(id))
+        onGetEstateDetail: (id) => dispatch(actions.actGetEstateRequest(id)),
+        onSaveCurrentProject: (data) => dispatch(currentEstateAction.actSaveCurrentEstate(data))
     }
 }
 const mapStateToProp = (state) => {

@@ -1,10 +1,11 @@
 /* eslint-disable */
 import React, { Component } from 'react';
+import Login from '../pages/Login'
 import Footer from '../components/Footer';
 import { connect } from 'react-redux';
 import * as actions from '../actions/request';
 import MainHeader from '../components/MainHeader';
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import { authHeader } from '../constants/authHeader';
 import MapSearching from '../components/Map/MapSearching'
@@ -354,6 +355,7 @@ class SubmitProperty extends Component {
         var cityList = this.parseCityData(AddressData, state)
         var wardList = this.parseWardData(AddressData, state, city)
         return (
+            localStorage.getItem('res') ?
             <div>
                 <MainHeader />
                 {
@@ -825,7 +827,7 @@ class SubmitProperty extends Component {
                 <Modal visible={this.state.previewVisible} footer={null} onCancel={this.onHandleCancelImage} width="800px" style={{ height: "500px" }}>
                     <img alt="example" src={this.state.previewImage} style={{ width: "750px", height: "500px" }} />
                 </Modal>
-            </div>
+            </div> : <Redirect to={"/login"}/>
         );
     }
 }

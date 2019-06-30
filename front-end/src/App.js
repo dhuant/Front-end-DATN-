@@ -76,7 +76,6 @@ class App extends Component {
             <Route exact path='/mytransactions/:id/:type' component={TransactionDetail} />
             <Route exact path='/transhistory' component={TransHistory} />
             <Route exact path='/waiting' component={WaitingRequest} />
-            <Route exact path='/testing' component={Test} />
 
             <Route exact path='/verifyemployee/:idc/:ide/:hash'component={VerifyEmployee}/>
             <Route exact path='/verifycompany/:id/:hash'component={VerifyCompany}/>

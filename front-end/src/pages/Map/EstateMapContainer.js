@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/request';
 import { } from 'react-google-maps'
 import Searching from './Searching'
+import { message } from 'antd'
 
 const optionStyle = {
     fontSize: '12px'
@@ -154,7 +155,7 @@ class EstateMapContainer extends Component {
                         },
                         isMarkerCurrentLocationShown: true,
                         isMarkerCenterShown: false,
-                       
+
                     });
                     console.log("get current location");
                     console.log(this.state.currentLatLng);
@@ -269,16 +270,22 @@ class EstateMapContainer extends Component {
     // }
     onPlaceSelected = (place) => {
         console.log('plc', place);
-        const latValue = place.geometry.location.lat(),
-            lngValue = place.geometry.location.lng();
-        // Set these values in the state.
-        this.setState({
-            searchLatLng: {
-                lat: latValue,
-                lng: lngValue
-            },
+        if (place.geometry === undefined) {
+            return message.error('Không thể tìm thấy địa chỉ vừa nhập!')
+        }
+        else if (place.geometry !== undefined) {
+            const latValue = place.geometry.location.lat(),
+                lngValue = place.geometry.location.lng();
+            // Set these values in the state.
+            this.setState({
+                searchLatLng: {
+                    lat: latValue,
+                    lng: lngValue
+                },
 
-        })
+            })
+        }
+
     };
     onSearchMap = () => {
         this.setState({
@@ -310,7 +317,7 @@ class EstateMapContainer extends Component {
         // console.log(type);
         // console.log(price);
         // console.log(this.state.center);
-        
+
         return (
             <div>
                 <div className="properties-map-search" style={{ backgroundColor: '#f4f4f2' }}>
@@ -318,12 +325,12 @@ class EstateMapContainer extends Component {
                         <div className="row">
                             <div className="col-lg-10 col-md-10 col-sm-12 col-xs-12">
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12" >
-                                    <div className="form-group" > 
+                                    <div className="form-group" >
                                         <Searching onPlaceChanged={this.onPlaceSelected} style={optionStyle} />
                                     </div>
 
                                 </div>
-                                
+
                                 <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" >
                                     <div className="form-group" >
                                         <select className="form-control"
@@ -338,7 +345,7 @@ class EstateMapContainer extends Component {
                                         </select>
                                     </div>
                                 </div>
-                               
+
                                 <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" >
                                     <div className="form-group" >
                                         <select className="form-control"
@@ -353,7 +360,7 @@ class EstateMapContainer extends Component {
                                         </select>
                                     </div>
                                 </div>
-                               
+
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <div className="form-group" >
                                         <select className="form-control"
@@ -367,7 +374,7 @@ class EstateMapContainer extends Component {
                                         </select>
                                     </div>
                                 </div>
-                               
+
                                 <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" >
                                     <div className="form-group" >
                                         <select className="form-control"
@@ -395,24 +402,26 @@ class EstateMapContainer extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div 
-                            className="col-lg-2 col-md-2 col-sm-12  col-xs-12" 
-                            style={{ height: '90px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                position:'relative'}}>
-                                    
+                            <div
+                                className="col-lg-2 col-md-2 col-sm-12  col-xs-12"
+                                style={{
+                                    height: '90px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    position: 'relative'
+                                }}>
+
                                 <div>
-                                <button
-                                    onClick={this.onSearchMap}
-                                    type="button" class="btn btn-success"
-                                    style={{width:'100px'}}
-                                >
-                                    Tìm kiếm
+                                    <button
+                                        onClick={this.onSearchMap}
+                                        type="button" className="btn btn-success"
+                                        style={{ width: '100px' }}
+                                    >
+                                        Tìm kiếm
                                     </button>
                                 </div>
-                                
+
                             </div>
 
                         </div>
@@ -435,7 +444,7 @@ class EstateMapContainer extends Component {
                             onMapMounted={this.handleMapMounted}
                             handleMapChanged={this.handleMapChanged}
                             radius={radius}
-                            // zoom={this.state.zoomChange}
+                        // zoom={this.state.zoomChange}
                         // onZoomChange={this.onZoomChange}
                         // handleMapFullyLoaded={this.handleMapFullyLoaded}
                         >

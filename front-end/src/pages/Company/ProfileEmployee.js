@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 // import moment from 'moment'
 import { withRouter } from 'react-router-dom'
 import * as actionAuth from '../../actions/auth'
-import { SingleEstate } from '../../components/Employee Estate/SingleEstate';
+import SingleEstate from '../../components/Employee Estate/SingleEstate';
 
 const { Option } = Select;
 const confirm = Modal.confirm;
@@ -687,7 +687,7 @@ class ProfileEmployee extends Component {
                                                     </li>
                                                     <li>
                                                         <span>
-                                                            <i class="fa fa-map-marker" />Địa chỉ:
+                                                            <i className="fa fa-map-marker" />Địa chỉ:
                                                 </span>
                                                         {address}
                                                     </li>

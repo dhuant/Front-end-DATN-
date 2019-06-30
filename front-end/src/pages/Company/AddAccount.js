@@ -249,7 +249,7 @@ class AddAccount extends Component {
                             </div>
                         </div>
                         {/* My Propertiess end */}
-                        <Footer />
+                        {/* <Footer /> */}
                     </div>
                 </div>
             );

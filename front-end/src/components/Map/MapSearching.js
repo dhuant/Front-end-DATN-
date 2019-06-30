@@ -7,7 +7,7 @@ import Geocode from 'react-geocode'
 import SearchBox from '../../pages/Map/SearchBox'
 import * as actions from '../../actions/index'
 import { connect } from 'react-redux'
-import { message } from 'antd';
+import { message, Tooltip } from 'antd';
 Geocode.setApiKey("AIzaSyB9iQfFH9AdPXjCfzV-qwRZMA-l2VoJlRo");
 Geocode.enableDebug();
 
@@ -89,12 +89,12 @@ class MapSearching extends Component {
 			var unknownAddress = ''
 			let { address, markerPosition } = this.state;
 			document.getElementById('address').value ? unknownAddress = document.getElementById('address').value : unknownAddress = ''
-				const location = {
-					// province: city,
-					unknownAddress: unknownAddress,
-					addressDetail: address,
-					markerPosition: markerPosition
-				}
+			const location = {
+				// province: city,
+				unknownAddress: unknownAddress,
+				addressDetail: address,
+				markerPosition: markerPosition
+			}
 			this.props.onSaveLocationInfo(location)
 			console.log(location)
 
@@ -184,8 +184,8 @@ class MapSearching extends Component {
 			response => {
 				console.log(response)
 				const address = response.results[0].formatted_address
-					// unknownAddress = response.results[0].formatted_address,
-					// addressArray = response.results[0].address_components
+				// unknownAddress = response.results[0].formatted_address,
+				// addressArray = response.results[0].address_components
 				// city = this.getCity(addressArray),
 				// area = this.getArea(addressArray),
 				// state = this.getState(addressArray);
@@ -213,7 +213,19 @@ class MapSearching extends Component {
 	 */
 	onPlaceSelected = (place) => {
 		console.log('plc', place[0]);
-		if (place[0].formatted_address) {
+		if (place[0] === undefined || place[0] === null) {
+			this.setState({ unknownAddress: '' })
+			message.warning('Không thể tìm chính xác vị trí của bạn! Bạn có thể xác định lại vị trí của mình thủ công trên bản đồ!')
+			// return (
+			// 	< Alert
+			// 		message="Warning"
+			// 		description='Không thể tìm chính xác vị trí của bạn! Bạn có thể xác định lại vị trí của mình thủ công trên bản đồ!'
+			// 		type="warning"
+			// 		showIcon
+			// 	/>
+			// )
+		}
+		else if (place[0].formatted_address) {
 			const address = place[0].formatted_address,
 				// addressArray = place[0].address_components,
 				unknownAddress = place[0].formatted_address,
@@ -239,18 +251,7 @@ class MapSearching extends Component {
 				},
 			})
 		}
-		else if (place[0].formatted_address === undefined || place[0].formatted_address === null) {
-			this.setState({ unknownAddress: place[0].name ? place[0].name : '' })
-			message.warning('Không thể tìm chính xác vị trí của bạn! Bạn có thể xác định lại vị trí của mình thủ công trên bản đồ!')
-			// return (
-			// 	< Alert
-			// 		message="Warning"
-			// 		description='Không thể tìm chính xác vị trí của bạn! Bạn có thể xác định lại vị trí của mình thủ công trên bản đồ!'
-			// 		type="warning"
-			// 		showIcon
-			// 	/>
-			// )
-		}
+
 	};
 
 
@@ -295,9 +296,12 @@ class MapSearching extends Component {
 							onPlaceChanged={this.onPlaceSelected}
 
 						/> */}
+
 						<SearchBox
 							onPlaceChanged={this.onPlaceSelected}
 						/>
+
+
 					</GoogleMap>
 				)
 			)
