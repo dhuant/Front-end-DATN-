@@ -38,9 +38,9 @@ class ChangePasswordCompany extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
+        this.props.form.validateFieldsAndScroll(async(err, values) => {
             if (!err) {
-                this.setState({
+                await this.setState({
                     disable: true,
                 })
                 let data = {
@@ -57,6 +57,9 @@ class ChangePasswordCompany extends Component {
                                 if (res.status === 200) {
                                     message.success('Đổi mật khẩu thành công');
                                 }
+                                this.setState({
+                                    disable: false,
+                                })
                                 this.props.history.push('/company/profile-admin')
                             })
                             .catch(err => {
@@ -201,7 +204,14 @@ class ChangePasswordCompany extends Component {
                                         </Form.Item>
                                         <Form.Item {...tailFormItemLayout} style={{ textAlign: 'right', paddingRight: '20px' }}>
                                             <Button type="primary" style={{ marginRight: '5px' }} htmlType="submit" disabled={this.state.disable}>
-                                                Cập nhật mật khẩu
+                                            {this.state.disable && (
+                                                    <i
+                                                        className="fa fa-refresh fa-spin"
+                                                        style={{ marginRight: "5px" }}
+                                                    />
+                                                )}
+                                                {this.state.disable && <span>Đang cập nhât...</span>}
+                                                {!this.state.disable && <span>Cập nhật mật khẩu</span>}
                                                 </Button>
                                             <Button type="danger" onClick={this.onCancel} disabled={this.state.disable}>
                                                 Hủy
