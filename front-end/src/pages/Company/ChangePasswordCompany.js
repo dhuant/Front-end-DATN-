@@ -153,7 +153,7 @@ class ChangePasswordCompany extends Component {
                     {/* Sub Banner end */}
 
                     {/* My Propertiess start */}
-                    <div className="content-area-7 my-properties">
+                    <div className="content-area my-properties">
                         <div className="container">
                             <div className="row">
                                 <div className="col-lg-4 col-md-4 col-sm-12">
