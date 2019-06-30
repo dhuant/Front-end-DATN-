@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { HOME, NEWS, ABOUT, LIST_ESTATES } from '../constants/Navbar'
+import Logo from '../logo_RE-01.png'
 // import { PROFILE, MY_PROPERTIES, MY_FOLLOWING, MY_TRANSACTION, MY_TRANSACTION_HISTORY, WAITING_REQUEST } from '../constants/Profile'
 // const src = "https://res.cloudinary.com/huantd/image/upload/v1561783181/logo/logo_RE-01_fteok3.png"
 
@@ -10,7 +11,7 @@ class MainHeader extends Component {
         this.state = {
             username: null,
             token: 'abc',
-            src: "https://res.cloudinary.com/huantd/image/upload/v1561783181/logo/logo_RE-01_fteok3.png"
+            src: ""
         };
     }
 
@@ -23,7 +24,7 @@ class MainHeader extends Component {
         e.preventDefault();
         this.props.history.push('/');
     }
-    onAboutUs =(e) => {
+    onAboutUs = (e) => {
         e.preventDefault();
         this.props.history.push('/about')
     }
@@ -93,7 +94,7 @@ class MainHeader extends Component {
         localStorage.removeItem('res');
     }
 
-    onChangePassword=(e) => {
+    onChangePassword = (e) => {
         e.preventDefault();
         this.props.history.push('/changepassword');
     }
@@ -115,15 +116,11 @@ class MainHeader extends Component {
                 </li>
             );
     }
-    componentDidMount(){
-        this.setState({
-            src: "https://res.cloudinary.com/huantd/image/upload/v1561783181/logo/logo_RE-01_fteok3.png"
-        })
-    }
+    
     render() {
         var token = localStorage.getItem('res')
         console.log(token)
-        let src = this.state.src
+        
         return (
             <div>
                 <header className="main-header">
@@ -142,9 +139,9 @@ class MainHeader extends Component {
                                     <span className="icon-bar" />
                                     <span className="icon-bar" />
                                 </button>
-                                <a href="true" onClick={this.onRedirectHome} className="logo">
-                                    <img style={{height:'60px', width:'120px',marginTop:'-10px'}}src={src} alt="logo" />
-                                </a>
+                                <Link to="/">
+                                    <img style={{ height: '70px', width: '124px',marginTop:'0px' }} src="https://res.cloudinary.com/huantd/image/upload/v1561783181/logo/logo_RE-01_fteok3.png" alt="logo" />
+                                </Link>
                             </div>
                             {/* Collect the nav links, forms, and other content for toggling */}
                             <div
@@ -181,7 +178,7 @@ class MainHeader extends Component {
                                             data-toggle="dropdown"
                                             data-submenu
                                             aria-expanded="false"
-                                            
+
                                         >
                                             Danh bạ <span className="caret" />
                                         </a>
@@ -207,7 +204,7 @@ class MainHeader extends Component {
                                                     data-toggle="dropdown"
                                                     data-submenu
                                                     aria-expanded="false"
-                                                    style={{color: "#95c41f"}}
+                                                    style={{ color: "#95c41f" }}
                                                     name='accountDetail'
                                                 >
                                                     Xin chào, {this.onGetName(JSON.parse(localStorage.getItem('res')).user.fullname)} <span className="caret" />
@@ -220,10 +217,10 @@ class MainHeader extends Component {
                                                     {JSON.parse(localStorage.getItem('res')).user.statusAccount === 2 ?
                                                         <li>
                                                             <a href="true" onClick={this.onChangePassword} tabIndex={0} >
-                                                            Đổi mật khẩu
+                                                                Đổi mật khẩu
                                                             </a>
-                                                        </li>: null
-                                                        }
+                                                        </li> : null
+                                                    }
                                                     <li >
                                                         <a onClick={this.onMyProperty} href="true" tabIndex={0}>Bài đăng của tôi</a>
                                                     </li>
@@ -266,8 +263,6 @@ class MainHeader extends Component {
                     </div>
                 </header>
             </div>
-
-
         );
     }
 }
