@@ -3,11 +3,11 @@ import Info from '../components/Profile/Info'
 import Footer from '../components/Footer';
 import MainHeader from '../components/MainHeader';
 import { PROFILE } from '../constants/Profile';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions/request';
 import Detail from '../components/Profile/Detail'
-import Login from '../pages/Login'
+// import Login from '../pages/Login'
 
 class Profile extends Component {
     componentDidMount() {
@@ -18,8 +18,8 @@ class Profile extends Component {
     render() {
         let { user } = this.props;
         console.log(user);
-        if (JSON.parse(localStorage.getItem('res')))
             return (
+                localStorage.getItem('res') ?
                 <div>
                     <MainHeader />
                     {/* Sub banner start */}
@@ -50,11 +50,8 @@ class Profile extends Component {
                         </div>
                     </div>
                     <Footer />
-                </div>
+                </div> : <Redirect to={`/login`}/>
             );
-        else return (
-            <Login />
-        )
     }
 }
 

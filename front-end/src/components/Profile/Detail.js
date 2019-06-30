@@ -176,7 +176,7 @@ class Detail extends Component {
                                     {
                                         min: 10,
                                         required: true,
-                                        message: 'Vui lòng nhập tên công ty',
+                                        message: 'Vui lòng nhập tên đầy đủ',
                                     },
                                     {
                                         validator: this.onCheckingName,
@@ -230,7 +230,7 @@ class Detail extends Component {
                                 rules: [
                                     {
                                         required: true,
-                                        message: 'Vui lòng nhập số điện thoại của nhân viên!',
+                                        message: 'Vui lòng nhập số điện thoại!',
                                     },
                                     {
                                         validator: this.onCheckPhoneNumber,

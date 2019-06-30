@@ -3,7 +3,7 @@ import Info from '../components/Profile/Info'
 import Footer from '../components/Footer'
 import SingleProperty from '../components/Profile/SingleProperty'
 import { MY_PROPERTIES } from '../constants/Profile';
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import MainHeader from '../components/MainHeader';
 import { connect } from 'react-redux'
 import * as actions from '../actions/request';
@@ -57,84 +57,85 @@ class MyEstateList extends Component {
         console.log(estatesListOfUser)
 
         return (
-            <div>
-                <MainHeader />
-                {/* Sub banner start */}
-                <div className="sub-banner overview-bgi">
-                    <div className="overlay">
+            localStorage.getItem('res') ?
+                <div>
+                    <MainHeader />
+                    {/* Sub banner start */}
+                    <div className="sub-banner overview-bgi">
+                        <div className="overlay">
+                            <div className="container">
+                                <div className="breadcrumb-area">
+                                    <h1>Bài đăng của tôi</h1>
+                                    <ul className="breadcrumbs">
+                                        <li><Link to="/">Trang chủ</Link></li>
+                                        <li className="active">Bài đăng của tôi</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* Sub Banner end */}
+
+                    {/* My Propertiess start */}
+                    <div className="content-area-7 my-properties">
                         <div className="container">
-                            <div className="breadcrumb-area">
-                                <h1>Bài đăng của tôi</h1>
-                                <ul className="breadcrumbs">
-                                    <li><Link to="/">Trang chủ</Link></li>
-                                    <li className="active">Bài đăng của tôi</li>
-                                </ul>
+                            <div className="row">
+                                <div className="col-lg-4 col-md-4 col-sm-12">
+                                    <Info component={MY_PROPERTIES} />
+                                </div>
+                                <div className="col-lg-8 col-md-8 col-sm-12">
+                                    <div className="main-title-2">
+                                        <h1><span>Bài đăng</span> của tôi</h1>
+                                    </div>
+                                    <br></br>
+                                    <div className="form-group" style={{ marginRight: '20px', float: "right" }}  >
+                                        <select className="form-control"
+                                            name="option"
+                                            value={option}
+                                            onChange={this.handleOnChange}
+                                            id="opt"
+                                            style={{ fontSize: '12px', width: "200px" }}
+                                        >
+                                            <option style={{ display: "none" }}>---Chọn trạng thái---</option>
+                                            {Options.map((option, index) => <option key={index} value={option.value}>{option.label}</option>)}
+                                        </select>
+                                    </div>
+
+                                    {/* table start */}
+                                    {this.state.loading ? <Spin
+                                        indicator={antIcon}
+                                        style={{
+                                            position: "absolute",
+                                            left: "50%",
+                                            top: "50%",
+                                            marginRight: "-50%",
+                                        }}
+                                    /> :
+                                        <table className="manage-table responsive-table">
+                                            <tbody>
+                                                {this.onShowEstateListOfUser(estatesListOfUser)}
+                                            </tbody>
+                                        </table>}
+                                    <br></br>
+                                    <div className="pull-right">
+                                        {estatesListOfUser.length !== 0 ?
+                                            <Pagination
+                                                // size="small"
+                                                current={this.state.current}
+                                                total={JSON.parse(localStorage.getItem('res')).user.totalProject}
+                                                onChange={this.onChange}
+                                                pageSize={pageSize}
+                                            />
+                                            : null}
+                                    </div>
+                                    {/* table end */}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                {/* Sub Banner end */}
-
-                {/* My Propertiess start */}
-                <div className="content-area-7 my-properties">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-4 col-md-4 col-sm-12">
-                                <Info component={MY_PROPERTIES} />
-                            </div>
-                            <div className="col-lg-8 col-md-8 col-sm-12">
-                                <div className="main-title-2">
-                                    <h1><span>Bài đăng</span> của tôi</h1>
-                                </div>
-                                <br></br>
-                                <div className="form-group" style={{ marginRight: '20px', float: "right" }}  >
-                                    <select className="form-control"
-                                        name="option"
-                                        value={option}
-                                        onChange={this.handleOnChange}
-                                        id="opt"
-                                        style={{ fontSize: '12px', width: "200px" }}
-                                    >
-                                        <option style={{ display: "none" }}>---Chọn trạng thái---</option>
-                                        {Options.map((option, index) => <option key={index} value={option.value}>{option.label}</option>)}
-                                    </select>
-                                </div>
-
-                                {/* table start */}
-                                {this.state.loading ? <Spin
-                                    indicator={antIcon}
-                                    style={{
-                                        position: "absolute",
-                                        left: "50%",
-                                        top: "50%",
-                                        marginRight: "-50%",
-                                    }}
-                                /> :
-                                    <table className="manage-table responsive-table">
-                                        <tbody>
-                                            {this.onShowEstateListOfUser(estatesListOfUser)}
-                                    </tbody>
-                                    </table>}
-                                <br></br>
-                                <div className="pull-right">
-                                    {estatesListOfUser.length !== 0 ?
-                                        <Pagination
-                                            // size="small"
-                                            current={this.state.current}
-                                            total={JSON.parse(localStorage.getItem('res')).user.totalProject}
-                                            onChange={this.onChange}
-                                            pageSize={pageSize}
-                                        />
-                                        : null}
-                                </div>
-                                {/* table end */}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* My Propertiess end */}
-                <Footer />
-            </div>
+                    {/* My Propertiess end */}
+                    <Footer />
+                </div> : <Redirect to={`/login`} />
         )
     }
     onShowEstateListOfUser = (estates) => {

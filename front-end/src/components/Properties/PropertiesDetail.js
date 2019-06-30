@@ -310,7 +310,7 @@ class PropertiesDetail extends Component {
     }
     render() {
         const { getFieldDecorator } = this.props.form
-        let { info, comments, follow, related, estateInfo } = this.props;
+        let { info, comments, follow, related } = this.props;
         console.log(this.props)
         let check = false
         if (follow && follow.length > 0 && info) {
@@ -320,7 +320,7 @@ class PropertiesDetail extends Component {
                 }
             }
         }
-        const { starValue, isFollow } = this.state
+        const { starValue } = this.state
         return (
             <div>
                 <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">

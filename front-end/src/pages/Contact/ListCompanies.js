@@ -4,14 +4,13 @@ import MainHeader from '../../components/MainHeader'
 import * as actions from '../../actions/Contact/requestContact';
 import { connect } from 'react-redux';
 import { Pagination } from 'antd'
-const pageSize = 10
 
 const Options = [
     { value: '0', label: 'Sắp xếp theo' },
     { value: '1', label: 'Đã tham gia lâu' },
     { value: '2', label: 'Mới tham gia' },
-
-];
+]
+const pageSize = 10
 class ListCompaies extends Component {
     constructor(props) {
         super(props);

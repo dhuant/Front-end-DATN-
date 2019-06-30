@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, message, Form, Icon, Input, InputNumber, Select, DatePicker } from 'antd';
+import { Button, message, Form, Icon, Input, InputNumber, DatePicker } from 'antd';
 import * as transAction from '../../../actions/transactionRequest'
 import moment from 'moment'
 
@@ -52,12 +52,13 @@ class Deposit extends Component {
     handleSubmit = e => {
         e.preventDefault();
         var depositData = null
+        var detail = []
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
                 if (this.props.transaction.typetransaction === 1) {
                     this.setState({ loading: true })
                     console.log('Received values of form: ', values);
-                    var detail = [
+                    detail = [
                         {
                             ratio: Number(values.depositRatio),
                             description: values.depositContent,
@@ -85,7 +86,7 @@ class Deposit extends Component {
                 else if (this.props.transaction.typetransaction === 2) {
                     this.setState({ loading: true })
                     console.log('Received values of form: ', values);
-                    var detail = [
+                    detail = [
                         {
                             ratio: Number(values.depositRatio),
                             description: values.depositContent,

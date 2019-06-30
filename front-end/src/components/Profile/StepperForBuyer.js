@@ -8,13 +8,14 @@ import Contract from './TransactionStepForBuyer/Contract'
 import Confirmation from './TransactionStepForBuyer/Confirmation'
 import Tax from './TransactionStepForBuyer/Tax'
 import Delivery from './TransactionStepForBuyer/Delivery'
+import Transfer from './TransactionStepForBuyer/Transfer'
 // import * as transAction from '../../actions/transactionRequest'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 const Step = Steps.Step;
-const Option = Select.Option;
-const { TextArea } = Input
+// const Option = Select.Option;
+// const { TextArea } = Input
 
 class StepperForBuyer extends React.Component {
     constructor(props) {
@@ -35,7 +36,8 @@ class StepperForBuyer extends React.Component {
 
     prev() {
         const current = this.state.current - 1;
-        this.setState({ current, percent: this.props.transaction.typetransaction === 1 ? Number((this.state.percent + 100 / 8).toFixed(2)) : Number(this.state.percent + 20) });
+        this.setState({ current, percent: this.props.transaction.typetransaction === 1 ? Number((this.state.percent - 100 / 8).toFixed(2)) : Number(this.state.percent - 20) });
+        
     }
     hasErrors = (fieldsError) => {
         return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -75,6 +77,10 @@ class StepperForBuyer extends React.Component {
             {
                 title: 'Ký hợp đồng',
                 content: <Contract transaction={transaction} />,
+            },
+            {
+                title: 'Chuyển nhượng quyền sử dụng căn hộ',
+                content: <Transfer transaction={transaction} />,
             },
             {
                 title: 'Công chứng hợp đồng',

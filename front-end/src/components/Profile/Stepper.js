@@ -28,7 +28,7 @@ class Stepper extends React.Component {
     componentDidMount = () => {
         this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
     }
-    next = async() => {
+    next = async () => {
         await this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
         console.log(this.props.transaction)
         if (this.props.transaction.typetransaction === 1) {
@@ -80,7 +80,7 @@ class Stepper extends React.Component {
 
     prev() {
         const current = this.state.current - 1;
-        this.setState({ current, percent: this.props.transaction.typetransaction === 1 ? Number((this.state.percent + 100 / 8).toFixed(2)) : Number(this.state.percent + 20) });
+        this.setState({ current, percent: this.props.transaction.typetransaction === 1 ? Number((this.state.percent - 100 / 8).toFixed(2)) : Number(this.state.percent - 20) });
     }
     hasErrors = (fieldsError) => {
         return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -95,8 +95,13 @@ class Stepper extends React.Component {
                 var completeData = {
                     transactionid: this.props.transaction._id
                 }
-                await this.props.onCompleteTransaction(completeData)
-                await this.props.history.push("/mytransactions")
+                if (this.props.transaction.status !== 1) {
+                    await this.props.history.push("/mytransactions")
+                }
+                else if (this.props.transaction.status === 1) {
+                    await this.props.onCompleteTransaction(completeData)
+                    await this.props.history.push("/mytransactions")
+                }
             }
         });
     };

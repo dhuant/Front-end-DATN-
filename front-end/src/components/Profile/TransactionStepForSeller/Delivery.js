@@ -95,7 +95,7 @@ class Delivery extends Component {
               <div className="col-md-4 col-lg-4 col-xs-12">
                 <Form.Item label="Ngày giao bất động sản (thực tế): ">
                   {getFieldDecorator('deliveryDate', {
-                    initialValue: moment(moment.unix(transactions.selldetail.delivery.datecomplete).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
+                    initialValue: transactions.selldetail.delivery.datecomplete === 0 ? null :moment(moment.unix(transactions.selldetail.delivery.datecomplete).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
                     rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                   })(
                     <DatePicker style={{ width: "100%" }} />
@@ -105,7 +105,7 @@ class Delivery extends Component {
               <div className="col-md-4 col-lg-4 col-xs-12">
                 <Form.Item label="Ngày dọn vào ở: ">
                   {getFieldDecorator('startDate', {
-                    initialValue: moment(moment.unix(transactions.selldetail.delivery.datein).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
+                    initialValue:transactions.selldetail.delivery.datein === 0 ? null : moment(moment.unix(transactions.selldetail.delivery.datein).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
                     rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                   })(
                     <DatePicker style={{ width: "100%" }} />
@@ -160,7 +160,7 @@ class Delivery extends Component {
               <div className="col-md-4 col-lg-4 col-xs-12">
                 <Form.Item label="Ngày giao bất động sản (thực tế): ">
                   {getFieldDecorator('deliveryDate', {
-                    initialValue: moment(moment.unix(transactions.rentdetail.delivery.datecomplete).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
+                    initialValue: transactions.rentdetail.delivery.datecomplete === 0 ? null : moment(moment.unix(transactions.rentdetail.delivery.datecomplete).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
                     rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                   })(
                     <DatePicker style={{ width: "100%" }} />
@@ -170,7 +170,7 @@ class Delivery extends Component {
               <div className="col-md-4 col-lg-4 col-xs-12">
                 <Form.Item label="Ngày dọn vào ở: ">
                   {getFieldDecorator('startDate', {
-                    initialValue: moment(moment.unix(transactions.rentdetail.delivery.datein).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
+                    initialValue: transactions.rentdetail.delivery.datein === 0 ? null : moment(moment.unix(transactions.rentdetail.delivery.datein).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
                     rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                   })(
                     <DatePicker style={{ width: "100%" }} />

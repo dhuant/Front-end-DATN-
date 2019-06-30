@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import * as actions from '../../actions/request';
 import * as actionEmployee from '../../actions/Company/requestCompany'
-import axios from 'axios'
-import { authHeader } from '../../constants/authHeader';
+// import axios from 'axios'
+// import { authHeader } from '../../constants/authHeader';
 // import Button from 'react-bootstrap/Button'
 import { Image, Button } from 'react-bootstrap'
 import { message, Modal } from 'antd'
@@ -15,18 +15,18 @@ import { Link } from 'react-router-dom'
 import Dropzone from 'react-dropzone'
 import request from 'superagent'
 
-const Types = [
-    { value: '1', label: 'Chung cư. căn hộ' },
-    { value: '2', label: 'Nhà ở' },
-    { value: '3', label: 'Đất' },
-    { value: '4', label: 'Văn phòng, mặt bằng kinh doanh' },
+// const Types = [
+//     { value: '1', label: 'Chung cư. căn hộ' },
+//     { value: '2', label: 'Nhà ở' },
+//     { value: '3', label: 'Đất' },
+//     { value: '4', label: 'Văn phòng, mặt bằng kinh doanh' },
 
-];
+// ];
 
-const Status = [
-    { value: '1', label: 'Bất động sản bán' },
-    { value: '3', label: 'Bất động sản thuê' },
-];
+// const Status = [
+//     { value: '1', label: 'Bất động sản bán' },
+//     { value: '3', label: 'Bất động sản thuê' },
+// ];
 
 const Units = {
     1: [
@@ -353,7 +353,7 @@ class EditEstate extends Component {
         let { estateUserInfo } = this.props
         localStorage.setItem("projectid", estateUserInfo._id)
         console.log(estateUserInfo)
-        let { visible, estateInfo, previewImage, url, previewUrl, loading, tags, status } = this.state
+        let { estateInfo, previewImage, previewUrl, loading, tags, status } = this.state
         console.log(estateInfo)
         console.log(status)
         return (

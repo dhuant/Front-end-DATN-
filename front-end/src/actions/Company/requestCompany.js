@@ -4,7 +4,7 @@ import axios from 'axios'
 import { authCompany } from "../../constants/Company/authCompany";
 import * as config from '../../constants/Config'
 import * as actionAuth from '../auth'
-import callApi from "../../utils/apiCaller";
+// import callApi from "../../utils/apiCaller";
 import { message } from 'antd';
 export const actGetInfoUserCompany = (id) => {
   return dispatch => {
@@ -71,7 +71,15 @@ export const actEditEmployeeProjectRequest = (id, data) => {
           message.success("Cập nhật bài đăng thành công!")
         }
       })
-      .catch(err => { message.error(`Có lỗi xảy ra: ${err}`) })
+      .catch(err => {
+        if (err.response.data.status === 401) {
+          localStorage.removeItem('company')
+          dispatch(actionAuth.actCheckAuth(false))
+        }
+        else {
+          message.error('Có lỗi xảy ra!')
+        }
+      })
   }
 }
 
@@ -84,6 +92,14 @@ export const actDeleteEmployeeProjectRequest = (id, data) => {
           message.success('Xóa bài đăng thành công!')
         }
       })
-      .catch(err => { message.error(`Có lỗi xảy ra: ${err}`) })
+      .catch(err => {
+        if (err.response.data.status === 401) {
+          localStorage.removeItem('company')
+          dispatch(actionAuth.actCheckAuth(false))
+        }
+        else {
+          message.error('Có lỗi xảy ra!')
+        }
+      })
   }
 }
