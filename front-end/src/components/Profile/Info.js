@@ -84,6 +84,11 @@ class Info extends Component {
         e.preventDefault()
         this.props.history.push('/waiting')
     }
+    signOut =(e)=>{
+        e.preventDefault()
+        localStorage.removeItem('res');
+        this.props.history.push('/')
+    }
     componentDidMount = () => {
         this.props.onGetUserInfo()
     }
@@ -172,7 +177,7 @@ class Info extends Component {
                                 </a>
                             </li>
                             <li>
-                                <a href="true">
+                                <a href="true" onClick={this.signOut}>
                                     <i className="flaticon-sign-out-option" />Đăng xuất
                                 </a>
                             </li>

@@ -5,10 +5,10 @@ class Employee extends Component {
     render() {
         let employee = this.props.employee;
         // let employee = info.employee
-        let company =
-            <li>
-                <strong>Công ty:</strong>Nhà môi giới tự do
-            </li>;
+        // let company =
+        //     <li>
+        //         <strong>Công ty:</strong>Nhà môi giới tự do
+        //     </li>;
         let address =
             <li>
                 <strong>Địa chỉ:</strong>Đang cập nhật
@@ -19,12 +19,12 @@ class Employee extends Component {
             </li>;
         let url = ''
         if (employee) {
-            if (employee.company !== "0") {
-                company =
-                    <li>
-                        <strong>Công ty:</strong>{employee.company}
-                    </li>
-            }
+            // if (employee.company !== "0") {
+            //     company =
+            //         <li>
+            //             <strong>Công ty:</strong>{employee.company}
+            //         </li>
+            // }
             if (employee.address !== '') {
                 address =
                     <li>

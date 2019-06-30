@@ -51,9 +51,9 @@ class Company extends Component {
                 <div>
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         {/* Agent box 2start */}
-                        <div className="agent-2 clearfix">
+                        <div className="agent-2 clearfix" style={{height:'235px'}}>
                             <div className="col-lg-3 col-md-3 col-sm-3 agent-theme-2">
-                                <img src={company.avatar} alt="team-2" className="img-responsive" />
+                                <img style={{height:'235px'}}src={company.avatar} alt="team-2" className="img-responsive" />
                                 {/* social list */}
 
                             </div>

@@ -93,7 +93,7 @@ class HeaderCompany extends Component {
                                     <span className="icon-bar" />
                                 </button>
                                 <a href="true" onClick={this.onRedirectHome} className="logo">
-                                    <img src="/img/logos/logo.png" alt="logo" />
+                                    <img src="https://res.cloudinary.com/huantd/image/upload/v1561783181/logo/logo_RE-01_fteok3.png" alt="logo" />
                                 </a>
                             </div>
                             {/* Collect the nav links, forms, and other content for toggling */}

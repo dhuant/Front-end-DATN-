@@ -14,6 +14,9 @@ class ForgotPasswordEmployee extends Component {
         if(localStorage.getItem('company')){
             this.props.history.push('/company/profile-admin')
         }
+        else if(localStorage.getItem('res')){
+            this.props.history.push('/')
+        }
         this.setState({
             disable: false,
         })

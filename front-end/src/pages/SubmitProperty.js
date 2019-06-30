@@ -16,6 +16,7 @@ import LoginModal from '../components/LoginModal'
 import AddressData from '../countries-flat.json'
 import Dropzone from 'react-dropzone'
 import request from 'superagent'
+import * as config from '../constants/Config'
 
 const Types = [
     { value: '1', label: 'Chung cư. căn hộ' },
@@ -145,7 +146,7 @@ class SubmitProperty extends Component {
             }
             console.log(info);
             await this.setState({ loading: true })
-            await axios.post('http://localhost:3001/projects/', info, { headers: authHeader() })
+            await axios.post(`${config.API_URL}/projects/`, info, { headers: authHeader() })
                 .then(async res => {
                     console.log(res);
                     if (res.status === 201) {

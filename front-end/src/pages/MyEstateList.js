@@ -13,6 +13,8 @@ const Options = [
     { value: '0', label: 'Thông thường' },
     { value: '1', label: 'Bất động sản bán' },
     { value: '2', label: 'Bất động sản cho thuê' },
+    { value: '3', label: 'Bài đăng chưa kiểm duyệt' },
+
 ];
 const antIcon = <Icon type="loading" style={{ fontSize: 40 }} spin />
 const pageSize = 10
@@ -110,7 +112,7 @@ class MyEstateList extends Component {
                                 /> :
                                     <table className="manage-table responsive-table">
                                         <tbody>
-                                            {this.onShowEstateListOfUser(estatesListOfUser)}}
+                                            {this.onShowEstateListOfUser(estatesListOfUser)}
                                     </tbody>
                                     </table>}
                                 <br></br>
@@ -143,6 +145,9 @@ class MyEstateList extends Component {
             }
             else if (this.state.option === '2') {
                 estates = estates.filter(project => project.statusProject === 3)
+            }
+            else if (this.state.option === '3') {
+                estates = estates.filter(project => project.verify === false)
             }
             // des = `Hiện đang có ${estates.length} bài đăng`
             result = estates.map((estate, index) => {

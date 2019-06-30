@@ -45,28 +45,11 @@ class Map extends Component {
 	}
 	findAround = (e) => {
 		e.preventDefault();
-		// var headers = {
-
-		//     "Access-Control-Allow-Origin": "*",
-		// }
 		var info = {
 			radius: 5,
 			lat: '10.792502',
 			long: '106.6137603',
 		}
-		// axios.post('http://localhost:3001/projects/getListInRadius', info)
-		// 	.then(res => {
-		// 		if (res.data.status === 200) {
-		// 			console.log(res.data);
-		// 			console.log(res.data.projects);
-		// 			//this.props.saveProfile(res.data.projects);
-		// 			// this.props.history.push('/');
-		// 		} else {
-		// 			this.setState({
-		// 				error: 'Error'
-		// 			});
-		// 		}
-		// 	});
 		this.props.actFetchEstatesRequest(info);
 	}
 
@@ -107,9 +90,6 @@ class Map extends Component {
 					<div className="col-xs-12 col-sm-12 col-md-7 col-md-pull-5 col-lg-6 col-lg-pull-6 map-content-sidebar">
 						<div className="title-area">
 							<h2 className="pull-left">Search</h2>
-							{/* <a className="show-more-options pull-right" data-toggle="collapse" data-target="#options-content">
-								<i className="fa fa-plus-circle" /> Show More Options
-          					</a> */}
 							<div className="clearfix" />
 						</div>
 						<div className="properties-map-search">
@@ -155,20 +135,7 @@ class Map extends Component {
 											/>
 										</div>
 									</div>
-									{/* <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-										<div className="range-slider">
-											<label>Area</label>
-											<div data-min={0} data-max={10000} data-unit="Sq ft" data-min-name="min_area" data-max-name="max_area" className="range-slider-ui ui-slider" aria-disabled="false" />
-											<div className="clearfix" />
-										</div>
-									</div>
-									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-										<div className="range-slider">
-											<label>Price</label>
-											<div data-min={0} data-max={150000} data-unit="USD" data-min-name="min_price" data-max-name="max_price" className="range-slider-ui ui-slider" aria-disabled="false" />
-											<div className="clearfix" />
-										</div>
-									</div> */}
+									
 								</div>
 								<div id="options-content" className="collapse">
 									<div className="row">

@@ -660,12 +660,12 @@ class ProfileEmployee extends Component {
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div className="row">
                                         {/* Agent detail start */}
-                                        <div className="agent-detail clearfix">
+                                        <div className="agent-detail clearfix" style={{ height: '280px'}}>
                                             {/* <div className="row"> */}
                                             <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12 agent-theme">
                                                 <img src={info.avatar} style={{ height: '280px', width: '290px' }} alt="agent-1" className="img-responsive" />
                                             </div>
-                                            <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12 agent-content">
+                                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 agent-content">
                                                 <h3>
                                                     {info.fullname}
                                                 </h3>
@@ -707,7 +707,7 @@ class ProfileEmployee extends Component {
 
 
                                             </div>
-                                            <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 "
+                                            <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12 "
                                                 style={{
                                                     height: '280px',
                                                     display: 'flex',

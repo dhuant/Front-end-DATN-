@@ -2,12 +2,13 @@ import * as Action from './transactionActions'
 import { authHeader } from "../constants/authHeader";
 import axios from "axios";
 import { message } from 'antd'
+import * as config from '../constants/Config'
 
 // const abortController = new AbortController() 
 
 export const actCreatingTransactionRequest = infoToCreate => {
     return dispatch => {
-        return axios.post("http://localhost:3001/transaction/create", infoToCreate, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/transaction/create`, infoToCreate, { headers: authHeader() })
             .then(res => {
                 if (res.data.status === 201) {
                     dispatch(Action.actCreateTransaction(res.data.transaction))
@@ -23,7 +24,7 @@ export const actCreatingTransactionRequest = infoToCreate => {
 
 export const actGettingTransactionHistoryRequest = (page) => {
     return dispatch => {
-        return axios.get(`http://localhost:3001/transaction/history/${page}`, { headers: authHeader() })
+        return axios.get(`${config.API_URL}/transaction/history/${page}`, { headers: authHeader() })
             .then(res => {
                 console.log(res)
                 dispatch(Action.actGetTransactionHistory(res.data.history))
@@ -37,7 +38,7 @@ export const actGettingTransactionHistoryRequest = (page) => {
 export const actGettingTransactionDetailRequest = (transactionId, transactionType) => {
     console.log("a")
     return dispatch => {
-        return axios.get(`http://localhost:3001/transaction/detail/${transactionId}/${transactionType}`, { headers: authHeader() })
+        return axios.get(`${config.API_URL}/transaction/detail/${transactionId}/${transactionType}`, { headers: authHeader() })
             .then(res => {
                 console.log(res)
                 dispatch(Action.actGetTransactionDetail(res.data.transaction))
@@ -50,7 +51,7 @@ export const actGettingTransactionDetailRequest = (transactionId, transactionTyp
 
 export const actChangingTransactionStatus = (transactionData) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/transaction/changestatus", transactionData, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/transaction/changestatus`, transactionData, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actChangeStatus(res.data.active))
             })
@@ -62,7 +63,7 @@ export const actChangingTransactionStatus = (transactionData) => {
 
 export const actCompleteTransaction = (transactionId) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/transaction/complete", transactionId, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/transaction/complete`, transactionId, { headers: authHeader() })
             .then(res => {
                 if (res.data.status === 200) {
                     dispatch(Action.actCompletingTransaction(res.data.transactionid))
@@ -78,7 +79,7 @@ export const actCompleteTransaction = (transactionId) => {
 
 export const actCancelTransactionRequest = (transactionData) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/transaction/cancel", transactionData, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/transaction/cancel`, transactionData, { headers: authHeader() })
             .then(res => {
                 if (res.data.status === 200) {
                     dispatch(Action.actCancelTransaction(res.data))
@@ -94,7 +95,7 @@ export const actCancelTransactionRequest = (transactionData) => {
 //API for Selling
 export const actPostingDealRequest = (dealInfo) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/selldetail/deal", dealInfo, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/selldetail/deal`, dealInfo, { headers: authHeader() })
             .then(res => {
                 console.log(res)
                 if (res.data.status === 200 || res.status === 200) {
@@ -110,7 +111,7 @@ export const actPostingDealRequest = (dealInfo) => {
 
 export const actPostingLegalityRequest = (legalityInfo) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/selldetail/legality", legalityInfo, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/selldetail/legality`, legalityInfo, { headers: authHeader() })
             .then(res => {
                 console.log(res.data)
                 if (res.data.status === 200 || res.status === 200) {
@@ -126,7 +127,7 @@ export const actPostingLegalityRequest = (legalityInfo) => {
 
 export const actPostingDepositRequest = (depositInfo) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/selldetail/deposit", depositInfo, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/selldetail/deposit`, depositInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingDeposit(res.data.deposit))
                 message.success('Thành công!')
@@ -139,7 +140,7 @@ export const actPostingDepositRequest = (depositInfo) => {
 
 export const actPostingContractRequest = (contractInfo) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/selldetail/contract", contractInfo, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/selldetail/contract`, contractInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingContract(res.data.contract))
                 message.success('Thành công!')
@@ -152,7 +153,7 @@ export const actPostingContractRequest = (contractInfo) => {
 
 export const actPostingConfirmationRequest = (confirmationInfo) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/selldetail/confirmation", confirmationInfo, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/selldetail/confirmation`, confirmationInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingConfirmation(res.data.confirmation))
                 message.success('Thành công!')
@@ -165,7 +166,7 @@ export const actPostingConfirmationRequest = (confirmationInfo) => {
 
 export const actPostingTaxRequest = (taxInfo) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/selldetail/tax", taxInfo, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/selldetail/tax`, taxInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingTax(res.data.tax))
                 message.success('Thành công!')
@@ -178,7 +179,7 @@ export const actPostingTaxRequest = (taxInfo) => {
 
 export const actPostingDeliveryRequest = (deliveryInfo) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/selldetail/delivery", deliveryInfo, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/selldetail/delivery`, deliveryInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingDelivery(res.data.delivery))
                 message.success('Thành công!')
@@ -191,7 +192,7 @@ export const actPostingDeliveryRequest = (deliveryInfo) => {
 
 export const actPostingTransferRequest = (transferInfo) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/selldetail/transfer", transferInfo, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/selldetail/transfer`, transferInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingTransfer(res.data.transfer))
                 message.success("Thành công!")
@@ -206,7 +207,7 @@ export const actPostingTransferRequest = (transferInfo) => {
 export const actGettingWaitingListRequest = (id) => {
     console.log(id)
     return dispatch => {
-        return axios.get(`http://localhost:3001/transaction/listrequest/${id}`, { headers: authHeader() })
+        return axios.get(`${config.API_URL}/transaction/listrequest/${id}`, { headers: authHeader() })
             .then(res => {
                 // console.log(res)
                 dispatch(Action.actGettingRequestList(res.data.result))
@@ -219,7 +220,7 @@ export const actGettingWaitingListRequest = (id) => {
 
 export const actAddingWaitingRequest = (waitingData) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/transaction/addwaitingrequest", waitingData, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/transaction/addwaitingrequest`, waitingData, { headers: authHeader() })
             .then(res => {
                 console.log(res)
                 if (res.data.status === 201) {
@@ -241,7 +242,7 @@ export const actAddingWaitingRequest = (waitingData) => {
 
 export const actDeletingWaitingRequest = (waitingData) => {
     return dispatch => {
-        return axios.delete("http://localhost:3001/transaction/deletewaitingrequest", waitingData, { headers: authHeader() })
+        return axios.delete(`${config.API_URL}/transaction/deletewaitingrequest`, waitingData, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actDeletingWaitingRequest(res.data))
             })
@@ -254,7 +255,7 @@ export const actDeletingWaitingRequest = (waitingData) => {
 //API for Renting
 export const actPostingRentingDealRequest = (dealInfo) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/rentdetail/deal", dealInfo, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/rentdetail/deal`, dealInfo, { headers: authHeader() })
             .then(res => {
                 console.log(res)
                 if (res.data.status === 200 || res.status === 200) {
@@ -270,7 +271,7 @@ export const actPostingRentingDealRequest = (dealInfo) => {
 
 export const actPostingRentingDepositRequest = (depositInfo) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/rentdetail/deposit", depositInfo, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/rentdetail/deposit`, depositInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingRentingDeposit(res.data.deposit))
                 message.success('Thành công!')
@@ -283,7 +284,7 @@ export const actPostingRentingDepositRequest = (depositInfo) => {
 
 export const actPostingRentingContractRequest = (contractInfo) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/rentdetail/contract", contractInfo, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/rentdetail/contract`, contractInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingRentingContract(res.data.contract))
                 message.success('Thành công!')
@@ -296,7 +297,7 @@ export const actPostingRentingContractRequest = (contractInfo) => {
 
 export const actPostingRentingConfirmationRequest = (confirmationInfo) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/rentdetail/confirmation", confirmationInfo, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/rentdetail/confirmation`, confirmationInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingRentingConfirmation(res.data.confirmation))
                 message.success('Thành công!')
@@ -309,7 +310,7 @@ export const actPostingRentingConfirmationRequest = (confirmationInfo) => {
 
 export const actPostingRentingDeliveryRequest = (deliveryInfo) => {
     return dispatch => {
-        return axios.post("http://localhost:3001/rentdetail/delivery", deliveryInfo, { headers: authHeader() })
+        return axios.post(`${config.API_URL}/rentdetail/delivery`, deliveryInfo, { headers: authHeader() })
             .then(res => {
                 dispatch(Action.actPostingRentingDelivery(res.data.delivery))
                 message.success('Thành công!')

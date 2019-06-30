@@ -6,7 +6,7 @@ import { CHANGE_PASSWORD } from '../../constants/Profile'
 import * as actions from '../../actions/Company/requestCompany';
 import { Link } from 'react-router-dom'
 import { service } from '../../actions/service'
-import { message, Form, Input, Button, Spin } from 'antd';
+import { message, Form, Input, Button } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 class ChangePasswordEmployee extends Component {

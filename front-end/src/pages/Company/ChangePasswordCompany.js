@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import HeaderCompany from '../../components/Company/HeaderCompany'
-import Footer from '../../components/Footer'
+// import Footer from '../../components/Footer'
 import InfoCompany from '../../components/Company/ProfileCompany/InfoCompany'
 import { CHANGE_PASSWORD } from '../../constants/Company/profileCompany'
 import * as actions from '../../actions/Company/requestCompany';

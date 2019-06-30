@@ -194,7 +194,11 @@ class EstateListListView extends Component {
         e.preventDefault();
         this.props.history.push("/");
     }
-
+    componentDidMount() {
+        if (localStorage.getItem('company')) {
+            this.props.history.push('/company/profile-admin')
+        }
+    }
     render() {
         let { option } = this.state;
         let total = 1
