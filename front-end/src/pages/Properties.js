@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import MainHeader from '../components/MainHeader';
 import { connect } from 'react-redux';
 import * as actions from '../actions/request';
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class Properties extends Component {
     constructor(props) {

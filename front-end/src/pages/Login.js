@@ -242,7 +242,7 @@ class Login extends Component {
                                                     {content}
                                                 </Form.Item>
                                                 <Form.Item {...tailFormItemLayout} style={{ paddingTop:'10px', textAlign: 'center', height: '47px' }}>
-                                                    <h6>(*Đăng nhập bằng google nếu bạn là nhà môi giới tự do)</h6>
+                                                    <h6>(*Đăng nhập bằng google nếu bạn người dùng thông thường)</h6>
                                                 </Form.Item>
                                             </Form>
                                             {/* Form end */}

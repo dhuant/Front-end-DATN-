@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import moment from 'moment'
 class Agent extends Component {
     render() {
         let { agent } = this.props;
