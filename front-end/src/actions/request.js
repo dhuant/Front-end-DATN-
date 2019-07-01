@@ -83,9 +83,12 @@ export const actGetUserInfoRequest = () => {
         console.log(res.data);
       })
       .catch(err => {
-        if (err.response.data.status === 401) {
+        if (err.response.data.status === 401 && localStorage.getItem('res')) {
           localStorage.removeItem('res')
           return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else if (!localStorage.getItem('res')) {
+          return
         }
         else return message.error("Lấy thông tin tài khoản không thành công!")
       })
@@ -137,9 +140,12 @@ export const actGetEstateListOfUserRequest = (page) => {
       // return message.success("Lấy danh sách bài viết của tài khoản thành công!")
     })
       .catch(err => {
-        if (err.response.data.status === 401) {
+        if (err.response.data.status === 401 && localStorage.getItem('res')) {
           localStorage.removeItem('res')
           return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else if (!localStorage.getItem('res')) {
+          return
         }
         return message.error("Có lỗi xảy ra khi lấy danh sách bài viết!")
       })
@@ -175,9 +181,12 @@ export const actUnfollowProjectRequest = (data) => {
       }
     })
       .catch(err => {
-        if (err.response.data.status === 401) {
+        if (err.response.data.status === 401 && localStorage.getItem('res')) {
           localStorage.removeItem('res')
           return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else if (!localStorage.getItem('res')) {
+          return
         }
         else return message.error("Có lỗi xảy ra khi bỏ theo dõi bài đăng!")
       })
@@ -196,9 +205,12 @@ export const actFollowProjectRequest = (data, project) => {
       }
     })
       .catch(err => {
-        if (err.response.data.status === 401) {
+        if (err.response.data.status === 401 && localStorage.getItem('res')) {
           localStorage.removeItem('res')
           return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else if (!localStorage.getItem('res')) {
+          return
         }
         return message.error("Có lỗi xảy ra khi theo dõi bài đăng!")
       })
@@ -215,9 +227,12 @@ export const actPostingCommentRequest = (data, user) => {
       }
     })
       .catch(err => {
-        if (err.response.data.status === 401) {
+        if (err.response.data.status === 401 && localStorage.getItem('res')) {
           localStorage.removeItem('res')
           return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else if (!localStorage.getItem('res')) {
+          return
         }
         return message.error("Có lỗi xảy ra khi đăng bình luận!")
       })
@@ -236,9 +251,12 @@ export const actDeleteProjectRequest = (id, data) => {
         else return message.error('Có lỗi xảy ra!');
       })
       .catch(err => {
-        if (err.response.data.status === 401) {
+        if (err.response.data.status === 401 && localStorage.getItem('res')) {
           localStorage.removeItem('res')
           return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else if (!localStorage.getItem('res')) {
+          return
         }
         return message.error('Có lỗi xảy ra khi xóa bài đăng!')
       })
@@ -257,9 +275,12 @@ export const actEditUserProjectRequest = (data, id) => {
         else return message.error('Cập nhật bài đăng thất bại');
       })
       .catch(err => {
-        if (err.response.data.status === 401) {
+        if (err.response.data.status === 401 && localStorage.getItem('res')) {
           localStorage.removeItem('res')
           return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else if (!localStorage.getItem('res')) {
+          return
         }
         else return message.error("Có lỗi xảy ra!")
       })
@@ -278,9 +299,12 @@ export const actEditUserInfoRequest = (data) => {
         else return message.error("Có lỗi xảy ra khi cập nhật thông tin!")
       })
       .catch(err => {
-        if (err.response.data.status === 401) {
+        if (err.response.data.status === 401 && localStorage.getItem('res')) {
           localStorage.removeItem('res')
           return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else if (!localStorage.getItem('res')) {
+          return
         }
         return message.error('Có lỗi xảy ra khi cập nhật thông tin!')
       })
@@ -298,9 +322,12 @@ export const actEditCommentRequest = (id, data) => {
         else return message.error("Chỉnh sửa bình luận thất bại!")
       })
       .catch(err => {
-        if (err.response.data.status === 401) {
+        if (err.response.data.status === 401 && localStorage.getItem('res')) {
           localStorage.removeItem('res')
           return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else if (!localStorage.getItem('res')) {
+          return
         }
         else return message.error("Có lỗi xảy ra!")
       })
@@ -318,9 +345,12 @@ export const actDeleteCommentRequest = (id, data) => {
         else return message.error("Xóa bình luận thất bại!")
       })
       .catch(err => {
-        if (err.response.data.status === 401) {
+        if (err.response.data.status === 401 && localStorage.getItem('res')) {
           localStorage.removeItem('res')
           return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else if (!localStorage.getItem('res')) {
+          return
         }
         else return message.error("Có lỗi xảy ra!")
       })

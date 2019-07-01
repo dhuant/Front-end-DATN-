@@ -54,6 +54,8 @@ class SingleCurrTransaction extends Component {
             }
           })
           .catch(error => {
+            console.log(error)
+            if(error.response.data.status === 404 && this.props.transactionSingle.status !== 1) return message.error("Chỉ có thể xóa giao dịch đang trong quá trình!")
             message.error(`Có lỗi xảy ra: ${error}`)
           })
         this.setState({ loading: false })

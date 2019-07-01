@@ -8,7 +8,7 @@ import { Link, Redirect } from 'react-router-dom'
 import SingleWaiting from '../components/Profile/SingleWaiting'
 import * as actions from '../actions/request'
 import * as transActions from '../actions/transactionRequest'
-import { Empty, Icon, Spin } from 'antd'
+import { Empty, Icon, Spin, List } from 'antd'
 
 const antIcon = <Icon type="loading" style={{ fontSize: 40 }} spin />
 
@@ -84,19 +84,19 @@ class WaitingRequest extends Component {
                                         </div>
                                     </div>
                                     <br></br>
+
                                     {/* table start */}
                                     <table className="manage-table responsive-table">
                                         <tbody>
-                                            {
-                                                this.state.loading ? <Spin
-                                                    indicator={antIcon}
-                                                    style={{
-                                                        position: "absolute",
-                                                        left: "50%",
-                                                        top: "50%",
-                                                        marginRight: "-50%",
-                                                    }}
-                                                /> : this.ShowWaitingRequestList(waiting, estateDetail)}
+                                            {this.state.loading ? <Spin
+                                                indicator={antIcon}
+                                                style={{
+                                                    position: "absolute",
+                                                    left: "50%",
+                                                    top: "50%",
+                                                    marginRight: "-50%",
+                                                }}
+                                            /> : this.ShowWaitingRequestList(waiting, estateDetail)}
                                         </tbody>
                                     </table>
                                     {/* table end */}
@@ -119,7 +119,7 @@ class WaitingRequest extends Component {
             else if (waiting.requests && waiting.requests.length > 0) {
                 result = waiting.requests.map((single, index) => {
                     return (
-                        <SingleWaiting key={index} waitingRequestSingle={single} waitingList={waiting} codelist={estateDetail.codelist} unit={estateDetail.unit} />
+                        <SingleWaiting key={index} waitingRequestSingle={single} waitingList={waiting} codelist={estateDetail.codelist} unit={estateDetail.unit} index={index}/>
                     );
                 });
             }
