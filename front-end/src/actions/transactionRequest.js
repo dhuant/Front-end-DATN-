@@ -20,7 +20,7 @@ export const actCreatingTransactionRequest = infoToCreate => {
                     localStorage.removeItem('res')
                     return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
                 }
-                else return message.error(`Có lỗi xảy ra: ${error}`)
+                else return message.error(`Có lỗi xảy ra: ${error.response.data.error}`)
             })
     };
 };
@@ -100,16 +100,23 @@ export const actCancelTransactionRequest = (transactionData) => {
     return dispatch => {
         return axios.post(`${config.API_URL}/transaction/cancel`, transactionData, { headers: authHeader() })
             .then(res => {
+                console.log(res)
                 if (res.data.status === 200) {
                     dispatch(Action.actCancelTransaction(res.data))
                     message.success("Hủy bỏ giao dịch thành công!")
                 }
-
+                if (res.status === 404) {
+                    message.success("Không thể hủy bỏ giao dịch này!")
+                }
             })
             .catch(error => {
+                console.log(error)
                 if (error.response.data.status === 401) {
                     localStorage.removeItem('res')
                     return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+                }
+                if (error.status === 404) {
+                    return message.warning("Không thể xóa giao dịch này!")
                 }
                 else return message.error(`Có lỗi xảy ra: ${error}`)
             })
@@ -273,6 +280,7 @@ export const actGettingWaitingListRequest = (id) => {
                     return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
                 }
                 else return message.error(`Có lỗi xảy ra: ${error}`)
+                // return message.error(`Có lỗi xảy ra: ${error}`)
             })
     }
 }

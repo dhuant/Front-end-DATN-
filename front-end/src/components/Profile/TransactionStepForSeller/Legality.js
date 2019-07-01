@@ -391,7 +391,7 @@ class Legality extends Component {
                 return message.warning("Bạn chưa thay đổi gì cả!")
 
             await this.props.onSendingLegality(legalityInfo)
-            await this.setState({loading: false})
+            await this.setState({ loading: false })
         })
     }
     handleSubmit = (e) => {
@@ -406,7 +406,7 @@ class Legality extends Component {
                     await this.onUploadingCertificateImages(this.state.certificateListImagesBeforeUpload)
                     await this.onUploadingGovernmentImages(this.state.governmentListImagesBeforeUpload)
                     await this.onSendingData(contractUploadList, certificateUploadList, governmentUploadList, transactions);
-                    
+
                 } catch (error) {
                     message.error(error)
                 }
@@ -536,22 +536,24 @@ class Legality extends Component {
                         </div>
                     </div>
 
-                    <div className="row">
-                        <div className="col-md-8 col-lg-8 col-xs-12">
-                            <Form.Item>
-                                <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
-                                    {loading && (
-                                        <i
-                                            className="fa fa-refresh fa-spin"
-                                            style={{ marginRight: "5px" }}
-                                        />
-                                    )}
-                                    {loading && <span>Đang thực thi...</span>}
-                                    {!loading && <span>Chấp nhận</span>}
-                                </Button>
-                            </Form.Item>
+                    {this.props.transaction.status === 1
+                        ? <div className="row">
+                            <div className="col-md-8 col-lg-8 col-xs-12">
+                                <Form.Item>
+                                    <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
+                                        {loading && (
+                                            <i
+                                                className="fa fa-refresh fa-spin"
+                                                style={{ marginRight: "5px" }}
+                                            />
+                                        )}
+                                        {loading && <span>Đang thực thi...</span>}
+                                        {!loading && <span>Gửi thông tin</span>}
+                                    </Button>
+                                </Form.Item>
+                            </div>
                         </div>
-                    </div>
+                        : null}
                 </Form>
                 <Modal visible={previewImage} footer={null} onCancel={this.onHandleCancelImage} width="800px" style={{ height: "500px" }}>
                     <img alt="example" src={previewUrl} style={{ width: "750px", height: "500px" }} />

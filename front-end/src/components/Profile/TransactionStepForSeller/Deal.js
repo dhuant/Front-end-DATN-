@@ -148,7 +148,7 @@ class Deal extends Component {
                                     )} */}
                                     <InputNumber
                                         style={{ width: "100%" }}
-                                        formatter={value => this.props.transaction.project.price < 1000 ? `${value} ${this.props.transaction.project.unit}` : `${(value/1000).toFixed(1)} Tỉ`}
+                                        formatter={value => this.props.transaction.project.price < 1000 ? `${value} ${this.props.transaction.project.unit}` : `${(value / 1000).toFixed(1)} Tỉ`}
                                         parser={value => value.replace(`${this.props.transaction.project.unit}`, '')}
                                         id="TotalPrice"
                                         min={0}
@@ -218,22 +218,24 @@ class Deal extends Component {
                                 </Form.Item>
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col-md-8 col-lg-8 col-xs-12">
-                                <Form.Item>
-                                    <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
-                                        {loading && (
-                                            <i
-                                                className="fa fa-refresh fa-spin"
-                                                style={{ marginRight: "5px" }}
-                                            />
-                                        )}
-                                        {loading && <span>Đang thực thi...</span>}
-                                        {!loading && <span>Chấp nhận</span>}
-                                    </Button>
-                                </Form.Item>
+                        {this.props.transaction.status === 1
+                            ? <div className="row">
+                                <div className="col-md-8 col-lg-8 col-xs-12">
+                                    <Form.Item>
+                                        <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
+                                            {loading && (
+                                                <i
+                                                    className="fa fa-refresh fa-spin"
+                                                    style={{ marginRight: "5px" }}
+                                                />
+                                            )}
+                                            {loading && <span>Đang thực thi...</span>}
+                                            {!loading && <span>Gửi thông tin</span>}
+                                        </Button>
+                                    </Form.Item>
+                                </div>
                             </div>
-                        </div>
+                            : null}
                     </Form>
                 </div>
                 :
@@ -329,22 +331,24 @@ class Deal extends Component {
                                 </Form.Item>
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col-md-8 col-lg-8 col-xs-12">
-                                <Form.Item>
-                                    <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
-                                        {loading && (
-                                            <i
-                                                className="fa fa-refresh fa-spin"
-                                                style={{ marginRight: "5px" }}
-                                            />
-                                        )}
-                                        {loading && <span>Đang thực thi...</span>}
-                                        {!loading && <span>Chấp nhận</span>}
-                                    </Button>
-                                </Form.Item>
+                        {this.props.transaction.status === 1
+                            ? <div className="row">
+                                <div className="col-md-8 col-lg-8 col-xs-12">
+                                    <Form.Item>
+                                        <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
+                                            {loading && (
+                                                <i
+                                                    className="fa fa-refresh fa-spin"
+                                                    style={{ marginRight: "5px" }}
+                                                />
+                                            )}
+                                            {loading && <span>Đang thực thi...</span>}
+                                            {!loading && <span>Gửi thông tin</span>}
+                                        </Button>
+                                    </Form.Item>
+                                </div>
                             </div>
-                        </div>
+                            : null}
                     </Form>
                 </div>
         )

@@ -1,12 +1,13 @@
 /* eslint-disable */
 import React, { Component } from 'react'
-import { List, Avatar, Button, Modal, Select, Form } from 'antd';
+import { List, Avatar, Button, Modal, Select, Form, Card, Icon } from 'antd';
 import { connect } from 'react-redux'
 import * as transActions from '../../actions/transactionRequest'
 // import * as actions from '../../actions/request'
 import moment from 'moment'
 
 const Option = Select.Option;
+const { Meta } = Card;
 
 class SingleWaiting extends Component {
   constructor(props) {
@@ -109,95 +110,158 @@ class SingleWaiting extends Component {
 
   }
   render() {
-    var { waitingList, codelist, unit } = this.props
+    var { waitingList, codelist, unit, waitingRequestSingle, index } = this.props
     const { loading } = this.state
     console.log(waitingList)
     const { getFieldDecorator } = this.props.form
     return (
-      <div className="waitingSingle" style={{padding: "0px 20px"}}>
-        <React.Fragment>
-          <tr>
-            <List
-              itemLayout="horizontal"
-              dataSource={waitingList.requests}
-              renderItem={(waitingRequestSingle, index) => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={<Avatar src={waitingRequestSingle.user.avatar} />}
-                    description={
-                      <span>
-                        <p style={{ fontWeight: "bold" }}>{waitingRequestSingle.user.fullname}
-                          <p style={{ fontWeight: "lighter" }}>{moment.unix(waitingRequestSingle.createTime).format('DD/MM/YYYY, h:mm a')}</p>
-                        </p> đã gửi yêu cầu giao dịch bất động sản với giá mong muốn {waitingRequestSingle.money} {unit}.
-                      <div style={{ float: "right" }}>
-                          <div className="comment-meta-reply"
-                            style={{ marginRight: "5px" }}
-                            onClick={() => this.onHandleAcceptingRequest(waitingList, waitingRequestSingle, index)}>
-                            <a>{loading && (
-                              <i
-                                className="fa fa-refresh fa-spin"
-                                style={{ marginRight: "5px" }}
-                              />
-                            )}
-                              {loading && <span>Đang chấp nhận...</span>}
-                              {!loading && <span>Đồng ý</span>}
-                            </a>
-                          </div>
-                          <div className="comment-meta-reply" style={{ backgroundColor: "red" }}>
-                            <a>Hủy bỏ</a>
-                          </div>
-                        </div>
-                      </span>}
-                  />
-                </List.Item>
-              )}
-            />,
-        </tr>
-          <Modal
-            title="Chọn mã căn hộ"
-            style={{ top: 20 }}
-            visible={this.state.visible}
-            // onOk={() => this.setModal1Visible(false)}
-            onCancel={this.onHandleCancel}
-            footer={null}
-            closable={true}
-          >
-            <Form onSubmit={this.handleSubmit}>
-              <div className="row">
-                <div className="col-md-12 col-lg-12 col-xs-12">
-                  <Form.Item label="Chọn mã căn hộ: ">
-                    {getFieldDecorator('code', {
-                      rules: [
-                        { required: true, message: 'Bạn chưa chọn mã căn hộ nào!' },
-                      ],
-                    })(
-                      <Select style={{ width: "100%" }} id="code">
-                        {codelist.map((code, index) => <Option key={index} value={index}>{`${code.code}`}</Option>)}
-                      </Select>
+      <React.Fragment>
+        <Card
+          style={{ width: "100%" }}
+          // cover={
+          //   <img
+          //     alt="example"
+          //     src={waitingRequestSingle.user.avatar}
+          //   />
+          // }
+          actions={[<Icon type="check" onClick={() => this.onHandleAcceptingRequest(waitingList, waitingRequestSingle, index)} >Đồng ý</Icon>, <Icon type="stop" >Hủy bỏ</Icon>]}
+        >
+          <Meta
+            avatar={<Avatar src={waitingRequestSingle.user.avatar} />}
+            // title="Lờ"
+            description={`${waitingRequestSingle.user.fullname} đã gửi yêu cầu giao dịch với giá ${waitingRequestSingle.money} ${unit}`}
+          />
+        </Card>
+        <Modal
+          title="Chọn mã căn hộ"
+          style={{ top: 20 }}
+          visible={this.state.visible}
+          // onOk={() => this.setModal1Visible(false)}
+          onCancel={this.onHandleCancel}
+          footer={null}
+          closable={true}
+        >
+          <Form onSubmit={this.handleSubmit}>
+            <div className="row">
+              <div className="col-md-12 col-lg-12 col-xs-12">
+                <Form.Item label="Chọn mã căn hộ: ">
+                  {getFieldDecorator('code', {
+                    rules: [
+                      { required: true, message: 'Bạn chưa chọn mã căn hộ nào!' },
+                    ],
+                  })(
+                    <Select style={{ width: "100%" }} id="code">
+                      {codelist.map((code, index) => <Option key={index} value={index}>{`${code.code}`}</Option>)}
+                    </Select>
+                  )}
+                </Form.Item>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-12 col-lg-12 col-xs-12">
+                <Form.Item>
+                  <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
+                    {loading && (
+                      <i
+                        className="fa fa-refresh fa-spin"
+                        style={{ marginRight: "5px" }}
+                      />
                     )}
-                  </Form.Item>
-                </div>
+                    {loading && <span>Đang chấp nhận...</span>}
+                    {!loading && <span>Chấp nhận</span>}
+                  </Button>
+                </Form.Item>
               </div>
-              <div className="row">
-                <div className="col-md-12 col-lg-12 col-xs-12">
-                  <Form.Item>
-                    <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
-                      {loading && (
-                        <i
-                          className="fa fa-refresh fa-spin"
-                          style={{ marginRight: "5px" }}
-                        />
-                      )}
-                      {loading && <span>Đang chấp nhận...</span>}
-                      {!loading && <span>Chấp nhận</span>}
-                    </Button>
-                  </Form.Item>
-                </div>
-              </div>
-            </Form>
-          </Modal>
-        </React.Fragment>
-      </div>
+            </div>
+          </Form>
+        </Modal>
+      </React.Fragment>
+      // <div className="waitingSingle" style={{ padding: "0px 20px" }}>
+      // {/* <React.Fragment> */ }
+      // < List.Item >
+      //   <List.Item.Meta
+      //     avatar={<Avatar src={waitingRequestSingle.user.avatar} />}
+      //     description={
+      //       <span>
+      //         <p style={{ fontWeight: "bold" }}>{waitingRequestSingle.user.fullname}
+      //           <p style={{ fontWeight: "lighter" }}>{moment.unix(waitingRequestSingle.createTime).format('DD/MM/YYYY, h:mm a')}</p>
+      //         </p> đã gửi yêu cầu giao dịch bất động sản với giá mong muốn {waitingRequestSingle.money} {unit}.
+      //                 <div style={{ float: "right" }}>
+      //           <div className="comment-meta-reply"
+      //             style={{ marginRight: "5px" }}
+      //             onClick={() => this.onHandleAcceptingRequest(waitingList, waitingRequestSingle, index)}>
+      //             <a>{loading && (
+      //               <i
+      //                 className="fa fa-refresh fa-spin"
+      //                 style={{ marginRight: "5px" }}
+      //               />
+      //             )}
+      //               {loading && <span>Đang chấp nhận...</span>}
+      //               {!loading && <span>Đồng ý</span>}
+      //             </a>
+      //           </div>
+      //           <div className="comment-meta-reply" style={{ backgroundColor: "red" }}>
+      //             <a>Hủy bỏ</a>
+      //           </div>
+      //         </div>
+      //       </span>}
+      //   >
+      //     <Modal
+      //       title="Chọn mã căn hộ"
+      //       style={{ top: 20 }}
+      //       visible={this.state.visible}
+      //       // onOk={() => this.setModal1Visible(false)}
+      //       onCancel={this.onHandleCancel}
+      //       footer={null}
+      //       closable={true}
+      //     >
+      //       <Form onSubmit={this.handleSubmit}>
+      //         <div className="row">
+      //           <div className="col-md-12 col-lg-12 col-xs-12">
+      //             <Form.Item label="Chọn mã căn hộ: ">
+      //               {getFieldDecorator('code', {
+      //                 rules: [
+      //                   { required: true, message: 'Bạn chưa chọn mã căn hộ nào!' },
+      //                 ],
+      //               })(
+      //                 <Select style={{ width: "100%" }} id="code">
+      //                   {codelist.map((code, index) => <Option key={index} value={index}>{`${code.code}`}</Option>)}
+      //                 </Select>
+      //               )}
+      //             </Form.Item>
+      //           </div>
+      //         </div>
+      //         <div className="row">
+      //           <div className="col-md-12 col-lg-12 col-xs-12">
+      //             <Form.Item>
+      //               <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
+      //                 {loading && (
+      //                   <i
+      //                     className="fa fa-refresh fa-spin"
+      //                     style={{ marginRight: "5px" }}
+      //                   />
+      //                 )}
+      //                 {loading && <span>Đang chấp nhận...</span>}
+      //                 {!loading && <span>Chấp nhận</span>}
+      //               </Button>
+      //             </Form.Item>
+      //           </div>
+      //         </div>
+      //       </Form>
+      //     </Modal>
+      //   </List.Item.Meta>
+      // </List.Item >
+      //   {/* <List
+      //           itemLayout="horizontal"
+      //           dataSource={waitingList.requests}
+      //           renderItem={(waitingRequestSingle, index) => (
+
+      //           )}
+      //         />, */}
+
+
+      // {/* </React.Fragment> */ }
+      //   // </div>
     )
   }
 }

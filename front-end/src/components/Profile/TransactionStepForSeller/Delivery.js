@@ -95,7 +95,7 @@ class Delivery extends Component {
               <div className="col-md-4 col-lg-4 col-xs-12">
                 <Form.Item label="Ngày giao bất động sản (thực tế): ">
                   {getFieldDecorator('deliveryDate', {
-                    initialValue: transactions.selldetail.delivery.datecomplete === 0 ? null :moment(moment.unix(transactions.selldetail.delivery.datecomplete).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
+                    initialValue: transactions.selldetail.delivery.datecomplete === 0 ? null : moment(moment.unix(transactions.selldetail.delivery.datecomplete).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
                     rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                   })(
                     <DatePicker style={{ width: "100%" }} />
@@ -105,7 +105,7 @@ class Delivery extends Component {
               <div className="col-md-4 col-lg-4 col-xs-12">
                 <Form.Item label="Ngày dọn vào ở: ">
                   {getFieldDecorator('startDate', {
-                    initialValue:transactions.selldetail.delivery.datein === 0 ? null : moment(moment.unix(transactions.selldetail.delivery.datein).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
+                    initialValue: transactions.selldetail.delivery.datein === 0 ? null : moment(moment.unix(transactions.selldetail.delivery.datein).format('DD/MM/YYYY, h:mm a'), 'DD/MM/YYYY, h:mm a'),
                     rules: [{ required: true, message: 'Trường này chưa được nhập!' }],
                   })(
                     <DatePicker style={{ width: "100%" }} />
@@ -119,20 +119,22 @@ class Delivery extends Component {
                   <InputNumber style={{ width: "100%" }} defaultValue={transactions.selldetail.delivery.tax} id="tax" />
                 </Form.Item>
               </div>
-              <div className="col-md-3 col-lg-3 col-xs-12">
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
-                    {loading && (
-                      <i
-                        className="fa fa-refresh fa-spin"
-                        style={{ marginRight: "5px" }}
-                      />
-                    )}
-                    {loading && <span>Đang thực thi...</span>}
-                    {!loading && <span>Chấp nhận</span>}
-                  </Button>
-                </Form.Item>
-              </div>
+              {this.props.transaction.status === 1 ?
+                <div className="col-md-3 col-lg-3 col-xs-12">
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
+                      {loading && (
+                        <i
+                          className="fa fa-refresh fa-spin"
+                          style={{ marginRight: "5px" }}
+                        />
+                      )}
+                      {loading && <span>Đang thực thi...</span>}
+                      {!loading && <span>Chấp nhận</span>}
+                    </Button>
+                  </Form.Item>
+                </div>
+                : null}
             </div>
           </Form>
         </div>
@@ -184,20 +186,21 @@ class Delivery extends Component {
                   <InputNumber style={{ width: "100%" }} defaultValue={transactions.rentdetail.delivery.tax} id="tax" />
                 </Form.Item>
               </div>
-              <div className="col-md-3 col-lg-3 col-xs-12">
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
-                    {loading && (
-                      <i
-                        className="fa fa-refresh fa-spin"
-                        style={{ marginRight: "5px" }}
-                      />
-                    )}
-                    {loading && <span>Đang thực thi...</span>}
-                    {!loading && <span>Chấp nhận</span>}
-                  </Button>
-                </Form.Item>
-              </div>
+              {this.props.transaction.status === 1 ?
+                <div className="col-md-3 col-lg-3 col-xs-12">
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit" style={{ fontSize: "13px", float: "right" }} disabled={loading}>
+                      {loading && (
+                        <i
+                          className="fa fa-refresh fa-spin"
+                          style={{ marginRight: "5px" }}
+                        />
+                      )}
+                      {loading && <span>Đang thực thi...</span>}
+                      {!loading && <span>Chấp nhận</span>}
+                    </Button>
+                  </Form.Item>
+                </div> : null}
             </div>
           </Form>
         </div>
