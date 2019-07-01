@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { message, Form, Input, Button } from 'antd';
 import { adminService } from '../../actions/Company/admin.service'
+import MainHeader from '../../components/MainHeader';
+import Footer from '../../components/Footer';
 
 class ForgotPasswordCompany extends Component {
     constructor() {
@@ -106,6 +108,7 @@ class ForgotPasswordCompany extends Component {
         };
         return (
             <div>
+                <MainHeader/>
                 <div className="content-area" style={{ backgroundColor: 'lightgray' }}>
                     <div className="container">
                         <div className="row">
@@ -119,6 +122,7 @@ class ForgotPasswordCompany extends Component {
                                             <h1>
                                                 <span>Quên mật khẩu</span>
                                             </h1>
+                                            <h6>(*Đây là trang cho tài khoản công ty)</h6>
                                         </div>
                                         <div style={{ borderBottom: '1px solid #ccc', marginBottom: '10px' }}></div>
                                         {/* Form start */}
@@ -156,6 +160,7 @@ class ForgotPasswordCompany extends Component {
                         </div>
                     </div>
                 </div>
+                <Footer/>
             </div>
         );
     }

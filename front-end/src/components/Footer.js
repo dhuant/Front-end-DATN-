@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import {withRouter} from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 
 class Footer extends Component {
-    onHome =(e) =>{
+    onHome = (e) => {
         e.preventDefault();
         this.props.history.push('/')
     }
-    onAbout = (e) =>{
+    onAbout = (e) => {
         e.preventDefault();
         this.props.history.push('/about')
     }
@@ -28,7 +28,7 @@ class Footer extends Component {
                                             <h1>Liên hệ với chúng tôi</h1>
                                         </div>
                                         <p>
-                                            Chúng tôi là sinh viên khóa K15 Trường đại học Khoa học Tự nhiên 
+                                            Chúng tôi là sinh viên khóa K15 Trường đại học Khoa học Tự nhiên
                                             TP.Hồ Chí Minh. Mọi chi tiết thắc mắc, liên hệ quảng cáo, xin vui lòng liên hệ với thông tin đượ
                                             mô tả bên dưới.
                 </p>
@@ -59,7 +59,7 @@ class Footer extends Component {
                                 <div className="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                     <div className="footer-item">
                                         <div className="main-title-2">
-                                            <h1>Links</h1>
+                                            <h1>Liên kết</h1>
                                         </div>
                                         <ul className="links">
                                             <li>
@@ -69,19 +69,19 @@ class Footer extends Component {
                                                 <a href="true" onClick={this.onAbout}>Về chúng tôi</a>
                                             </li>
                                             <li>
-                                                <a href="true">Liên hệ</a>
+                                                <Link to="/agents/1">Nhà môi giới</Link>
                                             </li>
                                             <li>
-                                                <a href="true">Bài viết</a>
+                                                <Link to="/estatelistview">Danh sách bài đăng</Link>
                                             </li>
                                             <li>
-                                                <a href="true">Dịch vụ</a>
+                                                <Link to="/companies/1">Công ty đối tác</Link>
                                             </li>
-                                           
+
                                         </ul>
                                     </div>
                                 </div>
-                                
+
                                 {/* Subscribe */}
                                 <div className="col-lg-5 col-md-5 col-sm-6 col-xs-12">
                                     <div className="footer-item">
@@ -122,7 +122,7 @@ class Footer extends Component {
                 {
                     /* Footer end */
                 }
-    
+
             </div>
         );
     }

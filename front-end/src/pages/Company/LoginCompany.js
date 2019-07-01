@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 // import { GoogleLogin } from 'react-google-login';
 import * as Config from '../../constants/Config'
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import * as actions from '../../actions/Company/requestCompany';
 import * as actionAuth from '../../actions/auth'
 import { connect } from 'react-redux';
@@ -26,16 +26,16 @@ class Login extends Component {
         if (localStorage.getItem('company')) {
             this.props.history.push('/company/profile-admin')
         }
-        else if(localStorage.getItem('res')){
+        else if (localStorage.getItem('res')) {
             this.props.history.push('/')
         }
     }
-    
+
     onResetPassword = (e) => {
         e.preventDefault();
         this.props.history.push('/company/forgotpassword');
     }
-    
+
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -173,6 +173,11 @@ class Login extends Component {
                                                 </Button>
 
                                             </Form.Item>
+                                            <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'right', marginTop: '-30px' }}>
+                                                <Link to='/login'>
+                                                    Quay về trang đăng nhập chính
+                                                    </Link>
+                                            </Form.Item>
                                         </Form>
                                         {/* Form end */}
                                     </div>
@@ -184,7 +189,7 @@ class Login extends Component {
                         </div>
                     </div>
                 </div>
-                <Footer/>
+                <Footer />
             </div>
         );
     }

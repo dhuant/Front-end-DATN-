@@ -828,7 +828,7 @@ class SubmitProperty extends Component {
                 <Modal visible={this.state.previewVisible} footer={null} onCancel={this.onHandleCancelImage} width="800px" style={{ height: "500px" }}>
                     <img alt="example" src={this.state.previewImage} style={{ width: "750px", height: "500px" }} />
                 </Modal>
-            </div> : <Redirect to={"/login"}/>
+            </div> : <Redirect to={"/notilogin"}/>
         );
     }
 }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { message, Form, Input, Button } from 'antd';
 import { service } from '../../actions/service'
+import MainHeader from '../../components/MainHeader';
+import Footer from '../../components/Footer';
 
 class ForgotPasswordEmployee extends Component {
     constructor() {
@@ -11,10 +13,10 @@ class ForgotPasswordEmployee extends Component {
         };
     }
     componentDidMount() {
-        if(localStorage.getItem('company')){
+        if (localStorage.getItem('company')) {
             this.props.history.push('/company/profile-admin')
         }
-        else if(localStorage.getItem('res')){
+        else if (localStorage.getItem('res')) {
             this.props.history.push('/')
         }
         this.setState({
@@ -48,7 +50,7 @@ class ForgotPasswordEmployee extends Component {
                             })
                     });
             }
-            else{
+            else {
                 this.setState({
                     disable: false,
                 })
@@ -106,6 +108,7 @@ class ForgotPasswordEmployee extends Component {
         };
         return (
             <div>
+                <MainHeader />
                 <div className="content-area" style={{ backgroundColor: 'lightgray' }}>
                     <div className="container">
                         <div className="row">
@@ -119,6 +122,7 @@ class ForgotPasswordEmployee extends Component {
                                             <h1>
                                                 <span>Quên mật khẩu</span>
                                             </h1>
+                                            <h6>(*Đây là trang cho nhân viên)</h6>
                                         </div>
                                         <div style={{ borderBottom: '1px solid #ccc', marginBottom: '10px' }}></div>
                                         {/* Form start */}
@@ -156,6 +160,7 @@ class ForgotPasswordEmployee extends Component {
                         </div>
                     </div>
                 </div>
+                <Footer />
             </div>
         );
     }
