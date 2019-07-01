@@ -396,8 +396,8 @@ class EstateListListView extends Component {
                                                         style={{ marginRight: "5px" }}
                                                     />
                                                 )}
-                                                {loading && <span>Đang thêm tài khoản...</span>}
-                                                {!loading && <span>Thêm tài khoản</span>}
+                                                {loading && <span>Đang tìm...</span>}
+                                                {!loading && <span>Tìm kiếm</span>}
                                                 </button>
                                                 {/* </div> */}
                                             </div>

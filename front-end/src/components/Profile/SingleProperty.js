@@ -74,6 +74,19 @@ export class SingleProperty extends Component {
     });
   }
 
+  ImageSlideinModal = (url) => {
+    var result = null
+    if (url && url.length > 0) {
+      result = url.map((image, index) => {
+        return (
+          <div className={index === 0 ? "item active" : "item"} style={{ height: "300px" }}>
+            <img src={image} alt={index} key={index} />
+          </div>
+        )
+      })
+    }
+    return result
+  }
   render() {
     let { estateListOfUser } = this.props
     let { visibleView } = this.state
@@ -85,7 +98,7 @@ export class SingleProperty extends Component {
     }
     return (
       <div className="projectSingle" style={{ padding: "0px 20px" }}>
-        <div className="property-tag button alt featured" style={{ marginLeft: '30px', color: 'white', width:'120px',textAlign:'center' }}>{status}</div>
+        <div className="property-tag button alt featured" style={{ marginLeft: '30px', color: 'white', width: '120px', textAlign: 'center' }}>{status}</div>
         <tr>
           <td className="title-container" style={{ width: "700px" }}>
 
@@ -112,6 +125,8 @@ export class SingleProperty extends Component {
             <div style={{ marginBottom: "5px" }} className="view">
               <i className="fa fa-eye"
                 style={{ cursor: "pointer", width: "20px", height: "20px" }}
+                // data-toggle="modal" 
+                // data-target={`#` + estateListOfUser._id}
                 onClick={() => this.setState({ visibleView: true, visibleEdit: false })}
               >
                 <span style={{ marginLeft: "5px" }}>Xem</span>
@@ -151,6 +166,95 @@ export class SingleProperty extends Component {
             <ViewUI estateUserInfo={estateListOfUser} />
           </div>
         </Modal>
+
+        <div className="modal property-modal fade" id={estateListOfUser._id} tabIndex="-1" role="dialog" aria-labelledby="carModalLabel1" aria-hidden="true">
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="carModalLabel1">
+                  {estateListOfUser.name}
+                </h5>
+                <p>
+                  {estateListOfUser.address}
+                </p>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="row modal-raw">
+                  <div className="col-lg-5 modal-left">
+                    <div className="modal-left-content">
+                      <div className="bs-example" data-example-id="carousel-with-captions">
+                        <div className="carousel slide" id={estateListOfUser.createTime} data-ride="carousel" name={estateListOfUser._id}>
+                          <div className="carousel-inner" role="listbox">
+                            {this.ImageSlideinModal(estateListOfUser.url)}
+                          </div>
+                          <a className="control control-prev" href={`#` + estateListOfUser.createTime} role="button" data-slide="prev">
+                            <i className="fa fa-angle-left" />
+                          </a>
+                          <a className="control control-next" href={`#` + estateListOfUser.createTime} role="button" data-slide="next">
+                            <i className="fa fa-angle-right" />
+                          </a>
+                        </div>
+                      </div>
+                      <div className="description">
+                        <h3>Mô tả chi tiết</h3>
+                        <p>{estateListOfUser.info.length > 300 ? estateListOfUser.info.slice(0, 300) + '...' : estateListOfUser.info}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-lg-7 modal-right">
+                    <div className="modal-right-content bg-white">
+                      <strong className="price">
+                        {estateListOfUser.price >= 1000 && estateListOfUser.statusProject === 1 ? (estateListOfUser.price / 1000).toFixed(2) + ' Tỉ' : estateListOfUser.price + ' ' + estateListOfUser.unit}
+                      </strong>
+                      <section>
+                        <h3>Thông tin liên hệ</h3>
+                        <div className="features">
+                          <ul className="bullets">
+                            <li><i className="fa fa-user" />Tên người liên hệ: {estateListOfUser.fullname}</li>
+                            <li><i className="fa fa-phone" />SĐT: {estateListOfUser.phone}</li>
+                            <li><i className="fa fa-envelope" />Email: {estateListOfUser.email}</li>
+                            <li><i className="fa fa-address-card" />Địa chỉ: {estateListOfUser.address}</li>
+
+                          </ul>
+                        </div>
+                      </section>
+                      <section>
+                        <h3>Tổng quan</h3>
+                        <dl>
+                          <dt>Diện tích</dt>
+                          <dd>{estateListOfUser.area + ' m2'}</dd>
+                          <dt>Nhà đầu tư</dt>
+                          <dd>{estateListOfUser.investor}</dd>
+                          <dt>Giá</dt>
+                          <dd>{estateListOfUser.price >= 1000 && estateListOfUser.statusProject === 1 ? (estateListOfUser.price / 1000).toFixed(2) + ' Tỉ' : estateListOfUser.price + ' ' + estateListOfUser.unit}</dd>
+                        </dl>
+                      </section>
+                      {/* <section>
+                                                    <h3>Last Review</h3>
+                                                    <div className="ratings" data-rating={5}>
+                                                        <span>
+                                                            <i className="fa fa-star s1 active" data-score={1} />
+                                                            <i className="fa fa-star s2 active" data-score={2} />
+                                                            <i className="fa fa-star s3 active" data-score={3} />
+                                                            <i className="fa fa-star s4 active" data-score={4} />
+                                                            <i className="fa fa-star s5 active" data-score={5} />
+                                                        </span>
+                                                    </div>
+                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
+                                                </section> */}
+                      <Link to={`/properties/${estateListOfUser._id}`}>
+                        <a className="btn button-sm button-theme">Xem chi tiết</a>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }

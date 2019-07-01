@@ -34,34 +34,33 @@ class Properties extends Component {
         }
 
         return (
-            localStorage.getItem('res') ?
-                <div>
-                    <MainHeader />
-                    {/* Sub banner start */}
-                    <div className="sub-banner overview-bgi">
-                        <div className="overlay">
-                            <div className="container">
-                                <div className="breadcrumb-area">
-                                    <h1>Chi tiết bài đăng</h1>
-                                    <ul className="breadcrumbs">
-                                        <li><Link to="/">Trang chủ</Link></li>
-                                        <li className="active">Chi tiết bài đăng</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* Sub Banner end */}
-                    <div className="content-area  properties-details-page">
+            <div>
+                <MainHeader />
+                {/* Sub banner start */}
+                <div className="sub-banner overview-bgi">
+                    <div className="overlay">
                         <div className="container">
-                            <div className="row">
-                                {/* <PropertiesDetail info={info} id={this.props.match.params.id}/> */}
-                                {detail}
+                            <div className="breadcrumb-area">
+                                <h1>Chi tiết bài đăng</h1>
+                                <ul className="breadcrumbs">
+                                    <li><Link to="/">Trang chủ</Link></li>
+                                    <li className="active">Chi tiết bài đăng</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    <Footer />
-                </div> : <Redirect to={`/login`} />
+                </div>
+                {/* Sub Banner end */}
+                <div className="content-area  properties-details-page">
+                    <div className="container">
+                        <div className="row">
+                            {/* <PropertiesDetail info={info} id={this.props.match.params.id}/> */}
+                            {detail}
+                        </div>
+                    </div>
+                </div>
+                <Footer />
+            </div>
         );
     }
 }

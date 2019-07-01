@@ -153,9 +153,12 @@ export const actGetFollowingListRequest = () => {
         dispatch(Action.actGetFollowingList(res.data.result.projects))
     })
       .catch(err => {
-        if (err.response.data.status === 401) {
+        if (err.response.data.status === 401 && localStorage.getItem('res')) {
           localStorage.removeItem('res')
           return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
+        }
+        else if (!localStorage.getItem('res')) {
+          return
         }
         else return message.error('Có lỗi xảy ra!')
       })

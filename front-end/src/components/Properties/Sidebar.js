@@ -41,8 +41,8 @@ class Sidebar extends Component {
       console.log(this.props.currentEstate)
       // this.props.actFetchEstatesRequest(this.props.currentEstate)
       this.fetchData(res => {
-        if (res.data.count > 30) {
-          const temp = res.data.projects.slice(0, 30)
+        if (res.data.count > 10) {
+          const temp = res.data.projects.slice(0, 10)
           this.setState({
             data: temp
           })
@@ -117,7 +117,9 @@ class Sidebar extends Component {
       return;
     }
     this.fetchData(res => {
-      data = data.concat(res.data.projects)
+      if (res.data.project.length > 10)
+        data = data.concat(res.data.projects.slice(0, 10))
+      else data = data.concat(res.data.projects)
       this.setState({
         data,
         loading: false,
