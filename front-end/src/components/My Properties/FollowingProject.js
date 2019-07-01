@@ -4,6 +4,7 @@ import ViewUI from './ViewUI'
 import { Modal, Button } from 'antd';
 import * as actions from '../../actions/request'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const confirm = Modal.confirm
 
@@ -65,17 +66,26 @@ class FollowingProject extends Component {
     let { visibleViewFollow } = this.state
     return (
       <div>
+
         <tr>
           <td className="title-container followSingle" style={{ width: "800px" }}>
             <img src='/images/Home.png' alt="my-properties-1" className="img-responsive hidden-xs" />
             <div className="title">
-              <h4 style={{ color: "#84ad1d", fontSize: "20px", cursor: "pointer" }} onClick={() => this.setState({ visibleViewFollow: true, visibleUnfollow: false })}>{projectInfo.name}
-                <i className="fa fa-heartbeat"
-                  style={{ cursor: "pointer", marginLeft: "10px", color: "red" }}
-                  onClick={this.showUnfollowConfirm} id={projectInfo._id}
+              <Link to={`/properties/${projectInfo._id}`} target="_blank">
+                <h4
+                  style={{ color: "#84ad1d", fontSize: "20px", cursor: "pointer" }}
+                // onClick={() => this.setState({ visibleViewFollow: true, visibleUnfollow: false })}
                 >
+                  {projectInfo.name}
+
+                </h4>
+              </Link>
+              <i className="fa fa-heartbeat"
+                style={{ cursor: "pointer", color: "red", marginRight: "10px" }}
+                onClick={this.showUnfollowConfirm} id={projectInfo._id}
+              >
+                {`  Bỏ yêu thích`}
                 </i>
-              </h4>
               <span><i className="fa fa-user-circle-o" />{projectInfo.investor}</span>
               <span><i className="fa fa-map-marker" style={{ width: "10px", marginLeft: "2px" }} /> {projectInfo.address} </span>
               {/* <span className="table-property-price"><i className="fa fa-money" />{projectInfo.price}</span> */}
@@ -87,6 +97,7 @@ class FollowingProject extends Component {
               </span>
             </div>
           </td>
+
           {/* <td className="action" style={{ width: "200px" }}>
             <div style={{ marginBottom: "5px" }} className="view">
               <i className="fa fa-eye"

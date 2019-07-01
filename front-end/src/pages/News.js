@@ -5,7 +5,7 @@ import Footer from '../components/Footer'
 // import SingleProperty from '../components/Profile/SingleProperty'
 import SingleNews from '../components/News/SingleNews'
 // import { MY_PROPERTIES } from '../constants/Profile';
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import MainHeader from '../components/MainHeader';
 import * as actions from '../actions/request'
 import { connect } from 'react-redux'
@@ -87,88 +87,87 @@ export class News extends Component {
         console.log(news);
         // console.log(newsType);
         return (
-            localStorage.getItem('res') ?
-                <div>
-                    <MainHeader component={NEWS} />
-                    {/* Sub banner start */}
-                    <div className="sub-banner overview-bgi">
-                        <div className="overlay">
-                            <div className="container">
-                                <div className="breadcrumb-area">
-                                    <h1>Tin tức mới nhất</h1>
-                                    <ul className="breadcrumbs">
-                                        <li><Link to="/">Trang chủ</Link></li>
-                                        <li className="active">Tin tức</li>
-                                    </ul>
-                                </div>
+            <div>
+                <MainHeader component={NEWS} />
+                {/* Sub banner start */}
+                <div className="sub-banner overview-bgi">
+                    <div className="overlay">
+                        <div className="container">
+                            <div className="breadcrumb-area">
+                                <h1>Tin tức mới nhất</h1>
+                                <ul className="breadcrumbs">
+                                    <li><Link to="/">Trang chủ</Link></li>
+                                    <li className="active">Tin tức</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    {/* Sub Banner end */}
+                </div>
+                {/* Sub Banner end */}
 
-                    {/* My Propertiess start */}
-                    <div className="content-area-7 my-properties">
-                        <div className="container">
-                            <div className="row">
+                {/* My Propertiess start */}
+                <div className="content-area-7 my-properties">
+                    <div className="container">
+                        <div className="row">
 
-                                <div className="col-lg-12 col-md-12 col-sm-12">
-                                    <div className='row'>
-                                        <div className="main-title-2 col-lg-4 col-md-4 col-xs-4">
-                                            <h1><span>Tin tức</span> mới nhất</h1>
-                                        </div>
-                                        <div className="col-lg-6 col-md-6 col-xs-6"></div>
-                                        <div className="col-lg-2 col-md-2 col-xs-2">
-                                            <label>
-                                                Xem theo loại tin
+                            <div className="col-lg-12 col-md-12 col-sm-12">
+                                <div className='row'>
+                                    <div className="main-title-2 col-lg-4 col-md-4 col-xs-4">
+                                        <h1><span>Tin tức</span> mới nhất</h1>
+                                    </div>
+                                    <div className="col-lg-6 col-md-6 col-xs-6"></div>
+                                    <div className="col-lg-2 col-md-2 col-xs-2">
+                                        <label>
+                                            Xem theo loại tin
                                         </label>
-                                            <select className="form-control"
-                                                name="type"
-                                                value={newsType}
-                                                onChange={this.onChangeValue}
-                                                id="News">
-                                                {NewsType.map((type, index) => <option key={index} value={type.value}>{type.label}</option>)}
+                                        <select className="form-control"
+                                            name="type"
+                                            value={newsType}
+                                            onChange={this.onChangeValue}
+                                            id="News">
+                                            {NewsType.map((type, index) => <option key={index} value={type.value}>{type.label}</option>)}
 
-                                            </select>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {/* table start */}
+                                <div className="blog-body content-area">
+                                    <div className="row">
+                                        <div className="col-lg-12">
+                                            {this.ShowNewsList(news)}
                                         </div>
                                     </div>
-
-                                    {/* table start */}
-                                    <div className="blog-body content-area">
-                                        <div className="row">
-                                            <div className="col-lg-12">
-                                                {this.ShowNewsList(news)}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* <table className="manage-table responsive-table">
+                                </div>
+                                {/* <table className="manage-table responsive-table">
                                     <tbody>
                                         
                                     </tbody>
                                 </table> */}
-                                    {/* table end */}
-                                </div>
+                                {/* table end */}
                             </div>
                         </div>
                     </div>
-                    {/* Page navigation start */}
-                    <div style={{ marginBottom: "20px", right: "10px", textAlign: "center" }}>
-                        {news.length !== 0 ?
-                            <React.Fragment>
-                                <Button style={{ marginRight: "10px" }} onClick={() => this.prev()} disabled={this.state.prevDisable}>
-                                    <i className="fa fa-arrow-left" style={{ marginRight: "3px" }}></i>Trang trước
+                </div>
+                {/* Page navigation start */}
+                <div style={{ marginBottom: "20px", right: "10px", textAlign: "center" }}>
+                    {news.length !== 0 ?
+                        <React.Fragment>
+                            <Button style={{ marginRight: "10px" }} onClick={() => this.prev()} disabled={this.state.prevDisable}>
+                                <i className="fa fa-arrow-left" style={{ marginRight: "3px" }}></i>Trang trước
                             </Button>
-                                <Button style={{}} onClick={() => this.next()} disabled={this.state.nextDisable}>
-                                    <i className="fa fa-arrow-right" style={{ marginRight: "3px" }}></i>Trang kế
+                            <Button style={{}} onClick={() => this.next()} disabled={this.state.nextDisable}>
+                                <i className="fa fa-arrow-right" style={{ marginRight: "3px" }}></i>Trang kế
                             </Button>
-                            </React.Fragment>
-                            : null}
-                    </div>
-                    {/* Page navigation end*/}
+                        </React.Fragment>
+                        : null}
+                </div>
+                {/* Page navigation end*/}
 
-                    {/* My Propertiess end */}
+                {/* My Propertiess end */}
 
-                    <Footer />
-                </div> : <Redirect to={`/login`} />
+                <Footer />
+            </div>
         )
     }
     ShowNewsList = (newss) => {
