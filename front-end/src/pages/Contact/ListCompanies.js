@@ -54,7 +54,6 @@ class ListCompaies extends Component {
         let current = this.state.current
         let total = this.props.totalPage
         console.log(companies);
-        let des = ''
         let listCompanies = <h5 style={{ marginLeft: '15px' }}>Hiện không có công ty nào</h5>;
         if (companies.length > 0) {
             if (option === '1') {
@@ -63,8 +62,6 @@ class ListCompaies extends Component {
             else if (option === '2') {
                 companies = companies.sort((a, b) => (b.createTime - a.createTime))
             }
-
-            des = `Hiện đang có ${companies.length} công ty đối tác trên hệ thống`
             listCompanies = companies.map((company, index) => {
                 return (
                     <Company

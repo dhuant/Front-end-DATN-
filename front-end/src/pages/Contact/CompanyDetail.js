@@ -6,6 +6,7 @@ import * as actions from '../../actions/Contact/requestContact';
 import { connect } from 'react-redux';
 import Employee from '../../components/Contact/Employee';
 import { Pagination } from 'antd';
+import {Link} from 'react-router-dom'
 import moment from 'moment'
 const pageSize = 5
 const Options = [
@@ -40,19 +41,12 @@ class CompanyDetail extends Component {
     }
     componentDidMount() {
         this.props.reqGetInfoCompany(this.props.match.params.id);
-        // let employees = this.props.employees;
-        // let arr = [];
-        // employees.forEach(element => {
-        //     arr.push(element)
-        // });
-        // this.setState({
-        //     pageEmployee: arr
-        // })
+        
     }
     render() {
         let { option } = this.state;
         let company = this.props.info;
-        let { employees, totalPage } = this.props;
+        let { employees } = this.props;
         let total = 1
         let list = []
         let current = this.state.current
@@ -99,7 +93,7 @@ class CompanyDetail extends Component {
                             <div className="breadcrumb-area">
                                 <h1>Thông tin công ty</h1>
                                 <ul className="breadcrumbs">
-                                    <li><a href="index.html">Trang chủ</a></li>
+                                    <li><Link to='/'>Trang chủ</Link></li>
                                     <li className="active">Thông tin công ty</li>
                                 </ul>
                             </div>

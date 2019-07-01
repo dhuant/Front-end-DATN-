@@ -4,6 +4,7 @@ import SidebarAgentDetail from '../../components/ContactDetail/SidebarAgentDetai
 import InfoEstateOfAgent from '../../components/ContactDetail/InfoEstateOfAgent';
 import * as actions from '../../actions/Contact/requestContact';
 import { connect } from 'react-redux';
+import {Link} from 'react-router-dom'
 import { Pagination } from 'antd'
 const pageSize = 10
 
@@ -70,7 +71,7 @@ class AgentDetail extends Component {
             // else if(option === '4') {
             // 	agents = agents.sort((a, b) => (b.area - a.area))
             // }
-            des = `Hiện đang có ${projects.length} bài đăng`
+            des = `Hiện đang có ${total} bài đăng`
             listProjects = projects.map((project, index) => {
                 return (
                     <InfoEstateOfAgent
@@ -80,10 +81,6 @@ class AgentDetail extends Component {
                 )
             }
             )
-        }
-        let company = 'Môi giới tự do'
-        if (info.company !== "0") {
-            company = info.company
         }
         let mobile = 'Đang cập nhật'
         if (info.phone !== ' ' && info.phone !== "") {
@@ -104,7 +101,7 @@ class AgentDetail extends Component {
                             <div className="breadcrumb-area">
                                 <h1>Thông tin nhà môi giới</h1>
                                 <ul className="breadcrumbs">
-                                    <li><a href="index.html">Trang chủ</a></li>
+                                    <li><Link to='/'>Trang chủ</Link></li>
                                     <li className="active">Thông tin nhà môi giới</li>
                                 </ul>
                             </div>
