@@ -34,7 +34,6 @@ class Properties extends Component {
         }
 
         return (
-            localStorage.getItem('res') ?
                 <div>
                     <MainHeader />
                     {/* Sub banner start */}
@@ -61,7 +60,7 @@ class Properties extends Component {
                         </div>
                     </div>
                     <Footer />
-                </div> : <Redirect to={`/login`} />
+                </div>
         );
     }
 }
