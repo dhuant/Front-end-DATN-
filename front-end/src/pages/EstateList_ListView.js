@@ -413,7 +413,7 @@ class EstateListListView extends Component {
                                 {/* Option bar start */}
                                 <div className="option-bar">
                                     <div className="row">
-                                        <div className="col-lg-6 col-md-6 col-sm-6 col-xs-2">
+                                        <div className="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                             <h4>
                                                 <span className="heading-icon">
                                                     <i className="fa fa-th-list" />
@@ -421,7 +421,7 @@ class EstateListListView extends Component {
                                                 <span className="hidden-xs">Danh sách bài đăng</span>
                                             </h4>
                                         </div>
-                                        <div className="col-lg-6 col-md-6 col-sm-6 col-xs-10 col-pad">
+                                        <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12 col-pad">
                                             <div className="form-group" style={{ margin: '7px 5px 7px 5px' }} >
                                                 <select className="form-control"
                                                     name="option"
