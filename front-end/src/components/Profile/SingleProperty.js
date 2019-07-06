@@ -97,14 +97,17 @@ export class SingleProperty extends Component {
       }
     }
     return (
-      <div className="projectSingle" style={{ padding: "0px 20px" }}>
-        <div className="property-tag button alt featured" style={{ marginLeft: '30px', color: 'white', width: '120px', textAlign: 'center' }}>{status}</div>
-        <tr>
-          <td className="title-container" style={{ width: "700px" }}>
+      <div className="projectSingle" style={{ padding: "0px 20px", width: "100%" }}>
+        <div className="property-tag button alt featured" style={{ color: 'white', width: '120px', textAlign: 'center', marginBottom: "15px" }}>{status}</div>
+        <tr style={{ marginTop: "10px" }}>
+          <td className="title-container">
 
             <img src={estateListOfUser.url[0]} alt="my-properties-1" className="img-responsive hidden-xs" style={{ width: "150px", height: "150px", marginLeft: "10px" }} />
             <div className="title">
-              <h4 style={{ color: "#84ad1d", fontSize: "20px", cursor: "pointer" }} onClick={() => this.setState({ visibleView: true, visibleEdit: false })}>{estateListOfUser.name}</h4>
+              <Link to={`/properties/${estateListOfUser._id}`} target="_blank">
+                <h4 style={{ color: "#84ad1d", fontSize: "20px", cursor: "pointer" }} onClick={() => this.setState({ visibleView: true, visibleEdit: false })}>{estateListOfUser.name}</h4>
+              </Link>
+
               <span><i className="fa fa-user-circle-o" />{estateListOfUser.investor}</span>
               <span><i className="fa fa-map-marker" style={{ width: "10px", marginLeft: "2px" }} /> {estateListOfUser.address} </span>
               {/* <span className="table-property-price"><i className="fa fa-money" />{estateListOfUser.price}</span> */}
@@ -121,8 +124,8 @@ export class SingleProperty extends Component {
             </div>
           </td>
 
-          <td className="action" style={{ width: "200px", marginRight: "10px" }}>
-            <div style={{ marginBottom: "5px" }} className="view">
+          <td className="action">
+            {/* <div style={{ marginBottom: "5px" }} className="view">
               <i className="fa fa-eye"
                 style={{ cursor: "pointer", width: "20px", height: "20px" }}
                 // data-toggle="modal" 
@@ -131,7 +134,7 @@ export class SingleProperty extends Component {
               >
                 <span style={{ marginLeft: "5px" }}>Xem</span>
               </i>
-            </div>
+            </div> */}
 
             <Link to={`myproperties/edit/${estateListOfUser._id}`} target="_blank">
               <i className="fa fa-pencil" style={{ cursor: "pointer", width: "20px", height: "20px" }} >
@@ -157,7 +160,7 @@ export class SingleProperty extends Component {
           onCancel={this.handleCancel}
           // onOk={this.handleOk}
           style={{ height: "80%", overflowY: "auto", zIndex: "1000", boxShadow: "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)" }}
-          width="60%"
+          width="100%"
           footer={[
             <Button key="back" onClick={this.handleCancel}>Close</Button>
           ]}

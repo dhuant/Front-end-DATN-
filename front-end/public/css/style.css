@@ -1288,6 +1288,11 @@ input[type=checkbox]:checked + label:before {
     margin-top: 15px;
 }
 
+.property-tag.feature {
+    left: 15px;
+    margin-bottom: 15px;
+}
+
 .property-price {
     color: white;
     position: absolute;

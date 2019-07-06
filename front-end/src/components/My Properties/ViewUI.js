@@ -187,8 +187,8 @@ class ViewUI extends Component {
                                                     </h1>
                                                 </div>
                                                 <div className="row">
-                                                    <div className="col-md-3 col-sm-3 col-xs-12">
-                                                        <ul className="condition">
+                                                    <div className="col-md-3 col-sm-3 col-xs-4">
+                                                        <ul className="condition" style={{width:"100%", overflow: "hidden", textOverflow: "ellipsis"}}>
                                                             <li>
                                                                 <i className="fa fa-user" />Tên người liên hệ:
                                                             </li>
@@ -206,7 +206,7 @@ class ViewUI extends Component {
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                    <div className="col-md-9 col-sm-9 col-xs-12">
+                                                    <div className="col-md-9 col-sm-9 col-xs-8">
                                                         <ul className="condition" style={{ fontWeight: "bold" }}>
                                                             <li>
                                                                 {estateUserInfo.fullname === null ? 'Không có' : estateUserInfo.fullname}

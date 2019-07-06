@@ -74,9 +74,9 @@ class SingleCurrTransaction extends Component {
     let { transactionSingle } = this.props
     console.log(transactionSingle)
     return (
-      <div className="containerTran" style={{ padding: "0px 20px" }}>
+      <div className="containerTran" style={{ padding: "0px 20px", width: "100%" }}>
         <tr className="transactionSingle">
-          <td className="title-container" style={{ width: "700px" }}>
+          <td className="title-container">
             <img src={transactionSingle.project.url[0]} alt="my-properties-1" className="img-responsive hidden-xs" style={{ width: "150px", height: "150px", marginLeft: "10px" }} />
             <div className="title">
               <Link to={`/mytransactions/${transactionSingle._id}/${transactionSingle.typetransaction}`}>
@@ -95,7 +95,7 @@ class SingleCurrTransaction extends Component {
               </span>
             </div>
           </td>
-          <td style={{ width: "200px", textAlign: "center" }}>
+          <td style={{ textAlign: "center" }}>
             <div>
               {transactionSingle.status === 1 ?
                 <Tag color="cyan" style={{ width: "150px" }}>Đang giao dịch</Tag>

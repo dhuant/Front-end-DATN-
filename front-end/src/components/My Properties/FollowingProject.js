@@ -68,7 +68,7 @@ class FollowingProject extends Component {
       <div>
 
         <tr>
-          <td className="title-container followSingle" style={{ width: "800px" }}>
+          <td className="title-container followSingle">
             <img src='/images/Home.png' alt="my-properties-1" className="img-responsive hidden-xs" />
             <div className="title">
               <Link to={`/properties/${projectInfo._id}`} target="_blank">
