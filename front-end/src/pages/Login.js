@@ -227,13 +227,13 @@ class Login extends Component {
                                                 </Form.Item>
 
                                                 <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', marginTop: '-30px' }}>
-                                                    <Button style={{ width: '100%' }} type="primary" size='large' htmlType="submit" disabled={this.state.disable} name='normalLoginButton'>
+                                                    <Button style={{ width: '100%', overflow: "hidden", textOverflow: "ellipsis" }} type="primary" size='large' htmlType="submit" disabled={this.state.disable} name='normalLoginButton'>
                                                         Đăng nhập
                                                 </Button>
 
                                                 </Form.Item>
-                                                <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', }}>
-                                                    <Button style={{ width: '100%' }} type="danger" size='large' disabled={this.state.disable} onClick={this.onLoginCompany} name='companyLoginButton'>
+                                                <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', display: "block"}}>
+                                                    <Button style={{ width: '100%', overflow: "hidden", textOverflow: "ellipsis" }} type="danger" size='large' disabled={this.state.disable} onClick={this.onLoginCompany} name='companyLoginButton'>
                                                         Đăng nhập bằng tài khoản công ty
                                                 </Button>
 

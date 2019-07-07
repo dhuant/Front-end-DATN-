@@ -11,7 +11,7 @@ export default class SingleHintProperty extends Component {
                 </div>
                 <div className="media-body">
                     <h3 className="media-heading">
-                        <a href="properties-details.html">{info.name}</a>
+                        <a href={`/properties/${info._id}`}>{info.name}</a>
                     </h3>
                     <p>{moment.unix(info.updateTime).format('DD/MM/YYYY')}</p>
                     <div className="price">
