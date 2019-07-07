@@ -397,6 +397,7 @@ class EditUI extends Component {
                                                             name="name"
                                                             id="name"
                                                             placeholder="Tên bài đăng"
+                                                            maxLength={100}
                                                             required
                                                             defaultValue={this.state.name}
                                                         />
@@ -522,6 +523,7 @@ class EditUI extends Component {
                                                         id="description"
                                                         placeholder="Nhập nội dung bài đăng ở đây..."
                                                         value={this.state.description}
+                                                        maxLength={3000}
                                                         required>
 
                                                     </textarea>
@@ -555,6 +557,7 @@ class EditUI extends Component {
                                                             placeholder="Tên người liên hệ"
                                                             // onChange={this.onHandleChange}
                                                             defaultValue={this.state.fullname}
+                                                            maxLength={50}
                                                             required
 
                                                         />
@@ -566,11 +569,12 @@ class EditUI extends Component {
                                                     <div className="form-group">
                                                         <label>Số điện thoại</label>
                                                         <input
-                                                            type="text"
+                                                            type="tel"
                                                             className="input-text"
                                                             name="phone"
                                                             id="phone"
                                                             placeholder="Số điện thoại"
+                                                            pattern="[0]{1}[0-9]{9}"
                                                             // onChange={this.onHandleChange}
                                                             defaultValue={this.state.phone}
                                                             required
@@ -583,7 +587,7 @@ class EditUI extends Component {
                                                     <div className="form-group">
                                                         <label>Địa chỉ email</label>
                                                         <input
-                                                            type="text"
+                                                            type="email"
                                                             className="input-text"
                                                             name="contactemail"
                                                             id="contactemail"

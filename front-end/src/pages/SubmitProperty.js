@@ -150,8 +150,8 @@ class SubmitProperty extends Component {
                 .then(async res => {
                     // console.log(res);
                     if (res.status === 201) {
-                        await message.success('Đăng bài thành công!');
-                        await this.props.history.goBack()
+                        await message.success('Đăng bài thành công! Bài đăng sẽ được kiểm duyệt trong vòng 2 ngày!', 4);
+                        await this.props.history.push(`/myproperties`)
                     }
                     else if (res.status === 203) {
                         return message.error('Tài khoản của bạn đã đạt giới hạn đăng bài (5 bài). Vui lòng upgrade tài khoản để đăng nhiều hơn!')
@@ -403,6 +403,7 @@ class SubmitProperty extends Component {
                                                             name="name"
                                                             id="name"
                                                             placeholder="Tên bài đăng"
+                                                            maxLength={100}
                                                             // onChange={this.onHandleChange}
                                                             required
                                                         />
@@ -606,6 +607,7 @@ class SubmitProperty extends Component {
                                                         id="description"
                                                         placeholder="Nhập nội dung bài đăng ở đây..."
                                                         defaultValue={""}
+                                                        maxLength={3000}
                                                         // onChange={this.onHandleChange}
                                                         required
                                                     />
@@ -629,6 +631,7 @@ class SubmitProperty extends Component {
                                                             id="contactname"
                                                             placeholder="Tên người liên hệ"
                                                             // onChange={this.onHandleChange}
+                                                            maxLength={50}
                                                             required
                                                         />
 
@@ -638,11 +641,12 @@ class SubmitProperty extends Component {
                                                     <div className="form-group">
                                                         <label>Số điện thoại</label>
                                                         <input
-                                                            type="text"
+                                                            type="tel"
                                                             className="input-text"
                                                             name="contactphonenumber"
                                                             id="contactphonenumber"
                                                             placeholder="Số điện thoại"
+                                                            pattern="[0]{1}[0-9]{9}"
                                                             // onChange={this.onHandleChange}
                                                             required
                                                         />
@@ -655,7 +659,7 @@ class SubmitProperty extends Component {
                                                     <div className="form-group">
                                                         <label>Địa chỉ email</label>
                                                         <input
-                                                            type="text"
+                                                            type="email"
                                                             className="input-text"
                                                             name="contactemail"
                                                             id="contactemail"
