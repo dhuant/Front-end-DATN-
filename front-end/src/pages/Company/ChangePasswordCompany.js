@@ -48,7 +48,7 @@ class ChangePasswordCompany extends Component {
                     newPassword: values.newPassword,
 
                 }
-                console.log(data)
+                // console.log(data)
 
                 message.loading('Đang cập nhật lại mật khẩu', 2)
                     .then(() => {

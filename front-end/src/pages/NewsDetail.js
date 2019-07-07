@@ -12,7 +12,7 @@ export class NewsDetail extends Component {
     }
     render() {
         var { newsDetail } = this.props;
-        console.log(newsDetail);
+        // console.log(newsDetail);
         return (
             localStorage.getItem('res') ?
                 <div>

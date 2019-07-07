@@ -51,7 +51,7 @@ class MainHeader extends Component {
     onHandleProfile = (e) => {
         e.preventDefault();
         let token = JSON.parse(localStorage.getItem('res'));
-        console.log(token.googleId);
+        // console.log(token.googleId);
         // console.log(this.state.token);
         if (token.user._id) {
             this.props.history.push(`/profile`);
@@ -119,7 +119,7 @@ class MainHeader extends Component {
     
     render() {
         var token = localStorage.getItem('res')
-        console.log(token)
+        // console.log(token)
         
         return (
             <div>

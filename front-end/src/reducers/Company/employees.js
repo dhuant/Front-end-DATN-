@@ -7,7 +7,7 @@ const employees = (state = initialState, action) => {
     switch (action.type) {
         case types.SAVE_LIST_EMPLOYEES:
             state = action.employees;
-            console.log(state)
+            // console.log(state)
             return [...state];
        
         default: return [...state];

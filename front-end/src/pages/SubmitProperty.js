@@ -144,11 +144,11 @@ class SubmitProperty extends Component {
                 avatar: JSON.parse(localStorage.getItem('res')).user.avatar === undefined ? localStorage.getItem('avatar') : JSON.parse(localStorage.getItem('res')).user.avatar,
                 codelist: this.state.tags
             }
-            console.log(info);
+            // console.log(info);
             await this.setState({ loading: true })
             await axios.post(`${config.API_URL}/projects/`, info, { headers: authHeader() })
                 .then(async res => {
-                    console.log(res);
+                    // console.log(res);
                     if (res.status === 201) {
                         await message.success('Đăng bài thành công!');
                         await this.props.history.goBack()
@@ -235,7 +235,7 @@ class SubmitProperty extends Component {
     }
 
     onHandleOk = () => {
-        console.log(this.state.tags)
+        // console.log(this.state.tags)
         this.setState({ isShowCodeModal: false })
     }
     removeTag = (i) => {
@@ -266,7 +266,7 @@ class SubmitProperty extends Component {
     }
 
     onUploadingImages = async (list) => {
-        console.log(list)
+        // console.log(list)
         await Promise.all(list.map(async file => {
             await
                 request
@@ -274,7 +274,7 @@ class SubmitProperty extends Component {
                     .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                     .field('file', file)
                     .then(response => {
-                        console.log(response)
+                        // console.log(response)
                         this.setState({
                             url: this.state.url.concat(response.body.secure_url),
                             publicId: this.state.publicId.concat(response.body.public_id)
@@ -287,15 +287,15 @@ class SubmitProperty extends Component {
 
     handleUpload(files) {
         files.map(file => {
-            console.log(file)
+            // console.log(file)
             let reader = new FileReader()
             reader.onloadend = () => {
-                console.log(reader.result)
+                // console.log(reader.result)
                 this.setState({
                     previewList: [...this.state.previewList, reader.result],
                     imagesToUpload: [...this.state.imagesToUpload, file]
                 })
-                console.log(reader.result, file)
+                // console.log(reader.result, file)
             }
             reader.readAsDataURL(file);
         })
@@ -337,7 +337,7 @@ class SubmitProperty extends Component {
             okType: 'danger',
             cancelText: 'Trở lại',
             onOk: () => {
-                console.log('OK');
+                // console.log('OK');
                 this.state.imagesToUpload.splice(index, 1)
                 this.state.previewList.splice(index, 1)
                 this.setState({
@@ -346,7 +346,7 @@ class SubmitProperty extends Component {
                 })
             },
             onCancel() {
-                console.log('Cancel');
+                // console.log('Cancel');
             },
         });
     }

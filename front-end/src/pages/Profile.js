@@ -12,12 +12,12 @@ import Detail from '../components/Profile/Detail'
 class Profile extends Component {
     componentDidMount() {
         // this.props.actGetInfoUser(this.props.match.params.id);
-        console.log(this.props.match.params.id);
+        // console.log(this.props.match.params.id);
 
     }
     render() {
         let { user } = this.props;
-        console.log(user);
+        // console.log(user);
             return (
                 localStorage.getItem('res') ?
                 <div>

@@ -24,7 +24,7 @@ class TransactionDetail extends Component {
     }
     render() {
         var { transaction } = this.props
-        console.log(transaction)
+        // console.log(transaction)
         return (
             localStorage.getItem('res') ?
                 <div>

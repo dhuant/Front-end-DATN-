@@ -21,7 +21,7 @@ class Delivery extends Component {
       if (!err) {
         if (this.props.transaction.typetransaction === 1) {
           await this.setState({ loading: true })
-          console.log('Received values of form: ', values);
+          // console.log('Received values of form: ', values);
           deliveryData = {
             datecomplete: moment(values.deliveryDate, 'YYYY/MM/DD, h:mm a').unix(),
             apartmentcode: transactions.code,
@@ -43,7 +43,7 @@ class Delivery extends Component {
         }
         else if (this.props.transaction.typetransaction === 2) {
           await this.setState({ loading: true })
-          console.log('Received values of form: ', values);
+          // console.log('Received values of form: ', values);
           deliveryData = {
             datecomplete: moment(values.deliveryDate, 'YYYY/MM/DD, h:mm a').unix(),
             apartmentcode: transactions.code,

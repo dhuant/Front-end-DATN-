@@ -17,7 +17,7 @@ const desc = ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Tuyệt vời']
 class PropertiesDetail extends Component {
     constructor(props) {
         super(props);
-        console.log(props)
+        // console.log(props)
         this.props.onGetEstateDetail(this.props.id)
         this.state = {
             selectedOption: null,
@@ -202,7 +202,7 @@ class PropertiesDetail extends Component {
         }
 
         var abc = document.getElementById("comment").value
-        console.log(abc)
+        // console.log(abc)
         var commentInfoToPost = {
             projectid: info._id,
             user: info.ownerid,
@@ -241,12 +241,12 @@ class PropertiesDetail extends Component {
         }
         if (check === false) {
             this.props.onFollowProject(followInfo, estateInfo)
-            console.log(this.props.follow)
+            // console.log(this.props.follow)
         }
         else if (check === true) {
             await this.props.onGetFollowingList()
             await this.props.onUnfollowProject(unfollowInfo)
-            console.log(this.props.follow)
+            // console.log(this.props.follow)
         }
         else return null
 
@@ -271,7 +271,7 @@ class PropertiesDetail extends Component {
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
 		if (prevProps.estateInfo.lat === undefined && this.props.estateInfo.lat) {
-            console.log(this.props.estateInfo)
+            // console.log(this.props.estateInfo)
 			return this.props.estateInfo.lat;
 		}
 		else return null
@@ -285,7 +285,7 @@ class PropertiesDetail extends Component {
                 radius: 5
             }
             this.props.onSaveCurrentProject(savedData)
-            console.log(savedData)
+            // console.log(savedData)
 		}
     }
     
@@ -299,7 +299,7 @@ class PropertiesDetail extends Component {
                     money: values.offerPrice,
                     description: document.getElementById("moreRequest").value
                 }
-                console.log(waitingInfo)
+                // console.log(waitingInfo)
                 await this.props.onSendingRequest(waitingInfo)
                 await this.setState({ requestVisible: false })
             }
@@ -311,7 +311,7 @@ class PropertiesDetail extends Component {
     render() {
         const { getFieldDecorator } = this.props.form
         let { info, comments, follow, related } = this.props;
-        console.log(this.props)
+        // console.log(this.props)
         let check = false
         if (follow && follow.length > 0 && info) {
             for (var i = 0; i < follow.length; i++) {

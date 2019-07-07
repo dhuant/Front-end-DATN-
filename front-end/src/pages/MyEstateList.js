@@ -46,7 +46,7 @@ class MyEstateList extends Component {
     }
 
     onChange = async (page) => {
-        console.log(page)
+        // console.log(page)
         await this.setState({ current: page, loading: true })
         await this.props.onGetEstateListOfUser(`${page}`)
         await this.setState({ loading: false })
@@ -54,7 +54,7 @@ class MyEstateList extends Component {
     render() {
         let { estatesListOfUser } = this.props
         let { option } = this.state
-        console.log(estatesListOfUser)
+        // console.log(estatesListOfUser)
 
         return (
             localStorage.getItem('res') ?

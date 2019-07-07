@@ -59,7 +59,7 @@ class TransHistory extends Component {
     var result = null;
     if (transHistory.length > 0) {
       result = transHistory.map((single, index) => {
-        console.log(single)
+        // console.log(single)
         if (single.transHistory !== null)
           return (
             <SingleTransHistory key={index} transHistorySingle={single} />

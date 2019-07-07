@@ -30,7 +30,7 @@ class MyFollowing extends Component {
     }
 
     onChange = async (page) => {
-        console.log(page)
+        // console.log(page)
         this.setState({ current: page })
     }
 
@@ -39,7 +39,7 @@ class MyFollowing extends Component {
     }
     render() {
         let { follow } = this.props
-        console.log(follow)
+        // console.log(follow)
         return (
             localStorage.getItem('res') ?
                 <div>

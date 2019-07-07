@@ -35,7 +35,7 @@ class EstateListInMap extends Component {
 	}
 	render() {
 		let { option } = this.state;
-		console.log(option)
+		
 		let estates = this.props.estates;
 		let des = 'Mời bạn tìm vị trí khác'
 		let listEstates = <h5 style={{marginLeft:'15px'}}>Không có bất động sản nào được tìm thấy</h5>;

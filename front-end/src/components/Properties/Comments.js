@@ -45,7 +45,7 @@ class Comments extends Component {
                 this.props.onDeletingComment(data._id, data)
             },
             onCancel() {
-                console.log('Cancel');
+                // console.log('Cancel');
             },
         });
     }
@@ -78,7 +78,7 @@ class Comments extends Component {
             _id: comment._id
         }
         // var id = comment._id
-        console.log(data)
+        // console.log(data)
         this.props.onEditingComment(data._id, data)
         this.setState({ loading: true });
         setTimeout(() => {

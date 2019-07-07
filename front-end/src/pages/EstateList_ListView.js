@@ -96,7 +96,7 @@ class EstateListListView extends Component {
     }
     //=== onchange cho pagination
     onChange = page => {
-        console.log(page);
+        // console.log(page);
         this.setState({
             current: page,
         });
@@ -196,7 +196,7 @@ class EstateListListView extends Component {
             })
             await this.props.actSearchEstate(data)
             await this.setState({ loading: false })
-            console.log(data)
+            // console.log(data)
         }
         this.setState({ loading: false })
     }
@@ -219,7 +219,7 @@ class EstateListListView extends Component {
         let noti = 'Hiện không có bài đăng'
         let { type, deal, prices, price, area, city, ward, province, loading,strAddress, clicked } = this.state;
         let estates = this.props.estates
-        console.log(estates)
+        // console.log(estates)
         var provinceList = this.parseProvinceData(AddressData)
         var cityList = this.parseCityData(AddressData, province)
         var wardList = this.parseWardData(AddressData, province, city)

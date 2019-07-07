@@ -16,7 +16,7 @@ class EstateListGridView extends Component {
   }
   render() {
     let estates = this.props.estates;
-    console.log(estates);
+    // console.log(estates);
     let estatesList = null;
     if (estates) {
       estatesList = estates.map((estate, index) => {

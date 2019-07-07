@@ -7,7 +7,7 @@ const comments = (state = initialState, action) => {
     switch (action.type) {
         case Types.GET_ALL_COMMENT:
             state = action.comments;
-            console.log(state);
+            // console.log(state);
             return [...state];
         case Types.POST_COMMENT:
             var comments = action.comments
@@ -18,16 +18,16 @@ const comments = (state = initialState, action) => {
                         updateTime: comments.updateTime, 
                         user: action.user,
                         _id: comments._id })
-            console.log(state, action)
+            // console.log(state, action)
             return [ ...state ]
         case EDIT_COMMENT:
-            console.log(action)
+            // console.log(action)
             var index = state.findIndex(comment => {return comment._id === action.comment._id})
             state[index] = action.data
-            console.log(state)
+            // console.log(state)
             return [...state]
         case DELETE_COMMENT:
-            console.log(action)
+            // console.log(action)
             index = state.findIndex(comment => {return comment._id === action.data._id})
             state.splice(index, 1);
             return [...state]

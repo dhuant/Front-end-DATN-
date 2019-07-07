@@ -41,7 +41,7 @@ export class News extends Component {
         }
     }
     onChangeValue = (e) => {
-        console.log(e.target.value)
+        // console.log(e.target.value)
         this.setState({
             newsType: e.target.value,
             current: 1
@@ -84,7 +84,7 @@ export class News extends Component {
     render() {
         var { news } = this.props;
         let { newsType } = this.state;
-        console.log(news);
+        // console.log(news);
         // console.log(newsType);
         return (
             <div>

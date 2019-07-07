@@ -25,7 +25,7 @@ export default class SingleEstateListView extends Component {
         if (url && url.length > 0) {
             result = url.map((image, index) => {
                 return (
-                    <div className={index === 0 ? "item active" : "item"} style={{ height: "300px" }}>
+                    <div className={index === 0 ? "item active" : "item"} style={{ height: "300px" }} key={index}>
                         <img src={image} alt={index} key={index} />
                     </div>
                 )

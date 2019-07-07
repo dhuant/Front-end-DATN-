@@ -30,14 +30,14 @@ class SingleWaiting extends Component {
   }
 
   onChangeSelectValue = (event) => {
-    console.log(event.target.value)
-    console.log(this.props.codelist[event.target.value])
+    // console.log(event.target.value)
+    // console.log(this.props.codelist[event.target.value])
     this.setState({ selectedCode: this.props.codelist[event.target.value] })
   }
 
   onHandleAcceptingRequest = async (waiting, waitingSingle, index) => {
     await this.setState({ currentRequestNumber: index })
-    console.log(this.props.codelist)
+    // console.log(this.props.codelist)
     if ((this.props.codelist.length === 1 && this.props.codelist[0].code === "dummy")) {
       this.setState({ loading: true })
       var step = null, typetransaction = null
@@ -61,10 +61,10 @@ class SingleWaiting extends Component {
         updateTime: moment().unix(),
         code: this.props.codelist[0].code
       }
-      console.log(transactionInfo)
+      // console.log(transactionInfo)
       await this.props.onCreatingTransaction(transactionInfo)
       this.setState({ loading: false })
-      console.log(this.props.transaction)
+      // console.log(this.props.transaction)
     }
     else {
       this.setState({ visible: true })
@@ -77,8 +77,8 @@ class SingleWaiting extends Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         await this.setState({ loading: true })
-        console.log(this.props.waitingList)
-        console.log(this.props.waitingList.requests[this.state.currentRequestNumber].user)
+        // console.log(this.props.waitingList)
+        // console.log(this.props.waitingList.requests[this.state.currentRequestNumber].user)
         var step = null, typetransaction = null
         if (this.props.waitingList.project.statusProject === 1) {
           step = 7
@@ -100,9 +100,9 @@ class SingleWaiting extends Component {
           updateTime: moment().unix(),
           code: this.props.codelist[values.code].code
         }
-        console.log(transactionInfo)
+        // console.log(transactionInfo)
         await this.props.onCreatingTransaction(transactionInfo)
-        console.log(this.props.transaction)
+        // console.log(this.props.transaction)
         await this.setState({ loading: false })
         await this.setState({ visible: false })
       }
@@ -112,7 +112,7 @@ class SingleWaiting extends Component {
   render() {
     var { waitingList, codelist, unit, waitingRequestSingle, index } = this.props
     const { loading } = this.state
-    console.log(waitingList)
+    // console.log(waitingList)
     const { getFieldDecorator } = this.props.form
     return (
       <React.Fragment>

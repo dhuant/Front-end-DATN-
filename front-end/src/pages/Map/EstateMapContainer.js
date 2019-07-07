@@ -123,17 +123,17 @@ class EstateMapContainer extends Component {
         });
     }
     componentDidMount() {
-        console.log(" ----- Did mount");
+        // console.log(" ----- Did mount");
         var info = {
             radius: this.state.radius,
             lat: this.state.currentLatLng.lat.toString(),
             long: this.state.currentLatLng.lng.toString(),
         };
-        console.log(info);
-        console.log(this.state.center)
+        // console.log(info);
+        // console.log(this.state.center)
         // this.props.actFetchEstatesRequest(info); 
         this.showCurrentLocation();
-        console.log(" ----- End Did mount");
+        // console.log(" ----- End Did mount");
     }
 
     handleChangeState = (selectedOption) => {
@@ -161,10 +161,10 @@ class EstateMapContainer extends Component {
                         isMarkerCenterShown: false,
 
                     });
-                    console.log("get current location");
-                    console.log(this.state.currentLatLng);
-                    console.log("----center");
-                    console.log(this.state.center);
+                    // console.log("get current location");
+                    // console.log(this.state.currentLatLng);
+                    // console.log("----center");
+                    // console.log(this.state.center);
                     var info = {
                         radius: this.state.radius,
                         lat: this.state.currentLatLng.lat.toString(),
@@ -175,7 +175,7 @@ class EstateMapContainer extends Component {
                         price: this.state.price,
                     };
                     this.props.actSearchMapRequest(info);
-                    console.log(" ----- End getCurrent location");
+                    // console.log(" ----- End getCurrent location");
                 }
             )
 
@@ -199,8 +199,8 @@ class EstateMapContainer extends Component {
             area: this.state.area,
             price: this.state.price,
         };
-        console.log("map");
-        console.log(this.state.center);
+        // console.log("map");
+        // console.log(this.state.center);
         this.props.actSearchMapRequest(info)
     }
 
@@ -246,7 +246,7 @@ class EstateMapContainer extends Component {
     }
 
     onPlaceSelected = (place) => {
-        console.log('plc', place);
+        // console.log('plc', place);
         if (place.geometry === undefined) {
             return message.error('Không thể tìm thấy địa chỉ vừa nhập!')
         }
@@ -282,7 +282,7 @@ class EstateMapContainer extends Component {
             price: this.state.price,
         }
         this.props.actSearchMapRequest(info);
-        console.log(info);
+        // console.log(info);
     }
     render() {
         let { currentLatLng, type, deal, prices, price, area, radius } = this.state;

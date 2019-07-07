@@ -30,7 +30,7 @@ class Stepper extends React.Component {
     }
     next = async () => {
         await this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
-        console.log(this.props.transaction)
+        // console.log(this.props.transaction)
         if (this.props.transaction.typetransaction === 1) {
             switch (this.state.current) {
                 case 0: if (!this.props.transaction.selldetail.deal.complete) {
@@ -91,7 +91,7 @@ class Stepper extends React.Component {
         this.setState({ percent: 100 })
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                // console.log('Received values of form: ', values);
                 var completeData = {
                     transactionid: this.props.transaction._id
                 }
@@ -107,14 +107,14 @@ class Stepper extends React.Component {
     };
 
     onChange = (date, dateString) => {
-        console.log(date, dateString);
+        // console.log(date, dateString);
     }
 
     render() {
         // const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
         const { current } = this.state;
         var { transaction } = this.props
-        console.log(transaction)
+        // console.log(transaction)
         const steps = transaction.typetransaction === 1 ? [
             {
                 title: 'Thỏa thuận mua ban đầu',

@@ -64,7 +64,7 @@ class ForgotPasswordEmployee extends Component {
     }
     onSendEmail = (e) => {
         e.preventDefault();
-        console.log(this.state.email);
+       
         let data = {
             email: this.state.email
         }

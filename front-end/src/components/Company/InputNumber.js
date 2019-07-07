@@ -24,7 +24,7 @@ class NumericInput extends React.Component {
     const reg = /^01?([1-9][0-9]*)?$/;
     if ((!Number.isNaN(value) && reg.test(value)) || value === '') {
       this.props.onChange(value);
-      console.log(value);
+      // console.log(value);
     }
     
   };
@@ -78,7 +78,7 @@ class InputNumber extends Component {
       };
     
       render() {
-        console.log(this.state.value);
+        // console.log(this.state.value);
         return (
           <NumericInput style={{ width: 120 }} value={this.state.value} onChange={this.onChange} />
         );

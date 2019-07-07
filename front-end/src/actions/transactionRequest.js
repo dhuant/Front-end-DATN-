@@ -29,7 +29,7 @@ export const actGettingTransactionHistoryRequest = (page) => {
     return dispatch => {
         return axios.get(`${config.API_URL}/transaction/history/${page}`, { headers: authHeader() })
             .then(res => {
-                console.log(res)
+               
                 dispatch(Action.actGetTransactionHistory(res.data.history))
             })
             .catch(error => {
@@ -43,11 +43,11 @@ export const actGettingTransactionHistoryRequest = (page) => {
 }
 
 export const actGettingTransactionDetailRequest = (transactionId, transactionType) => {
-    console.log("a")
+    
     return dispatch => {
         return axios.get(`${config.API_URL}/transaction/detail/${transactionId}/${transactionType}`, { headers: authHeader() })
             .then(res => {
-                console.log(res)
+                
                 dispatch(Action.actGetTransactionDetail(res.data.transaction))
             })
             .catch(error => {
@@ -100,7 +100,7 @@ export const actCancelTransactionRequest = (transactionData) => {
     return dispatch => {
         return axios.post(`${config.API_URL}/transaction/cancel`, transactionData, { headers: authHeader() })
             .then(res => {
-                console.log(res)
+               
                 if (res.data.status === 200) {
                     dispatch(Action.actCancelTransaction(res.data))
                     message.success("Hủy bỏ giao dịch thành công!")
@@ -110,7 +110,7 @@ export const actCancelTransactionRequest = (transactionData) => {
                 }
             })
             .catch(error => {
-                console.log(error)
+                
                 if (error.response.data.status === 401) {
                     localStorage.removeItem('res')
                     return message.warning("Hết phiên đăng nhập! Vui lòng đăng nhập lại!")
@@ -127,7 +127,7 @@ export const actPostingDealRequest = (dealInfo) => {
     return dispatch => {
         return axios.post(`${config.API_URL}/selldetail/deal`, dealInfo, { headers: authHeader() })
             .then(res => {
-                console.log(res)
+                
                 if (res.data.status === 200 || res.status === 200) {
                     dispatch(Action.actPostingDeal(res.data.deal))
                     message.success('Thành công!')
@@ -147,7 +147,7 @@ export const actPostingLegalityRequest = (legalityInfo) => {
     return dispatch => {
         return axios.post(`${config.API_URL}/selldetail/legality`, legalityInfo, { headers: authHeader() })
             .then(res => {
-                console.log(res.data)
+                
                 if (res.data.status === 200 || res.status === 200) {
                     dispatch(Action.actPostingLegality(res.data.legality))
                     message.success('Thành công!')
@@ -267,7 +267,7 @@ export const actPostingTransferRequest = (transferInfo) => {
 
 //API for Requesting Transaction
 export const actGettingWaitingListRequest = (id) => {
-    console.log(id)
+    
     return dispatch => {
         return axios.get(`${config.API_URL}/transaction/listrequest/${id}`, { headers: authHeader() })
             .then(res => {
@@ -289,7 +289,7 @@ export const actAddingWaitingRequest = (waitingData) => {
     return dispatch => {
         return axios.post(`${config.API_URL}/transaction/addwaitingrequest`, waitingData, { headers: authHeader() })
             .then(res => {
-                console.log(res)
+               
                 if (res.data.status === 201) {
                     dispatch(Action.actAddingWaitingRequest(res.data.result))
                     message.success("Gửi yêu cầu thành công!")
@@ -332,7 +332,7 @@ export const actPostingRentingDealRequest = (dealInfo) => {
     return dispatch => {
         return axios.post(`${config.API_URL}/rentdetail/deal`, dealInfo, { headers: authHeader() })
             .then(res => {
-                console.log(res)
+               
                 if (res.data.status === 200 || res.status === 200) {
                     dispatch(Action.actPostingRentingDeal(res.data.deal))
                     message.success('Thành công!')

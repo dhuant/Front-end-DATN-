@@ -47,14 +47,14 @@ class Login extends Component {
                     email: values.email,
                     password: values.password
                 }
-                console.log(data)
+                // console.log(data)
                 message.loading('Vui lòng chờ trong giây lát', 1)
                     .then(() => {
                         axios.post(`${Config.API_URL}/company/login`, data)
                             .then(res => {
                                 if (res.status === 200) {
                                     message.success("Đăng nhập thành công");
-                                    console.log(res);
+                                    // console.log(res);
                                     localStorage.setItem('company', JSON.stringify(res.data));
                                     this.props.actCheckAuth(true)
                                     this.props.history.push(`/company/profile-admin`);

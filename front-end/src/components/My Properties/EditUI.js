@@ -103,7 +103,7 @@ class EditUI extends Component {
     }
 
     onUploadingImages = async (list) => {
-        console.log(list)
+        // console.log(list)
         await Promise.all(list.map(async file => {
             await
                 request
@@ -111,7 +111,7 @@ class EditUI extends Component {
                     .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                     .field('file', file)
                     .then(response => {
-                        console.log(response)
+                        // console.log(response)
                         this.setState({
                             url: this.state.url.concat(response.body.secure_url),
                             publicId: this.state.publicId.concat(response.body.public_id)
@@ -124,16 +124,16 @@ class EditUI extends Component {
 
     handleUpload(files) {
         files.map(file => {
-            console.log(file)
+            // console.log(file)
             let reader = new FileReader()
             reader.onloadend = () => {
-                console.log(reader.result)
+                // console.log(reader.result)
                 this.setState({
                     previewList: [...this.state.previewList, reader.result],
                     url: [...this.state.url, reader.result],
                     imagesToUpload: [...this.state.imagesToUpload, file]
                 })
-                console.log(reader.result, file)
+                // console.log(reader.result, file)
             }
             reader.readAsDataURL(file);
         })
@@ -169,7 +169,7 @@ class EditUI extends Component {
 
     showDeleteConfirm = (event) => {
         var index = event.target.value
-        console.log(index)
+        // console.log(index)
         this.state.imagesToUpload.map((image, key) => {
             if (image === index) {
                 index = key
@@ -181,7 +181,7 @@ class EditUI extends Component {
             okType: 'danger',
             cancelText: 'Trở lại',
             onOk: () => {
-                console.log('OK');
+                // console.log('OK');
                 this.state.imagesToUpload.splice(index, 1)
                 this.state.previewList.splice(index, 1)
                 this.state.url.splice(index, 1)
@@ -192,10 +192,10 @@ class EditUI extends Component {
                     url: this.state.url,
                     publicId: this.state.publicId
                 })
-                console.log(this.state.url)
+                // console.log(this.state.url)
             },
             onCancel() {
-                console.log('Cancel');
+                // console.log('Cancel');
             },
         });
     }
@@ -224,14 +224,14 @@ class EditUI extends Component {
             await this.onUploadingImages(this.state.imagesToUpload)
             await Promise.all(this.state.url.map(image => {
                 if (image.search('res.cloudinary') !== -1) {
-                    console.log('a')
+                    // console.log('a')
                     uploadList.push(image)
                 }
             }))
             await this.setState({url: uploadList})
             const codeArray = await this.createCodeListArray()
-            console.log(this.state.tags)
-            console.log(codeArray)
+            // console.log(this.state.tags)
+            // console.log(codeArray)
             let info = {
                 name: (document.getElementById("name").value).toLowerCase(),
                 investor: document.getElementById('investor').value,
@@ -255,7 +255,7 @@ class EditUI extends Component {
                 _id: this.state._id,
                 codelist: codeArray
             };
-            console.log(info);
+            // console.log(info);
             await this.props.onUpdateUserProject(info, info._id)
             await this.setState({ loading: false })
             await this.props.history.goBack()
@@ -307,7 +307,7 @@ class EditUI extends Component {
     }
 
     onHandleOk = () => {
-        console.log(this.state.tags)
+        // console.log(this.state.tags)
         this.setState({ isShowCodeModal: false })
     }
     removeTag = (i) => {
@@ -347,10 +347,10 @@ class EditUI extends Component {
     render() {
         let { estateUserInfo } = this.props
         localStorage.setItem("projectid", estateUserInfo._id)
-        console.log(estateUserInfo)
+        // console.log(estateUserInfo)
         let { visible, estateInfo, previewImage, url, previewUrl, loading, tags, status } = this.state
-        console.log(estateInfo)
-        console.log(status)
+        // console.log(estateInfo)
+        // console.log(status)
         return (
             <div>
                 <MainHeader />

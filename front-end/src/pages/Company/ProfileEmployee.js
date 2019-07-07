@@ -33,7 +33,7 @@ class ProfileEmployee extends Component {
         }
     }
     onChange = page => {
-        console.log(page);
+        // console.log(page);
         this.setState({
             current: page,
         });
@@ -89,7 +89,7 @@ class ProfileEmployee extends Component {
                 let data = {
                     id: this.props.match.params.id
                 }
-                console.log(data)
+                // console.log(data)
                 message.loading('Đang xử lý yêu cầu, vui lòng chờ trong giây lát', 2)
                     .then(() => {
                         adminService.deleteEmployee(data)
@@ -120,10 +120,10 @@ class ProfileEmployee extends Component {
 
                             })
                     });
-                console.log(this.state.disable)
+                // console.log(this.state.disable)
             },
             onCancel() {
-                console.log('Cancel');
+                // console.log('Cancel');
             },
         });
     }
@@ -142,7 +142,7 @@ class ProfileEmployee extends Component {
                         permission: changePermission,
                         id: this.props.match.params.id
                     }
-                    console.log(data)
+                    // console.log(data)
                     message.loading('Đang xử lý yêu cầu, vui lòng chờ trong giây lát', 2.5)
                         .then(() => {
                             adminService.changePermissionEmployee(data)
@@ -177,10 +177,10 @@ class ProfileEmployee extends Component {
 
                                 })
                         });
-                    console.log(this.state.disable)
+                    // console.log(this.state.disable)
                 },
                 onCancel() {
-                    console.log('Cancel');
+                    // console.log('Cancel');
                 },
             });
         }
@@ -195,7 +195,7 @@ class ProfileEmployee extends Component {
                         permission: changePermission,
                         id: this.props.match.params.id
                     }
-                    console.log(data)
+                    // console.log(data)
                     message.loading('Đang xử lý yêu cầu, vui lòng chờ trong giây lát', 2.5)
                         .then(() => {
                             adminService.changePermissionEmployee(data)
@@ -229,11 +229,11 @@ class ProfileEmployee extends Component {
 
                                 })
                         });
-                    console.log(this.state.disable)
+                    // console.log(this.state.disable)
 
                 },
                 onCancel() {
-                    console.log('Cancel');
+                    // console.log('Cancel');
                 },
             });
         }
@@ -244,14 +244,14 @@ class ProfileEmployee extends Component {
         });
     };
     handleOk = e => {
-        console.log(e);
+        // console.log(e);
         this.setState({
             visible1: false,
         });
     };
 
     handleCancel = e => {
-        console.log(e);
+        // console.log(e);
         this.setState({
             visible1: false,
         });
@@ -261,7 +261,7 @@ class ProfileEmployee extends Component {
         let data = {
             lock: !this.props.info.lock
         }
-        console.log(data)
+        // console.log(data)
     }
     onCheckAuthConfirm = async () => {
         await this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page)
@@ -289,7 +289,7 @@ class ProfileEmployee extends Component {
                         lock: changeLock,
                         id: this.props.match.params.id
                     }
-                    console.log(data)
+                    // console.log(data)
                     message.loading('Đang xử lý yêu cầu, vui lòng chờ trong giây lát', 2.5)
                         .then(() => {
                             adminService.changeLockEmployee(data)
@@ -325,11 +325,11 @@ class ProfileEmployee extends Component {
 
                                 })
                         });
-                    console.log('Ok');
-                    console.log(this.state.disable)
+                    // console.log('Ok');
+                    // console.log(this.state.disable)
                 },
                 onCancel() {
-                    console.log('Cancel');
+                    // console.log('Cancel');
                 },
             });
         }
@@ -344,7 +344,7 @@ class ProfileEmployee extends Component {
                         lock: changeLock,
                         id: this.props.match.params.id
                     }
-                    console.log(data)
+                    // console.log(data)
                     message.loading('Đang xử lý yêu cầu, vui lòng chờ trong giây lát', 2.5)
                         .then(() => {
                             adminService.changeLockEmployee(data)
@@ -377,18 +377,18 @@ class ProfileEmployee extends Component {
                                     })
                                 })
                         });
-                    console.log(this.state.disable)
+                    // console.log(this.state.disable)
 
                 },
                 onCancel() {
-                    console.log('Cancel');
+                    // console.log('Cancel');
                 },
             });
         }
 
     }
     componentDidMount() {
-        console.log(this.props.match.params.id)
+        // console.log(this.props.match.params.id)
         this.props.reqGetInfoEmployee(this.props.match.params.id, this.props.match.params.page);
 
     }
@@ -437,7 +437,7 @@ class ProfileEmployee extends Component {
                         description: this.props.info.description,
 
                     }
-                    console.log(account);
+                    // console.log(account);
                     message.loading('Đang thêm tài khoản, vui lòng chờ trong giây lát', 2.5)
                         .then(() => {
                             adminService.editEmployee(account)
@@ -503,7 +503,7 @@ class ProfileEmployee extends Component {
             let list = []
             let current = this.state.current
             let offset = (current - 1) * pageSize;
-            console.log(phoneTmp)
+            // console.log(phoneTmp)
             const { getFieldDecorator } = this.props.form;
             const prefixSelector = getFieldDecorator('prefix', {
                 initialValue: '84',

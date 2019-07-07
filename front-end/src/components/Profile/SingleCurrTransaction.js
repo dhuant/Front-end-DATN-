@@ -15,7 +15,7 @@ const confirm = Modal.confirm
 class SingleCurrTransaction extends Component {
   constructor(props) {
     super(props)
-    console.log(props)
+    // console.log(props)
     this.state = {
       waitingId: '',
       loading: false
@@ -54,7 +54,7 @@ class SingleCurrTransaction extends Component {
             }
           })
           .catch(error => {
-            console.log(error)
+            // console.log(error)
             if(error.response.data.status === 404 && this.props.transactionSingle.status !== 1) return message.error("Chỉ có thể xóa giao dịch đang trong quá trình!")
             message.error(`Có lỗi xảy ra: ${error}`)
           })
@@ -62,7 +62,7 @@ class SingleCurrTransaction extends Component {
         
       },
       onCancel() {
-        console.log('Cancel');
+        // console.log('Cancel');
       },
     });
   }
@@ -72,7 +72,7 @@ class SingleCurrTransaction extends Component {
   // }
   render() {
     let { transactionSingle } = this.props
-    console.log(transactionSingle)
+    // console.log(transactionSingle)
     return (
       <div className="containerTran" style={{ padding: "0px 20px", width: "100%" }}>
         <tr className="transactionSingle">

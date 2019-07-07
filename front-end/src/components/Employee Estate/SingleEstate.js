@@ -70,7 +70,7 @@ class SingleEstate extends Component {
         this.props.onDeleteEmployeeProject(estateInfo._id, data)
       },
       onCancel() {
-        console.log("Cancel");
+        // console.log("Cancel");
       }
     });
   };
@@ -176,7 +176,7 @@ class SingleEstate extends Component {
 
               <Link
                 to={`/company/edit-estate/${estateListOfUser._id}`}
-                target="_blank"
+    
               >
                 <div style={{ marginBottom: "5px" }}>
                   <i

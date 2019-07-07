@@ -51,7 +51,6 @@ export const actGetEstateRequest = id => {
   return dispatch => {
     return callApi(`projects/${id}`, "GET", null).then(res => {
       dispatch(Action.actGetEstate(res.data.project));
-      console.log(res.data.project);
     })
       .catch(err => {
         return message.error('Có lỗi xảy ra!')
@@ -66,7 +65,7 @@ export const actGetListEstatesFromFormSearch = data => {
       data
     ).then(res => {
       dispatch(Action.actGetListEstateFromFromSearch(res.data.projects));
-      console.log(res)
+      
     })
       .catch(err => {
         return message.error('Có lỗi xảy ra!')
@@ -80,7 +79,7 @@ export const actGetUserInfoRequest = () => {
       .get(`${config.API_URL}/users/info/`, { headers: authHeader() })
       .then(res => {
         dispatch(Action.actGetUserInfo(res.data));
-        console.log(res.data);
+        
       })
       .catch(err => {
         if (err.response.data.status === 401 && localStorage.getItem('res')) {
@@ -99,7 +98,7 @@ export const actGetNewsByTypeRequest = (type, page) => {
   return dispatch => {
     return callApi(`news/all/${type}/${page}`, "GET", null).then(res => {
       dispatch(Action.actGetNewsByType(res.data.news));
-      console.log(res.data.news);
+      
     })
       .catch(err => {
         return message.error('Có lỗi xảy ra!')
@@ -111,7 +110,7 @@ export const actGetNewsByIdRequest = id => {
   return dispatch => {
     return callApi(`news/${id}`, "GET", null).then(res => {
       dispatch(Action.actGetNewsById(res.data.news));
-      console.log(res.data.news);
+      
     })
       .catch(err => {
         return message.error('Có lỗi xảy ra!')
@@ -123,7 +122,7 @@ export const actGetCommentsByIdRequest = (id) => {
   return dispatch => {
     return callApi(`comment/all/${id}`, 'GET', null).then(res => {
       dispatch(Action.actGetComments(res.data.comments));
-      console.log(res)
+      
     })
       .catch(err => {
         return message.error('Có lỗi xảy ra!')
@@ -136,7 +135,7 @@ export const actGetEstateListOfUserRequest = (page) => {
     return axios.get(`${config.API_URL}/users/danhsachproject/${page}`, { headers: authHeader() }).then(res => {
       if (res.data.status === 200)
         dispatch(Action.actGetEstateListOfUser(res.data.projects))
-      console.log(res);
+      
       // return message.success("Lấy danh sách bài viết của tài khoản thành công!")
     })
       .catch(err => {
@@ -174,7 +173,7 @@ export const actGetFollowingListRequest = () => {
 export const actUnfollowProjectRequest = (data) => {
   return dispatch => {
     return axios.post(`${config.API_URL}/users/unfollow`, data, { headers: authHeader() }).then(res => {
-      console.log(res.data.status)
+ 
       if (res.data.status === 201) {
         dispatch(Action.actUnfollowProject(res.data, data))
         return message.success("Bỏ theo dõi thành công!")
@@ -194,7 +193,7 @@ export const actUnfollowProjectRequest = (data) => {
 }
 
 export const actFollowProjectRequest = (data, project) => {
-  console.log(project)
+  
   return dispatch => {
     return axios.post(`${config.API_URL}/users/follow`, data, { headers: authHeader() }).then(res => {
       if (res.data.status === 409)
@@ -218,7 +217,7 @@ export const actFollowProjectRequest = (data, project) => {
 }
 
 export const actPostingCommentRequest = (data, user) => {
-  console.log(user)
+  
   return dispatch => {
     return axios.post(`${config.API_URL}/comment`, data, { headers: authHeader() }).then(res => {
       if (res.data.status === 201 || res.status === 201) {
@@ -243,7 +242,7 @@ export const actDeleteProjectRequest = (id, data) => {
   return dispatch => {
     axios.delete(`${config.API_URL}/projects/${id}`, { headers: authHeader() })
       .then(res => {
-        console.log(res);
+       
         if (res.data.status === 200 && res) {
           dispatch(Action.actDeleteProject(res.data, data))
           message.success('Xóa bài đăng thành công!');
@@ -267,7 +266,7 @@ export const actEditUserProjectRequest = (data, id) => {
   return dispatch => {
     axios.post(`${config.API_URL}/projects/edit/${id}`, data, { headers: authHeader() })
       .then(res => {
-        console.log(res);
+        
         if (res.status === 200 || res.data.status === 200) {
           message.success('Cập nhật bài đăng thành công!');
           dispatch(Action.actEditUserProject(data, res.data.project))
@@ -291,7 +290,7 @@ export const actEditUserInfoRequest = (data) => {
   return dispatch => {
     axios.post(`${config.API_URL}/users/edit`, data, { headers: authHeader() })
       .then(res => {
-        console.log(res)
+        
         if (res.status === 200) {
           dispatch(Action.actEditUserInfo(res.data.user))
           message.success("Cập nhật thông tin thành công!")
@@ -362,7 +361,7 @@ export const reqSearchEstate = (data) => {
     axios.post(`${config.API_URL}/projects/searchprojects`, data)
       .then(res => {
         if (res.data.status === 200) {
-          console.log(res)
+          
           dispatch(actSearch.actSearchEstate(res.data.projects))
         }
       })

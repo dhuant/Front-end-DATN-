@@ -14,7 +14,7 @@ import Footer from '../components/Footer'
 class Login extends Component {
     constructor(props) {
         super(props);
-        console.log(props)
+        // console.log(props)
         this.state = {
             email: '',
             password: '',
@@ -39,7 +39,7 @@ class Login extends Component {
         })
     };
     googleResponse = (response) => {
-        console.log(response);
+        // console.log(response);
         // localStorage.setItem('tokenbeforeposting', response)
         const tokenBlob = new Blob([JSON.stringify({ access_token: response.accessToken }, null, 2)], { type: 'application/json' });
         const options = {
@@ -50,7 +50,7 @@ class Login extends Component {
         };
         fetch(`${Config.API_URL}/users/auth/google`, options).then(r => r.json()
             .then(json => {
-                console.log(json)
+                // console.log(json)
                 localStorage.setItem('res', JSON.stringify(json))
                 this.props.history.goBack();
             }))
@@ -68,7 +68,7 @@ class Login extends Component {
                     email: values.email,
                     password: values.password
                 }
-                console.log(data)
+                // console.log(data)
                 message.loading('Vui lòng chờ trong giây lát', 1)
                     .then(() => {
                         axios.post(`${Config.API_URL}/users/login`, data)

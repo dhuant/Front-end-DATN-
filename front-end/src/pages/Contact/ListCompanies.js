@@ -23,7 +23,7 @@ class ListCompaies extends Component {
 
     }
     onChange = page => {
-        console.log(page);
+        
         this.setState({
             current: page,
         });
@@ -53,7 +53,7 @@ class ListCompaies extends Component {
         let { companies } = this.props;
         let current = this.state.current
         let total = this.props.totalPage
-        console.log(companies);
+        
         let listCompanies = <h5 style={{ marginLeft: '15px' }}>Hiện không có công ty nào</h5>;
         if (companies.length > 0) {
             if (option === '1') {

@@ -31,7 +31,7 @@ class InfoCompany extends Component {
         this.setState({
             uploadedFile: files[0]
         });
-        console.log(files)
+        // console.log(files)
         this.handleImageUpload(files[0]);
     }
     onSignOut =(e)=> {
@@ -46,7 +46,7 @@ class InfoCompany extends Component {
             .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
             .field('file', file)
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 this.setState({
                     uploadedFileCloudinaryUrl: response.body.secure_url,
                 })
@@ -62,7 +62,7 @@ class InfoCompany extends Component {
             createTime: this.props.userCompany.createTime,
             updateTime: moment().unix()
         }
-        console.log(profileData)
+        // console.log(profileData)
         await adminService.editCompany(profileData)
             .then(async res => {
                 if(res.status === 200){
@@ -71,7 +71,7 @@ class InfoCompany extends Component {
                 this.props.history.push('/company/profile-admin')
             })
             .catch(err => {
-                console.log(err)
+                // console.log(err)
                 message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
             })
 
@@ -104,8 +104,8 @@ class InfoCompany extends Component {
 
     render() {
         let userInfoCompany = JSON.parse(localStorage.getItem('company'))
-        console.log(userInfoCompany)
-        console.log(this.props.userCompany)
+        // console.log(userInfoCompany)
+        // console.log(this.props.userCompany)
         return (
             <div>
                 <div className="user-account-box">

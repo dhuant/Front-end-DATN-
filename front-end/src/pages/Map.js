@@ -68,8 +68,8 @@ class Map extends Component {
 			}
 			)
 		}
-		console.log(estates);
-		console.log(this.props.estates);
+		// console.log(estates);
+		// console.log(this.props.estates);
 		return (
 			<div>
 				

@@ -26,7 +26,7 @@ class MyTransaction extends Component {
 
   componentDidMount = () => {
     this.setState({ loading: true })
-    console.log("outside")
+    // console.log("outside")
     this.props.onGetTransactionHistory('1')
     // axios.get(`http://localhost:3001/transaction/history/1`, { headers: authHeader() })
     //   .then(res => {
@@ -107,7 +107,7 @@ class MyTransaction extends Component {
     var result = null;
     if (transaction.length > 0) {
       result = transaction.map((single, index) => {
-        console.log(single)
+        // console.log(single)
         if (single.transaction !== null)
           return (
             <SingleCurrTransaction key={index} transactionSingle={single} />

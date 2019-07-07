@@ -24,18 +24,18 @@ class Info extends Component {
         this.setState({
             uploadedFile: files[0]
         });
-        console.log(files)
+        // console.log(files)
         this.handleImageUpload(files[0]);
     }
     async handleImageUpload(file) {
-        console.log(file)
-        console.log(this.props.user)
+        // console.log(file)
+        // console.log(this.props.user)
         await request
             .post(CLOUDINARY_UPLOAD_URL)
             .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
             .field('file', file)
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 this.setState({
                     uploadedFileCloudinaryUrl: response.body.secure_url,
                 })
@@ -49,7 +49,7 @@ class Info extends Component {
             description: this.props.user.description === '' ? 'Chưa có thông tin' : this.props.user.description,
             avatar: this.state.uploadedFileCloudinaryUrl ? this.state.uploadedFileCloudinaryUrl : this.props.user.avatar,
         }
-        console.log(profileData)
+        // console.log(profileData)
         await this.props.onEditUserInfo(profileData)
         await this.props.onGetUserInfo()
     }
@@ -95,7 +95,7 @@ class Info extends Component {
     }
     render() {
         let userInfo = JSON.parse(localStorage.getItem('res'))
-        console.log(userInfo)
+        // console.log(userInfo)
         let changePasswordd = ''
         if(userInfo.user.statusAccount === 2){
             changePasswordd = 
@@ -106,7 +106,7 @@ class Info extends Component {
         </li>
         }
         let { user } = this.props
-        console.log(user)
+        // console.log(user)
         return (
             <div>
                 <div className="user-account-box">

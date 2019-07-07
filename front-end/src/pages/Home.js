@@ -72,7 +72,7 @@ class Home extends Component {
             area: this.state.area,
             price: this.state.price
         }
-        console.log(data);
+        // console.log(data);
         this.props.actGetListEstatesFromFormSearch(data);
         this.props.history.push('/estatelistview');
     }
@@ -95,12 +95,12 @@ class Home extends Component {
     }
     render() {
         let { type, province, districts, district, area, price } = this.state;
-        console.log(type);
-        console.log(province);
-        console.log(district);
-        console.log(area);
-        console.log(price);
-        console.log(moment().unix())
+        // console.log(type);
+        // console.log(province);
+        // console.log(district);
+        // console.log(area);
+        // console.log(price);
+        // console.log(moment().unix())
         return (
             <div>
 
