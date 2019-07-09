@@ -6,7 +6,7 @@ const listProjectsOfAgent = (state = initialState, action) => {
     switch (action.type) {
         case types.GET_LIST_PROJECT_OF_AGENT:
             state = action.projects;
-            console.log(state)
+            // console.log(state)
             return [...state];
         
         default: return [...state];

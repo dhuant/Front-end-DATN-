@@ -21,7 +21,7 @@ class VerifyCompany extends Component {
             id: this.state.idCompany,
             hash: this.state.hash,
         }
-        console.log(postParam);
+        // console.log(postParam);
         service.verifyCompany(postParam)
             .then(res => {
                 if (res.status === 200) {
@@ -33,7 +33,7 @@ class VerifyCompany extends Component {
                 }
             })
             .catch(err => {
-                console.log(err)
+                // console.log(err)
                 this.setState({
                     isLoading: false,
                     success: false,

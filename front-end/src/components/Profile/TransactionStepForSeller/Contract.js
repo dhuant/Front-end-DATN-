@@ -28,7 +28,7 @@ class Contract extends Component {
 
     componentDidMount = () => {
         this.props.onGettingTransactionDetail(this.props.transaction._id, this.props.transaction.typetransaction)
-        console.log(this.props.transactionDetail)
+        // console.log(this.props.transactionDetail)
         if (this.props.transaction.typetransaction === 1)
             this.setState({
                 contractArray: this.props.transactions.selldetail.contract.image,
@@ -37,7 +37,7 @@ class Contract extends Component {
         else this.setState({
             contractArray: this.props.transactions.rentdetail.contract.image,
         })
-        console.log(this.state.contractArray)
+        // console.log(this.state.contractArray)
     }
 
     onHandlePreviewImage = (event) => {
@@ -50,17 +50,17 @@ class Contract extends Component {
 
     handleContractUpload(files) {
         files.map(file => {
-            console.log(file)
+            // console.log(file)
             let reader = new FileReader()
             reader.onloadend = () => {
-                console.log(reader.result)
-                console.log(this.state.listImagesBeforeUpload.length)
+                // console.log(reader.result)
+                // console.log(this.state.listImagesBeforeUpload.length)
                 this.setState({
                     contractArray: [...this.state.contractArray, reader.result],
                     previewImagesBeforeUpload: [...this.state.previewImagesBeforeUpload, reader.result],
                     listImagesBeforeUpload: [...this.state.listImagesBeforeUpload, file]
                 })
-                console.log(reader.result, file)
+                // console.log(reader.result, file)
             }
             reader.readAsDataURL(file);
         })
@@ -96,7 +96,7 @@ class Contract extends Component {
 
     showContractDeleteConfirm = (event) => {
         var index = event.target.value
-        console.log(index)
+        // console.log(index)
         this.state.previewImagesBeforeUpload.map((image, key) => {
             if (image === index) {
                 index = key
@@ -108,7 +108,7 @@ class Contract extends Component {
             okType: 'danger',
             cancelText: 'Trở lại',
             onOk: () => {
-                console.log('OK');
+                // console.log('OK');
                 this.state.listImagesBeforeUpload.splice(index, 1)
                 this.state.previewImagesBeforeUpload.splice(index, 1)
                 this.state.contractArray.splice(index, 1)
@@ -119,13 +119,13 @@ class Contract extends Component {
                 })
             },
             onCancel() {
-                console.log('Cancel');
+                // console.log('Cancel');
             },
         });
     }
 
     onUploadingImages = async (list) => {
-        console.log(list)
+        // console.log(list)
         await Promise.all(list.map(async file => {
             await
                 request
@@ -133,7 +133,7 @@ class Contract extends Component {
                     .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                     .field('file', file)
                     .then(response => {
-                        console.log(response)
+                        // console.log(response)
                         this.setState({
                             contractArray: this.state.contractArray.concat({ url: response.body.secure_url, id: response.body.public_id }),
                         })
@@ -141,7 +141,7 @@ class Contract extends Component {
                     .catch(err => message.error(`Có lỗi xảy ra: ${err}`))
         }))
         this.setState({ listImagesBeforeUpload: [] })
-        console.log(this.state.contractArray)
+        // console.log(this.state.contractArray)
 
     }
 
@@ -150,12 +150,12 @@ class Contract extends Component {
             return new Promise(async () => {
                 await Promise.all(this.state.contractArray.map(image => {
                     if (image.url) {
-                        console.log('a')
+                        // console.log('a')
                         uploadList.push(image)
                     }
                 }))
                 this.setState({ contractArray: uploadList })
-                console.log(this.state.contractArray)
+                // console.log(this.state.contractArray)
                 if (uploadList.length === 0)
                     return message.error('Bạn chưa tải lên hình nào!')
                 var contractData = {
@@ -167,16 +167,16 @@ class Contract extends Component {
                     id: this.props.transactions.selldetail._id,
                     complete: true
                 }
-                console.log(moment(values.contractSigningDate, 'YYYY/MM/DD, h:mm a').unix(), transactions.selldetail.contract.datesign)
-                console.log(values.contractNumber, transactions.selldetail.contract.number)
-                console.log(uploadList, transactions.selldetail.contract.image)
+                // console.log(moment(values.contractSigningDate, 'YYYY/MM/DD, h:mm a').unix(), transactions.selldetail.contract.datesign)
+                // console.log(values.contractNumber, transactions.selldetail.contract.number)
+                // console.log(uploadList, transactions.selldetail.contract.image)
                 if (moment(values.contractSigningDate, 'YYYY/MM/DD, h:mm a').unix() === transactions.selldetail.contract.datesign
                     && values.contractNumber === transactions.selldetail.contract.number
                     && uploadList === transactions.selldetail.contract.image) {
-                    console.log("Không thay đổi gì")
+                    // console.log("Không thay đổi gì")
                     return message.warning('Bạn chưa thay đổi gì cả!')
                 }
-                else console.log("Thay đổi")
+                // else console.log("Thay đổi")
                 await this.props.onSendingSellingContract(contractData)
                 await this.setState({ loading: false })
             })
@@ -185,12 +185,12 @@ class Contract extends Component {
             return new Promise(async () => {
                 await Promise.all(this.state.contractArray.map(image => {
                     if (image.url) {
-                        console.log('a')
+                        // console.log('a')
                         uploadList.push(image)
                     }
                 }))
                 this.setState({ contractArray: uploadList })
-                console.log(this.state.contractArray)
+                // console.log(this.state.contractArray)
                 if (uploadList.length === 0)
                     return message.error('Bạn chưa tải lên hình nào!')
                 var contractData = {
@@ -202,16 +202,16 @@ class Contract extends Component {
                     id: this.props.transactions.rentdetail._id,
                     complete: true
                 }
-                console.log(moment(values.contractSigningDate, 'YYYY/MM/DD, h:mm a').unix(), transactions.rentdetail.contract.datesign)
-                console.log(values.contractNumber, transactions.rentdetail.contract.number)
-                console.log(uploadList, transactions.rentdetail.contract.image)
+                // console.log(moment(values.contractSigningDate, 'YYYY/MM/DD, h:mm a').unix(), transactions.rentdetail.contract.datesign)
+                // console.log(values.contractNumber, transactions.rentdetail.contract.number)
+                // console.log(uploadList, transactions.rentdetail.contract.image)
                 if (moment(values.contractSigningDate, 'YYYY/MM/DD, h:mm a').unix() === transactions.rentdetail.contract.datesign
                     && values.contractNumber === transactions.rentdetail.contract.number
                     && uploadList === transactions.rentdetail.contract.image) {
-                    console.log("Không thay đổi gì")
+                    // console.log("Không thay đổi gì")
                     return message.warning('Bạn chưa thay đổi gì cả!')
                 }
-                else console.log("Thay đổi")
+                // else console.log("Thay đổi")
                 await this.props.onSendingRentingContract(contractData)
                 await this.setState({ loading: false })
             })

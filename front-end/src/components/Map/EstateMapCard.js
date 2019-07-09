@@ -42,7 +42,7 @@ const EstateMapCard = (props) => {
                         <h6 style={h6Style}>
                             <b>Địa chỉ: </b> {est.address}
                         </h6>
-                        <Link to={url} target="_blank">
+                        <Link to={url}>
                             <Button variant="primary">Xem chi tiết</Button>
                         </Link>
                         {/* <Card.Body>

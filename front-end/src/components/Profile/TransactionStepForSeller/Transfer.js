@@ -42,7 +42,7 @@ class Transfer extends Component {
     }
 
     onUploadingOwnerImages = async (list) => {
-        console.log(list)
+        // console.log(list)
         await Promise.all(list.map(async file => {
             await
                 request
@@ -50,7 +50,7 @@ class Transfer extends Component {
                     .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                     .field('file', file)
                     .then(response => {
-                        console.log(response)
+                        // console.log(response)
                         this.setState({
                             ownerArray: this.state.ownerArray.concat({ url: response.body.secure_url, id: response.body.public_id }),
                         })
@@ -58,22 +58,22 @@ class Transfer extends Component {
                     .catch(err => message.error(`Có lỗi xảy ra: ${err}`))
         }))
         this.setState({ ownerListImagesBeforeUpload: [] })
-        console.log(this.state.ownerArray)
+        // console.log(this.state.ownerArray)
 
     }
 
     handleOwnerUpload(files) {
         files.map(file => {
-            console.log(file)
+            // console.log(file)
             let reader = new FileReader()
             reader.onloadend = () => {
-                console.log(reader.result)
+                // console.log(reader.result)
                 this.setState({
                     ownerArray: [...this.state.ownerArray, reader.result],
                     ownerPreviewImageBeforeUpload: [...this.state.ownerPreviewImageBeforeUpload, reader.result],
                     ownerListImagesBeforeUpload: [...this.state.ownerListImagesBeforeUpload, file]
                 })
-                console.log(reader.result, file)
+                // console.log(reader.result, file)
             }
             reader.readAsDataURL(file);
         })
@@ -120,7 +120,7 @@ class Transfer extends Component {
             okType: 'danger',
             cancelText: 'Trở lại',
             onOk: () => {
-                console.log('OK');
+                // console.log('OK');
                 this.state.ownerListImagesBeforeUpload.splice(index, 1)
                 this.state.ownerPreviewImageBeforeUpload.splice(index, 1)
                 this.state.ownerArray.splice(index, 1)
@@ -131,7 +131,7 @@ class Transfer extends Component {
                 })
             },
             onCancel() {
-                console.log('Cancel');
+                // console.log('Cancel');
             },
         });
     }

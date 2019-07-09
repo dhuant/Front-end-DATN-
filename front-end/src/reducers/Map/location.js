@@ -10,10 +10,10 @@ const location = (state = initialState, action) => {
     switch (action.type) {
         case Types.CHANGE_LOCATION:
             state = action.location;
-            return {...state};
+            // return {...state};
         case Types.GET_LIST_ESTATE_FROM_FORM_SEARCH:
             state = action.estates;
-            return {...state};
+            // return {...state};
         default: return {...state};
     }
 };

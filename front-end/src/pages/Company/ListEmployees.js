@@ -147,7 +147,7 @@ class ListEmployees extends Component {
                                         onRow={(record, rowIndex) => {
                                             return {
                                                 onClick: (event) => {
-                                                    console.log(record)
+                                                    // console.log(record)
                                                     this.props.history.push(`info-employee/${record.employee._id}/1`)
                                                 },
                                             }

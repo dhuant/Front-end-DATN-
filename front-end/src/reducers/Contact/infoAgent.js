@@ -4,7 +4,7 @@ const infoAgent = (state = initialState, action) => {
     switch (action.type) {
         case types.GET_INFO_AGENT:
             state = action.agent;
-            console.log(state);
+            // console.log(state);
             return {...state};
         default: return {...state};
     }

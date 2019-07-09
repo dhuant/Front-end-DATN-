@@ -26,7 +26,6 @@ class CompanyDetail extends Component {
         }
     }
     onChange = page => {
-        console.log(page);
         this.setState({
             current: page,
         });
@@ -82,7 +81,6 @@ class CompanyDetail extends Component {
         if (company.address !== '') {
             address = company.address
         }
-        console.log(company)
         return (
             <div>
                 <MainHeader />

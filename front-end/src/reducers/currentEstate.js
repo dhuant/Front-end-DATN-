@@ -7,7 +7,7 @@ const currentEstate = (state = initialState, action) => {
     switch (action.type) {
         case Types.GET_CURRENT_PROJECT:
             state = action.currentEstate;
-            console.log(state, action);
+            // console.log(state, action);
             return {...state};
         default: return {...state};
     }

@@ -47,7 +47,7 @@ class Confirmation extends Component {
     }
 
     onUploadingGovernmentImages = async (list) => {
-        console.log(list)
+        // console.log(list)
         await Promise.all(list.map(async file => {
             await
                 request
@@ -55,7 +55,7 @@ class Confirmation extends Component {
                     .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                     .field('file', file)
                     .then(response => {
-                        console.log(response)
+                        // console.log(response)
                         this.setState({
                             governmentArray: this.state.governmentArray.concat({ url: response.body.secure_url, id: response.body.public_id }),
                         })
@@ -63,22 +63,22 @@ class Confirmation extends Component {
                     .catch(err => message.error(`Có lỗi xảy ra: ${err}`))
         }))
         this.setState({ governmentListImagesBeforeUpload: [] })
-        console.log(this.state.governmentArray)
+        // console.log(this.state.governmentArray)
 
     }
 
     handleGovernmentUpload(files) {
         files.map(file => {
-            console.log(file)
+            // console.log(file)
             let reader = new FileReader()
             reader.onloadend = () => {
-                console.log(reader.result)
+                // console.log(reader.result)
                 this.setState({
                     governmentArray: [...this.state.governmentArray, reader.result],
                     governmentPreviewImageBeforeUpload: [...this.state.governmentPreviewImageBeforeUpload, reader.result],
                     governmentListImagesBeforeUpload: [...this.state.governmentListImagesBeforeUpload, file]
                 })
-                console.log(reader.result, file)
+                // console.log(reader.result, file)
             }
             reader.readAsDataURL(file);
         })
@@ -125,7 +125,7 @@ class Confirmation extends Component {
             okType: 'danger',
             cancelText: 'Trở lại',
             onOk: () => {
-                console.log('OK');
+                // console.log('OK');
                 this.state.governmentListImagesBeforeUpload.splice(index, 1)
                 this.state.governmentPreviewImageBeforeUpload.splice(index, 1)
                 this.state.governmentArray.splice(index, 1)
@@ -136,7 +136,7 @@ class Confirmation extends Component {
                 })
             },
             onCancel() {
-                console.log('Cancel');
+                // console.log('Cancel');
             },
         });
     }

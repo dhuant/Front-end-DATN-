@@ -36,7 +36,7 @@ class WaitingRequest extends Component {
     }
     render() {
         var { estatesListOfUser, waiting, estateDetail } = this.props
-        console.log(estateDetail)
+        // console.log(estateDetail)
         return (
             localStorage.getItem('res') ?
                 <div>
@@ -111,7 +111,7 @@ class WaitingRequest extends Component {
     }
     ShowWaitingRequestList = (waiting, estateDetail) => {
         if (estateDetail._id !== undefined) {
-            console.log(estateDetail)
+            // console.log(estateDetail)
             var result = null;
             if (waiting.requests === undefined) {
                 result = (<Empty />)

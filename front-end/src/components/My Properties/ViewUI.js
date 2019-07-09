@@ -39,7 +39,7 @@ class ViewUI extends Component {
         if (images.length > 0) {
             result = images.map((image, index) => {
                 var percent = 100 / (index + 1)
-                console.log(percent)
+                // console.log(percent)
                 return (
                     <li
                         data-target="#carousel-custom"
@@ -99,7 +99,7 @@ class ViewUI extends Component {
     }
     render() {
         let { estateUserInfo } = this.props
-        console.log(estateUserInfo)
+        // console.log(estateUserInfo)
         let urlArray = estateUserInfo.url
         return (
             <div>

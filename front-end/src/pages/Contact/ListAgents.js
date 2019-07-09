@@ -19,13 +19,12 @@ class ListAgents extends Component {
         super(props);
         this.state = {
             page: 1,
-            current: this.props.match.params.page,
+            current: Number(this.props.match.params.page),
             option: Options[0].value,
         }
         this.props.reqGetListAgents(this.props.match.params.page);
     }
     onChange = page => {
-        console.log(page);
         this.setState({
             current: page,
         });
@@ -56,9 +55,9 @@ class ListAgents extends Component {
         let { option } = this.state;
         let current = this.state.current
         let total = this.props.totalPage
-        console.log(option)
+        
         let { agents } = this.props;
-        console.log(agents);
+       
         let des = ''
         let listAgents = <h5 style={{ marginLeft: '15px' }}>Không có nhà môi giới nào</h5>;
         if (agents.length > 0) {
@@ -127,7 +126,7 @@ class ListAgents extends Component {
                             </div>
                         </div>
                         {/* option bar end */}
-                        <div class="clearfix"></div>
+                        <div className="clearfix"></div>
                         <div><h4>{des}</h4></div>
                         <div className="row">
                             {listAgents}

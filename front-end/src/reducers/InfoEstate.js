@@ -6,7 +6,7 @@ const estateInfo = (state = initialState, action) => {
     switch (action.type) {
         case Types.GET_INFO_ESTATE:
             state = action.info;
-            console.log(state);
+            // console.log(state);
             return {...state};
         default: return {...state};
     }

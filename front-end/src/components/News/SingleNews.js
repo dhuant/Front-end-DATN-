@@ -7,7 +7,7 @@ import moment from 'moment'
 export class SingleNews extends Component {
   render() {
     var { news } = this.props;
-    console.log(news);
+    // console.log(news);
 
     return (
       // <div className="thumbnail blog-box clearfix">
@@ -46,12 +46,17 @@ export class SingleNews extends Component {
             <div className="date-box">
               <h5 style={{ float: "right", color: "blue" }}>{moment.unix(news.updateTime).format('DD/MM/YYYY, h:mm a')}</h5>
             </div>
-            <h4><a href={`/news/${news._id}`} target="_blank">{news.title}</a></h4>
+            <Link to={`/news/${news._id}`}>
+              <h4>{news.title}</h4>
+            </Link>
             {/* paragraph */}
             {news.content.length > 100 ? <div dangerouslySetInnerHTML={{ __html: news.content.slice(0, 100) }} ></div> : <div dangerouslySetInnerHTML={{ __html: news.content }} ></div>}
             <div className="clearfix" />
             {/* Btn */}
-            <a href={`/news/${news._id}`} className="read-more" target="_blank">Read More...</a>
+            <Link to={`/news/${news._id}`}>
+              <a href={`true`} className="read-more">Đọc thêm...</a>
+            </Link>
+
           </div>
         </div>
       </div>

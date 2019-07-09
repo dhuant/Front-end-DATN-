@@ -77,7 +77,7 @@ class Detail extends Component {
 
     onCheckingName = (rule, value, callback) => {
         const reg = /^[a-z]|^\s|[A-z]{8}|\S{8}|[`~!@#$%^&*()(\-)_=+[(\]){};:'"</>?\\|]/
-        console.log(value)
+        // console.log(value)
         // chữ cái viết thường, 
         //bắt đầu bằng khoảng trắng, 8 kí tự liền nhau (tên: Nghiêng), kí tự đặc biệt
         if ((!Number.isNaN(value) && reg.test(value)) || value === '' || value.length < 4) {
@@ -89,7 +89,7 @@ class Detail extends Component {
     }
     onCheckingAddress = (rule, value, callback) => {
         const reg = /^[a-z]|^\s|[A-z]{8}|\S{8}|[`~!@#$%^&*()(\-)_=+[(\]){};:'"<>?\\|]/
-        console.log(value)
+        // console.log(value)
         if ((!Number.isNaN(value) && reg.test(value)) || value === '' || value.length < 4) {
             callback('Vui lòng nhập đúng địa chỉ!');
         }

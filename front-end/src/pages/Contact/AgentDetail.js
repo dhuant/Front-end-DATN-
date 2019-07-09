@@ -19,14 +19,13 @@ class AgentDetail extends Component {
         super(props);
         this.state = {
             page: 1,
-            current: this.props.match.params.page,
+            current: Number(this.props.match.params.page),
             option: Options[0].value,
             id: this.props.match.params.id
         }
         this.props.reqGetInfoAgent(this.props.match.params.id, this.props.match.params.page);
     }
     onChange = page => {
-        console.log(page);
         this.setState({
             current: page,
         });
@@ -54,8 +53,6 @@ class AgentDetail extends Component {
         let { info, projects } = this.props;
         let current = this.state.current
         let total = this.props.totalPage
-        console.log(info);
-        console.log(projects);
         let des = 'Hiện chưa có bài đăng'
         let listProjects = ''
         if (projects.length > 0) {

@@ -51,7 +51,7 @@ class ChangePasswordEmployee extends Component {
                     newPassword: values.newPassword,
 
                 }
-                console.log(data)
+               
 
                 message.loading('Đang cập nhật lại mật khẩu', 2)
                     .then(() => {

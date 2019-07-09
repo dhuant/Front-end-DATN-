@@ -40,18 +40,18 @@ class Footer extends Component {
                                             <li>
                                                 <i className="fa fa-envelope" />
                                                 Email:<a href="mailto:sales@hotelempire.com">
-                                                    info@themevessel.com
+                                                     bcminhtung@gmail.com
                     </a>
                                             </li>
                                             <li>
                                                 <i className="fa fa-phone" />
                                                 Điện thoại:{" "}
-                                                <a href="tel:+55-417-634-7071">+55 4XX-634-7071</a>
+                                                <a href="tel:+55-417-634-7071">+84 342 877 812</a>
                                             </li>
-                                            <li>
+                                            {/* <li>
                                                 <i className="fa fa-fax" />
                                                 Fax: +55 4XX-634-7071
-                  </li>
+                  </li> */}
                                         </ul>
                                     </div>
                                 </div>

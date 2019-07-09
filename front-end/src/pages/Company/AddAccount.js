@@ -44,8 +44,8 @@ class AddAccount extends Component {
                     createTime: moment().unix(),
                     updateTime: moment().unix(),
                 }
-                console.log(values);
-                console.log(account);
+                // console.log(values);
+                // console.log(account);
                 // this.props.form.resetFields([fullname])
                 message.loading('Đang thêm tài khoản, vui lòng chờ trong giây lát', 2)
                     .then(() => {

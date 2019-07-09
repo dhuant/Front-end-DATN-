@@ -42,7 +42,7 @@ class Deal extends Component {
             if (!err) {
                 if (this.props.transaction.typetransaction === 1) {
                     await this.setState({ loading: true })
-                    console.log('Received values of form: ', values);
+                    // console.log('Received values of form: ', values);
                     var dealInfo = {
                         total: this.props.transaction.project.price,
                         deposit: Number(document.getElementById('deposit').value),
@@ -76,7 +76,7 @@ class Deal extends Component {
                 }
                 else if (this.props.transaction.typetransaction === 2) {
                     await this.setState({ loading: true })
-                    console.log('Received values of form: ', values);
+                    // console.log('Received values of form: ', values);
                     var dealRentingInfo = {
                         total: this.props.transactions.project.price,
                         deposit: this.props.transaction.project.price * this.state.monthNumber,
@@ -103,7 +103,7 @@ class Deal extends Component {
                         && dealRentingInfo.description === existedDealRentingInfo.description) {
                         return message.warning("Bạn chưa thay đổi gì cả!")
                     }
-                    console.log(dealRentingInfo)
+                    // console.log(dealRentingInfo)
                     await this.props.onSendingRentingDeal(dealRentingInfo)
                     await this.setState({ loading: false })
                 }

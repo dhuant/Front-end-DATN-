@@ -7,7 +7,7 @@ const agents = (state = initialState, action) => {
     switch (action.type) {
         case types.GET_LIST_AGENTS:
             state = action.agents;
-            console.log(state)
+            // console.log(state)
             return [...state];
        
         default: return [...state];

@@ -6,7 +6,7 @@ const searchEstate = (state = initialState, action) => {
     switch (action.type) {
         case Types.SEARCH_ESTATE:
             state = action.estates;
-            console.log(state)
+            // console.log(state)
             return [...state];
         
         default: return [...state];

@@ -21,14 +21,14 @@ class InfoEstate extends Component {
 
     render() {
         let { estate } = this.props;
-        console.log(estate)
+        // console.log(estate)
         let url = `/properties/${estate._id}`
         let status = 'Bán'
         if(estate.statusProject === 3){
             status = "Thuê"
         }
         return (
-            <Link to={url} target="_blank">
+            <Link to={url}>
                 <div className="row">
                     <div className="property map-properties-list clearfix" style={{ padding: '0px 5px' }}>
                         <div style={{ margin: '2px 0px 4px 4px' }}>

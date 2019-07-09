@@ -42,8 +42,7 @@ class DetailCompany extends Component {
                     createTime: moment().unix(),
                     updateTime: moment().unix(),
                 }
-                console.log(values);
-                console.log(account);
+               
                 // this.props.form.resetFields([fullname])
                 message.loading('Đang cập nhật thông tin', 0.5)
                     .then(() => {
@@ -59,7 +58,7 @@ class DetailCompany extends Component {
                                 })
                             })
                             .catch(err => {
-                                console.log(err)
+                                
                                 message.error('Lỗi. Phiền bạn vui lòng kiểm tra lại')
                                 this.setState({
                                     disable: false,
@@ -77,7 +76,7 @@ class DetailCompany extends Component {
     };
     onCheckCompanyName = (rule, value, callback) => {
         const reg = /^[a-z]|^\s|[A-z]{8}|\S{8}|[`~!@#$%^&*()(\-)_=+[(\]){};:'"<>/?\\|]/
-        console.log(value)
+        
         // chữ cái viết thường, 
         //bắt đầu bằng khoảng trắng, 8 kí tự liền nhau (tên: Nghiêng), kí tự đặc biệt
         if ((!Number.isNaN(value) && reg.test(value)) || value === '' || value.length < 4) {
@@ -103,7 +102,7 @@ class DetailCompany extends Component {
     }
     render() {
         const { loading } = this.state
-        console.log(this.state.disable);
+        
         const { getFieldDecorator } = this.props.form;
         const prefixSelector = getFieldDecorator('prefix', {
             initialValue: '84',
@@ -148,7 +147,7 @@ class DetailCompany extends Component {
                 phoneTmp = company.phone
             }
         }
-        console.log(company);
+       
         return (
             <div>
                 <div className="my-address" style={{ padding: '0px 0px' }}>

@@ -13,12 +13,12 @@ export const reqGetListAgents = (page) => {
     return axios
       .get(`${config.API_URL}/users/allagent/${page}`,)
       .then(res => {
-        console.log(res);
+        // console.log(res);
         dispatch(actionAgent.actGetListAgents(res.data.result));
         dispatch(actionTotalPage.actSaveTotalPage(res.data.count))
       })
       .catch(err => {
-        console.log(err.respone)
+        // console.log(err.respone)
       })
   };
 }
@@ -30,13 +30,13 @@ export const reqGetInfoAgent = (id, page) => {
     return axios
       .get(`${config.API_URL}/users/infoagent/${id}/${page}`,)
       .then(res => {
-        console.log(res);
+        // console.log(res);
         dispatch(actionAgent.actGetInfoAgent(res.data.info));
         dispatch(actionAgent.actGetListProjectOfAgent(res.data.projects));
         dispatch(actionTotalPage.actSaveTotalPage(res.data.count))
       })
       .catch(err => {
-        console.log(err.respone)
+        // console.log(err.respone)
       })
   };
 }
@@ -52,12 +52,12 @@ export const reqGetListCompanies = (page) => {
     return axios
       .get(`${config.API_URL}/company/all/${page}`,)
       .then(res => {
-        console.log(res);
+        // console.log(res);
         dispatch(actionCompany.actGetListCompanies(res.data.result));
         dispatch(actionTotalPage.actSaveTotalPage(res.data.count))
       })
       .catch(err => {
-        console.log(err.respone)
+        // console.log(err.respone)
       })
   };
 }
@@ -69,7 +69,7 @@ export const reqGetInfoCompany = (id) => {
     return axios
       .get(`${config.API_URL}/company/info/${id}`,)
       .then(res => {
-        console.log(res);
+        // console.log(res);
         let totalPage = parseInt(res.data.company.employees.length /5) + 1
         dispatch(actionCompany.actGetInfoCompany(res.data.company));
         dispatch(actionUserCompany.actSaveListEmployees(res.data.company.employees));
@@ -77,7 +77,7 @@ export const reqGetInfoCompany = (id) => {
         // dispatch(actionAgent.actGetListProjectOfAgent(res.data.projects));
       })
       .catch(err => {
-        console.log(err.respone)
+        // console.log(err.respone)
       })
   };
 }

@@ -7,7 +7,7 @@ const companies = (state = initialState, action) => {
     switch (action.type) {
         case types.GET_LIST_COMPANIES:
             state = action.companies;
-            console.log(state)
+            // console.log(state)
             return [...state];
        
         default: return [...state];

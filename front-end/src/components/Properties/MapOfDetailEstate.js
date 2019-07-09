@@ -12,7 +12,7 @@ class MapOfDetailEstate extends Component {
 
   render() {
     const { info } = this.props;
-    console.log(info);
+    // console.log(info);
     const MapWithAMarker = withScriptjs(
       withGoogleMap(props => (
         <GoogleMap defaultZoom={16} center={{ lat: props.info.lat, lng: props.info.long }}>

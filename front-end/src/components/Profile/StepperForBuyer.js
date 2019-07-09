@@ -47,7 +47,7 @@ class StepperForBuyer extends React.Component {
         this.setState({ percent: 100 })
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                // console.log('Received values of form: ', values);
                 this.props.history.push('/mytransactions')
             }
         });

@@ -37,7 +37,7 @@ class FollowingProject extends Component {
     })
   }
   showUnfollowConfirm = (e) => {
-    console.log(e.target.id)
+    // console.log(e.target.id)
     var id = e.target.id
     var info = {
       projectid: id
@@ -50,18 +50,18 @@ class FollowingProject extends Component {
       cancelText: 'Hủy bỏ',
       onOk: () => {
         this.props.onUnfollowProject(info)
-        console.log(this.props.follow)
+        // console.log(this.props.follow)
       },
       onCancel() {
-        console.log('Cancel');
+        // console.log('Cancel');
       },
     });
   }
   render() {
     let { followSingle } = this.props
     let projectInfo = followSingle.project
-    console.log(projectInfo)
-    // console.log(projectInfo.url)
+    // console.log(projectInfo)
+    console.log(projectInfo.url)
     let { visibleViewFollow } = this.state
     return (
       <div>

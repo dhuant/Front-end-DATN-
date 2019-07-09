@@ -41,7 +41,7 @@ class Tax extends Component {
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
                 await this.setState({ loading: true })
-                console.log('Received values of form: ', values);
+                // console.log('Received values of form: ', values);
                 taxData = {
                     datepay1: moment(values.sellerTaxDate, 'YYYY/MM/DD, h:mm a').unix(),
                     datepay2: moment(values.buyerTaxDate, 'YYYY/MM/DD, h:mm a').unix(),

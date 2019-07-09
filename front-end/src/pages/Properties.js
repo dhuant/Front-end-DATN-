@@ -20,16 +20,26 @@ class Properties extends Component {
         }
         else {
             this.props.actGetEstateRequest(this.props.match.params.id);
-            console.log(this.props.match.params.id);
         }
 
+    }
+
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        if (prevProps.match.params.id !== this.props.match.params.id)
+            return 1
+        return null
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (snapshot) {
+            this.props.actGetEstateRequest(this.props.match.params.id)
+        }
     }
     render() {
 
         let { info } = this.props;
         let detail = '';
         if (info) {
-            console.log(info);
             detail = <PropertiesDetail info={info} id={this.props.match.params.id} />
         }
 

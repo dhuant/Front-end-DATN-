@@ -38,7 +38,7 @@ class FollowingProject extends Component {
     })
   }
   showUnfollowConfirm = (e) => {
-    console.log(e.target.id)
+    // console.log(e.target.id)
     var id = e.target.id
     var info = {
       projectid: id
@@ -51,17 +51,17 @@ class FollowingProject extends Component {
       cancelText: 'Hủy bỏ',
       onOk: () => {
         this.props.onUnfollowProject(info)
-        console.log(this.props.follow)
+        // console.log(this.props.follow)
       },
       onCancel() {
-        console.log('Cancel');
+        // console.log('Cancel');
       },
     });
   }
   render() {
     let { followSingle } = this.props
     let projectInfo = followSingle.project
-    console.log(projectInfo)
+    // console.log(projectInfo)
     // console.log(projectInfo.url)
     let { visibleViewFollow } = this.state
     return (
@@ -71,7 +71,7 @@ class FollowingProject extends Component {
           <td className="title-container followSingle">
             <img src='/images/Home.png' alt="my-properties-1" className="img-responsive hidden-xs" />
             <div className="title">
-              <Link to={`/properties/${projectInfo._id}`} target="_blank">
+              <Link to={`/properties/${projectInfo._id}`}>
                 <h4
                   style={{ color: "#84ad1d", fontSize: "20px", cursor: "pointer" }}
                 // onClick={() => this.setState({ visibleViewFollow: true, visibleUnfollow: false })}

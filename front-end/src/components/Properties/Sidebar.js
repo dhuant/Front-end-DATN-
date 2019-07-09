@@ -12,6 +12,7 @@ import InfiniteScroll from 'react-infinite-scroller'
 import axios from 'axios'
 import { message, List, Spin } from 'antd';
 import * as config from '../../constants/Config'
+// import { Link } from 'react-router-dom'
 const count = 5
 
 class Sidebar extends Component {
@@ -30,19 +31,20 @@ class Sidebar extends Component {
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
     if (prevProps.currentEstate.lat === undefined && this.props.currentEstate.lat) {
-      console.log(this.props.currentEstate)
+      // console.log(this.props.currentEstate)
       return this.props.currentEstate.lat;
     }
     else return null
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    let temp = null
     if (snapshot) {
-      console.log(this.props.currentEstate)
+      // console.log(this.props.currentEstate)
       // this.props.actFetchEstatesRequest(this.props.currentEstate)
       this.fetchData(res => {
         if (res.data.count > 10) {
-          const temp = res.data.projects.slice(0, 10)
+          temp = res.data.projects.slice(0, 10)
           this.setState({
             data: temp
           })
@@ -52,13 +54,17 @@ class Sidebar extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   this.fetchData(res => {
-  //     this.setState({
-  //       data: res.data.projects
-  //     })
-  //   })
-  // }
+  componentDidMount() {
+    let temp = null
+    this.fetchData(res => {
+      if (res.data.count > 10)
+        temp = res.data.projects.slice(0, 10)
+      else temp = res.data.projects
+      this.setState({
+        data: temp
+      })
+    })
+  }
   fetchData = (callback) => {
     axios.post(`${config.API_URL}/projects/home`, this.props.currentEstate)
       .then(res => {
@@ -70,7 +76,7 @@ class Sidebar extends Component {
   }
 
   // fetchData = (callback) => {
-  //   console.log(this.state.page)
+    // console.log(this.state.page)
   //   axios.get(`http://localhost:3001/projects/all/${this.state.page}`)
   //     .then(res => {
   //       this.setState({ page: this.state.page + 1 })
@@ -132,7 +138,9 @@ class Sidebar extends Component {
     if (estates.length > 0) {
       result = estates.map((estate, index) => {
         return (
-          <SingleHintProperty info={estate} key={index} />
+          // <Link to={`/properties/${estate._id}`}>
+            <SingleHintProperty info={estate} key={index} />
+          // </Link>
         );
       })
 
@@ -156,7 +164,7 @@ class Sidebar extends Component {
     //     </div>
     //   ) : null;
     let { estates } = this.props
-    console.log(estates)
+    // console.log(estates)
     return (
       <div>
         <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">

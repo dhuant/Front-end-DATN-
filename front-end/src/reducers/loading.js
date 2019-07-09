@@ -5,7 +5,7 @@ const loading = (state = initialState, action) => {
     switch (action.type) {
         case Types.LOADING:
             state = action.loading;
-            console.log(state);
+            // console.log(state);
             return state;
         default: return state;
     }

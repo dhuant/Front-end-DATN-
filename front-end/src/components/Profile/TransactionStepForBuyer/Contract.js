@@ -24,11 +24,11 @@ class Contract extends Component {
     }
 
     onShowImageList = (images) => {
-        console.log(images)
+        // console.log(images)
         var result = null
         if (images && images.length > 0)
             result = images.map((image, index) => {
-                console.log(image.url)
+                // console.log(image.url)
                 return (
                     <Image
                         key={index}

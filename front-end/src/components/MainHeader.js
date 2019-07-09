@@ -51,7 +51,7 @@ class MainHeader extends Component {
     onHandleProfile = (e) => {
         e.preventDefault();
         let token = JSON.parse(localStorage.getItem('res'));
-        console.log(token.googleId);
+        // console.log(token.googleId);
         // console.log(this.state.token);
         if (token.user._id) {
             this.props.history.push(`/profile`);
@@ -110,7 +110,7 @@ class MainHeader extends Component {
         else if (token === null)
             return (
                 <li>
-                    <a href="true" onClick={this.onLogin} className="button" style={{ marginRight: '5px' }} name='loginButton'>
+                    <a href="true" onClick={this.onLogin} className="button" style={{ marginRight: '5px', color: "#0ABDF9" }} name='loginButton'>
                         <i className="fa fa-sign-in" /> Đăng nhập
                     </a>
                 </li>
@@ -119,7 +119,7 @@ class MainHeader extends Component {
     
     render() {
         var token = localStorage.getItem('res')
-        console.log(token)
+        // console.log(token)
         
         return (
             <div>
@@ -248,16 +248,18 @@ class MainHeader extends Component {
                                             </li>
                                             : null
                                     }
-                                </ul>
-                                <ul className="nav navbar-nav navbar-right rightside-navbar">
                                     <li>
-                                        <a href="true" onClick={this.onSubmitProperty} className="button" style={{ marginRight: '5px' }} name='submitProjectButton'>
+                                        <a href="true" onClick={this.onSubmitProperty} className="button" style={{ marginRight: '5px', color: "#95c41f" }} name='submitProjectButton'>
                                             Đăng bài
                                         </a>
                                     </li>
-
                                     {this.onAfterLogin(token)}
                                 </ul>
+                                {/* <ul className="nav navbar-nav navbar-right rightside-navbar"> */}
+                                    
+
+                                    
+                                {/* </ul> */}
                             </div>
                         </nav>
                     </div>

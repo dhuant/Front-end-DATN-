@@ -69,7 +69,7 @@ export class SingleProperty extends Component {
         this.props.onDeleteProject(estateInfo._id, estateInfo)
       },
       onCancel() {
-        console.log('Cancel');
+        // console.log('Cancel');
       },
     });
   }
@@ -104,7 +104,7 @@ export class SingleProperty extends Component {
 
             <img src={estateListOfUser.url[0]} alt="my-properties-1" className="img-responsive hidden-xs" style={{ width: "150px", height: "150px", marginLeft: "10px" }} />
             <div className="title">
-              <Link to={`/properties/${estateListOfUser._id}`} target="_blank">
+              <Link to={`/properties/${estateListOfUser._id}`}>
                 <h4 style={{ color: "#84ad1d", fontSize: "20px", cursor: "pointer" }} onClick={() => this.setState({ visibleView: true, visibleEdit: false })}>{estateListOfUser.name}</h4>
               </Link>
 
@@ -136,7 +136,7 @@ export class SingleProperty extends Component {
               </i>
             </div> */}
 
-            <Link to={`myproperties/edit/${estateListOfUser._id}`} target="_blank">
+            <Link to={`myproperties/edit/${estateListOfUser._id}`}>
               <i className="fa fa-pencil" style={{ cursor: "pointer", width: "20px", height: "20px" }} >
                 <span style={{ marginLeft: "5px" }}>Sửa</span>
               </i>

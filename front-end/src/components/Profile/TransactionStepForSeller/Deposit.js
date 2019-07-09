@@ -57,7 +57,7 @@ class Deposit extends Component {
             if (!err) {
                 if (this.props.transaction.typetransaction === 1) {
                     this.setState({ loading: true })
-                    console.log('Received values of form: ', values);
+                    // console.log('Received values of form: ', values);
                     detail = [
                         {
                             ratio: Number(values.depositRatio),
@@ -85,7 +85,7 @@ class Deposit extends Component {
                 }
                 else if (this.props.transaction.typetransaction === 2) {
                     this.setState({ loading: true })
-                    console.log('Received values of form: ', values);
+                    // console.log('Received values of form: ', values);
                     detail = [
                         {
                             ratio: Number(values.depositRatio),

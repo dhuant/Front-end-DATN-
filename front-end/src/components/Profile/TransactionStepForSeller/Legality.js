@@ -72,7 +72,7 @@ class Legality extends Component {
     }
 
     onUploadingContractImages = async (list) => {
-        console.log(list)
+        // console.log(list)
         await Promise.all(list.map(async file => {
             await
                 request
@@ -80,7 +80,7 @@ class Legality extends Component {
                     .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                     .field('file', file)
                     .then(response => {
-                        console.log(response)
+                        // console.log(response)
                         this.setState({
                             contractArray: this.state.contractArray.concat({ url: response.body.secure_url, id: response.body.public_id }),
                         })
@@ -88,11 +88,11 @@ class Legality extends Component {
                     .catch(err => message.error(`Có lỗi xảy ra: ${err}`))
         }))
         this.setState({ contractListImagesBeforeUpload: [] })
-        console.log(this.state.contractArray)
+        // console.log(this.state.contractArray)
 
     }
     onUploadingCertificateImages = async (list) => {
-        console.log(list)
+        // console.log(list)
         await Promise.all(list.map(async file => {
             await
                 request
@@ -100,7 +100,7 @@ class Legality extends Component {
                     .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                     .field('file', file)
                     .then(response => {
-                        console.log(response)
+                        // console.log(response)
                         this.setState({
                             certificateArray: this.state.certificateArray.concat({ url: response.body.secure_url, id: response.body.public_id }),
                         })
@@ -108,11 +108,11 @@ class Legality extends Component {
                     .catch(err => message.error(`Có lỗi xảy ra: ${err}`))
         }))
         this.setState({ certificateListImagesBeforeUpload: [] })
-        console.log(this.state.certificateArray)
+        // console.log(this.state.certificateArray)
 
     }
     onUploadingGovernmentImages = async (list) => {
-        console.log(list)
+        // console.log(list)
         await Promise.all(list.map(async file => {
             await
                 request
@@ -120,7 +120,7 @@ class Legality extends Component {
                     .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                     .field('file', file)
                     .then(response => {
-                        console.log(response)
+                        // console.log(response)
                         this.setState({
                             governmentArray: this.state.governmentArray.concat({ url: response.body.secure_url, id: response.body.public_id }),
                         })
@@ -128,54 +128,54 @@ class Legality extends Component {
                     .catch(err => message.error(`Có lỗi xảy ra: ${err}`))
         }))
         this.setState({ governmentListImagesBeforeUpload: [] })
-        console.log(this.state.governmentArray)
+        // console.log(this.state.governmentArray)
 
     }
 
     handleContractUpload(files) {
         files.map(file => {
-            console.log(file)
+            // console.log(file)
             let reader = new FileReader()
             reader.onloadend = () => {
-                console.log(reader.result)
+                // console.log(reader.result)
                 this.setState({
                     contractArray: [...this.state.contractArray, reader.result],
                     contractPreviewImageBeforeUpload: [...this.state.contractPreviewImageBeforeUpload, reader.result],
                     contractListImagesBeforeUpload: [...this.state.contractListImagesBeforeUpload, file]
                 })
-                console.log(reader.result, file)
+                // console.log(reader.result, file)
             }
             reader.readAsDataURL(file);
         })
     }
     handleCertificateUpload(files) {
         files.map(file => {
-            console.log(file)
+            // console.log(file)
             let reader = new FileReader()
             reader.onloadend = () => {
-                console.log(reader.result)
+                // console.log(reader.result)
                 this.setState({
                     certificateArray: [...this.state.certificateArray, reader.result],
                     certificatePreviewImageBeforeUpload: [...this.state.certificatePreviewImageBeforeUpload, reader.result],
                     certificateListImagesBeforeUpload: [...this.state.certificateListImagesBeforeUpload, file]
                 })
-                console.log(reader.result, file)
+                // console.log(reader.result, file)
             }
             reader.readAsDataURL(file);
         })
     }
     handleGovernmentUpload(files) {
         files.map(file => {
-            console.log(file)
+            // console.log(file)
             let reader = new FileReader()
             reader.onloadend = () => {
-                console.log(reader.result)
+                // console.log(reader.result)
                 this.setState({
                     governmentArray: [...this.state.governmentArray, reader.result],
                     governmentPreviewImageBeforeUpload: [...this.state.governmentPreviewImageBeforeUpload, reader.result],
                     governmentListImagesBeforeUpload: [...this.state.governmentListImagesBeforeUpload, file]
                 })
-                console.log(reader.result, file)
+                // console.log(reader.result, file)
             }
             reader.readAsDataURL(file);
         })
@@ -278,7 +278,7 @@ class Legality extends Component {
             okType: 'danger',
             cancelText: 'Trở lại',
             onOk: () => {
-                console.log('OK');
+                // console.log('OK');
                 this.state.certificateListImagesBeforeUpload.splice(index, 1)
                 this.state.certificatePreviewImageBeforeUpload.splice(index, 1)
                 this.state.certificateArray.splice(index, 1)
@@ -289,7 +289,7 @@ class Legality extends Component {
                 })
             },
             onCancel() {
-                console.log('Cancel');
+                // console.log('Cancel');
             },
         });
     }
@@ -307,7 +307,7 @@ class Legality extends Component {
             okType: 'danger',
             cancelText: 'Trở lại',
             onOk: () => {
-                console.log('OK');
+                // console.log('OK');
                 this.state.governmentListImagesBeforeUpload.splice(index, 1)
                 this.state.governmentPreviewImageBeforeUpload.splice(index, 1)
                 this.state.governmentArray.splice(index, 1)
@@ -318,7 +318,7 @@ class Legality extends Component {
                 })
             },
             onCancel() {
-                console.log('Cancel');
+                // console.log('Cancel');
             },
         });
     }
@@ -336,7 +336,7 @@ class Legality extends Component {
             okType: 'danger',
             cancelText: 'Trở lại',
             onOk: () => {
-                console.log('OK');
+                // console.log('OK');
                 this.state.contractListImagesBeforeUpload.splice(index, 1)
                 this.state.contractPreviewImageBeforeUpload.splice(index, 1)
                 this.state.contractArray.splice(index, 1)
@@ -347,7 +347,7 @@ class Legality extends Component {
                 })
             },
             onCancel() {
-                console.log('Cancel');
+                // console.log('Cancel');
             },
         });
     }
@@ -417,7 +417,7 @@ class Legality extends Component {
         // const { getFieldDecorator } = this.props.form
         var { transactions } = this.props
         var legality = transactions.selldetail.legality
-        console.log(legality)
+        // console.log(legality)
         var { previewImage,
             previewUrl,
             contractArray,

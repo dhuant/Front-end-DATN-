@@ -7,7 +7,7 @@ const auth = (state = initialState, action) => {
     switch (action.type) {
         case types.CHECK_AUTH:
             state = action.isAuth;
-            console.log(state)
+            // console.log(state)
             return state;
       
         default: return state;

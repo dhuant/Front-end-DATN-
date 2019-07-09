@@ -43,7 +43,7 @@ class MapSearching extends Component {
 				// area = this.getArea(addressArray),
 				// state = this.getState(addressArray);
 
-				console.log('city', this.state.markerPosition, addressArray, address);
+				// console.log('city', this.state.markerPosition, addressArray, address);
 				localStorage.setItem('defaultAddress', address)
 				this.setState({
 					address: (address) ? address : '',
@@ -53,7 +53,7 @@ class MapSearching extends Component {
 				})
 			},
 			error => {
-				console.error(error);
+				// console.error(error);
 			}
 		);
 	};
@@ -96,7 +96,7 @@ class MapSearching extends Component {
 				markerPosition: markerPosition
 			}
 			this.props.onSaveLocationInfo(location)
-			console.log(location)
+			// console.log(location)
 
 			// this.props.actFetchEstatesRequest(info);
 		}
@@ -179,10 +179,10 @@ class MapSearching extends Component {
 		let newLat = event.latLng.lat(),
 			newLng = event.latLng.lng();
 
-		// console.log(newLat, newLng)
+		console.log(newLat, newLng)
 		Geocode.fromLatLng(newLat, newLng).then(
 			response => {
-				console.log(response)
+				// console.log(response)
 				const address = response.results[0].formatted_address
 				// unknownAddress = response.results[0].formatted_address,
 				// addressArray = response.results[0].address_components
@@ -202,8 +202,8 @@ class MapSearching extends Component {
 				})
 			},
 			error => {
-				console.error(error);
-				console.log('error');
+				// console.error(error);
+				// console.log('error');
 			}
 		);
 	};
@@ -212,7 +212,7 @@ class MapSearching extends Component {
 	 * @param place
 	 */
 	onPlaceSelected = (place) => {
-		console.log('plc', place[0]);
+		// console.log('plc', place[0]);
 		if (place[0] === undefined || place[0] === null) {
 			this.setState({ unknownAddress: '' })
 			message.warning('Không thể tìm chính xác vị trí của bạn! Bạn có thể xác định lại vị trí của mình thủ công trên bản đồ!')
