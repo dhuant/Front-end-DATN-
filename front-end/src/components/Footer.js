@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom'
+import { Alert } from 'antd'
 
 class Footer extends Component {
     onHome = (e) => {
@@ -9,6 +10,10 @@ class Footer extends Component {
     onAbout = (e) => {
         e.preventDefault();
         this.props.history.push('/about')
+    }
+    onSubmit = (e) => {
+        e.preventDefault()
+        return (<Alert message="Chức năng này sẽ được cập nhật sau!" type="info" showIcon />)
     }
     render() {
         return (
@@ -40,7 +45,7 @@ class Footer extends Component {
                                             <li>
                                                 <i className="fa fa-envelope" />
                                                 Email:<a href="mailto:sales@hotelempire.com">
-                                                     bcminhtung@gmail.com
+                                                    bcminhtung@gmail.com
                     </a>
                                             </li>
                                             <li>
@@ -91,8 +96,8 @@ class Footer extends Component {
                                         <div className="newsletter clearfix">
                                             <p>
                                                 Đăng kí tài khoản email của bạn để nhận được thông báo mới nhất của chúng tôi
-                  </p>
-                                            <form action="#" method="post">
+                                            </p>
+                                            <form onSubmit={this.onSubmit}>
                                                 <div className="form-group">
                                                     <input
                                                         className="nsu-field btn-block"
@@ -109,7 +114,7 @@ class Footer extends Component {
                                                         className="button-sm button-theme btn-block"
                                                     >
                                                         Đăng kí
-                      </button>
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>

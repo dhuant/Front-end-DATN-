@@ -223,9 +223,9 @@ export default class SingleEstateListView extends Component {
                                                     </div>
                                                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
                                                 </section> */}
-                                                <Link to={`/properties/${estate._id}`}>
+                                                {/* <Link to={`/properties/${estate._id}`} data-dismiss="modal">
                                                     <a className="btn button-sm button-theme">Xem chi tiết</a>
-                                                </Link>
+                                                </Link> */}
                                             </div>
                                         </div>
                                     </div>
