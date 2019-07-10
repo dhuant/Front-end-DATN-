@@ -97,7 +97,8 @@ class PropertiesDetail extends Component {
     componentDidMount = () => {
         this.props.onGetCommentsById(this.props.id)
         this.props.onGetEstateDetail(this.props.id)
-        this.props.onGetFollowingList()
+        if (localStorage.getItem('res'))
+            this.props.onGetFollowingList()
     }
 
     onShowImagesThumbnail = (images) => {
@@ -270,25 +271,25 @@ class PropertiesDetail extends Component {
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
-		if (prevProps.estateInfo.lat === undefined && this.props.estateInfo.lat) {
+        if (prevProps.estateInfo.lat === undefined && this.props.estateInfo.lat) {
             // console.log(this.props.estateInfo)
-			return this.props.estateInfo.lat;
-		}
-		else return null
+            return this.props.estateInfo.lat;
+        }
+        else return null
     }
-    
-	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (snapshot) {
-			var savedData = {
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (snapshot) {
+            var savedData = {
                 lat: this.props.estateInfo.lat,
                 long: this.props.estateInfo.long,
                 radius: 5
             }
             this.props.onSaveCurrentProject(savedData)
             // console.log(savedData)
-		}
+        }
     }
-    
+
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields(async (err, values) => {
