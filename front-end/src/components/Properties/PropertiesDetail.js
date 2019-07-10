@@ -412,7 +412,7 @@ class PropertiesDetail extends Component {
                                                     <span>Mô tả chi tiết</span>
                                                 </h1>
                                             </div>
-                                            <p>{info.info}</p>
+                                            <p style={{whiteSpace: 'pre-wrap',WebkitBoxOrient: 'vertical', overflow:'scroll'}}>{info.info}</p>
                                             <br />
                                         </div>
                                         <div className="tab-pane fade features" id="tab2default">

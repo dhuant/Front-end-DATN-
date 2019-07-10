@@ -153,7 +153,8 @@ class CompanyDetail extends Component {
                                     <div className="main-title-2">
                                         <h1><span>Mô tả</span></h1>
                                     </div>
-                                    <p>
+
+                                    <p style={{whiteSpace: 'pre-wrap',WebkitBoxOrient: 'vertical', overflow:'scroll'}}>
                                         {company.description}
                                     </p>
 
