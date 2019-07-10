@@ -118,7 +118,7 @@ class WaitingRequest extends Component {
             }
             else if (waiting.requests && waiting.requests.length > 0) {
                 result = waiting.requests.map((single, index) => {
-                    if (single.createdTransaction === false)
+                    // if (single.createdTransaction === false)
                         return (
                             <SingleWaiting key={index} waitingRequestSingle={single} waitingList={waiting} codelist={estateDetail.codelist} unit={estateDetail.unit} index={index} />
                         );

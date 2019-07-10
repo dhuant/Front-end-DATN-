@@ -524,13 +524,14 @@ class PropertiesDetail extends Component {
                                     </h1>
                                     </div>
                                     <div className="pull-right">
-                                        <Pagination
-                                            size="small"
-                                            current={this.state.current}
-                                            total={comments.length}
-                                            onChange={this.onChange}
-                                            pageSize={pageSize}
-                                        />
+                                        {comments.length > 0 ?
+                                            <Pagination
+                                                size="small"
+                                                current={this.state.current}
+                                                total={comments.length}
+                                                onChange={this.onChange}
+                                                pageSize={pageSize}
+                                            /> : null}
                                     </div>
                                     <br></br>
                                 </div>
@@ -605,7 +606,7 @@ class PropertiesDetail extends Component {
                                         // trigger: 'onBlur',
                                         rules: [
                                             { required: true, message: 'Trường này chưa được nhập!' },
-                                            { validator: this.onCheckingOfferPrice }
+                                            // { validator: this.onCheckingOfferPrice }
                                         ],
                                     })(
                                         <InputNumber
@@ -649,10 +650,10 @@ class PropertiesDetail extends Component {
     }
     ShowComments = (comments) => {
         var result = null;
-        var currentList = comments.slice((this.state.current - 1) * pageSize, this.state.current * pageSize)
         if (comments.length === 0)
             result = "Bài đăng này hiện chưa có bình luận nào!"
-        if (currentList.length > 0) {
+        if (comments.length > 0) {
+            var currentList = comments.slice((this.state.current - 1) * pageSize, this.state.current * pageSize)
             result = currentList.map((comment, index) => {
                 // console.log(index)
                 return (
