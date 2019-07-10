@@ -14,7 +14,6 @@ export class NewsDetail extends Component {
         var { newsDetail } = this.props;
         // console.log(newsDetail);
         return (
-            localStorage.getItem('res') ?
                 <div>
                     <MainHeader />
                     {/* Banner start */}
@@ -81,7 +80,7 @@ export class NewsDetail extends Component {
                     </div>
                     {/* Blog body end */}
                     <Footer />
-                </div> : <Redirect to={`/login`} />
+                </div>
         )
     }
 }
