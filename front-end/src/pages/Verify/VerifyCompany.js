@@ -17,6 +17,12 @@ class VerifyCompany extends Component {
         };
     }
     componentDidMount() {
+        if (localStorage.getItem('res')) {
+            this.props.history.push('/')
+        }
+        else if (localStorage.getItem('company')) {
+            this.props.history.push('/company/profile-admin')
+        }
         const postParam = {
             id: this.state.idCompany,
             hash: this.state.hash,

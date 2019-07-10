@@ -19,6 +19,12 @@ class VerifyEmployee extends Component {
         };
     }
     componentDidMount() {
+        if (localStorage.getItem('res')) {
+            this.props.history.push('/')
+        }
+        else if (localStorage.getItem('company')) {
+            this.props.history.push('/company/profile-admin')
+        }
         const postParam = {
             company: this.state.idCompany,
             id: this.state.idEmployee,
