@@ -392,7 +392,7 @@ class EstateMapContainer extends Component {
                                 <div>
                                     <button
                                         onClick={this.onSearchMap}
-                                        type="button" className="btn btn-success"
+                                        type="button" className="btn btn-primary"
                                         style={{ width: '100px' }}
                                     >
                                         Tìm kiếm

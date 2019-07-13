@@ -110,7 +110,7 @@ class MainHeader extends Component {
         else if (token === null)
             return (
                 <li>
-                    <a href="true" onClick={this.onLogin} className="button" style={{ marginRight: '5px', color: "#0ABDF9" }} name='loginButton'>
+                    <a href="true" onClick={this.onLogin} className="button" style={{ marginRight: '5px', color: "#1B419A" }} name='loginButton'>
                         <i className="fa fa-sign-in" /> Đăng nhập
                     </a>
                 </li>
