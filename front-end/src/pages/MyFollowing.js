@@ -69,7 +69,9 @@ class MyFollowing extends Component {
                                 </div>
                                 <div className="col-lg-8 col-md-8 col-sm-12">
                                     <div className="main-title-2">
-                                        <h1><span>Danh sách</span> theo dõi</h1>
+                                        <h1>
+                                            <span>Danh sách theo dõi</span>
+                                        </h1>
                                     </div>
                                     <br></br>
                                     {/* table start */}

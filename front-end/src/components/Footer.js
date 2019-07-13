@@ -15,6 +15,9 @@ class Footer extends Component {
         e.preventDefault()
         return (<Alert message="Chức năng này sẽ được cập nhật sau!" type="info" showIcon />)
     }
+    onClickSendEmail = () => {
+        return (<Alert message=" Chúng tôi đã nhận được email của bạn. Các thông tin mới nhất về BĐS sẽ được gửi đến bạn sớm nhất" type="info" />)
+    }
     render() {
         return (
             <div>
@@ -33,7 +36,7 @@ class Footer extends Component {
                                             <h1>Liên hệ với chúng tôi</h1>
                                         </div>
                                         <p>
-                                            Chúng tôi là sinh viên khóa K15 Trường đại học Khoa học Tự nhiên
+                                            Chúng tôi là sinh viên khóa 15 Trường đại học Khoa học Tự nhiên
                                             TP.Hồ Chí Minh. Mọi chi tiết thắc mắc, liên hệ quảng cáo, xin vui lòng liên hệ với thông tin đượ
                                             mô tả bên dưới.
                 </p>
@@ -44,14 +47,14 @@ class Footer extends Component {
                   </li>
                                             <li>
                                                 <i className="fa fa-envelope" />
-                                                Email:<a href="mailto:sales@hotelempire.com">
+                                                Email: <a href="mailto:sales@hotelempire.com">
                                                     bcminhtung@gmail.com
                     </a>
                                             </li>
                                             <li>
                                                 <i className="fa fa-phone" />
                                                 Điện thoại:{" "}
-                                                <a href="tel:+55-417-634-7071">+84 342 877 812</a>
+                                                <a href="tel:+55-417-634-7071">+84 989 871 786</a>
                                             </li>
                                             {/* <li>
                                                 <i className="fa fa-fax" />
@@ -80,7 +83,7 @@ class Footer extends Component {
                                                 <Link to="/estatelistview">Danh sách bài đăng</Link>
                                             </li>
                                             <li>
-                                                <Link to="/companies/1">Công ty đối tác</Link>
+                                                <Link to="/companies/1">Doanh nghiệp đối tác</Link>
                                             </li>
 
                                         </ul>
@@ -112,9 +115,8 @@ class Footer extends Component {
                                                     <button
                                                         type="submit"
                                                         className="button-sm button-theme btn-block"
-                                                    >
-                                                        Đăng kí
-                                                    </button>
+                                                        onClick={this.onClickSendEmail}
+                                                    >Đăng kí</button>
                                                 </div>
                                             </form>
                                         </div>

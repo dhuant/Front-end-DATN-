@@ -105,7 +105,7 @@ export default class SingleEstateListView extends Component {
                             {/* Property img */}
                             <div className="property-img">
                                 <div className="property-tag button alt featured">{estate.statusProject === 1 ? 'Bán' : 'Thuê'}</div>
-                                <div className="property-tag button sale" style={{ fontSize: "18px" }}>{estate.price >= 1000 && estate.statusProject === 1 ? (estate.price / 1000).toFixed(2) + ' Tỉ' : estate.price + ' ' + estate.unit}</div>
+                                <div className="property-tag button sale" style={{ fontSize: "18px" }}>{estate.price >= 1000 && estate.statusProject === 1 ? (estate.price / 1000).toFixed(2) + ' tỷ VNĐ' : estate.price + ' ' + estate.unit}</div>
                                 {/* <div className="property-price">$150,000</div> */}
                                 <img src={estate.url && estate.url.length > 0 ? estate.url[0] : '/images/Home.png'} alt="fp-list" className="img-responsive" style={{ height: "250px", width: "100%" }} />
                                 <div className="property-overlay">
@@ -185,7 +185,7 @@ export default class SingleEstateListView extends Component {
                                         <div className="col-lg-7 modal-right">
                                             <div className="modal-right-content bg-white">
                                                 <strong className="price">
-                                                    {estate.price >= 1000 && estate.statusProject === 1 ? (estate.price / 1000).toFixed(2) + ' Tỉ' : estate.price + ' ' + estate.unit}
+                                                    {estate.price >= 1000 && estate.statusProject === 1 ? (estate.price / 1000).toFixed(2) + ' tỷ VNĐ' : estate.price + ' ' + estate.unit}
                                                 </strong>
                                                 <section>
                                                     <h3>Thông tin liên hệ</h3>
@@ -207,7 +207,7 @@ export default class SingleEstateListView extends Component {
                                                         <dt>Nhà đầu tư</dt>
                                                         <dd>{estate.investor}</dd>
                                                         <dt>Giá</dt>
-                                                        <dd>{estate.price >= 1000 && estate.statusProject === 1 ? (estate.price / 1000).toFixed(2) + ' Tỉ' : estate.price + ' ' + estate.unit}</dd>
+                                                        <dd>{estate.price >= 1000 && estate.statusProject === 1 ? (estate.price / 1000).toFixed(2) + ' tỷ VNĐ' : estate.price + ' ' + estate.unit}</dd>
                                                     </dl>
                                                 </section>
                                                 {/* <section>

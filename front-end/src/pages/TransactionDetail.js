@@ -54,7 +54,9 @@ class TransactionDetail extends Component {
                                 </div>
                                 <div className="col-lg-8 col-md-8 col-sm-12">
                                     <div className="main-title-2">
-                                        <h1><span>Giao dịch</span> của tôi</h1>
+                                        <h1>
+                                            <span>Giao dịch của tôi</span>
+                                        </h1>
                                     </div>
                                     {/* table start */}
                                     <table className="manage-table responsive-table">
