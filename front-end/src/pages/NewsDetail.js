@@ -50,7 +50,7 @@ export class NewsDetail extends Component {
                                             </b>
                                         </h2>
                                         <div>
-                                                <img  style={{ height: '300px', width: '80%', display:'flex', justifyContent:'center', alignItems:'center' }} src={newsDetail.image.url} alt="properties-3" className="img-responsiv" />
+                                        {!newsDetail.image ? null : <img style={{ height: '300px', width: '80%', display:'flex', justifyContent:'center', alignItems:'center' }} src={newsDetail.image.url} alt="properties-3" className="img-responsiv" />}
                                         </div>
 
                                         {<div dangerouslySetInnerHTML={{ __html: newsDetail.content }} ></div>}
