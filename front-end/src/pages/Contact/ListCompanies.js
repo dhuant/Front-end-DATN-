@@ -125,7 +125,11 @@ class ListCompaies extends Component {
                         </div>
                         <div>
                         <div style={{ textAlign: 'center' }}>
-                                        <Pagination current={current} pageSize={pageSize} onChange={this.onChange} total={total} />
+                                        <Pagination 
+                                        current={current} 
+                                        pageSize={pageSize} 
+                                        onChange={this.onChange} 
+                                        total={total} />
 
                                     </div>
                             

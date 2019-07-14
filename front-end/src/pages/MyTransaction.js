@@ -84,7 +84,7 @@ class MyTransaction extends Component {
                     style={{
                       position: "absolute",
                       left: "50%",
-                      top: "50%",
+                      top: "200px",
                       marginRight: "-50%",
                     }}
                   /> :

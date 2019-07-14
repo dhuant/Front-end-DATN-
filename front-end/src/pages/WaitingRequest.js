@@ -37,6 +37,7 @@ class WaitingRequest extends Component {
     render() {
         var { estatesListOfUser, waiting, estateDetail } = this.props
         // console.log(estateDetail)
+        console.log(waiting)
         return (
             localStorage.getItem('res') ?
                 <div>
@@ -66,7 +67,9 @@ class WaitingRequest extends Component {
                                 </div>
                                 <div className="col-lg-8 col-md-8 col-sm-12">
                                     <div className="main-title-2">
-                                        <h1><span>Danh sách</span> yêu cầu giao dịch</h1>
+                                        <h1>
+                                            <span>Danh sách yêu cầu giao dịch</span>
+                                        </h1>
                                     </div>
                                     <div className="row">
                                         <div className="col-md-5 col-lg-5 col-xs-12" style={{ float: "right" }}>
@@ -118,7 +121,7 @@ class WaitingRequest extends Component {
             }
             else if (waiting.requests && waiting.requests.length > 0) {
                 result = waiting.requests.map((single, index) => {
-                    // if (single.createdTransaction === false)
+                    if (single.createdTransaction === undefined || single.createdTransaction !== true)
                         return (
                             <SingleWaiting key={index} waitingRequestSingle={single} waitingList={waiting} codelist={estateDetail.codelist} unit={estateDetail.unit} index={index} />
                         );

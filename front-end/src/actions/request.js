@@ -376,3 +376,24 @@ export const reqSearchEstate = (data) => {
       })
   }
 }
+
+export const searchAllRequest = (data) => {
+  return dispatch => {
+    axios.post(`${config.API_URL}/projects/search`, data)
+      .then(res => {
+        if (res.data.status === 200) {
+          
+          dispatch(actSearch.actSearchAll(res.data.projects))
+        }
+      })
+      .catch(err => {
+        if (err) {
+          message.warning('Không có bất động sản bạn cần tìm')
+          dispatch(actSearch.actSearchAll([]))
+        }
+        else {
+          message.error('Lỗi, vui lòng kiểm tra lại đường truyền!')
+        }
+      })
+  }
+}

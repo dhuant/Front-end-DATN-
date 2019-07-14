@@ -65,6 +65,8 @@ class SingleWaiting extends Component {
       await this.props.onCreatingTransaction(transactionInfo)
       this.setState({ loading: false })
       // console.log(this.props.transaction)
+      // await this.props.onShowWaitingRequestList(waiting.project._id)
+      this.props.history.push('/mytransactions')
     }
     else {
       this.setState({ visible: true })
@@ -267,14 +269,15 @@ class SingleWaiting extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    transaction: state.transaction
+    transaction: state.transaction,
+    waiting: state.waiting,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onCreatingTransaction: (transactionInfo) => dispatch(transActions.actCreatingTransactionRequest(transactionInfo)),
-
+    onShowWaitingRequestList: (projectid) => dispatch(transActions.actGettingWaitingListRequest(projectid)),
   }
 }
 const WrappedFormSingleWaiting = Form.create()(SingleWaiting)

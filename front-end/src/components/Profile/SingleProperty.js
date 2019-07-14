@@ -105,7 +105,7 @@ export class SingleProperty extends Component {
             <img src={estateListOfUser.url[0]} alt="my-properties-1" className="img-responsive hidden-xs" style={{ width: "150px", height: "150px", marginLeft: "10px" }} />
             <div className="title">
               <Link to={`/properties/${estateListOfUser._id}`}>
-                <h4 style={{ color: "#84ad1d", fontSize: "20px", cursor: "pointer" }} onClick={() => this.setState({ visibleView: true, visibleEdit: false })}>{estateListOfUser.name}</h4>
+                <h4 style={{ color: "rgb(255, 102, 0)", fontSize: "20px", cursor: "pointer" }} onClick={() => this.setState({ visibleView: true, visibleEdit: false })}>{estateListOfUser.name}</h4>
               </Link>
 
               <span><i className="fa fa-user-circle-o" />{estateListOfUser.investor}</span>
@@ -114,10 +114,10 @@ export class SingleProperty extends Component {
               <span className="hidden-xs">
                 <i className="fa fa-calendar-check-o" />
                 {moment.unix(estateListOfUser.updateTime).format('DD/MM/YYYY')}
-                <span className="hidden-xs" style={{ fontWeight: "lighter", color: "#BA4A00", fontSize: "18px" }}>
+                <span className="hidden-xs" style={{ fontWeight: "lighter", color: "rgb(255, 102, 0)", fontSize: "18px" }}>
                   <i className="fa fa-money" style={{ fontSize: "12px" }} />
                   {estateListOfUser.price >= 1000 && estateListOfUser.statusProject === 1
-                    ? `${Number(estateListOfUser.price / 1000).toFixed(1)} Tỉ`
+                    ? `${Number(estateListOfUser.price / 1000).toFixed(1)} tỷ VNĐ`
                     : `${estateListOfUser.price} ${estateListOfUser.unit}`}
                 </span>
               </span>
@@ -162,7 +162,7 @@ export class SingleProperty extends Component {
           style={{ height: "80%", overflowY: "auto", zIndex: "1000", boxShadow: "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)" }}
           width="100%"
           footer={[
-            <Button key="back" onClick={this.handleCancel}>Close</Button>
+            <Button key="back" onClick={this.handleCancel}>Đóng</Button>
           ]}
         >
           <div style={{ overflow: 'hidden' }}>
@@ -210,7 +210,7 @@ export class SingleProperty extends Component {
                   <div className="col-lg-7 modal-right">
                     <div className="modal-right-content bg-white">
                       <strong className="price">
-                        {estateListOfUser.price >= 1000 && estateListOfUser.statusProject === 1 ? (estateListOfUser.price / 1000).toFixed(2) + ' Tỉ' : estateListOfUser.price + ' ' + estateListOfUser.unit}
+                        {estateListOfUser.price >= 1000 && estateListOfUser.statusProject === 1 ? (estateListOfUser.price / 1000).toFixed(2) + ' tỉ VNĐ' : estateListOfUser.price + ' ' + estateListOfUser.unit}
                       </strong>
                       <section>
                         <h3>Thông tin liên hệ</h3>
@@ -232,7 +232,7 @@ export class SingleProperty extends Component {
                           <dt>Nhà đầu tư</dt>
                           <dd>{estateListOfUser.investor}</dd>
                           <dt>Giá</dt>
-                          <dd>{estateListOfUser.price >= 1000 && estateListOfUser.statusProject === 1 ? (estateListOfUser.price / 1000).toFixed(2) + ' Tỉ' : estateListOfUser.price + ' ' + estateListOfUser.unit}</dd>
+                          <dd>{estateListOfUser.price >= 1000 && estateListOfUser.statusProject === 1 ? (estateListOfUser.price / 1000).toFixed(2) + ' tỷ VNĐ' : estateListOfUser.price + ' ' + estateListOfUser.unit}</dd>
                         </dl>
                       </section>
                       {/* <section>

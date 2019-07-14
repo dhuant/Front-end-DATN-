@@ -39,10 +39,10 @@ export class SingleNews extends Component {
       <div className="col-lg-6 col-md-6 col-sm-6 ">
         <div className="thumbnail blog-box-2 clearfix">
           <div className="blog-photo">
-              <img style={{ height: '300px', width: '100%' }} src={news.image.url} alt="blog-1" className="img-responsive" />
+            {news.image.url === '' ? null : <img src={news.image.url} alt="blog-1" className="img-responsive" style={{width: "100%", height: "300px"}} />}
           </div>
           {/* Detail */}
-          <div className="caption detail">
+          <div className="caption detail" style={{height: "210px"}}>
             <div className="date-box">
               <h5 style={{ float: "right", color: "blue" }}>{moment.unix(news.updateTime).format('DD/MM/YYYY, h:mm a')}</h5>
             </div>

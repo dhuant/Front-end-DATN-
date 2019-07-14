@@ -6,3 +6,10 @@ export const actSearchEstate = (estates) => {
         estates: estates
     }
 }
+
+export const actSearchAll = (estates) => {
+    return {
+        type: types.SEARCH_ALL,
+        estates: estates
+    }
+}

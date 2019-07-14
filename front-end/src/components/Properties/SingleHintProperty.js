@@ -13,14 +13,14 @@ class SingleHintProperty extends Component {
                 </div>
                 <div className="media-body">
                     <Link to={`/properties/${info._id}`}>
-                        <h3 className="media-heading" style={{color: "#95c41f"}}>
+                        <h3 className="media-heading" style={{color: "#1B419A"}}>
                             {info.name}
                         </h3>
                     </Link>
 
                     <p>{moment.unix(info.updateTime).format('DD/MM/YYYY')}</p>
                     <div className="price">
-                        {info.price >= 1000 && info.statusProject === 1 ? `${info.price / 1000} Tỉ` : info.price + ' ' + info.unit}
+                        {info.price >= 1000 && info.statusProject === 1 ? `${info.price / 1000} tỷ VNĐ` : info.price + ' ' + info.unit}
                     </div>
                 </div>
             </div>

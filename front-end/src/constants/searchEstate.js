@@ -1,1 +1,2 @@
 export const SEARCH_ESTATE = 'SEARCH_ESTATE'
+export const SEARCH_ALL = 'SEARCH_ALL'
