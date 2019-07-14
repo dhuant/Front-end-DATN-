@@ -65,7 +65,7 @@ class AboutUs extends Component {
                             <div className="col-lg-7 col-md-7 col-sm-12 col-xs-12">
                                 <div className="about-text">
                                     <h2>VỀ REALES</h2>
-                                    <h5>REALES được thành lập dựa trên việc thực hiện đồ án tốt nghiệp của 6 sinh viên khoa Công nghệ thông tin Trường Đại học Khoa học Tự nhiên TP.Hồ Chí Minh</h5>
+                                    <h5>REALES được thành lập dựa trên việc thực hiện đồ án tốt nghiệp của 6 sinh viên khoa Công nghệ thông tin, Trường Đại học Khoa học Tự nhiên, ĐHQG-HCM</h5>
                                     <p style={{ fontSize: '14px' }}>Đây là một sản phẩm dành cho những người có nhu cầu mua hoặc thuê BĐS và chí ít là muốn tìm hiểu về BĐS cho nhu cầu ở tương lai,
                                      những người quan tâm đến các kiến thức về thị trường BĐS nói chung, REALES một sản phẩm cung cấp cho người dùng một giải pháp toàn diện về các thông tin BĐS cũng như quá trình mua bán của nó. Không giống như những sản phẩm khác, REALES hứa hẹn sẽ mang lại cho người dung sự tin tưởng với việc xác thực thông tin BĐS, nhà môi giới và chuẩn hóa một quy trình mua bán – cho thuê.</p>
                                 </div>
@@ -149,7 +149,7 @@ class AboutUs extends Component {
                                             </div>
                                             <div className="col-lg-8 col-md-7 col-sm-7 col-xs-12">
                                                 <div className="text">
-                                                Người anh em thiện lành của Bảo Lộc
+                                                Hãy cứ đam mê, hãy cứ dại khờ
                                                 </div>
                                                 <div className="author-name">
                                                     <h3><b>Hoàng Quốc Trung</b></h3>
@@ -165,12 +165,12 @@ class AboutUs extends Component {
                                             </div>
                                             <div className="col-lg-8 col-md-7 col-sm-7 col-xs-12">
                                                 <div className="text">
-                                                Ước mơ gia nhập Zalo
+                                                Ước mơ gia nhập Facebook từ đây!
                                                 </div>
                                                 <div className="author-name">
                                                     <h3><b>Trần Tấn Đạt</b></h3>
                                                 </div>
-                                                <h4> Fullstack Web Developer</h4>
+                                                <h4> Back-end Web Developer</h4>
                                             </div>
                                         </div>
                                         <div className="item content clearfix">
@@ -181,7 +181,7 @@ class AboutUs extends Component {
                                             </div>
                                             <div className="col-lg-8 col-md-7 col-sm-7 col-xs-12">
                                                 <div className="text">
-                                                Biệt danh: Quốc Kotlin
+                                                Mong muốn mang lại cuộc sống tốt đẹp hơn dành cho mọi người
                                                 </div>
                                                 <div className="author-name">
                                                     <h3><b>Hoàng Anh Quốc</b></h3>
@@ -212,13 +212,13 @@ class AboutUs extends Component {
                                         <span className="slider-mover-left t-slider-l" aria-hidden="true">
                                             <i className="fa fa-angle-left" />
                                         </span>
-                                        <span className="sr-only">Previous</span>
+                                        <span className="sr-only">Trước</span>
                                     </a>
                                     <a className="right carousel-control" href="#carouse3-example-generic" role="button" data-slide="next">
                                         <span className="slider-mover-right t-slider-r" aria-hidden="true">
                                             <i className="fa fa-angle-right" />
                                         </span>
-                                        <span className="sr-only">Next</span>
+                                        <span className="sr-only">Sau</span>
                                     </a>
                                 </div>
                             </div>

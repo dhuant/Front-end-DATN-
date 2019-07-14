@@ -63,34 +63,18 @@ class InfoEstate extends Component {
                                 fontWeight: 'bold'
                             }}> {estate.name}</h6> Property address */}
                             <h6 style={h6Style}>
-                                <b>Giá: </b> {estate.price >=1000 && estate.statusProject === 1 ? (estate.price/1000).toFixed(2) + ' Tỉ' : `${estate.price} ${estate.unit}`}
+                                <b>Giá: </b> 
+                                {estate.price >=1000 && estate.statusProject === 1 ? (estate.price/1000).toFixed(2) + 'tỷ VNĐ' : `${estate.price} ${estate.unit}`}
                             </h6>
                             <h6 style={h6Style}>
-                                <b>Diện tích: </b> {estate.area} m2
+                                <b>Diện tích: </b> 
+                                {estate.area} m2
                             </h6>
                             <h6 style={h6Style}>
-                                <b>Địa chỉ: </b> {estate.address}
+                                <b>Địa chỉ: </b> 
+                                {estate.address}
                             </h6>
-                            {/* <p style={pStyle}>
-                            <b>Giá: </b> {estate.price / 1000} tỉ
-                            </p>
-                            <p style={pStyle}>
-                                <b>Diện tích: </b> {estate.area} m2
-                            </p>
-                            <p style={pStyle}>
-                                <b>Địa chỉ: </b> {estate.address}
-                            </p> */}
-                            {/* Facilities List */}
-                            {/* <ul className="facilities-list clearfix">
-
-                            <li> <i className="flaticon-square-layouting-with-black-square-in-east-area" /> <span>2123 sq ft</span> </li>
-                            <li> <i className="flaticon-bed" /> <span>5 Beds</span> </li>
-                            <li> <i className="flaticon-monitor" /> <span>TV </span> </li>
-                            <li> <i className="flaticon-holidays" /><span> 3 Baths</span> </li>
-                            <li> <i className="flaticon-vehicle" /><span>1 Garage</span></li>
-                            <li> <i className="flaticon-building" /> <span> 3 Balcony</span> </li>
-                        </ul> */}
-                            {/* <div className="property-footer left" href="true"> <i className="fa fa-user" />{estate.ownerid} <span className="right"> <i className="fa fa-calendar" />5 days ago</span> </div> */}
+                          
                         </div>
                         <div style={{
                             width: '100%',

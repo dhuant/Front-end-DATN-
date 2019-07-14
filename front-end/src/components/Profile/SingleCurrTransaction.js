@@ -91,7 +91,7 @@ class SingleCurrTransaction extends Component {
               <span>
                 <i className="fa fa-money" style={{ marginRight: "5px" }}></i>
                 {transactionSingle.project.price >= 1000 && transactionSingle.typetransaction === 1
-                  ? (transactionSingle.project.price / 1000).toFixed(2) + ' Tỉ' : transactionSingle.project.price + ' ' + transactionSingle.project.unit}
+                  ? (transactionSingle.project.price / 1000).toFixed(2) + ' tỷ VNĐ' : transactionSingle.project.price + ' ' + transactionSingle.project.unit}
               </span>
             </div>
           </td>

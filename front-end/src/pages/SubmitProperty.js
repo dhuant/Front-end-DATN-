@@ -17,7 +17,7 @@ import AddressData from '../countries-flat.json'
 import Dropzone from 'react-dropzone'
 import request from 'superagent'
 import * as config from '../constants/Config'
-
+import {SuggestionDescription} from '../constants/submitProperty'
 const Types = [
     { value: '1', label: 'Chung cư. căn hộ' },
     { value: '2', label: 'Nhà ở' },
@@ -594,19 +594,19 @@ class SubmitProperty extends Component {
                                         </div>
                                         <div className="main-title-2">
                                             <h1>
-                                                <span>Thông tin</span> chi tiết
+                                                Thông tin<span> chi tiết</span>
                                             </h1>
                                         </div>
                                         <div className="row mb-30">
                                             <div className="col-md-12">
                                                 <div className="form-group" style={{ marginBottom: '0px' }}>
-                                                    <label>Nội dung bài đăng</label>
+                                                    <label>Nội dung bài đăng <i>(Bạn có thể tham khảo các gợi ý của chúng tôi)</i></label>
                                                     <textarea
                                                         className="input-text"
                                                         name="description"
                                                         id="description"
                                                         placeholder="Nhập nội dung bài đăng ở đây..."
-                                                        defaultValue={""}
+                                                        defaultValue={SuggestionDescription}
                                                         maxLength={3000}
                                                         // onChange={this.onHandleChange}
                                                         required
@@ -616,7 +616,7 @@ class SubmitProperty extends Component {
                                         </div>
                                         <div className="main-title-2">
                                             <h1>
-                                                <span>Thông tin</span> liên hệ
+                                                Thông tin<span> liên hệ</span>
                                             </h1>
                                         </div>
                                         <div className="search-contents-sidebar mb-30">

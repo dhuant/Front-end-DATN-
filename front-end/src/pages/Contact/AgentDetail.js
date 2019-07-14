@@ -165,7 +165,7 @@ class AgentDetail extends Component {
                                     <div className="main-title-2">
                                         <h1><span>Giới thiệu</span></h1>
                                     </div>
-                                    {<div dangerouslySetInnerHTML={{ __html: info.description }} ></div>}
+                                    <div style={{whiteSpace: 'pre-wrap',WebkitBoxOrient: 'vertical', overflow:'scroll'}}  >{info.description}</div>
                                     {/* <p>
                                         {info.description}
                                     </p> */}

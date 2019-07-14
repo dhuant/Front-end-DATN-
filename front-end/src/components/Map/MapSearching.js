@@ -311,7 +311,7 @@ class MapSearching extends Component {
 			map = <div>
 				<div className="main-title-2">
 					<h1>
-						<span>Vị </span>trí
+						<span>Vị trí </span>
 					</h1>
 				</div>
 				<div className="row mb-30 ">

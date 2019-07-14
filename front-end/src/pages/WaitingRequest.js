@@ -67,7 +67,9 @@ class WaitingRequest extends Component {
                                 </div>
                                 <div className="col-lg-8 col-md-8 col-sm-12">
                                     <div className="main-title-2">
-                                        <h1><span>Danh sách</span> yêu cầu giao dịch</h1>
+                                        <h1>
+                                            <span>Danh sách yêu cầu giao dịch</span>
+                                        </h1>
                                     </div>
                                     <div className="row">
                                         <div className="col-md-5 col-lg-5 col-xs-12" style={{ float: "right" }}>

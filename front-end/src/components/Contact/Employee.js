@@ -37,7 +37,7 @@ class Employee extends Component {
                         <strong>Điện thoại:</strong>{employee.phone}
                     </li>
             }
-            url = `/agentdetail/${employee._id}`;
+            url = `/agentdetail/${employee._id}/1`;
         }
         return (
             <Link to={url}>

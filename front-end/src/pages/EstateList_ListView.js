@@ -313,10 +313,10 @@ class EstateListListView extends Component {
                     <div className="overlay">
                         <div className="container">
                             <div className="breadcrumb-area">
-                                <h1>Danh sách bài đăng</h1>
+                                <h1>Danh sách Bất động sản</h1>
                                 <ul className="breadcrumbs">
                                     <li><a href="true" onClick={this.onRedirectHome}>Trang chủ</a></li>
-                                    <li className="active">Danh sách bài đăng</li>
+                                    <li className="active">Danh sách bất động sản</li>
                                 </ul>
                             </div>
                         </div>
@@ -453,7 +453,8 @@ class EstateListListView extends Component {
                                             <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" >
                                                 {/* <div className="form-group" > */}
                                                 <button
-                                                    type="submit" className="btn btn-success"
+                                                    type="submit" 
+                                                    className="btn btn-primary"
                                                     style={{ width: '100%', height: '40px' }}
                                                     disabled={loading}
                                                 >
@@ -485,7 +486,7 @@ class EstateListListView extends Component {
                                                 <span className="heading-icon">
                                                     <i className="fa fa-th-list" />
                                                 </span>
-                                                <span className="hidden-xs">Danh sách bài đăng</span>
+                                                <span className="hidden-xs">Danh sách bất động sản</span>
                                             </h4>
                                         </div>
                                         <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12 col-pad">

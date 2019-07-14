@@ -110,7 +110,7 @@ class MainHeader extends Component {
         else if (token === null)
             return (
                 <li>
-                    <a href="true" onClick={this.onLogin} className="button" style={{ marginRight: '5px', color: "#0ABDF9" }} name='loginButton'>
+                    <a href="true" onClick={this.onLogin} className="button" style={{ marginRight: '5px', color: "#1B419A" }} name='loginButton'>
                         <i className="fa fa-sign-in" /> Đăng nhập
                     </a>
                 </li>
@@ -204,7 +204,7 @@ class MainHeader extends Component {
                                                     data-toggle="dropdown"
                                                     data-submenu
                                                     aria-expanded="false"
-                                                    style={{ color: "#95c41f" }}
+                                                    style={{ color: "#1B419A" }}
                                                     name='accountDetail'
                                                 >
                                                     Xin chào, {this.onGetName(JSON.parse(localStorage.getItem('res')).user.fullname)} <span className="caret" />
@@ -249,7 +249,7 @@ class MainHeader extends Component {
                                             : null
                                     }
                                     <li>
-                                        <a href="true" onClick={this.onSubmitProperty} className="button" style={{ marginRight: '5px', color: "#95c41f" }} name='submitProjectButton'>
+                                        <a href="true" onClick={this.onSubmitProperty} className="button" style={{ marginRight: '5px', color: "#1B419A" }} name='submitProjectButton'>
                                             Đăng bài
                                         </a>
                                     </li>

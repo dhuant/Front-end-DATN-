@@ -47,7 +47,7 @@ export class SingleNews extends Component {
               <h5 style={{ float: "right", color: "blue" }}>{moment.unix(news.updateTime).format('DD/MM/YYYY, h:mm a')}</h5>
             </div>
             <Link to={`/news/${news._id}`}>
-              <h4>{news.title}</h4>
+              <h3>{news.title}</h3>
             </Link>
             {/* paragraph */}
             {news.content.length > 100 ? <div dangerouslySetInnerHTML={{ __html: news.content.slice(0, 100) }} ></div> : <div dangerouslySetInnerHTML={{ __html: news.content }} ></div>}
