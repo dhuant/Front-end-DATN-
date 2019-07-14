@@ -50,13 +50,18 @@ class Login extends Component {
         };
         fetch(`${Config.API_URL}/users/auth/google`, options).then(r => r.json()
             .then(json => {
-                // console.log(json)
+                console.log(json)
                 localStorage.setItem('res', JSON.stringify(json))
                 this.props.history.goBack();
             }))
+            .catch(error => {
+                message.error('Lỗi. Đường truyền không ổn định hoặc server bị sập!')
+            })
 
     }
-
+    onFailure(error) {
+        message.error('Lỗi. Vui lòng kiểm tra lại tài khoản Google!')
+    }
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -157,6 +162,7 @@ class Login extends Component {
                                 className="button-google btn-block"
                                 disabled={this.state.disable}
                                 name='googleLoginButton'
+                                style={{color:'white', background:'#5d733b'}}
                             >
                                 <img src="/images/icons/icon-google.png" alt="GOOGLE" style={{ marginRight: "10px", width: "18px" }} />
                                 Đăng nhập với Google
@@ -174,17 +180,32 @@ class Login extends Component {
                     <div className="content-area" style={{ backgroundColor: 'lightgray' }}>
                         <div className="container">
                             <div className="row">
-                                <div className="col-lg-12">
-                                    {/* Form content box start */}
-                                    <div className="form-content-box" style={{ textAlign: 'unset' }}>
+                                <div className="col-lg-6">
+                                    <div className="form-content-box" style={{ textAlign: 'unset', paddingTop:'80px'}}>
                                         {/* details */}
                                         <div className="details">
                                             {/* Main title */}
                                             <div className="main-title">
                                                 <h1>
-                                                    <span>Đăng nhập</span>
+                                                    <span>Dành cho cá nhân</span>
                                                 </h1>
-                                                <h6>(*Đây là trang cho nhân viên và môi giới)</h6>
+                                                <br/>
+                                                {content}
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-lg-6">
+                                    {/* Form content box start */}
+                                    <div className="form-content-box" style={{ textAlign: 'unset', maxWidth:'500px' }}>
+                                        {/* details */}
+                                        <div className="details">
+                                            {/* Main title */}
+                                            <div className="main-title">
+                                                <h1>
+                                                    <span>Dành cho doanh nghiệp</span>
+                                                </h1>
+                                                <h6>(*Đăng nhập bằng tài khoản nhân viên)</h6>
                                             </div>
                                             {/* Form start */}
 
@@ -232,18 +253,18 @@ class Login extends Component {
                                                 </Button>
 
                                                 </Form.Item>
-                                                <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', display: "block"}}>
+                                                <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', display: "block" }}>
                                                     <Button style={{ width: '100%', overflow: "hidden", textOverflow: "ellipsis" }} type="danger" size='large' disabled={this.state.disable} onClick={this.onLoginCompany} name='companyLoginButton'>
                                                         Đăng nhập bằng tài khoản công ty
                                                 </Button>
 
                                                 </Form.Item>
-                                                <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', height: '47px' }}>
+                                                {/* <Form.Item {...tailFormItemLayout} style={{ paddingLeft: '20px', paddingRight: '20px', textAlign: 'center', height: '47px' }}>
                                                     {content}
                                                 </Form.Item>
-                                                <Form.Item {...tailFormItemLayout} style={{ paddingTop:'10px', textAlign: 'center', height: '47px' }}>
+                                                <Form.Item {...tailFormItemLayout} style={{ paddingTop: '10px', textAlign: 'center', height: '47px' }}>
                                                     <h6>(*Đăng nhập bằng google nếu bạn người dùng thông thường)</h6>
-                                                </Form.Item>
+                                                </Form.Item> */}
                                             </Form>
                                             {/* Form end */}
                                         </div>
