@@ -8,7 +8,9 @@ const searchEstate = (state = initialState, action) => {
             state = action.estates;
             // console.log(state)
             return [...state];
-        
+        case Types.SEARCH_ALL:
+            state = action.estates
+            return [...state]
         default: return [...state];
     }
 };

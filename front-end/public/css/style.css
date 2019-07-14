@@ -5407,7 +5407,7 @@ mark, .mark {
     margin: 0;
     overflow: auto;
     position: static;
-    text-align: left;
+    text-align: center;
     white-space: nowrap;
     width: 100%;
     padding: 0;
@@ -5423,7 +5423,7 @@ mark, .mark {
     margin: 0 !important;
     width: 12.50%;
     border: none;
-    float: left;
+    /* float: none; */
 }
 
 #carousel-custom .carousel-indicators li img {

@@ -40,12 +40,12 @@ class Agent extends Component {
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         {/* Agent box 2start */}
                         <div className="agent-2 clearfix" style={{ height: '231.3px' }}>
-                            <div className="col-lg-5 col-md-5 col-sm-4 agent-theme-2">
-                                <img src={agent.avatar} alt="team-2" className="img-responsive" style={{height:'231.5px', width:'231.5px'}}/>
+                            <div className="col-lg-5 col-md-5 col-sm-4 col-xs-5 agent-theme-2">
+                                <img src={agent.avatar} alt="team-2" className="img-responsive" style={{height:'100%', width: '100%', padding: "20px"}}/>
                                 {/* social list */}
 
                             </div>
-                            <div className="col-lg-7 col-md-7 col-sm-8 agent-content" style={{ padding: '7px 15px 7px 15px' }}>
+                            <div className="col-lg-7 col-md-7 col-sm-8 col-xs-7 agent-content" style={{ padding: '7px 15px 7px 15px' }}>
                                 <h3>
                                     {agent.fullname}
                                 </h3>

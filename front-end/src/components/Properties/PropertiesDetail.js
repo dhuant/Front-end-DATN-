@@ -97,7 +97,7 @@ class PropertiesDetail extends Component {
     componentDidMount = () => {
         this.props.onGetCommentsById(this.props.id)
         this.props.onGetEstateDetail(this.props.id)
-        if (localStorage.getItem('res'))
+        if (localStorage.getItem('res') || localStorage.getItem('company'))
             this.props.onGetFollowingList()
     }
 
@@ -114,7 +114,7 @@ class PropertiesDetail extends Component {
                         <img
                             src={image}
                             className="thumb-preview"
-                            style={{ width: "780%", height: "500px" }}
+                            style={{ width: "100%", height: "500px" }}
                             alt="Chevrolet Impala"
                         />
                     </div>
@@ -334,6 +334,10 @@ class PropertiesDetail extends Component {
                             <p>
                                 <i className="fa fa-map-marker" />
                                 {info.address}
+                            </p>
+                            <p>
+                                <i className="fa fa-calendar-check-o" />
+                                {moment.unix(info.updateTime).format('DD/MM/YYYY')}
                             </p>
                         </div>
                         <div className="pull-right">

@@ -78,7 +78,7 @@ class MyFollowing extends Component {
                                         style={{
                                             position: "absolute",
                                             left: "50%",
-                                            top: "50%",
+                                            top: "100%",
                                             marginRight: "-50%",
                                         }}
                                     /> :

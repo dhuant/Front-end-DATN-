@@ -85,12 +85,12 @@ class EstateListListView extends Component {
             area: Area[0].value,
             loading: false,
             option: Options[0].value,
-
+            placeDisable: false,
             city: '',
             ward: '',
             province: '',
             current: 1,
-            strAddress:'',
+            strAddress: '',
             clicked: false
         }
     }
@@ -130,6 +130,19 @@ class EstateListListView extends Component {
             [name]: value,
         });
     }
+    onDisablePlaceSelection = (e) => {
+        console.log(e.target.value)
+        if(e.target.value){
+            this.setState({
+                placeDisable: true
+            })
+        }
+        else if(!e.target.value){
+            this.setState({
+                placeDisable: false
+            })
+        }
+    }
     //===============
 
     //===============
@@ -165,10 +178,50 @@ class EstateListListView extends Component {
     //===============
     onHandleSubmit = async (e) => {
         e.preventDefault();
-        if (this.state.province === '') {
-            message.warning('Bạn chưa chọn khu vực cần tìm kiếm!')
+        if (this.state.address === '' && this.state.area === '0' && this.state.price === '0' && this.state.type === '0' && !document.getElementById('searching').value)
+            return message.warning('Bạn chưa còn gì để tìm kiếm cả!')
+        else if (document.getElementById('searching').value) {
+            await this.setState({
+                loading: true,
+                clicked: true,
+            })
+            let address = ''
+            if (this.state.ward !== '' && this.state.city !== '') {
+                address = `${this.state.ward}, ${this.state.city}, ${this.state.province}`
+            }
+            else if (this.state.ward === '' && this.state.city !== '') {
+                address = `${this.state.city}, ${this.state.province}`
+            }
+            else if (this.state.ward === '' && this.state.city === '') {
+                address = `${this.state.province}`
+            }
+            const data = {
+                type: this.state.type,
+                statusProject: this.state.deal,
+                area: this.state.area,
+                price: this.state.price,
+                address: document.getElementById('searching').value
+            }
+            console.log(data)
+            this.setState({
+                strAddress: document.getElementById('searching').value
+            })
+            await this.props.actSearchAll(data)
+            await this.setState({ loading: false })
         }
-        else {
+        // if(this.state.province === '' && !document.getElementById('searching').value)
+        //     message.warning('Bạn chưa chọn gì để tìm kiếm cả!')
+        // console.log(document.getElementById('searching'))
+        // if (document.getElementById('searching').value) {
+        //     const data = {
+        //         type: this.state.type,
+        //         statusProject: this.state.deal,
+        //         area: this.state.area,
+        //         price: this.state.price,
+        //         address: 
+        //     }
+        // }
+        else if (!document.getElementById('searching').value) {
             await this.setState({
                 loading: true,
                 clicked: true,
@@ -189,14 +242,14 @@ class EstateListListView extends Component {
                 area: this.state.area,
                 price: this.state.price,
                 address: address
-
             }
+            console.log(data)
             this.setState({
                 strAddress: address
             })
             await this.props.actSearchEstate(data)
             await this.setState({ loading: false })
-            // console.log(data)
+            // console.log()
         }
         this.setState({ loading: false })
     }
@@ -217,7 +270,7 @@ class EstateListListView extends Component {
         let offset = (current - 1) * pageSize;
         let des = 'Mời bạn tìm kiếm theo địa điểm cụ thể'
         let noti = 'Hiện không có bài đăng'
-        let { type, deal, prices, price, area, city, ward, province, loading,strAddress, clicked } = this.state;
+        let { type, deal, prices, price, area, city, ward, province, loading, strAddress, clicked, placeDisable } = this.state;
         let estates = this.props.estates
         // console.log(estates)
         var provinceList = this.parseProvinceData(AddressData)
@@ -249,7 +302,7 @@ class EstateListListView extends Component {
                 )
             });
         }
-        else if(estates.length === 0 && clicked===true){
+        else if (estates.length === 0 && clicked === true) {
             noti = `Hiện không có bài đăng ở ${strAddress}`
         }
         return (
@@ -277,6 +330,17 @@ class EstateListListView extends Component {
                         <div className="properties-map-search" style={{ backgroundColor: 'rgb(244, 244, 242)' }}>
                             <div className="properties-map-search-content" style={{ paddingTop: '15px' }}>
                                 <form onSubmit={this.onHandleSubmit}>
+                                    <div className="row">
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <input
+                                                id="searching"
+                                                placeholder="Bạn cần tìm gì?"
+                                                type="text"
+                                                onChange={this.onDisablePlaceSelection}
+                                                style={{ width: '100%', height: '34px', border: '1px solid #D0D3D4', fontSize: '12px', boxShadow: "0 2px 2px rgba(0,0,0,0.10), 0 2px 2px rgba(0,0,0,0.1)", borderRadius: "5px", padding: "20px", marginBottom: "20px" }}
+                                            />
+                                        </div>
+                                    </div>
                                     <div className="row">
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12" >
@@ -318,6 +382,7 @@ class EstateListListView extends Component {
                                                         required
                                                         onChange={this.onHandleChangeAddress}
                                                         style={optionStyle}
+                                                        disabled={placeDisable}
                                                     >
                                                         <option style={{ display: "none" }}>---Chọn tỉnh/thành phố---</option>
                                                         {provinceList.map((single, index) => <option key={index} value={single}>{single}</option>)}
@@ -333,6 +398,7 @@ class EstateListListView extends Component {
                                                         onChange={this.onHandleChangeAddress}
                                                         style={optionStyle}
                                                         value={city}
+                                                        disabled={placeDisable}
                                                     >
                                                         <option style={{ display: "none" }}>---Chọn quận/huyện---</option>
                                                         {cityList.map((single, indexx) => <option key={indexx} value={single}>{single}</option>)}
@@ -349,6 +415,7 @@ class EstateListListView extends Component {
                                                         onChange={this.onHandleChangeAddress}
                                                         style={optionStyle}
                                                         value={ward}
+                                                        disabled={placeDisable}
                                                     >
                                                         <option style={{ display: "none" }}>---Chọn xã/phường---</option>
                                                         {wardList.map((single, indexx) => <option key={indexx} value={single}>{single}</option>)}
@@ -391,13 +458,13 @@ class EstateListListView extends Component {
                                                     disabled={loading}
                                                 >
                                                     {loading && (
-                                                    <i
-                                                        className="fa fa-refresh fa-spin"
-                                                        style={{ marginRight: "5px" }}
-                                                    />
-                                                )}
-                                                {loading && <span>Đang tìm...</span>}
-                                                {!loading && <span>Tìm kiếm</span>}
+                                                        <i
+                                                            className="fa fa-refresh fa-spin"
+                                                            style={{ marginRight: "5px" }}
+                                                        />
+                                                    )}
+                                                    {loading && <span>Đang tìm...</span>}
+                                                    {!loading && <span>Tìm kiếm</span>}
                                                 </button>
                                                 {/* </div> */}
                                             </div>
@@ -439,10 +506,10 @@ class EstateListListView extends Component {
                                     </div>
                                 </div>
                                 {/* Option bar end */}
-                                <h4 style={{ marginTop: '-20px' }}>{clicked===false ? des : noti}</h4>
+                                <h4 style={{ marginTop: '-20px' }}>{clicked === false ? des : noti}</h4>
                                 <div className="clearfix" />
                                 {/* Property start */}
-                                {loading === true ? <Spin/> : estatesList}
+                                {loading === true ? <Spin /> : estatesList}
                                 {/* {estatesList} */}
                                 {/* Property end */}
                                 {/* Page navigation start */}
@@ -468,7 +535,8 @@ class EstateListListView extends Component {
 // }
 const mapDispathToProp = (dispatch) => {
     return {
-        actSearchEstate: (data) => dispatch(actions.reqSearchEstate(data))
+        actSearchEstate: (data) => dispatch(actions.reqSearchEstate(data)),
+        actSearchAll: (data) => dispatch(actions.searchAllRequest(data))
     }
 }
 const mapStateToProp = (state) => {

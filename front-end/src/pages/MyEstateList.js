@@ -107,7 +107,7 @@ class MyEstateList extends Component {
                                         style={{
                                             position: "absolute",
                                             left: "50%",
-                                            top: "50%",
+                                            top: "300px",
                                             marginRight: "-50%",
                                         }}
                                     /> :

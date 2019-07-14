@@ -45,7 +45,7 @@ const Units = {
 };
 
 const CLOUDINARY_UPLOAD_PRESET = 'nn6imhmo';
-const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dne3aha8f/image/upload';
+const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dne3aha8f/image/upload/w_710,h_500';
 const confirm = Modal.confirm;
 
 class SubmitProperty extends Component {
